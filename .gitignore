@@ -1,0 +1,16 @@
+# Power BI Desktop가 로컬에서 만드는 파일
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS / 에디터
+Thumbs.db
+.DS_Store
+.vscode/
+
+# 임시 파일
+*.tmp
