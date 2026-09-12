@@ -12,5 +12,15 @@ Thumbs.db
 .DS_Store
 .vscode/
 
+# 디자인 연구용 수집 원본 (라이선스가 제각각이라 재배포하지 않음)
+research/collected/
+# 중간 산출물 (로컬 경로 포함). 출처는 research/sources.csv로 공개
+research/*.json
+research/*.jsonl
+
+# 자격 증명
+credential*.py
+.env
+
 # 임시 파일
 *.tmp
