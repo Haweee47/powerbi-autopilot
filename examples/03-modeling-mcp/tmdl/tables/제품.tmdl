@@ -1,0 +1,55 @@
+/// 제품 40종, 카테고리 5개.
+table 제품
+	lineageTag: 24370212-9c3b-4f22-800f-2ee84e851497
+
+	column 제품코드
+		dataType: string
+		isKey
+		lineageTag: b4d17ad1-bd50-4ccd-9fa6-e1298a2d9d90
+		summarizeBy: none
+		sourceColumn: 제품코드
+
+	column 제품명
+		dataType: string
+		lineageTag: 46258b6d-cb90-46ac-9ed3-f81fd56edc31
+		summarizeBy: none
+		sourceColumn: 제품명
+
+	/// 카테고리 테이블과 연결하는 키. 슬라이서·축에는 카테고리[카테고리]를 쓴다.
+	column 카테고리
+		dataType: string
+		isHidden
+		lineageTag: ecbaad64-588d-45cb-98da-6d1b2fdfb55f
+		summarizeBy: none
+		sourceColumn: 카테고리
+
+	column 하위카테고리
+		dataType: string
+		lineageTag: 2e37890a-3109-4d20-85dc-ef432c2df996
+		summarizeBy: none
+		sourceColumn: 하위카테고리
+
+	column 정가
+		dataType: int64
+		formatString: #,0
+		lineageTag: 80dfed35-2385-4697-bd69-a32bc09fa546
+		summarizeBy: none
+		sourceColumn: 정가
+
+	column 원가율
+		dataType: double
+		formatString: 0%
+		lineageTag: 857c1680-617b-41e1-a1f8-b8ff7858f99a
+		summarizeBy: none
+		sourceColumn: 원가율
+
+	partition 제품 = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(#"데이터폴더" & "\제품.csv"), [Delimiter = ",", Columns = 6, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"제품코드", type text}, {"제품명", type text}, {"카테고리", type text}, {"하위카테고리", type text}, {"정가", Int64.Type}, {"원가율", type number}}, "en-US")
+				in
+				    Typed
+

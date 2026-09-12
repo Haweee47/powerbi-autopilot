@@ -1,0 +1,89 @@
+/// 2024-01-01 ~ 2026-12-31 날짜 테이블. 시간 인텔리전스용으로 날짜 테이블로 표시한다.
+table 날짜
+	lineageTag: 4af4176a-fdb8-47ce-81f4-e51268e2f84d
+	dataCategory: Time
+
+	column 날짜
+		isUnique
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [날짜]
+
+	column 연도
+		formatString: 0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [연도]
+
+	column 분기
+		isNameInferred
+		sourceColumn: [분기]
+
+	column 연분기
+		isNameInferred
+		sourceColumn: [연분기]
+
+	column 월번호
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [월번호]
+
+	column 월
+		isNameInferred
+		sourceColumn: [월]
+		sortByColumn: 월번호
+
+	column 연월
+		isNameInferred
+		sourceColumn: [연월]
+
+	column 연월키
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [연월키]
+
+	column 요일번호
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [요일번호]
+
+	column 요일
+		isNameInferred
+		sourceColumn: [요일]
+		sortByColumn: 요일번호
+
+	column 주말여부
+		isNameInferred
+		sourceColumn: [주말여부]
+
+	/// 마지막 판매일(2026-08-31)까지면 TRUE. 전년 동기 비교가 아직 오지 않은 달까지 합산하지 않도록 쓴다.
+	column 실적기간 = '날짜'[날짜] <= MAX ( '판매'[주문일자] )
+		dataType: boolean
+		isHidden
+		lineageTag: e307a439-1272-495a-90bf-5da38d825f89
+
+	partition 날짜 = calculated
+		mode: import
+		source =
+				VAR StartDate = DATE ( 2024, 1, 1 )
+				VAR EndDate = DATE ( 2026, 12, 31 )
+				RETURN
+				    SELECTCOLUMNS (
+				        CALENDAR ( StartDate, EndDate ),
+				        "날짜", [Date],
+				        "연도", YEAR ( [Date] ),
+				        "분기", QUARTER ( [Date] ) & "분기",
+				        "연분기", YEAR ( [Date] ) & "-Q" & QUARTER ( [Date] ),
+				        "월번호", MONTH ( [Date] ),
+				        "월", MONTH ( [Date] ) & "월",
+				        "연월", FORMAT ( [Date], "yyyy-mm" ),
+				        "연월키", YEAR ( [Date] ) * 100 + MONTH ( [Date] ),
+				        "요일번호", WEEKDAY ( [Date], 2 ),
+				        "요일", SWITCH ( WEEKDAY ( [Date], 2 ), 1, "월", 2, "화", 3, "수", 4, "목", 5, "금", 6, "토", "일" ),
+				        "주말여부", IF ( WEEKDAY ( [Date], 2 ) >= 6, "주말", "평일" )
+				    )
+
