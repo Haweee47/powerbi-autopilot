@@ -10,9 +10,16 @@ Claude Code는 대화를 ~/.claude/projects/<프로젝트>/<세션>.jsonl 에 �
 import argparse
 import datetime as dt
 import json
+import re
 from pathlib import Path
 
-PROJECT_DIR = Path.home() / ".claude" / "projects" / "c--Users-JIN1-Desktop-Projects-powerbi-pbip-auto"
+def default_project_dir() -> Path:
+    """Claude Code는 프로젝트 경로의 영문·숫자 외 문자를 '-'로 바꾼 이름의 폴더에 기록한다."""
+    name = re.sub(r"[^A-Za-z0-9]", "-", str(Path.cwd()))
+    return Path.home() / ".claude" / "projects" / (name[:1].lower() + name[1:])
+
+
+PROJECT_DIR = default_project_dir()
 FIELDS = ["input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens", "output_tokens"]
 
 
