@@ -1,0 +1,619 @@
+<title>판매 실적 경영 요약</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* 토큰 — design-system/principles.md 6절. 모든 색은 여기에서만 정의한다 */
+  :root {
+    color-scheme: light;
+    --page: #EEF1F5; --surface: #FFFFFF; --surface-2: #FFFFFF;
+    --ink: #14202B; --ink-2: #4A5563; --ink-3: #5A6471;
+    --grid: #E4E8ED; --axis: #C6CDD5; --line: rgba(20, 32, 43, .14); --hover: #F3F5F8; --band: #EDF1F6;
+    --accent: #2A78D6; --accent-wash: rgba(42, 120, 214, .12); --context: #848E9B; --target: #4A5563;
+    --pos: #2A78D6; --neg: #E34948; --pos-ink: #1C5CAB; --neg-ink: #C0392B; --neg-wash: rgba(227, 73, 72, .10);
+    --seg-bg: #E1E6EC; --seg-on: #FFFFFF; --seg-shadow: 0 1px 2px rgba(20, 32, 43, .14);
+    --tip-shadow: 0 8px 24px rgba(20, 32, 43, .14);
+    --radius: 8px;
+    --font: "Segoe UI", "Malgun Gothic", "Noto Sans KR", system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0E141B; --surface: #16202A; --surface-2: #1E2A36;
+      --ink: #EEF2F6; --ink-2: #B4BEC9; --ink-3: #8E99A6;
+      --grid: #24303C; --axis: #3A4755; --line: rgba(255, 255, 255, .14); --hover: #1D2935; --band: #1B2631;
+      --accent: #3987E5; --accent-wash: rgba(57, 135, 229, .18); --context: #6F7B89; --target: #B4BEC9;
+      --pos: #3987E5; --neg: #E66767; --pos-ink: #86B6EF; --neg-ink: #F08A8A; --neg-wash: rgba(230, 103, 103, .14);
+      --seg-bg: #16202A; --seg-on: #2A3644; --seg-shadow: none;
+      --tip-shadow: 0 8px 24px rgba(0, 0, 0, .45);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0E141B; --surface: #16202A; --surface-2: #1E2A36;
+    --ink: #EEF2F6; --ink-2: #B4BEC9; --ink-3: #8E99A6;
+    --grid: #24303C; --axis: #3A4755; --line: rgba(255, 255, 255, .14); --hover: #1D2935; --band: #1B2631;
+    --accent: #3987E5; --accent-wash: rgba(57, 135, 229, .18); --context: #6F7B89; --target: #B4BEC9;
+    --pos: #3987E5; --neg: #E66767; --pos-ink: #86B6EF; --neg-ink: #F08A8A; --neg-wash: rgba(230, 103, 103, .14);
+    --seg-bg: #16202A; --seg-on: #2A3644; --seg-shadow: none;
+    --tip-shadow: 0 8px 24px rgba(0, 0, 0, .45);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.5 var(--font); -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1280px; margin-inline: auto; padding-block: 28px 40px; padding-inline: clamp(16px, 3vw, 32px); display: grid; gap: 24px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  p { margin: 0; }
+
+  /* 헤더 — 좌상단에 가장 무거운 메시지 */
+  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .eyebrow { font-size: 12px; font-weight: 600; color: var(--ink-3); letter-spacing: .04em; }
+  h1 { font-size: 26px; line-height: 1.25; font-weight: 700; margin: 2px 0 10px; letter-spacing: -.01em; }
+  .headline { font-size: 16px; font-weight: 600; text-wrap: balance; }
+  .subline { font-size: 14px; color: var(--ink-2); margin-top: 4px; }
+  .asof { display: grid; justify-items: end; gap: 0; padding: 8px 14px; border-radius: var(--radius); background: var(--surface); }
+  .asof span:first-child { font-size: 12px; color: var(--ink-3); }
+  .asof span:last-child { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* 필터 — 한 줄, 아래 모든 것에 적용 */
+  .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+  .seg-group { display: flex; align-items: center; gap: 8px; }
+  .seg-label { font-size: 12px; font-weight: 600; color: var(--ink-3); }
+  .seg { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--radius); background: var(--seg-bg); }
+  .seg button { font: inherit; font-size: 13px; font-weight: 600; color: var(--ink-2); background: transparent; border: 0; border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+  .seg button:hover { color: var(--ink); }
+  .seg button[aria-checked="true"] { background: var(--seg-on); color: var(--ink); box-shadow: var(--seg-shadow); }
+  .filter-note { margin-left: auto; font-size: 12px; color: var(--ink-3); }
+
+  /* KPI 줄 */
+  .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .kpi { background: var(--surface); border-radius: var(--radius); padding: 16px 18px 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .kpi-label { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+  .kpi-value { font-size: clamp(24px, 5.2vw, 32px); line-height: 1.15; font-weight: 700; letter-spacing: -.01em; margin-top: 2px; }
+  .kpi-value.muted { color: var(--ink-3); }
+  .kpi-delta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; font-size: 13px; color: var(--ink-3); }
+  .kpi-foot { margin-top: auto; padding-top: 10px; display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; font-size: 12px; color: var(--ink-3); }
+  .kpi-foot .spark { flex: none; }
+  .meter { position: relative; height: 8px; margin-top: 22px; border-radius: 4px; background: var(--accent-wash); }
+  .meter-fill { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: var(--accent); }
+  .meter-tick { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--ink); }
+  .meter-tick span { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+  .delta { font-weight: 600; white-space: nowrap; }
+  .delta.up { color: var(--pos-ink); }
+  .delta.down { color: var(--neg-ink); }
+  .delta.flat { color: var(--ink-3); }
+
+  /* 본문 12열 그리드 */
+  .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; }
+  .card { background: var(--surface); border-radius: var(--radius); padding: 20px 20px 16px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+  .span-trend { grid-column: span 8; } .span-cat { grid-column: span 4; }
+  .span-region { grid-column: span 5; } .span-store { grid-column: span 7; }
+  .card-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 8px 12px; }
+  .card-title { font-size: 16px; line-height: 1.4; font-weight: 600; margin: 0; text-wrap: balance; }
+  .card-sub { font-size: 12px; color: var(--ink-3); margin-top: 4px; }
+  .btn { font: inherit; font-size: 12px; font-weight: 600; color: var(--ink-2); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+  .btn:hover { background: var(--hover); color: var(--ink); }
+
+  /* 추이 차트 */
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--ink-2); }
+  .lk { display: inline-flex; align-items: center; gap: 6px; }
+  .key { display: inline-block; width: 16px; border-top: 2px solid; }
+  .key-now { border-color: var(--accent); } .key-prev { border-color: var(--context); }
+  .key-target { border-top: 2px dashed var(--target); }
+  .chart { position: relative; min-height: 280px; }
+  .chart svg { display: block; overflow: visible; }
+  .chart text { font-family: var(--font); font-size: 12px; fill: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .chart text.strong { fill: var(--ink); font-weight: 600; }
+
+  /* 카테고리 발산 막대 */
+  .clist { display: flex; flex-direction: column; gap: 4px; }
+  .crow, .scale { display: grid; grid-template-columns: 84px minmax(0, 1fr) 76px; align-items: center; gap: 10px; }
+  .crow { padding: 6px 6px; border-radius: 6px; cursor: default; }
+  .crow:hover, .crow:focus-visible { background: var(--hover); }
+  .crow-name { display: flex; flex-direction: column; line-height: 1.3; min-width: 0; }
+  .crow-cat { font-size: 14px; font-weight: 600; }
+  .crow-sub { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+  .track { position: relative; height: 14px; }
+  .mid { position: absolute; left: 50%; top: -5px; bottom: -5px; width: 1px; background: var(--axis); }
+  .dbar { position: absolute; top: 0; height: 100%; }
+  .dbar.pos { background: var(--pos); border-radius: 0 4px 4px 0; }
+  .dbar.neg { background: var(--neg); border-radius: 4px 0 0 4px; }
+  .crow-val { text-align: right; font-size: 13px; }
+  .scale { padding: 0 6px; font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .scale-axis { display: flex; justify-content: space-between; }
+
+  /* 권역 막대 */
+  .rlist { display: grid; grid-template-columns: 56px minmax(0, 1fr) 64px 76px; align-items: center; gap: 14px 10px; font-size: 13px; }
+  .rh { font-size: 12px; font-weight: 600; color: var(--ink-3); }
+  .rh.num, .rval, .ryoy { text-align: right; }
+  .rname { font-weight: 600; }
+  .rtrack { position: relative; height: 14px; }
+  .rbar { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); border-radius: 0 4px 4px 0; }
+  .rval { font-variant-numeric: tabular-nums; }
+
+  /* 표 (매장, 추이 표 보기) */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { font-size: 12px; font-weight: 600; color: var(--ink-3); text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+  td { padding: 7px 8px; border-bottom: 1px solid var(--grid); vertical-align: middle; }
+  th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.gap td { text-align: center; font-size: 12px; color: var(--ink-3); background: var(--hover); padding: 6px; }
+  .sname { font-weight: 600; }
+  .smeta { display: block; font-size: 12px; font-weight: 400; color: var(--ink-3); }
+  .chip { display: inline-block; margin-left: 6px; padding: 0 8px; border-radius: 999px; font-size: 12px; font-weight: 600; color: var(--neg-ink); background: var(--neg-wash); vertical-align: 1px; }
+  .dcell { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+  .mini { position: relative; width: 96px; height: 10px; flex: none; }
+  .card-foot { display: flex; justify-content: flex-end; }
+
+  .tooltip { position: fixed; z-index: 10; pointer-events: none; min-width: 168px; padding: 10px 12px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); box-shadow: var(--tip-shadow); font-size: 12px; }
+  .tip-title { font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
+  .tip-row { display: flex; align-items: center; gap: 8px; margin-top: 3px; }
+  .tip-row strong { font-size: 13px; font-variant-numeric: tabular-nums; }
+  .tip-name { color: var(--ink-3); }
+
+  .foot { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--ink-3); }
+
+  @media (max-width: 1099px) {
+    .span-trend, .span-store { grid-column: span 12; }
+    .span-cat, .span-region { grid-column: span 6; }
+  }
+  @media (max-width: 899px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 719px) {
+    .span-trend, .span-cat, .span-region, .span-store { grid-column: span 12; }
+    .filter-note { margin-left: 0; }
+  }
+  @media (max-width: 440px) {
+    .mini { display: none; }
+    .card { padding: 16px 14px 14px; }
+    .kpi { padding: 14px 14px 12px; }
+    .kpi-foot .spark { display: none; }
+    .seg button { padding: 6px 10px; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">경영 요약 · 월간 마감</p>
+      <h1>판매 실적</h1>
+      <p class="headline" id="headline"></p>
+      <p class="subline" id="subline"></p>
+    </div>
+    <p class="asof"><span>데이터 기준일</span><span>2026.08.31</span></p>
+  </header>
+
+  <div class="filters" role="toolbar" aria-label="필터">
+    <div class="seg-group">
+      <span class="seg-label" id="lbl-period">기간</span>
+      <div class="seg" role="radiogroup" aria-labelledby="lbl-period">
+        <button type="button" id="period-ytd" role="radio" data-period="ytd" aria-checked="true">1–8월 누계</button>
+        <button type="button" id="period-aug" role="radio" data-period="aug" aria-checked="false">8월</button>
+      </div>
+    </div>
+    <div class="seg-group">
+      <span class="seg-label" id="lbl-channel">채널</span>
+      <div class="seg" role="radiogroup" aria-labelledby="lbl-channel">
+        <button type="button" id="channel-all" role="radio" data-channel="전체" aria-checked="true">전체</button>
+        <button type="button" id="channel-off" role="radio" data-channel="오프라인" aria-checked="false">오프라인</button>
+        <button type="button" id="channel-on" role="radio" data-channel="온라인" aria-checked="false">온라인</button>
+      </div>
+    </div>
+    <p class="filter-note" id="filter-note">비교 기준: 전년 같은 기간</p>
+  </div>
+
+  <section class="kpis" id="kpis" aria-label="핵심 지표"></section>
+
+  <section class="grid">
+    <article class="card span-trend">
+      <div class="card-head">
+        <div><h2 class="card-title" id="trend-title"></h2><p class="card-sub" id="trend-sub"></p></div>
+        <button type="button" class="btn" id="trend-toggle" aria-pressed="false">표로 보기</button>
+      </div>
+      <div class="legend" id="trend-legend"></div>
+      <div class="chart" id="trend-chart" tabindex="0" aria-describedby="trend-title"></div>
+      <div class="table-wrap" id="trend-table" hidden></div>
+    </article>
+
+    <article class="card span-cat">
+      <div class="card-head">
+        <div><h2 class="card-title" id="cat-title"></h2><p class="card-sub" id="cat-sub"></p></div>
+      </div>
+      <div class="clist" id="cat-list"></div>
+    </article>
+
+    <article class="card span-region">
+      <div class="card-head">
+        <div><h2 class="card-title" id="region-title"></h2><p class="card-sub" id="region-sub"></p></div>
+      </div>
+      <div class="rlist" id="region-list"></div>
+    </article>
+
+    <article class="card span-store">
+      <div class="card-head">
+        <div><h2 class="card-title" id="store-title"></h2><p class="card-sub" id="store-sub"></p></div>
+        <button type="button" class="btn" id="store-toggle" aria-pressed="false"></button>
+      </div>
+      <div class="table-wrap" id="store-table"></div>
+    </article>
+  </section>
+
+  <footer class="foot">
+    <span>가상 데이터 · 판매 26,194건 (2024.01–2026.08)</span>
+    <span>금액은 할인 후 매출, 단위 억·만 원</span>
+    <span>목표는 카테고리 × 월 단위로만 정해져 있음</span>
+  </footer>
+</div>
+<div class="tooltip" id="tooltip" role="status" hidden></div>
+
+<script>
+  const DATA = {"asOf":"2026-08-31","months":["2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08"],"monthly":{"전체":{"2024-01":[125584220,77681557,898],"2024-02":[68205030,42089592,492],"2024-03":[96331450,59107911,661],"2024-04":[88400535,53396879,680],"2024-05":[114912680,72895731,747],"2024-06":[101160115,66089911,585],"2024-07":[106947505,67941082,658],"2024-08":[82655470,49178584,592],"2024-09":[128327290,78193968,962],"2024-10":[100354615,57927189,800],"2024-11":[139775315,89464076,976],"2024-12":[152108960,98452776,1122],"2025-01":[128416010,75766909,1022],"2025-02":[77183005,45574740,574],"2025-03":[109947190,67059846,804],"2025-04":[92611320,55333532,692],"2025-05":[116280530,69935001,844],"2025-06":[105351675,65426427,727],"2025-07":[102083200,64947807,733],"2025-08":[97632305,56772999,784],"2025-09":[145864915,92208945,1018],"2025-10":[112126570,66897930,872],"2025-11":[155757455,101318176,1104],"2025-12":[185919680,121588868,1227],"2026-01":[146054575,88364249,1105],"2026-02":[78223440,46584304,624],"2026-03":[99975435,59166108,786],"2026-04":[89980940,51819150,779],"2026-05":[123223430,73646213,924],"2026-06":[98773295,61995911,769],"2026-07":[103995930,61251424,819],"2026-08":[101548520,60132183,814]},"오프라인":{"2024-01":[98084115,60269638,717],"2024-02":[52321755,31971723,383],"2024-03":[76819450,47254155,532],"2024-04":[67564805,40708974,539],"2024-05":[95409415,61828559,584],"2024-06":[78505925,51086012,453],"2024-07":[82448860,52528435,500],"2024-08":[59149895,35162783,435],"2024-09":[102852235,62803879,758],"2024-10":[80064560,46646885,635],"2024-11":[110721740,71644348,768],"2024-12":[118310925,77111277,888],"2025-01":[101209675,59869121,800],"2025-02":[60403145,35238774,441],"2025-03":[88621795,54020356,631],"2025-04":[70163210,42058281,520],"2025-05":[86579280,51233195,651],"2025-06":[85875705,54083662,566],"2025-07":[80113375,51778434,553],"2025-08":[75428820,43733664,597],"2025-09":[108135180,68907424,759],"2025-10":[85428075,51665242,656],"2025-11":[118136065,76784889,836],"2025-12":[145286235,95701886,920],"2026-01":[111024060,67129736,828],"2026-02":[55705935,32975763,465],"2026-03":[74246450,43772703,581],"2026-04":[64629490,37458104,568],"2026-05":[95060545,57767361,682],"2026-06":[73227300,45995168,558],"2026-07":[79267410,47316843,593],"2026-08":[73853415,43820765,591]},"온라인":{"2024-01":[27500105,17411919,181],"2024-02":[15883275,10117869,109],"2024-03":[19512000,11853756,129],"2024-04":[20835730,12687905,141],"2024-05":[19503265,11067172,163],"2024-06":[22654190,15003899,132],"2024-07":[24498645,15412647,158],"2024-08":[23505575,14015801,157],"2024-09":[25475055,15390089,204],"2024-10":[20290055,11280304,165],"2024-11":[29053575,17819728,208],"2024-12":[33798035,21341499,234],"2025-01":[27206335,15897788,222],"2025-02":[16779860,10335966,133],"2025-03":[21325395,13039490,173],"2025-04":[22448110,13275251,172],"2025-05":[29701250,18701806,193],"2025-06":[19475970,11342765,161],"2025-07":[21969825,13169373,180],"2025-08":[22203485,13039335,187],"2025-09":[37729735,23301521,259],"2025-10":[26698495,15232688,216],"2025-11":[37621390,24533287,268],"2025-12":[40633445,25886982,307],"2026-01":[35030515,21234513,277],"2026-02":[22517505,13608541,159],"2026-03":[25728985,15393405,205],"2026-04":[25351450,14361046,211],"2026-05":[28162885,15878852,242],"2026-06":[25545995,16000743,211],"2026-07":[24728520,13934581,226],"2026-08":[27695105,16311418,223]}},"targetMonthly":{"2024-01":{"가전":58000000.0,"패션":25000000.0,"식품":26000000.0,"생활용품":8000000.0,"뷰티":10000000.0},"2024-02":{"가전":30000000.0,"패션":16000000.0,"식품":13000000.0,"생활용품":5000000.0,"뷰티":6000000.0},"2024-03":{"가전":43000000.0,"패션":21000000.0,"식품":16000000.0,"생활용품":8000000.0,"뷰티":10000000.0},"2024-04":{"가전":35000000.0,"패션":23000000.0,"식품":15000000.0,"생활용품":8000000.0,"뷰티":8000000.0},"2024-05":{"가전":54000000.0,"패션":21000000.0,"식품":20000000.0,"생활용품":8000000.0,"뷰티":11000000.0},"2024-06":{"가전":60000000.0,"패션":15000000.0,"식품":16000000.0,"생활용품":6000000.0,"뷰티":8000000.0},"2024-07":{"가전":55000000.0,"패션":16000000.0,"식품":15000000.0,"생활용품":7000000.0,"뷰티":11000000.0},"2024-08":{"가전":35000000.0,"패션":19000000.0,"식품":13000000.0,"생활용품":6000000.0,"뷰티":9000000.0},"2024-09":{"가전":50000000.0,"패션":27000000.0,"식품":32000000.0,"생활용품":7000000.0,"뷰티":15000000.0},"2024-10":{"가전":32000000.0,"패션":33000000.0,"식품":18000000.0,"생활용품":8000000.0,"뷰티":10000000.0},"2024-11":{"가전":66000000.0,"패션":38000000.0,"식품":21000000.0,"생활용품":7000000.0,"뷰티":11000000.0},"2024-12":{"가전":67000000.0,"패션":40000000.0,"식품":19000000.0,"생활용품":9000000.0,"뷰티":18000000.0},"2025-01":{"가전":58000000.0,"패션":28000000.0,"식품":27000000.0,"생활용품":8000000.0,"뷰티":12000000.0},"2025-02":{"가전":30000000.0,"패션":18000000.0,"식품":13000000.0,"생활용품":5000000.0,"뷰티":7000000.0},"2025-03":{"가전":47000000.0,"패션":22000000.0,"식품":16000000.0,"생활용품":9000000.0,"뷰티":10000000.0},"2025-04":{"가전":38000000.0,"패션":22000000.0,"식품":17000000.0,"생활용품":8000000.0,"뷰티":9000000.0},"2025-05":{"가전":58000000.0,"패션":22000000.0,"식품":21000000.0,"생활용품":9000000.0,"뷰티":12000000.0},"2025-06":{"가전":61000000.0,"패션":15000000.0,"식품":16000000.0,"생활용품":6000000.0,"뷰티":9000000.0},"2025-07":{"가전":61000000.0,"패션":17000000.0,"식품":17000000.0,"생활용품":7000000.0,"뷰티":11000000.0},"2025-08":{"가전":36000000.0,"패션":21000000.0,"식품":15000000.0,"생활용품":6000000.0,"뷰티":10000000.0},"2025-09":{"가전":53000000.0,"패션":27000000.0,"식품":34000000.0,"생활용품":7000000.0,"뷰티":15000000.0},"2025-10":{"가전":35000000.0,"패션":33000000.0,"식품":19000000.0,"생활용품":8000000.0,"뷰티":11000000.0},"2025-11":{"가전":68000000.0,"패션":39000000.0,"식품":21000000.0,"생활용품":8000000.0,"뷰티":12000000.0},"2025-12":{"가전":70000000.0,"패션":39000000.0,"식품":21000000.0,"생활용품":10000000.0,"뷰티":20000000.0},"2026-01":{"가전":49000000.0,"패션":36000000.0,"식품":28000000.0,"생활용품":8000000.0,"뷰티":15000000.0},"2026-02":{"가전":30000000.0,"패션":17000000.0,"식품":18000000.0,"생활용품":5000000.0,"뷰티":12000000.0},"2026-03":{"가전":54000000.0,"패션":26000000.0,"식품":15000000.0,"생활용품":9000000.0,"뷰티":13000000.0},"2026-04":{"가전":40000000.0,"패션":19000000.0,"식품":17000000.0,"생활용품":7000000.0,"뷰티":15000000.0},"2026-05":{"가전":51000000.0,"패션":26000000.0,"식품":20000000.0,"생활용품":8000000.0,"뷰티":17000000.0},"2026-06":{"가전":52000000.0,"패션":19000000.0,"식품":20000000.0,"생활용품":7000000.0,"뷰티":14000000.0},"2026-07":{"가전":51000000.0,"패션":18000000.0,"식품":18000000.0,"생활용품":9000000.0,"뷰티":13000000.0},"2026-08":{"가전":37000000.0,"패션":27000000.0,"식품":18000000.0,"생활용품":7000000.0,"뷰티":14000000.0}},"category":{"전체":{"ytd":{"2025":{"가전":[344383600,264006080],"패션":[176678650,80066980],"식품":[144028500,92641978],"생활용품":[57321190,26905031],"뷰티":[107093295,37197192]},"2026":{"가전":[319137250,244467380],"패션":[171202100,77256940],"식품":[168784790,109716776],"생활용품":[62281165,29349166],"뷰티":[120370260,42169280]}},"aug":{"2025":{"가전":[35286700,26628700],"패션":[25203300,11571310],"식품":[16696835,10655826],"생활용품":[6809975,3170503],"뷰티":[13635495,4746660]},"2026":{"가전":[35714300,27965580],"패션":[20748050,9311900],"식품":[20473510,13314135],"생활용품":[7303740,3422092],"뷰티":[17308920,6118476]}}},"오프라인":{"ytd":{"2025":{"가전":[271877850,209215060],"패션":[139502600,63131450],"식품":[108562265,69615123],"생활용품":[43828940,20641686],"뷰티":[84623350,29412168]},"2026":{"가전":[245628500,188149740],"패션":[124038100,55883450],"식품":[123160175,79610906],"생활용품":[45656690,21516695],"뷰티":[88531140,31075652]}},"aug":{"2025":{"가전":[28527200,21328100],"패션":[19723800,9045420],"식품":[11504270,7347490],"생활용품":[5002315,2331974],"뷰티":[10671235,3680680]},"2026":{"가전":[28438800,22108280],"패션":[14352100,6465500],"식품":[12646270,8039088],"생활용품":[5525510,2615185],"뷰티":[12890735,4592712]}}},"온라인":{"ytd":{"2025":{"가전":[72505750,54791020],"패션":[37176050,16935530],"식품":[35466235,23026855],"생활용품":[13492250,6263345],"뷰티":[22469945,7785024]},"2026":{"가전":[73508750,56317640],"패션":[47164000,21373490],"식품":[45624615,30105870],"생활용품":[16624475,7832471],"뷰티":[31839120,11093628]}},"aug":{"2025":{"가전":[6759500,5300600],"패션":[5479500,2525890],"식품":[5192565,3308336],"생활용품":[1807660,838529],"뷰티":[2964260,1065980]},"2026":{"가전":[7275500,5857300],"패션":[6395950,2846400],"식품":[7827240,5275047],"생활용품":[1778230,806907],"뷰티":[4418185,1525764]}}}},"stores":[{"code":"S01","name":"강남점","channel":"오프라인","region":"수도권","opened":"2015-03-01","ytd2025":[50731380,28942226],"ytd2026":[55187680,32830882],"aug2025":[5512955,2908557],"aug2026":[6951950,3893682]},{"code":"S02","name":"여의도점","channel":"오프라인","region":"수도권","opened":"2016-05-01","ytd2025":[42789520,25599337],"ytd2026":[39678510,23754507],"aug2025":[4971735,2830987],"aug2026":[2673065,1262464]},{"code":"S03","name":"홍대점","channel":"오프라인","region":"수도권","opened":"2017-09-01","ytd2025":[48763460,30296444],"ytd2026":[47701465,27040064],"aug2025":[3850305,1986453],"aug2026":[5167185,2977913]},{"code":"S04","name":"잠실점","channel":"오프라인","region":"수도권","opened":"2014-11-01","ytd2025":[52680095,31779034],"ytd2026":[59157600,36711838],"aug2025":[5198355,2763683],"aug2026":[4725100,2500367]},{"code":"S05","name":"판교점","channel":"오프라인","region":"수도권","opened":"2024-09-01","ytd2025":[40798145,23149736],"ytd2026":[46219645,27990502],"aug2025":[4548275,2387610],"aug2026":[9399660,5868175]},{"code":"S06","name":"수원점","channel":"오프라인","region":"수도권","opened":"2018-04-01","ytd2025":[31975385,18789696],"ytd2026":[36878125,21088858],"aug2025":[3168675,1709987],"aug2026":[4097025,2244308]},{"code":"S07","name":"일산점","channel":"오프라인","region":"수도권","opened":"2013-06-01","ytd2025":[38272250,25680687],"ytd2026":[23495585,14307625],"aug2025":[4409800,2736362],"aug2026":[2220995,1038767]},{"code":"S08","name":"송도점","channel":"오프라인","region":"수도권","opened":"2019-10-01","ytd2025":[34992780,21340081],"ytd2026":[36834805,22385816],"aug2025":[4821615,3110882],"aug2026":[4210330,2442769]},{"code":"S09","name":"서면점","channel":"오프라인","region":"영남","opened":"2015-08-01","ytd2025":[47462575,28985228],"ytd2026":[39262610,23880613],"aug2025":[5105930,3044217],"aug2026":[7429875,5372862]},{"code":"S10","name":"센텀점","channel":"오프라인","region":"영남","opened":"2017-03-01","ytd2025":[44482840,27297614],"ytd2026":[40800340,24052899],"aug2025":[3060865,1727220],"aug2026":[3884295,1909721]},{"code":"S11","name":"동성로점","channel":"오프라인","region":"영남","opened":"2016-07-01","ytd2025":[41136575,25493701],"ytd2026":[31798450,19147574],"aug2025":[6910340,4118980],"aug2026":[5230860,3587781]},{"code":"S12","name":"울산점","channel":"오프라인","region":"영남","opened":"2019-02-01","ytd2025":[28234855,16100605],"ytd2026":[21190590,12090505],"aug2025":[3825820,2107798],"aug2026":[2670380,1539760]},{"code":"S13","name":"충장로점","channel":"오프라인","region":"호남","opened":"2018-11-01","ytd2025":[30409865,18273776],"ytd2026":[34329730,21586479],"aug2025":[3300700,1694586],"aug2026":[4204410,2763275]},{"code":"S14","name":"전주점","channel":"오프라인","region":"호남","opened":"2020-05-01","ytd2025":[27442285,17243562],"ytd2026":[26912500,16613187],"aug2025":[4372760,2986362],"aug2026":[1582115,823543]},{"code":"S15","name":"둔산점","channel":"오프라인","region":"충청","opened":"2017-12-01","ytd2025":[38433765,23808262],"ytd2026":[35903705,22266219],"aug2025":[5339800,3529094],"aug2026":[5150195,3460335]},{"code":"S16","name":"청주점","channel":"오프라인","region":"충청","opened":"2021-03-01","ytd2025":[19282225,10477024],"ytd2026":[25957140,16600502],"aug2025":[1541500,718838],"aug2026":[1833110,904576]},{"code":"S17","name":"제주점","channel":"오프라인","region":"제주","opened":"2020-08-01","ytd2025":[17289685,10192912],"ytd2026":[12153035,6225001],"aug2025":[4790390,3021713],"aug2026":[716815,389812]},{"code":"S18","name":"강릉점","channel":"오프라인","region":"강원","opened":"2022-06-01","ytd2025":[13217320,8565562],"ytd2026":[13553090,7663372],"aug2025":[699000,350335],"aug2026":[1706050,840655]},{"code":"ON1","name":"공식 온라인몰","channel":"온라인","region":"온라인","opened":"2012-01-01","ytd2025":[97384210,58998153],"ytd2026":[110558285,63594750],"aug2025":[14528195,8938637],"aug2026":[16092385,10060729]},{"code":"ON2","name":"모바일 앱","channel":"온라인","region":"온라인","opened":"2020-01-01","ytd2025":[83726020,49803621],"ytd2026":[104202675,63128349],"aug2025":[7675290,4100698],"aug2026":[11602720,6250689]}]};
+  if (location.hash === "#dark") document.documentElement.dataset.theme = "dark"; // 로컬 캡처용
+
+  const CATS = ["가전", "패션", "식품", "생활용품", "뷰티"];
+  const MONTHS12 = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+  const PERIOD_LABEL = { ytd: "1–8월 누계", aug: "8월" };
+  const state = { period: "ytd", channel: "전체", storesAll: false, trendTable: false, hoverIndex: null };
+  const monthsOf = (p) => (p === "ytd" ? MONTHS12.slice(0, 8) : ["08"]);
+
+  /* ---------- 계산 ---------- */
+  function sumMonthly(ch, year, per) {
+    const r = [0, 0, 0];
+    for (const mm of monthsOf(per)) {
+      const v = DATA.monthly[ch][`${year}-${mm}`];
+      if (v) { r[0] += v[0]; r[1] += v[1]; r[2] += v[2]; }
+    }
+    return r;
+  }
+  function targetOf(per, cat) {
+    let t = 0;
+    for (const mm of monthsOf(per)) {
+      const o = DATA.targetMonthly[`2026-${mm}`] || {};
+      for (const c of cat ? [cat] : CATS) t += o[c] || 0;
+    }
+    return t;
+  }
+  const growth = (cur, prev) => (prev ? cur / prev - 1 : null);
+  function storeRows() {
+    const per = state.period;
+    return DATA.stores
+      .filter((s) => state.channel === "전체" || s.channel === state.channel)
+      .map((s) => ({ ...s, cur: s[per + "2026"][0], prev: s[per + "2025"][0], g: growth(s[per + "2026"][0], s[per + "2025"][0]) }));
+  }
+
+  /* ---------- 표기 (principles 5절: 억·만, 부호와 기호) ---------- */
+  const eok = (v, d = 1) => (v / 1e8).toFixed(d) + "억";
+  const man = (v) => Math.round(v / 1e4).toLocaleString("ko-KR");
+  const pct = (v, d = 1) => (v * 100).toFixed(d) + "%";
+  function hasBatchim(word) {
+    const c = word.charCodeAt(word.length - 1);
+    return c >= 0xac00 && c <= 0xd7a3 && (c - 0xac00) % 28 !== 0;
+  }
+  const josa = (word, withB, withoutB) => word + (hasBatchim(word) ? withB : withoutB);
+
+  function h(tag, props = {}, ...kids) {
+    const e = document.createElement(tag);
+    for (const [k, v] of Object.entries(props)) {
+      if (v == null || v === false) continue;
+      if (k === "class") e.className = v;
+      else if (k === "text") e.textContent = v;
+      else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+      else e.setAttribute(k, v);
+    }
+    for (const kid of kids.flat()) if (kid != null) e.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+    return e;
+  }
+  const NS = "http://www.w3.org/2000/svg";
+  function s(tag, attrs = {}) {
+    const e = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+    return e;
+  }
+  function deltaNode(v, unit = "%") {
+    const cls = v == null ? "flat" : v > 0.0005 ? "up" : v < -0.0005 ? "down" : "flat";
+    const sign = cls === "up" ? "▲" : cls === "down" ? "▼" : "–";
+    return h("span", { class: "delta " + cls, text: v == null ? "–" : `${sign} ${Math.abs(v * 100).toFixed(1)}${unit}` });
+  }
+  const deltaText = (v, unit = "%") => (v == null ? "–" : `${v > 0 ? "▲" : v < 0 ? "▼" : "–"} ${Math.abs(v * 100).toFixed(1)}${unit}`);
+  function niceAbs(v) {
+    for (const c of [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.75, 1, 1.5, 2]) if (v <= c) return c;
+    return Math.ceil(v);
+  }
+
+  /* ---------- 툴팁 (보조 수단: 값은 표·레이블에도 있다) ---------- */
+  const tip = document.getElementById("tooltip");
+  function showTip(x, y, title, rows) {
+    tip.replaceChildren(
+      h("p", { class: "tip-title", text: title }),
+      ...rows.map((r) => h("div", { class: "tip-row" }, r.key ? h("span", { class: "key key-" + r.key }) : null, r.node || h("strong", { text: r.value }), h("span", { class: "tip-name", text: r.name })))
+    );
+    tip.hidden = false;
+    const pad = 14, w = tip.offsetWidth, ht = tip.offsetHeight;
+    let left = x + pad, top = y + pad;
+    if (left + w > innerWidth - 8) left = x - w - pad;
+    if (top + ht > innerHeight - 8) top = y - ht - pad;
+    tip.style.left = Math.max(8, left) + "px";
+    tip.style.top = Math.max(8, top) + "px";
+  }
+  const hideTip = () => { tip.hidden = true; };
+  const centerOf = (el) => { const r = el.getBoundingClientRect(); return [r.left + r.width * 0.6, r.top + r.height / 2]; };
+
+  /* ---------- 헤더 인사이트 문장 ---------- */
+  function renderHeadline() {
+    const { channel: ch, period: per } = state;
+    const cur = sumMonthly(ch, 2026, per), prev = sumMonthly(ch, 2025, per);
+    const hl = document.getElementById("headline"), sl = document.getElementById("subline");
+    if (ch === "전체") {
+      const ach = cur[0] / targetOf(per);
+      hl.replaceChildren(`${PERIOD_LABEL[per]} 매출 ${eok(cur[0])}, 전년보다 `, deltaNode(growth(cur[0], prev[0])), ` · 목표의 ${pct(ach)}`);
+      const rows = CATS.map((c) => ({ c, d: DATA.category["전체"][per]["2026"][c][0] / targetOf(per, c) - 1 }));
+      const under = rows.filter((r) => r.d < 0).sort((a, b) => a.d - b.d).map((r) => r.c);
+      const over = rows.filter((r) => r.d >= 0).sort((a, b) => b.d - a.d).map((r) => r.c);
+      sl.textContent = !under.length ? "모든 카테고리가 목표를 넘었습니다."
+        : !over.length ? "모든 카테고리가 목표에 못 미쳤습니다."
+        : `${josa(under.join("·"), "이", "가")} 목표에 못 미쳤고, ${josa(over.join("·"), "은", "는")} 목표를 넘었습니다.`;
+    } else {
+      hl.replaceChildren(`${ch} ${PERIOD_LABEL[per]} 매출 ${eok(cur[0])}, 전년보다 `, deltaNode(growth(cur[0], prev[0])));
+      const worst = storeRows().sort((a, b) => a.g - b.g)[0];
+      if (worst.g < 0) sl.replaceChildren(`가장 크게 줄어든 매장은 ${worst.name}(`, deltaNode(worst.g), ")입니다.");
+      else sl.textContent = "모든 매장이 전년보다 늘었습니다.";
+    }
+    document.getElementById("filter-note").textContent = ch === "전체" ? "비교 기준: 전년 같은 기간 · 목표" : "비교 기준: 전년 같은 기간 (목표는 채널별로 없음)";
+  }
+
+  /* ---------- KPI ---------- */
+  function spark(values, label) {
+    const w = 112, ht = 32, p = 4, min = Math.min(...values), max = Math.max(...values);
+    const x = (i) => p + ((w - 2 * p) * i) / (values.length - 1);
+    const y = (v) => ht - p - (ht - 2 * p) * (max === min ? 0.5 : (v - min) / (max - min));
+    const svg = s("svg", { class: "spark", viewBox: `0 0 ${w} ${ht}`, width: w, height: ht, role: "img", "aria-label": label });
+    svg.append(s("polyline", { points: values.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" "), fill: "none", stroke: "var(--context)", "stroke-width": 1.5, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+    const i = values.length - 1;
+    svg.append(s("circle", { cx: x(i), cy: y(values[i]), r: 3.5, fill: "var(--accent)", stroke: "var(--surface)", "stroke-width": 2 }));
+    return svg;
+  }
+  function tile({ label, value, delta, deltaLabel, note, sparkValues, meter, muted }) {
+    const foot = h("div", { class: "kpi-foot" }, h("span", { text: note }), sparkValues ? spark(sparkValues, `${label} 최근 12개월 추이`) : null);
+    const meterEl = meter == null ? null : h("div", { class: "meter", role: "img", "aria-label": `목표 달성률 ${pct(meter)}` },
+      h("div", { class: "meter-fill", style: `width:${(Math.min(meter, 1.2) / 1.2) * 100}%` }),
+      h("div", { class: "meter-tick", style: `left:${(1 / 1.2) * 100}%` }, h("span", { text: "목표 100%" })));
+    return h("article", { class: "kpi" },
+      h("p", { class: "kpi-label", text: label }),
+      h("p", { class: "kpi-value" + (muted ? " muted" : ""), text: value }),
+      delta ? h("p", { class: "kpi-delta" }, delta, deltaLabel) : null,
+      meterEl, foot);
+  }
+  function renderKpis() {
+    const { channel: ch, period: per } = state;
+    const cur = sumMonthly(ch, 2026, per), prev = sumMonthly(ch, 2025, per);
+    const last12 = DATA.months.slice(-12).map((m) => DATA.monthly[ch][m]);
+    const pc = cur[0] - cur[1], pp = prev[0] - prev[1];
+    const aov = (v) => (v[2] ? v[0] / v[2] : 0);
+    const tiles = [
+      tile({ label: "매출", value: eok(cur[0]), delta: deltaNode(growth(cur[0], prev[0])), deltaLabel: "전년 대비", note: `전년 ${eok(prev[0])}`, sparkValues: last12.map((v) => v[0]) }),
+      tile({ label: "이익", value: eok(pc), delta: deltaNode(growth(pc, pp)), deltaLabel: "전년 대비", note: `이익률 ${pct(pc / cur[0])}`, sparkValues: last12.map((v) => v[0] - v[1]) }),
+    ];
+    if (ch === "전체") {
+      const t = targetOf(per), ach = cur[0] / t, gap = cur[0] - t;
+      tiles.push(tile({ label: "목표 달성률", value: pct(ach), delta: deltaNode(ach - 1, "%p"), deltaLabel: "목표 대비", note: `목표 ${eok(t)} · ${man(Math.abs(gap))}만 원 ${gap < 0 ? "부족" : "초과"}`, meter: ach }));
+    } else {
+      tiles.push(tile({ label: "목표 달성률", value: "—", note: "목표는 채널별로 정해져 있지 않습니다", muted: true }));
+    }
+    tiles.push(tile({ label: "객단가", value: (aov(cur) / 1e4).toFixed(1) + "만 원", delta: deltaNode(growth(aov(cur), aov(prev))), deltaLabel: "전년 대비", note: `주문 ${cur[2].toLocaleString("ko-KR")}건`, sparkValues: last12.map(aov) }));
+    document.getElementById("kpis").replaceChildren(...tiles);
+  }
+
+  /* ---------- 월별 추이: 올해(강조) · 작년(회색) · 목표(점선) ---------- */
+  function trendSeries() {
+    const ch = state.channel;
+    const now = MONTHS12.map((m) => DATA.monthly[ch][`2026-${m}`]?.[0] ?? null);
+    const prev = MONTHS12.map((m) => DATA.monthly[ch][`2025-${m}`]?.[0] ?? null);
+    const tgt = ch === "전체" ? MONTHS12.map((m) => { const o = DATA.targetMonthly[`2026-${m}`]; return o ? CATS.reduce((a, c) => a + o[c], 0) : null; }) : null;
+    return { now, prev, tgt };
+  }
+  function renderTrend() {
+    const { now, prev, tgt } = trendSeries();
+    const ch = state.channel;
+    const lastIdx = now.reduce((a, v, i) => (v != null ? i : a), 0);
+    // 제목은 인사이트 문장 (principles 2절)
+    const title = document.getElementById("trend-title");
+    if (tgt) {
+      const below = now.filter((v, i) => v != null && v < tgt[i]).length;
+      title.textContent = `${lastIdx + 1}개월 중 ${below}개월이 목표에 못 미쳤습니다`;
+    } else {
+      const above = now.filter((v, i) => v != null && v > prev[i]).length;
+      title.textContent = `${ch} 월 매출이 ${lastIdx + 1}개월 중 ${above}개월 전년을 넘었습니다`;
+    }
+    document.getElementById("trend-sub").textContent = "월 매출, 억 원" + (state.period === "aug" ? " · 음영은 선택한 달" : "");
+    const legend = [["now", "2026년 실적"], ["prev", "2025년 실적"]].concat(tgt ? [["target", "2026년 목표"]] : []);
+    document.getElementById("trend-legend").replaceChildren(...legend.map(([k, t]) => h("span", { class: "lk" }, h("span", { class: "key key-" + k }), t)));
+
+    const wrap = document.getElementById("trend-chart");
+    const W = Math.max(280, wrap.clientWidth), H = 280, m = { l: 48, r: 48, t: 22, b: 30 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const all = [...now, ...prev, ...(tgt || [])].filter((v) => v != null);
+    const step = [0.1, 0.2, 0.25, 0.5, 1, 2, 5].map((c) => c * 1e8).find((c) => Math.max(...all) / c <= 4.5) || 1e9;
+    const ymax = Math.ceil((Math.max(...all) * 1.04) / step) * step;
+    const dec = step >= 1e8 ? 0 : Number.isInteger(step / 1e7) ? 1 : 2;
+    const x = (i) => m.l + (iw * i) / 11, y = (v) => m.t + ih * (1 - v / ymax);
+    const svg = s("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": title.textContent });
+
+    if (state.period === "aug") svg.append(s("rect", { x: x(7) - iw / 22, y: m.t, width: iw / 11, height: ih, fill: "var(--band)" }));
+    for (let v = 0; v <= ymax + 1; v += step) {
+      svg.append(s("line", { x1: m.l, x2: m.l + iw, y1: y(v), y2: y(v), stroke: v === 0 ? "var(--axis)" : "var(--grid)", "stroke-width": 1, "shape-rendering": "crispEdges" }));
+      const t = s("text", { x: m.l - 8, y: y(v) + 4, "text-anchor": "end" }); t.textContent = v === 0 ? "0" : (v / 1e8).toFixed(dec) + "억"; svg.append(t);
+    }
+    const every = iw < 380 ? 2 : 1;
+    MONTHS12.forEach((mm, i) => { if (i % every) return; const t = s("text", { x: x(i), y: H - 8, "text-anchor": "middle" }); t.textContent = `${i + 1}월`; svg.append(t); });
+
+    const path = (arr) => { let d = "", pen = false; arr.forEach((v, i) => { if (v == null) { pen = false; return; } d += `${pen ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)} `; pen = true; }); return d; };
+    const line = (arr, stroke, extra = {}) => s("path", { d: path(arr), fill: "none", stroke, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round", ...extra });
+    svg.append(line(prev, "var(--context)"));
+    if (tgt) svg.append(line(tgt, "var(--target)", { "stroke-width": 1.5, "stroke-dasharray": "5 4" }));
+    svg.append(line(now, "var(--accent)"));
+    // 직접 레이블은 아껴서: 올해 마지막 달 값, 작년 선 끝의 이름
+    svg.append(s("circle", { cx: x(lastIdx), cy: y(now[lastIdx]), r: 4, fill: "var(--accent)", stroke: "var(--surface)", "stroke-width": 2 }));
+    const endLabel = s("text", { x: x(lastIdx), y: y(now[lastIdx]) - 12, "text-anchor": "middle", class: "strong" }); endLabel.textContent = eok(now[lastIdx], 2); svg.append(endLabel);
+    const prevEnd = s("text", { x: x(11) + 8, y: y(prev[11]) + 4 }); prevEnd.textContent = "2025"; svg.append(prevEnd);
+
+    // 십자선 + 툴팁
+    const hover = s("g", { visibility: "hidden" });
+    const cross = s("line", { y1: m.t, y2: m.t + ih, stroke: "var(--axis)", "stroke-width": 1 });
+    const dots = [["now", "var(--accent)"], ["prev", "var(--context)"], ["tgt", "var(--target)"]].map(([k, c]) => s("circle", { r: 4, fill: c, stroke: "var(--surface)", "stroke-width": 2, "data-k": k }));
+    hover.append(cross, ...dots);
+    svg.append(hover);
+    const hit = s("rect", { x: m.l - iw / 22, y: m.t, width: iw + iw / 11, height: ih, fill: "transparent" });
+    svg.append(hit);
+    const setHover = (i, clientX, clientY) => {
+      state.hoverIndex = i;
+      hover.setAttribute("visibility", "visible");
+      cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i));
+      const vals = { now: now[i], prev: prev[i], tgt: tgt ? tgt[i] : null };
+      dots.forEach((d) => { const v = vals[d.dataset.k]; d.setAttribute("visibility", v == null ? "hidden" : "visible"); if (v != null) { d.setAttribute("cx", x(i)); d.setAttribute("cy", y(v)); } });
+      const rows = [];
+      if (vals.now != null) rows.push({ key: "now", value: eok(vals.now, 2), name: "2026년" });
+      if (vals.prev != null) rows.push({ key: "prev", value: eok(vals.prev, 2), name: "2025년" });
+      if (vals.tgt != null) rows.push({ key: "target", value: eok(vals.tgt, 2), name: "목표" });
+      if (vals.now != null && vals.prev != null) rows.push({ node: deltaNode(growth(vals.now, vals.prev)), name: "전년 대비" });
+      if (vals.now != null && vals.tgt != null) rows.push({ node: deltaNode(vals.now / vals.tgt - 1, "%p"), name: "목표 대비" });
+      if (clientX == null) { const r = svg.getBoundingClientRect(); clientX = r.left + x(i); clientY = r.top + m.t + 20; }
+      showTip(clientX, clientY, `${i + 1}월`, rows);
+    };
+    const clear = () => { hover.setAttribute("visibility", "hidden"); hideTip(); };
+    hit.addEventListener("pointermove", (e) => { const r = svg.getBoundingClientRect(); const i = Math.max(0, Math.min(11, Math.round(((e.clientX - r.left - m.l) / iw) * 11))); setHover(i, e.clientX, e.clientY); });
+    hit.addEventListener("pointerleave", clear);
+    wrap.onkeydown = (e) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+      const i = Math.max(0, Math.min(11, (state.hoverIndex ?? lastIdx) + (e.key === "ArrowRight" ? 1 : -1)));
+      setHover(i);
+    };
+    wrap.onfocus = () => setHover(state.hoverIndex ?? lastIdx);
+    wrap.onblur = clear;
+    wrap.replaceChildren(svg);
+
+    // 표 보기 (차트와 같은 값)
+    const rows = MONTHS12.map((mm, i) => h("tr", {},
+      h("td", { text: `${i + 1}월` }),
+      h("td", { class: "num", text: now[i] == null ? "–" : eok(now[i], 2) }),
+      h("td", { class: "num", text: prev[i] == null ? "–" : eok(prev[i], 2) }),
+      tgt ? h("td", { class: "num", text: tgt[i] == null ? "–" : eok(tgt[i], 2) }) : null,
+      h("td", { class: "num" }, now[i] == null ? "–" : deltaNode(growth(now[i], prev[i])))));
+    document.getElementById("trend-table").replaceChildren(h("table", {},
+      h("thead", {}, h("tr", {}, h("th", { text: "월" }), h("th", { class: "num", text: "2026년" }), h("th", { class: "num", text: "2025년" }), tgt ? h("th", { class: "num", text: "목표" }) : null, h("th", { class: "num", text: "전년 대비" }))),
+      h("tbody", {}, rows)));
+  }
+
+  /* ---------- 카테고리: 목표 대비 차이(%p) 발산 막대 ---------- */
+  function renderCategory() {
+    const { channel: ch, period: per } = state;
+    const mode = ch === "전체" ? "target" : "yoy";
+    const rows = CATS.map((c) => {
+      const cur = DATA.category[ch][per]["2026"][c][0], prev = DATA.category[ch][per]["2025"][c][0], t = targetOf(per, c);
+      return { c, cur, prev, t, g: growth(cur, prev), d: cur / t - 1 };
+    });
+    const val = (r) => (mode === "target" ? r.d : r.g);
+    rows.sort((a, b) => val(b) - val(a));
+    const lim = niceAbs(Math.max(...rows.map((r) => Math.abs(val(r)))));
+    const neg = rows.filter((r) => val(r) < 0).map((r) => r.c);
+    const title = document.getElementById("cat-title");
+    if (mode === "target") title.textContent = neg.length ? `${josa(neg.slice().reverse().join("·"), "이", "가")} 목표에 못 미쳤습니다` : "모든 카테고리가 목표를 넘었습니다";
+    else title.textContent = neg.length ? `${josa(neg.slice().reverse().join("·"), "이", "가")} 전년보다 줄었습니다` : "모든 카테고리가 전년보다 늘었습니다";
+    document.getElementById("cat-sub").textContent = mode === "target" ? `목표 대비 차이 · ${PERIOD_LABEL[per]} · 오른쪽이 초과` : `전년 대비 · ${PERIOD_LABEL[per]} · 목표는 채널별로 없어 전년과 비교`;
+    const unit = mode === "target" ? "%p" : "%";
+    const list = rows.map((r) => {
+      const v = val(r), w = (Math.abs(v) / lim) * 50;
+      const tipRows = () => [
+        { value: eok(r.cur, 2), name: "매출" },
+        mode === "target" ? { value: eok(r.t, 2), name: "목표" } : null,
+        mode === "target" ? { value: pct(r.cur / r.t), name: "달성률" } : null,
+        { node: deltaNode(r.g), name: "전년 대비" },
+      ].filter(Boolean);
+      return h("div", {
+        class: "crow", tabindex: "0", role: "group", "aria-label": `${r.c} ${deltaText(v, unit)}`,
+        onpointermove: (e) => showTip(e.clientX, e.clientY, r.c, tipRows()), onpointerleave: hideTip,
+        onfocus: (e) => { const [cx, cy] = centerOf(e.currentTarget); showTip(cx, cy, r.c, tipRows()); }, onblur: hideTip,
+      },
+        h("div", { class: "crow-name" }, h("span", { class: "crow-cat", text: r.c }),
+          mode === "target" ? h("span", { class: "crow-sub" }, "전년 ", deltaNode(r.g)) : h("span", { class: "crow-sub", text: `매출 ${eok(r.cur)}` })),
+        h("div", { class: "track" }, h("span", { class: "mid" }), h("span", { class: "dbar " + (v < 0 ? "neg" : "pos"), style: `${v < 0 ? "right" : "left"}:50%;width:${w}%` })),
+        h("span", { class: "crow-val" }, deltaNode(v, unit)));
+    });
+    const fmtLim = `${Math.round(lim * 100)}${unit}`;
+    const scale = h("div", { class: "scale", "aria-hidden": "true" }, h("span"), h("div", { class: "scale-axis" }, h("span", { text: "−" + fmtLim }), h("span", { text: "0" }), h("span", { text: "+" + fmtLim })), h("span"));
+    document.getElementById("cat-list").replaceChildren(...list, scale);
+  }
+
+  /* ---------- 권역: 매출 크기 순 막대 (한 가지 색) ---------- */
+  function renderRegion() {
+    const map = new Map();
+    for (const r of storeRows()) { const o = map.get(r.region) || { name: r.region, cur: 0, prev: 0 }; o.cur += r.cur; o.prev += r.prev; map.set(r.region, o); }
+    const rows = [...map.values()].map((o) => ({ ...o, g: growth(o.cur, o.prev) })).sort((a, b) => b.cur - a.cur);
+    const max = rows[0].cur;
+    const best = rows.slice().sort((a, b) => b.g - a.g)[0];
+    const title = document.getElementById("region-title");
+    if (rows.length === 1) title.replaceChildren(`${rows[0].name} 매출 ${eok(rows[0].cur)}, 전년보다 `, deltaNode(rows[0].g));
+    else if (best.g > 0) title.replaceChildren(`${josa(best.name, "이", "가")} `, deltaNode(best.g), "로 가장 빠르게 늘었습니다");
+    else title.textContent = "모든 권역이 전년보다 줄었습니다";
+    document.getElementById("region-sub").textContent = `권역별 매출 · ${PERIOD_LABEL[state.period]} · 막대 길이가 매출`;
+    const cells = [h("span", { class: "rh", text: "권역" }), h("span"), h("span", { class: "rh num", text: "매출(만 원)" }), h("span", { class: "rh num", text: "전년 대비" })];
+    for (const r of rows) {
+      cells.push(
+        h("span", { class: "rname", text: r.name }),
+        h("div", { class: "rtrack", role: "img", "aria-label": `${r.name} 매출 ${man(r.cur)}만 원` }, h("span", { class: "rbar", style: `width:${(r.cur / max) * 100}%` })),
+        h("span", { class: "rval", text: man(r.cur) }),
+        h("span", { class: "ryoy" }, deltaNode(r.g)));
+    }
+    document.getElementById("region-list").replaceChildren(...cells);
+  }
+
+  /* ---------- 매장: 전년 대비가 낮은 순 (예외 먼저) ---------- */
+  function renderStores() {
+    const rows = storeRows().sort((a, b) => a.g - b.g);
+    const n = rows.length, lim = niceAbs(Math.max(...rows.map((r) => Math.abs(r.g))));
+    let show = rows, skipped = 0;
+    // 경영 요약에는 양 끝의 예외만: 가장 낮은 3개와 가장 높은 3개
+    if (!state.storesAll && n > 6) { show = [...rows.slice(0, 3), null, ...rows.slice(-3)]; skipped = n - 6; }
+    const worst = rows[0];
+    const title = document.getElementById("store-title");
+    if (worst.g < 0) title.replaceChildren(`${josa(worst.name, "이", "가")} `, deltaNode(worst.g), "로 가장 크게 줄었습니다");
+    else title.textContent = "모든 매장이 전년보다 늘었습니다";
+    document.getElementById("store-sub").textContent = `매장별 매출과 전년 대비 · ${PERIOD_LABEL[state.period]} · 낮은 순`;
+    const toggle = document.getElementById("store-toggle");
+    toggle.hidden = n <= 6;
+    toggle.textContent = state.storesAll ? "양 끝 6개만 보기" : `${n}개 매장 모두 보기`;
+    toggle.setAttribute("aria-pressed", String(state.storesAll));
+    const body = show.map((r) => r === null
+      ? h("tr", { class: "gap" }, h("td", { colspan: "3", text: `가운데 ${skipped}개 매장 생략` }))
+      : h("tr", {},
+        h("td", {}, h("span", { class: "sname", text: r.name }), r.g <= -0.1 ? h("span", { class: "chip", text: "주의" }) : null, h("span", { class: "smeta", text: `${r.region} · ${r.code}` })),
+        h("td", { class: "num", text: man(r.cur) }),
+        h("td", {}, h("div", { class: "dcell" },
+          h("span", { class: "mini", "aria-hidden": "true" }, h("span", { class: "mid" }), h("span", { class: "dbar " + (r.g < 0 ? "neg" : "pos"), style: `${r.g < 0 ? "right" : "left"}:50%;width:${(Math.abs(r.g) / lim) * 50}%` })),
+          deltaNode(r.g)))));
+    document.getElementById("store-table").replaceChildren(h("table", {},
+      h("thead", {}, h("tr", {}, h("th", { text: "매장" }), h("th", { class: "num", text: "매출(만 원)" }), h("th", { class: "num", text: "전년 대비" }))),
+      h("tbody", {}, body)));
+  }
+
+  /* ---------- 필터 · 전체 렌더 ---------- */
+  function renderAll() {
+    hideTip();
+    document.querySelectorAll("[data-period]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.period === state.period)));
+    document.querySelectorAll("[data-channel]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.channel === state.channel)));
+    renderHeadline(); renderKpis(); renderTrend(); renderCategory(); renderRegion(); renderStores();
+  }
+  document.querySelectorAll("[data-period]").forEach((b) => b.addEventListener("click", () => { state.period = b.dataset.period; renderAll(); }));
+  document.querySelectorAll("[data-channel]").forEach((b) => b.addEventListener("click", () => { state.channel = b.dataset.channel; state.storesAll = false; renderAll(); }));
+  document.getElementById("store-toggle").addEventListener("click", () => { state.storesAll = !state.storesAll; renderStores(); });
+  document.getElementById("trend-toggle").addEventListener("click", (e) => {
+    state.trendTable = !state.trendTable;
+    e.currentTarget.setAttribute("aria-pressed", String(state.trendTable));
+    e.currentTarget.textContent = state.trendTable ? "차트로 보기" : "표로 보기";
+    document.getElementById("trend-table").hidden = !state.trendTable;
+    document.getElementById("trend-chart").hidden = state.trendTable;
+    document.getElementById("trend-legend").hidden = state.trendTable;
+  });
+  let raf = 0;
+  new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(renderTrend); }).observe(document.getElementById("trend-chart"));
+  renderAll();
+</script>
