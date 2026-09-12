@@ -1,0 +1,518 @@
+{
+ "canvas": {
+  "width": 1280,
+  "height": 720
+ },
+ "grid": {
+  "margin": 24,
+  "gutter": 16,
+  "columns": 12,
+  "unit": 8,
+  "colWidth": 88
+ },
+ "pages": [
+  {
+   "id": "summary",
+   "name": "요약",
+   "archetype": "경영 요약",
+   "question": "목표 대비 어디쯤인가",
+   "regions": [
+    {
+     "id": "nav",
+     "role": "pageNavigator",
+     "col": 1,
+     "span": 9,
+     "label": "페이지 선택기",
+     "x": 24,
+     "y": 16,
+     "width": 920,
+     "height": 40
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "col": 10,
+     "span": 3,
+     "label": "데이터 기준일",
+     "x": 960,
+     "y": 16,
+     "width": 296,
+     "height": 40
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 8,
+     "label": "제목 + 인사이트 문장 (측정값)",
+     "x": 24,
+     "y": 72,
+     "width": 816,
+     "height": 56
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "col": 9,
+     "span": 2,
+     "label": "기간",
+     "x": 856,
+     "y": 72,
+     "width": 192,
+     "height": 56
+    },
+    {
+     "id": "slicer_channel",
+     "role": "advancedSlicerVisual",
+     "col": 11,
+     "span": 2,
+     "label": "채널",
+     "x": 1064,
+     "y": 72,
+     "width": 192,
+     "height": 56
+    },
+    {
+     "id": "kpi_sales",
+     "role": "cardVisual",
+     "col": 1,
+     "span": 3,
+     "y": 144,
+     "h": 112,
+     "label": "매출",
+     "x": 24,
+     "width": 296,
+     "height": 112
+    },
+    {
+     "id": "kpi_profit",
+     "role": "cardVisual",
+     "col": 4,
+     "span": 3,
+     "y": 144,
+     "h": 112,
+     "label": "이익",
+     "x": 336,
+     "width": 296,
+     "height": 112
+    },
+    {
+     "id": "kpi_target",
+     "role": "cardVisual",
+     "col": 7,
+     "span": 3,
+     "y": 144,
+     "h": 112,
+     "label": "목표 달성률",
+     "x": 648,
+     "width": 296,
+     "height": 112
+    },
+    {
+     "id": "kpi_aov",
+     "role": "cardVisual",
+     "col": 10,
+     "span": 3,
+     "y": 144,
+     "h": 112,
+     "label": "객단가",
+     "x": 960,
+     "width": 296,
+     "height": 112
+    },
+    {
+     "id": "trend",
+     "role": "lineChart",
+     "col": 1,
+     "span": 6,
+     "y": 272,
+     "h": 216,
+     "label": "월별 매출: 올해·작년·목표",
+     "x": 24,
+     "width": 608,
+     "height": 216
+    },
+    {
+     "id": "category",
+     "role": "barChart",
+     "col": 7,
+     "span": 6,
+     "y": 272,
+     "h": 216,
+     "label": "카테고리 목표 대비 (발산 막대)",
+     "x": 648,
+     "width": 608,
+     "height": 216
+    },
+    {
+     "id": "stores",
+     "role": "tableEx",
+     "col": 1,
+     "span": 6,
+     "y": 504,
+     "h": 192,
+     "label": "주의 매장 3곳 → 드릴스루",
+     "x": 24,
+     "width": 608,
+     "height": 192
+    },
+    {
+     "id": "region",
+     "role": "barChart",
+     "col": 7,
+     "span": 6,
+     "y": 504,
+     "h": 192,
+     "label": "권역별 매출",
+     "x": 648,
+     "width": 608,
+     "height": 192
+    }
+   ]
+  },
+  {
+   "id": "category",
+   "name": "카테고리",
+   "archetype": "분석",
+   "question": "어느 카테고리가 왜 못 맞췄나",
+   "regions": [
+    {
+     "id": "nav",
+     "role": "pageNavigator",
+     "col": 1,
+     "span": 9,
+     "label": "페이지 선택기",
+     "x": 24,
+     "y": 16,
+     "width": 920,
+     "height": 40
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "col": 10,
+     "span": 3,
+     "label": "데이터 기준일",
+     "x": 960,
+     "y": 16,
+     "width": 296,
+     "height": 40
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 6,
+     "label": "제목 + 인사이트 문장",
+     "x": 24,
+     "y": 72,
+     "width": 608,
+     "height": 56
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "col": 7,
+     "span": 2,
+     "label": "기간",
+     "x": 648,
+     "y": 72,
+     "width": 192,
+     "height": 56
+    },
+    {
+     "id": "slicer_channel",
+     "role": "advancedSlicerVisual",
+     "col": 9,
+     "span": 2,
+     "label": "채널",
+     "x": 856,
+     "y": 72,
+     "width": 192,
+     "height": 56
+    },
+    {
+     "id": "slicer_metric",
+     "role": "advancedSlicerVisual",
+     "col": 11,
+     "span": 2,
+     "label": "보는 지표 (필드 매개변수)",
+     "x": 1064,
+     "y": 72,
+     "width": 192,
+     "height": 56
+    },
+    {
+     "id": "multiples",
+     "role": "lineChart",
+     "col": 1,
+     "span": 12,
+     "y": 144,
+     "h": 232,
+     "label": "카테고리별 월 추이 (작은 여러 차트, 축 공통)",
+     "x": 24,
+     "width": 1232,
+     "height": 232
+    },
+    {
+     "id": "table",
+     "role": "tableEx",
+     "col": 1,
+     "span": 8,
+     "y": 392,
+     "h": 304,
+     "label": "카테고리 표: 올해·작년·전년 대비·목표 달성률",
+     "x": 24,
+     "width": 816,
+     "height": 304
+    },
+    {
+     "id": "mix",
+     "role": "barChart",
+     "col": 9,
+     "span": 4,
+     "y": 392,
+     "h": 304,
+     "label": "매출 구성비 변화 (%p)",
+     "x": 856,
+     "width": 400,
+     "height": 304
+    }
+   ]
+  },
+  {
+   "id": "stores",
+   "name": "매장",
+   "archetype": "비교",
+   "question": "어느 매장이 뒤처지나",
+   "regions": [
+    {
+     "id": "nav",
+     "role": "pageNavigator",
+     "col": 1,
+     "span": 9,
+     "label": "페이지 선택기",
+     "x": 24,
+     "y": 16,
+     "width": 920,
+     "height": 40
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "col": 10,
+     "span": 3,
+     "label": "데이터 기준일",
+     "x": 960,
+     "y": 16,
+     "width": 296,
+     "height": 40
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 8,
+     "label": "제목 + 인사이트 문장",
+     "x": 24,
+     "y": 72,
+     "width": 816,
+     "height": 56
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "col": 9,
+     "span": 2,
+     "label": "기간",
+     "x": 856,
+     "y": 72,
+     "width": 192,
+     "height": 56
+    },
+    {
+     "id": "slicer_channel",
+     "role": "advancedSlicerVisual",
+     "col": 11,
+     "span": 2,
+     "label": "채널",
+     "x": 1064,
+     "y": 72,
+     "width": 192,
+     "height": 56
+    },
+    {
+     "id": "scatter",
+     "role": "scatterChart",
+     "col": 1,
+     "span": 8,
+     "y": 144,
+     "h": 272,
+     "label": "규모 × 성장률 → 드릴스루",
+     "x": 24,
+     "width": 816,
+     "height": 272
+    },
+    {
+     "id": "watch",
+     "role": "tableEx",
+     "col": 9,
+     "span": 4,
+     "y": 144,
+     "h": 272,
+     "label": "주의 매장 + 가장 크게 준 카테고리",
+     "x": 856,
+     "width": 400,
+     "height": 272
+    },
+    {
+     "id": "rank",
+     "role": "tableEx",
+     "col": 1,
+     "span": 12,
+     "y": 432,
+     "h": 264,
+     "label": "전체 매장 순위표 → 드릴스루",
+     "x": 24,
+     "width": 1232,
+     "height": 264
+    }
+   ]
+  },
+  {
+   "id": "store_detail",
+   "name": "매장 상세",
+   "archetype": "상세 (드릴스루 대상, 탭에서 숨김)",
+   "question": "이 매장에 무슨 일이 있었나",
+   "regions": [
+    {
+     "id": "back",
+     "role": "actionButton",
+     "col": 1,
+     "span": 1,
+     "label": "← 뒤로",
+     "x": 24,
+     "y": 16,
+     "width": 88,
+     "height": 40
+    },
+    {
+     "id": "crumbs",
+     "role": "textbox",
+     "col": 2,
+     "span": 8,
+     "label": "경로: 매장 › (선택한 매장)",
+     "x": 128,
+     "y": 16,
+     "width": 816,
+     "height": 40
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "col": 10,
+     "span": 3,
+     "label": "데이터 기준일",
+     "x": 960,
+     "y": 16,
+     "width": 296,
+     "height": 40
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 10,
+     "label": "매장 이름 + 인사이트 문장 (측정값)",
+     "x": 24,
+     "y": 72,
+     "width": 1024,
+     "height": 56
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "col": 11,
+     "span": 2,
+     "label": "기간",
+     "x": 1064,
+     "y": 72,
+     "width": 192,
+     "height": 56
+    },
+    {
+     "id": "kpi_sales",
+     "role": "cardVisual",
+     "col": 1,
+     "span": 3,
+     "y": 144,
+     "h": 112,
+     "label": "매출",
+     "x": 24,
+     "width": 296,
+     "height": 112
+    },
+    {
+     "id": "kpi_margin",
+     "role": "cardVisual",
+     "col": 4,
+     "span": 3,
+     "y": 144,
+     "h": 112,
+     "label": "이익률",
+     "x": 336,
+     "width": 296,
+     "height": 112
+    },
+    {
+     "id": "kpi_orders",
+     "role": "cardVisual",
+     "col": 7,
+     "span": 3,
+     "y": 144,
+     "h": 112,
+     "label": "주문",
+     "x": 648,
+     "width": 296,
+     "height": 112
+    },
+    {
+     "id": "kpi_aov",
+     "role": "cardVisual",
+     "col": 10,
+     "span": 3,
+     "y": 144,
+     "h": 112,
+     "label": "객단가",
+     "x": 960,
+     "width": 296,
+     "height": 112
+    },
+    {
+     "id": "trend",
+     "role": "lineChart",
+     "col": 1,
+     "span": 6,
+     "y": 272,
+     "h": 424,
+     "label": "매장 월 매출: 올해·작년",
+     "x": 24,
+     "width": 608,
+     "height": 424
+    },
+    {
+     "id": "mix",
+     "role": "barChart",
+     "col": 7,
+     "span": 6,
+     "y": 272,
+     "h": 424,
+     "label": "카테고리 구성비: 이 매장 vs 같은 채널",
+     "x": 648,
+     "width": 608,
+     "height": 424
+    }
+   ]
+  }
+ ]
+}

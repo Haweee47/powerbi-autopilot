@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="Segoe UI, Malgun Gothic, sans-serif">
+<rect width="1280" height="720" fill="#EEF1F5"/>
+<rect x="24" y="16" width="920" height="40" rx="8" fill="#C6CDD5" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="36" font-size="11" font-weight="600" fill="#14202B">페이지 선택기</text>
+<rect x="960" y="16" width="296" height="40" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="970" y="36" font-size="11" font-weight="600" fill="#14202B">데이터 기준일</text>
+<rect x="24" y="72" width="816" height="56" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="92" font-size="13" font-weight="600" fill="#14202B">제목 + 인사이트 문장 (측정값)</text>
+<text x="34" y="110" font-size="11" fill="#4A5563">textbox · 24,72 · 816×56</text>
+<rect x="856" y="72" width="192" height="56" rx="8" fill="#D5DCE4" stroke="#8E99A6" stroke-width="1"/>
+<text x="866" y="92" font-size="13" font-weight="600" fill="#14202B">기간</text>
+<text x="866" y="110" font-size="11" fill="#4A5563">advancedSlicerVisual · 856,72 · 192×56</text>
+<rect x="1064" y="72" width="192" height="56" rx="8" fill="#D5DCE4" stroke="#8E99A6" stroke-width="1"/>
+<text x="1074" y="92" font-size="13" font-weight="600" fill="#14202B">채널</text>
+<text x="1074" y="110" font-size="11" fill="#4A5563">advancedSlicerVisual · 1064,72 · 192×56</text>
+<rect x="24" y="144" width="296" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="164" font-size="13" font-weight="600" fill="#14202B">매출</text>
+<text x="34" y="182" font-size="11" fill="#4A5563">cardVisual · 24,144 · 296×112</text>
+<rect x="336" y="144" width="296" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="346" y="164" font-size="13" font-weight="600" fill="#14202B">이익</text>
+<text x="346" y="182" font-size="11" fill="#4A5563">cardVisual · 336,144 · 296×112</text>
+<rect x="648" y="144" width="296" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="658" y="164" font-size="13" font-weight="600" fill="#14202B">목표 달성률</text>
+<text x="658" y="182" font-size="11" fill="#4A5563">cardVisual · 648,144 · 296×112</text>
+<rect x="960" y="144" width="296" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="970" y="164" font-size="13" font-weight="600" fill="#14202B">객단가</text>
+<text x="970" y="182" font-size="11" fill="#4A5563">cardVisual · 960,144 · 296×112</text>
+<rect x="24" y="272" width="608" height="216" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="292" font-size="13" font-weight="600" fill="#14202B">월별 매출: 올해·작년·목표</text>
+<text x="34" y="310" font-size="11" fill="#4A5563">lineChart · 24,272 · 608×216</text>
+<rect x="648" y="272" width="608" height="216" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
+<text x="658" y="292" font-size="13" font-weight="600" fill="#14202B">카테고리 목표 대비 (발산 막대)</text>
+<text x="658" y="310" font-size="11" fill="#4A5563">barChart · 648,272 · 608×216</text>
+<rect x="24" y="504" width="608" height="192" rx="8" fill="#E8EEF6" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="524" font-size="13" font-weight="600" fill="#14202B">주의 매장 3곳 → 드릴스루</text>
+<text x="34" y="542" font-size="11" fill="#4A5563">tableEx · 24,504 · 608×192</text>
+<rect x="648" y="504" width="608" height="192" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
+<text x="658" y="524" font-size="13" font-weight="600" fill="#14202B">권역별 매출</text>
+<text x="658" y="542" font-size="11" fill="#4A5563">barChart · 648,504 · 608×192</text>
+<text x="1256" y="714" font-size="11" text-anchor="end" fill="#5A6471">요약 · 경영 요약 — 목표 대비 어디쯤인가</text>
+</svg>

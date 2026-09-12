@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="Segoe UI, Malgun Gothic, sans-serif">
+<rect width="1280" height="720" fill="#EEF1F5"/>
+<rect x="24" y="16" width="920" height="40" rx="8" fill="#C6CDD5" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="36" font-size="11" font-weight="600" fill="#14202B">페이지 선택기</text>
+<rect x="960" y="16" width="296" height="40" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="970" y="36" font-size="11" font-weight="600" fill="#14202B">데이터 기준일</text>
+<rect x="24" y="72" width="608" height="56" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="92" font-size="13" font-weight="600" fill="#14202B">제목 + 인사이트 문장</text>
+<text x="34" y="110" font-size="11" fill="#4A5563">textbox · 24,72 · 608×56</text>
+<rect x="648" y="72" width="192" height="56" rx="8" fill="#D5DCE4" stroke="#8E99A6" stroke-width="1"/>
+<text x="658" y="92" font-size="13" font-weight="600" fill="#14202B">기간</text>
+<text x="658" y="110" font-size="11" fill="#4A5563">advancedSlicerVisual · 648,72 · 192×56</text>
+<rect x="856" y="72" width="192" height="56" rx="8" fill="#D5DCE4" stroke="#8E99A6" stroke-width="1"/>
+<text x="866" y="92" font-size="13" font-weight="600" fill="#14202B">채널</text>
+<text x="866" y="110" font-size="11" fill="#4A5563">advancedSlicerVisual · 856,72 · 192×56</text>
+<rect x="1064" y="72" width="192" height="56" rx="8" fill="#D5DCE4" stroke="#8E99A6" stroke-width="1"/>
+<text x="1074" y="92" font-size="13" font-weight="600" fill="#14202B">보는 지표 (필드 매개변수)</text>
+<text x="1074" y="110" font-size="11" fill="#4A5563">advancedSlicerVisual · 1064,72 · 192×56</text>
+<rect x="24" y="144" width="1232" height="232" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="164" font-size="13" font-weight="600" fill="#14202B">카테고리별 월 추이 (작은 여러 차트, 축 공통)</text>
+<text x="34" y="182" font-size="11" fill="#4A5563">lineChart · 24,144 · 1232×232</text>
+<rect x="24" y="392" width="816" height="304" rx="8" fill="#E8EEF6" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="412" font-size="13" font-weight="600" fill="#14202B">카테고리 표: 올해·작년·전년 대비·목표 달성률</text>
+<text x="34" y="430" font-size="11" fill="#4A5563">tableEx · 24,392 · 816×304</text>
+<rect x="856" y="392" width="400" height="304" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
+<text x="866" y="412" font-size="13" font-weight="600" fill="#14202B">매출 구성비 변화 (%p)</text>
+<text x="866" y="430" font-size="11" fill="#4A5563">barChart · 856,392 · 400×304</text>
+<text x="1256" y="714" font-size="11" text-anchor="end" fill="#5A6471">카테고리 · 분석 — 어느 카테고리가 왜 못 맞췄나</text>
+</svg>
