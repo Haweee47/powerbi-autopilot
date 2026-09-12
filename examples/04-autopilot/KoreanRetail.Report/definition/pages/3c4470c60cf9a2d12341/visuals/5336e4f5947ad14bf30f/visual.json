@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "5336e4f5947ad14bf30f",
+  "position": {
+    "x": 128,
+    "y": 16,
+    "z": 2000,
+    "height": 40,
+    "width": 816,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "매장 › 매장 상세",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI, Malgun Gothic, sans-serif",
+                      "fontSize": "10pt"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,4 @@
+/// CSV 4종이 있는 폴더. 다른 PC에서는 이 값만 바꾸면 된다.
+expression 데이터폴더 = "C:\path\to\powerbi-autopilot\examples\_data\korean-retail" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 68b9437e-d4f0-45e2-bdb9-f36c949e4f17
+

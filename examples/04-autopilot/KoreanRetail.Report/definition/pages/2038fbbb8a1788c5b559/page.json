@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "2038fbbb8a1788c5b559",
+  "displayName": "요약",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280
+}

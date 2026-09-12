@@ -1,0 +1,52 @@
+/// 오프라인 18개 + 온라인 2개 채널.
+table 매장
+	lineageTag: be3ccbc3-a70c-4db2-a0b3-73de41f9cc32
+
+	column 매장코드
+		dataType: string
+		isKey
+		lineageTag: c9285a4f-d025-40a3-89a1-f8d3d654f8bb
+		summarizeBy: none
+		sourceColumn: 매장코드
+
+	column 매장명
+		dataType: string
+		lineageTag: afefee44-f28b-40f6-8fbc-4cfde4cbeba4
+		summarizeBy: none
+		sourceColumn: 매장명
+
+	column 시도
+		dataType: string
+		lineageTag: 6f1d6e1d-1d98-4b58-95f4-7d422a08062c
+		summarizeBy: none
+		sourceColumn: 시도
+
+	column 권역
+		dataType: string
+		lineageTag: 50399bad-f577-44e2-8995-4f0e10563089
+		summarizeBy: none
+		sourceColumn: 권역
+
+	column 채널
+		dataType: string
+		lineageTag: 58d118fe-70e8-4659-a5c9-0b2ee0312372
+		summarizeBy: none
+		sourceColumn: 채널
+
+	column 개점일
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 19ead283-b5b1-49f0-97e1-767837d034af
+		summarizeBy: none
+		sourceColumn: 개점일
+
+	partition 매장 = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(#"데이터폴더" & "\매장.csv"), [Delimiter = ",", Columns = 6, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"매장코드", type text}, {"매장명", type text}, {"시도", type text}, {"권역", type text}, {"채널", type text}, {"개점일", type date}}, "en-US")
+				in
+				    Typed
+

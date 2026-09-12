@@ -1,0 +1,50 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "ff9d5f5853075ffb83c1",
+  "position": {
+    "x": 24,
+    "y": 72,
+    "z": 2000,
+    "height": 56,
+    "width": 608,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "카테고리별 성과",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold, Malgun Gothic, sans-serif",
+                      "fontSize": "16pt"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "어느 카테고리가 왜 목표를 못 맞췄나",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI, Malgun Gothic, sans-serif",
+                      "fontSize": "10pt",
+                      "color": "#5A6471"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

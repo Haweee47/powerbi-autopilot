@@ -1,0 +1,154 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "04c385329bba72016bcb",
+  "position": {
+    "x": 24,
+    "y": 432,
+    "z": 7000,
+    "height": 264,
+    "width": 1232,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "매장"
+                    }
+                  },
+                  "Property": "매장명"
+                }
+              },
+              "queryRef": "매장.매장명",
+              "nativeQueryRef": "매장명"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "매장"
+                    }
+                  },
+                  "Property": "권역"
+                }
+              },
+              "queryRef": "매장.권역",
+              "nativeQueryRef": "권역"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "매장"
+                    }
+                  },
+                  "Property": "채널"
+                }
+              },
+              "queryRef": "매장.채널",
+              "nativeQueryRef": "채널"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "매출"
+                }
+              },
+              "queryRef": "측정값.매출",
+              "nativeQueryRef": "매출"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "이익률"
+                }
+              },
+              "queryRef": "측정값.이익률",
+              "nativeQueryRef": "이익률"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "객단가"
+                }
+              },
+              "queryRef": "측정값.객단가",
+              "nativeQueryRef": "객단가"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "전년 대비 증감률"
+                }
+              },
+              "queryRef": "측정값.전년 대비 증감률",
+              "nativeQueryRef": "전년 대비 증감률"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "측정값"
+                  }
+                },
+                "Property": "전년 대비 증감률"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'전체 매장 순위'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

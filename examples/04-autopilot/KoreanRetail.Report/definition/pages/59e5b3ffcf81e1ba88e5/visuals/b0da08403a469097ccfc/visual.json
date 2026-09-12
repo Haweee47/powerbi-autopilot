@@ -1,0 +1,140 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "b0da08403a469097ccfc",
+  "position": {
+    "x": 24,
+    "y": 392,
+    "z": 6000,
+    "height": 304,
+    "width": 816,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "카테고리"
+                    }
+                  },
+                  "Property": "카테고리"
+                }
+              },
+              "queryRef": "카테고리.카테고리",
+              "nativeQueryRef": "카테고리"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "매출"
+                }
+              },
+              "queryRef": "측정값.매출",
+              "nativeQueryRef": "매출"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "전년 매출"
+                }
+              },
+              "queryRef": "측정값.전년 매출",
+              "nativeQueryRef": "전년 매출"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "전년 대비 증감률"
+                }
+              },
+              "queryRef": "측정값.전년 대비 증감률",
+              "nativeQueryRef": "전년 대비 증감률"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "목표 달성률"
+                }
+              },
+              "queryRef": "측정값.목표 달성률",
+              "nativeQueryRef": "목표 달성률"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "매출 구성비"
+                }
+              },
+              "queryRef": "측정값.매출 구성비",
+              "nativeQueryRef": "매출 구성비"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "측정값"
+                  }
+                },
+                "Property": "전년 대비 증감률"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'카테고리 요약'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

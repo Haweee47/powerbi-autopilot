@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "0eaa47202f99c2e5dd7f",
+  "position": {
+    "x": 336,
+    "y": 144,
+    "z": 6000,
+    "height": 112,
+    "width": 296,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "이익 (억)"
+                }
+              },
+              "queryRef": "측정값.이익 (억)",
+              "nativeQueryRef": "이익 (억)",
+              "displayName": "이익"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

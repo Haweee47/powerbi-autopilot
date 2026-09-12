@@ -92,7 +92,12 @@ def build(tok: dict, mode: str) -> dict:
                 "valueAxis": [value_axis],
                 "categoryAxis": [category_axis],
                 "legend": [legend_top],
-                # 필터 창은 구조 색을 따르지 않으므로 직접 지정한다
+            }},
+            # 필터 창은 구조 색을 따르지 않으므로 직접 지정한다.
+            # MS 문서 예시는 "*"에 두지만 공식 CLI 검증은 "*"의 outspacePane·filterCard를 모르는 객체로 거부해서 페이지 쪽에 둔다
+            "page": {"*": {
+                "background": [{"color": solid(c["page"]), "transparency": 0}],
+                "outspace": [{"color": solid(c["page"]), "transparency": 0}],
                 "outspacePane": [{"backgroundColor": solid(c["surface"]), "foregroundColor": ink, "titleSize": T["title"], "border": True,
                                   "borderColor": solid(c["grid"]), "checkboxAndApplyColor": solid(c["accent"]), "inputBoxColor": solid(c["surface"])}],
                 "filterCard": [
@@ -100,19 +105,15 @@ def build(tok: dict, mode: str) -> dict:
                     {"$id": "Available", "backgroundColor": solid(c["surface"]), "foregroundColor": ink, "border": True, "borderColor": solid(c["grid"])},
                 ],
             }},
-            "page": {"*": {
-                "background": [{"color": solid(c["page"]), "transparency": 0}],
-                "outspace": [{"color": solid(c["page"]), "transparency": 0}],
-            }},
             # 헤더 글은 페이지 바탕 위에 바로 놓인다
             "textbox": {"*": {"background": [{"show": False}], "border": [{"show": False}], "padding": zero_padding(), "title": [{"show": False}]}},
             "cardVisual": {"*": {
                 "value": [{"$id": "default", "fontFamily": F, "fontSize": T["kpi"], "bold": True, "fontColor": ink}],
                 "label": [{"$id": "default", "show": True, "position": "aboveValue", "fontFamily": F, "fontSize": T["body"], "fontColor": ink2}],
                 "title": [{"show": False}],
-                # MS 디자인 스킬 base.json의 카드 안전장치 (값 잘림 방지)
+                # MS 디자인 스킬 base.json의 카드 안전장치 (값 잘림 방지).
+                # 같은 파일의 spacing.customizeSpacing은 공식 CLI 검증에서 모르는 속성이라 뺐다
                 "cardCalloutArea": [{"paddingUniform": 0}],
-                "spacing": [{"customizeSpacing": True, "verticalSpacing": -6}],
             }},
             "lineChart": {"*": {
                 "lineStyles": [{"strokeWidth": 2, "lineChartType": "linear", "showMarker": False, "areaShow": False}],

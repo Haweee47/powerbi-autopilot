@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "eb0ae1f55b35f393beeb",
+  "position": {
+    "x": 24,
+    "y": 144,
+    "z": 6000,
+    "height": 112,
+    "width": 296,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "매출"
+                }
+              },
+              "queryRef": "측정값.매출",
+              "nativeQueryRef": "매출",
+              "displayName": "매출"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

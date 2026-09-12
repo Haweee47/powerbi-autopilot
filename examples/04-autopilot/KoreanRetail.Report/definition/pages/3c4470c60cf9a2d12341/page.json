@@ -1,0 +1,48 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "3c4470c60cf9a2d12341",
+  "displayName": "매장 상세",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "visibility": "HiddenInViewMode",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "fabe756b71bff02b09fa",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "매장"
+              }
+            },
+            "Property": "매장명"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "8d07d62afb6d87fc034b",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "ad5d8e3f9d6e5cee6bd4",
+        "boundFilter": "fabe756b71bff02b09fa",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "매장"
+              }
+            },
+            "Property": "매장명"
+          }
+        }
+      }
+    ]
+  }
+}

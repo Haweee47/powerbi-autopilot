@@ -1,0 +1,84 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "375139110670569b21c7",
+  "position": {
+    "x": 856,
+    "y": 144,
+    "z": 6000,
+    "height": 272,
+    "width": 400,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "매장"
+                    }
+                  },
+                  "Property": "매장명"
+                }
+              },
+              "queryRef": "매장.매장명",
+              "nativeQueryRef": "매장명"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "전년 대비 증감률"
+                }
+              },
+              "queryRef": "측정값.전년 대비 증감률",
+              "nativeQueryRef": "전년 대비 증감률"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "측정값"
+                  }
+                },
+                "Property": "전년 대비 증감률"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'주의 매장'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

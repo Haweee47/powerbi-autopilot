@@ -1,0 +1,85 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "caa13aacacbf050fc2c0",
+  "position": {
+    "x": 24,
+    "y": 272,
+    "z": 10000,
+    "height": 424,
+    "width": 608,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "날짜"
+                    }
+                  },
+                  "Property": "월"
+                }
+              },
+              "queryRef": "날짜.월",
+              "nativeQueryRef": "월",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "매출"
+                }
+              },
+              "queryRef": "측정값.매출",
+              "nativeQueryRef": "매출"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "전년 매출"
+                }
+              },
+              "queryRef": "측정값.전년 매출",
+              "nativeQueryRef": "전년 매출"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'월 매출 — 올해 · 작년'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "8b353c7b76f4dfda68f8",
+  "position": {
+    "x": 648,
+    "y": 144,
+    "z": 7000,
+    "height": 112,
+    "width": 296,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "목표 달성률"
+                }
+              },
+              "queryRef": "측정값.목표 달성률",
+              "nativeQueryRef": "목표 달성률",
+              "displayName": "목표 달성률"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

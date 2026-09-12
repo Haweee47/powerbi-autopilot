@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "89de9e618674dd9d3ded",
+  "position": {
+    "x": 960,
+    "y": 144,
+    "z": 8000,
+    "height": 112,
+    "width": 296,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "객단가"
+                }
+              },
+              "queryRef": "측정값.객단가",
+              "nativeQueryRef": "객단가",
+              "displayName": "객단가"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

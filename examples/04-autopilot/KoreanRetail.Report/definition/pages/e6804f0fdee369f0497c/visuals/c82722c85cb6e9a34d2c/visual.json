@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "c82722c85cb6e9a34d2c",
+  "position": {
+    "x": 960,
+    "y": 16,
+    "z": 1000,
+    "height": 40,
+    "width": 296,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "데이터 기준일 2026.08.31",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI, Malgun Gothic, sans-serif",
+                      "fontSize": "10pt"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

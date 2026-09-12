@@ -1,0 +1,50 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "b50a21bb53f38dc9841f",
+  "position": {
+    "x": 24,
+    "y": 72,
+    "z": 2000,
+    "height": 56,
+    "width": 816,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "매장별 성과",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold, Malgun Gothic, sans-serif",
+                      "fontSize": "16pt"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "어느 매장이 뒤처지나 · 점이나 행을 누르면 상세",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI, Malgun Gothic, sans-serif",
+                      "fontSize": "10pt",
+                      "color": "#5A6471"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "left"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

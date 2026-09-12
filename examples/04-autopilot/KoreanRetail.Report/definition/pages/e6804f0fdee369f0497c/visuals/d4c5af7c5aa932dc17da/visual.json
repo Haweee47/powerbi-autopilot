@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "d4c5af7c5aa932dc17da",
+  "position": {
+    "x": 1064,
+    "y": 72,
+    "z": 4000,
+    "height": 56,
+    "width": 192,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "advancedSlicerVisual",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "매장"
+                    }
+                  },
+                  "Property": "채널"
+                }
+              },
+              "queryRef": "매장.채널",
+              "nativeQueryRef": "채널"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "3a5efe2223d7586dab4c",
+  "position": {
+    "x": 336,
+    "y": 144,
+    "z": 7000,
+    "height": 112,
+    "width": 296,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "이익률"
+                }
+              },
+              "queryRef": "측정값.이익률",
+              "nativeQueryRef": "이익률",
+              "displayName": "이익률"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

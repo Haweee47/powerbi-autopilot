@@ -166,6 +166,30 @@
             },
             "showTitle": false
           }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#EEF1F5"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "outspace": [
+          {
+            "color": {
+              "solid": {
+                "color": "#EEF1F5"
+              }
+            },
+            "transparency": 0
+          }
         ],
         "outspacePane": [
           {
@@ -240,30 +264,6 @@
         ]
       }
     },
-    "page": {
-      "*": {
-        "background": [
-          {
-            "color": {
-              "solid": {
-                "color": "#EEF1F5"
-              }
-            },
-            "transparency": 0
-          }
-        ],
-        "outspace": [
-          {
-            "color": {
-              "solid": {
-                "color": "#EEF1F5"
-              }
-            },
-            "transparency": 0
-          }
-        ]
-      }
-    },
     "textbox": {
       "*": {
         "background": [
@@ -328,12 +328,6 @@
         "cardCalloutArea": [
           {
             "paddingUniform": 0
-          }
-        ],
-        "spacing": [
-          {
-            "customizeSpacing": true,
-            "verticalSpacing": -6
           }
         ]
       }

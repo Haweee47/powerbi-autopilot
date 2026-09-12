@@ -1,0 +1,89 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "8ad65b8c5fb8fd8ea807",
+  "position": {
+    "x": 24,
+    "y": 144,
+    "z": 5000,
+    "height": 272,
+    "width": 816,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "매장"
+                    }
+                  },
+                  "Property": "매장명"
+                }
+              },
+              "queryRef": "매장.매장명",
+              "nativeQueryRef": "매장명",
+              "active": true
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "매출"
+                }
+              },
+              "queryRef": "측정값.매출",
+              "nativeQueryRef": "매출"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "전년 대비 증감률"
+                }
+              },
+              "queryRef": "측정값.전년 대비 증감률",
+              "nativeQueryRef": "전년 대비 증감률"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'매장 규모와 성장률'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

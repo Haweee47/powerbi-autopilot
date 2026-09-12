@@ -1,0 +1,24 @@
+/// 한국어 가상 소매 판매 모델 (2024-01 ~ 2026-08). 예제 03: Power BI Modeling MCP만으로 작성.
+model Model
+	culture: ko-KR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: ko-KR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["MCP-PBIModeling"]
+
+ref table 판매
+ref table 제품
+ref table 매장
+ref table 목표
+ref table 날짜
+ref table 측정값
+ref table 카테고리
+
+ref cultureInfo ko-KR
+

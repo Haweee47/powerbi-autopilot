@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "2679da77c72b2d377195",
+  "position": {
+    "x": 648,
+    "y": 144,
+    "z": 8000,
+    "height": 112,
+    "width": 296,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "주문건수"
+                }
+              },
+              "queryRef": "측정값.주문건수",
+              "nativeQueryRef": "주문건수",
+              "displayName": "주문"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

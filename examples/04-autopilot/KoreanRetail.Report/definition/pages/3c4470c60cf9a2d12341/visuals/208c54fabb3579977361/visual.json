@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "208c54fabb3579977361",
+  "position": {
+    "x": 1064,
+    "y": 72,
+    "z": 5000,
+    "height": 56,
+    "width": 192,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "advancedSlicerVisual",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "날짜"
+                    }
+                  },
+                  "Property": "연도"
+                }
+              },
+              "queryRef": "날짜.연도",
+              "nativeQueryRef": "연도"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "1f5ba0f3218de86c9ebc",
+  "position": {
+    "x": 24,
+    "y": 272,
+    "z": 9000,
+    "height": 216,
+    "width": 608,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "날짜"
+                    }
+                  },
+                  "Property": "월"
+                }
+              },
+              "queryRef": "날짜.월",
+              "nativeQueryRef": "월",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "매출"
+                }
+              },
+              "queryRef": "측정값.매출",
+              "nativeQueryRef": "매출"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "전년 매출"
+                }
+              },
+              "queryRef": "측정값.전년 매출",
+              "nativeQueryRef": "전년 매출"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "목표매출"
+                }
+              },
+              "queryRef": "측정값.목표매출",
+              "nativeQueryRef": "목표매출"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'월별 매출 — 올해 · 작년 · 목표'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

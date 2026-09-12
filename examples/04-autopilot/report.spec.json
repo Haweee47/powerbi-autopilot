@@ -1,0 +1,68 @@
+{
+  "$comment": "에이전트가 쓰는 유일한 파일. 좌표는 레이아웃 템플릿, 서식은 테마가 맡는다. 필드: '테이블.열' 또는 측정값 이름(측정값 테이블).",
+  "name": "KoreanRetail",
+  "model": "../03-modeling-mcp/tmdl",
+  "measureTable": "측정값",
+  "theme": "autopilot-light",
+  "pages": [
+    {
+      "layout": "summary",
+      "visuals": {
+        "asof": { "text": "데이터 기준일 2026.08.31" },
+        "title": { "text": "판매 실적", "sub": "목표 대비 어디쯤인가 · 1–8월 누계" },
+        "slicer_period": { "field": "날짜.연도" },
+        "slicer_channel": { "field": "매장.채널" },
+        "kpi_sales": { "measure": "매출 (억)", "label": "매출" },
+        "kpi_profit": { "measure": "이익 (억)", "label": "이익" },
+        "kpi_target": { "measure": "목표 달성률", "label": "목표 달성률" },
+        "kpi_aov": { "measure": "객단가", "label": "객단가" },
+        "trend": { "x": "날짜.월", "y": ["매출", "전년 매출", "목표매출"], "title": "월별 매출 — 올해 · 작년 · 목표" },
+        "category": { "x": "카테고리.카테고리", "y": ["목표 대비 차이"], "sort": "desc", "title": "카테고리별 목표 대비 차이" },
+        "stores": { "columns": ["매장.매장명", "매출", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"], "title": "전년 대비가 낮은 매장 (행을 누르면 상세)" },
+        "region": { "x": "매장.권역", "y": ["매출"], "sort": "desc", "title": "권역별 매출" }
+      }
+    },
+    {
+      "layout": "category",
+      "visuals": {
+        "asof": { "text": "데이터 기준일 2026.08.31" },
+        "title": { "text": "카테고리별 성과", "sub": "어느 카테고리가 왜 목표를 못 맞췄나" },
+        "slicer_period": { "field": "날짜.연도" },
+        "slicer_channel": { "field": "매장.채널" },
+        "multiples": { "x": "날짜.월", "y": ["매출", "전년 매출"], "small": "카테고리.카테고리", "title": "카테고리별 월 매출 — 올해 · 작년 (세로축 공통)" },
+        "table": { "columns": ["카테고리.카테고리", "매출", "전년 매출", "전년 대비 증감률", "목표 달성률", "매출 구성비"], "sort": ["전년 대비 증감률", "desc"], "title": "카테고리 요약" },
+        "mix": { "x": "카테고리.카테고리", "y": ["매출 구성비"], "sort": "desc", "title": "매출 구성비" }
+      }
+    },
+    {
+      "layout": "stores",
+      "visuals": {
+        "asof": { "text": "데이터 기준일 2026.08.31" },
+        "title": { "text": "매장별 성과", "sub": "어느 매장이 뒤처지나 · 점이나 행을 누르면 상세" },
+        "slicer_period": { "field": "날짜.연도" },
+        "slicer_channel": { "field": "매장.채널" },
+        "scatter": { "point": "매장.매장명", "x": "매출", "y": "전년 대비 증감률", "title": "매장 규모와 성장률" },
+        "watch": { "columns": ["매장.매장명", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"], "title": "주의 매장" },
+        "rank": { "columns": ["매장.매장명", "매장.권역", "매장.채널", "매출", "이익률", "객단가", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"], "title": "전체 매장 순위" }
+      }
+    },
+    {
+      "layout": "store_detail",
+      "hidden": true,
+      "drillthrough": "매장.매장명",
+      "visuals": {
+        "back": { "action": "Back" },
+        "crumbs": { "text": "매장 › 매장 상세" },
+        "asof": { "text": "데이터 기준일 2026.08.31" },
+        "title": { "text": "매장 상세", "sub": "이 매장에 무슨 일이 있었나 · 매장 페이지에서 드릴스루" },
+        "slicer_period": { "field": "날짜.연도" },
+        "kpi_sales": { "measure": "매출", "label": "매출" },
+        "kpi_margin": { "measure": "이익률", "label": "이익률" },
+        "kpi_orders": { "measure": "주문건수", "label": "주문" },
+        "kpi_aov": { "measure": "객단가", "label": "객단가" },
+        "trend": { "x": "날짜.월", "y": ["매출", "전년 매출"], "title": "월 매출 — 올해 · 작년" },
+        "mix": { "x": "카테고리.카테고리", "y": ["매출 구성비"], "sort": "desc", "title": "카테고리 구성비" }
+      }
+    }
+  ]
+}
