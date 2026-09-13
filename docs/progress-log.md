@@ -237,6 +237,14 @@ KPI 카드는 비교 문구를 넣으면 카드 안쪽 배치가 지표 이름 �
 **공유 자료.** [`tools/make_media.py`](../tools/make_media.py)가 캡처로 표지(4종 콜라주)·테마 비교·페이지 GIF·PDF 캐러셀을 만든다.
 LinkedIn 초안은 [docs/share/linkedin-post.md](share/linkedin-post.md)에 영어·한국어로 있다.
 
+## 2026-09-14 · GitHub 공개, 노션 정리
+
+- 저장소를 공개했다: [github.com/Haweee47/powerbi-autopilot](https://github.com/Haweee47/powerbi-autopilot).
+- **첫 push 전에 커밋 기록을 검사했더니 모든 커밋의 작성자에 개인 이메일이 들어 있었다.** 공개하면 되돌릴 수 없어서
+  push 전에 기록 전체의 작성자를 GitHub 비공개(no-reply) 주소로 바꿨다. 이후 커밋은 저장소 전용 설정으로 비공개 주소만 쓴다.
+- push 전 검사: 추적 파일 전체에서 로컬 경로·사용자명·이메일·회사명 0건.
+- 노션에 포트폴리오 허브와 날짜별 작업 일지를 만들었다. 이미지는 저장소의 캡처를 GitHub raw 링크로 붙여 한 곳만 고치면 되게 했다.
+
 ---
 
 ## 다음 계획
