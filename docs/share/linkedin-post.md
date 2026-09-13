@@ -9,21 +9,30 @@
 
 ## English (post this)
 
-I built a Power BI report from start to finish with AI. No manual clicks, no hand-editing.
+🤖 I built a Power BI report from start to finish with AI.
+No manual clicks. No hand-editing.
 
-One plain-language request goes in. The agent builds the data model, pages, theme and navigation, validates the files, then opens the report in Power BI Desktop and screenshots every page to check it. My only input: purpose, theme, language.
+💬 One plain-language request goes in.
+⚙️ The agent builds the data model, pages, theme and navigation.
+✅ It validates the files, opens the report in Power BI Desktop and screenshots every page to check it.
+🙋 My only input: purpose, theme, language.
 
-• 4 pilots by purpose: executive dashboard, measure table, matrix check, deep dive
-• 3 themes (Navy · Paper · Midnight). English by default, Korean built in, other languages plug in through locale files
-• Low token cost: the agent writes a 1–3K-token spec; scripts generate the rest (about 6% of the output)
-• 0 errors on Microsoft's PBIR validator, and every page is rendered in Desktop before it counts as done
-• Design rules from 1,800+ public reports and visualization research
+What's inside 👇
 
-A note on data sources: I haven't fully validated ODBC connections yet because of security constraints. If you already run a Power BI report on ODBC, save it as PBIP first and let the agent learn its design and connection setup. The results will fit your environment much better.
+📊 4 pilots by purpose: executive dashboard, measure table, matrix check, deep dive
+🎨 3 themes: Navy · Paper · Midnight
+🌍 English by default, Korean built in, more languages via locale files
+🪙 Low token cost: the agent writes a 1–3K-token spec, scripts generate the rest (about 6% of the output)
+🧪 0 errors on Microsoft's PBIR validator, every page checked in Desktop
+📚 Design rules from 1,800+ public reports and visualization research
 
-This is a work in progress. I'll keep improving it and share what I learn along the way.
+🔌 A note on data sources
+I haven't fully validated ODBC connections yet due to security constraints.
+If you already run a Power BI report on ODBC, save it as PBIP first and let the agent learn its design and connection setup. The results will fit your environment much better.
 
-Open source (MIT): https://github.com/Haweee47/powerbi-autopilot
+🚧 This is a work in progress. I'll keep improving it and share what I learn along the way.
+
+🔗 Open source (MIT): https://github.com/Haweee47/powerbi-autopilot
 
 #PowerBI #DataVisualization #PBIP #AI #MicrosoftFabric
 
