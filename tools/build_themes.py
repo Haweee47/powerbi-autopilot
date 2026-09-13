@@ -137,8 +137,7 @@ def build(tok: dict, mode: str) -> dict:
                 # 비교 문구("전년 대비 ▲12.3%")는 측정값이 통째로 만든다 → 제목은 숨긴다. 색은 생성기가 부호에 맞춰 넣는다
                 "referenceLabelTitle": [{"$id": "default", "show": False}],
                 "referenceLabelValue": [{"$id": "default", "valueFontFamily": FS, "valueFontSize": T["body"], "valueFontColor": ink2}],
-                # 비교 문구가 있으면 카드 높이를 반씩 나눠 숫자 위가 잘렸다 → 숫자 영역(valueArea)을 넓힌다
-                "referenceLabelLayout": [{"position": "below", "horizontalAlignment": "left", "valueArea": 70}],
+                "referenceLabelLayout": [{"position": "below", "horizontalAlignment": "left"}],
                 # 기본값은 회색 상자 + 안쪽 여백이라 카드에서 값이 위로 밀려 잘렸다 (Desktop 캡처로 확인)
                 # $id 없이 두면 적용되지 않았다 (Desktop이 쓰는 형식도 selector id "default")
                 "referenceLabel": [{"$id": "default", "backgroundShow": False, "paddingUniform": 0}],

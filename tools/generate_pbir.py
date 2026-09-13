@@ -230,8 +230,11 @@ def build_visual(role: str, spec: dict, resolve, tokens: dict, region: dict) -> 
         return {"visualType": "cardVisual",
                 "query": {"queryState": {"Data": {"projections": [projection(resolve, spec["measure"])]}}},
                 "objects": {"label": [{"properties": {"show": lit(False)}, "selector": {"id": "default"}}],
-                            "fillCustom": [{"properties": {"show": lit(False)}, "selector": {"id": "default"}}],  # 카드 자체 흰 칠
-                            "layout": [{"properties": {"backgroundShow": lit(False)}, "selector": {"id": "default"}}],  # 카드 배치 영역 흰 칠 (이것까지 꺼야 띠가 사라진다)
+                            # 카드 자체 흰 칠. 버튼과 같은 규칙: 켜고 끄기는 선택자 없는 항목에도 둔다 (selector만 두면 무시됐다)
+                            "fillCustom": [{"properties": {"show": lit(False)}}, {"properties": {"show": lit(False)}, "selector": {"id": "default"}}],
+                            "layout": [{"properties": {"backgroundShow": lit(False)}}, {"properties": {"backgroundShow": lit(False)}, "selector": {"id": "default"}}],
+                            # 흰 띠의 정체: 숫자(콜아웃) 영역의 자체 바탕. 카드 칠·배치 바탕을 꺼도 남아 있었다
+                            "cardCalloutArea": [{"properties": {"backgroundTransparency": lit(100)}}],
                             "value": [{"properties": {"fontSize": lit(pt["title"]), "bold": lit(False), "fontColor": color(c["ink2"]),
                                                       "horizontalAlignment": lit("left")}, "selector": {"id": "default"}}]},
                 "visualContainerObjects": {**hide("background", "border", "dropShadow", "title"), "padding": zero_padding()}}
@@ -267,11 +270,18 @@ def build_visual(role: str, spec: dict, resolve, tokens: dict, region: dict) -> 
         return v
     if role == "cardVisual":
         p = projection(resolve, spec["measure"], spec.get("label"))
-        v = {"visualType": "cardVisual", "query": {"queryState": {"Data": {"projections": [p]}}}}
+        # 지표 이름은 카드 안 라벨이 아니라 컨테이너 제목으로 둔다. 비교 문구가 있으면 카드 안쪽 배치가 라벨 줄을 눌러
+        # 위가 잘렸다 (104·112px, 여백·valueArea를 바꿔도 같음). 제목은 카드 내용 밖이라 눌리지 않는다
+        v = {"visualType": "cardVisual", "query": {"queryState": {"Data": {"projections": [p]}}},
+             "objects": {"label": [{"properties": {"show": lit(False)}}, {"properties": {"show": lit(False)}, "selector": {"id": "default"}}]},
+             "visualContainerObjects": {
+                 "padding": [{"properties": {"top": lit(12), "bottom": lit(10), "left": lit(20), "right": lit(20)}}],
+                 "title": [{"properties": {"show": lit(True), "text": lit(spec.get("label", p["nativeQueryRef"])), "fontFamily": lit(f["family"]),
+                                           "fontSize": lit(pt["caption"]), "fontColor": color(c["ink3"])}}]}}
         if spec.get("ref"):  # 값 아래 비교 문구 (예: 전년 대비 ▲12.3%)
             sel = {"data": [{"dataViewWildcard": {"matchingOption": 0}}], "metadata": p["queryRef"],
                    "id": "field-" + hid(p["queryRef"], spec["ref"], n=32)}
-            v["objects"] = {"referenceLabel": [{"properties": {"value": {"expr": resolve(spec["ref"])[0]}}, "selector": {**sel, "order": 0}}]}
+            v["objects"]["referenceLabel"] = [{"properties": {"value": {"expr": resolve(spec["ref"])[0]}}, "selector": {**sel, "order": 0}}]
             if spec.get("ref_color"):  # 문구 색을 부호로 (▲ 파랑, ▼ 빨강)
                 v["objects"]["referenceLabelValue"] = [{"properties": {"valueFontColor": measure_color(resolve, spec["ref_color"])}, "selector": sel}]
         return v
