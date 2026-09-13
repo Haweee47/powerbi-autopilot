@@ -1,0 +1,41 @@
+﻿제품코드,제품명,카테고리,하위카테고리,정가,원가율
+P001,55-inch OLED TV,Electronics,TV & Video,2190000,0.78
+P002,Cordless Vacuum,Electronics,Home Appliances,689000,0.72
+P003,Air Purifier,Electronics,Home Appliances,459000,0.7
+P004,Microwave,Electronics,Kitchen Appliances,189000,0.74
+P005,Air Fryer,Electronics,Kitchen Appliances,149000,0.68
+P006,Coffee Machine,Electronics,Kitchen Appliances,329000,0.66
+P007,Wireless Earbuds,Electronics,Audio,219000,0.64
+P008,Bluetooth Speaker,Electronics,Audio,129000,0.62
+P011,Light Down Jacket,Fashion,Outerwear,129000,0.45
+P012,Trench Coat,Fashion,Outerwear,189000,0.42
+P013,Knit Sweater,Fashion,Tops,59000,0.4
+P014,Oxford Shirt,Fashion,Tops,45000,0.38
+P015,Wide Jeans,Fashion,Bottoms,69000,0.4
+P016,Running Shoes,Fashion,Shoes,119000,0.5
+P017,Leather Backpack,Fashion,Accessories,89000,0.44
+P018,Linen Dress,Fashion,Tops,79000,0.41
+P021,Korean Beef Gift Set,Food,Fresh Food,159000,0.7
+P022,Jeju Tangerines 5kg,Food,Fresh Food,29000,0.62
+P023,Organic Rice 10kg,Food,Packaged Food,42000,0.66
+P024,Mixed Nuts,Food,Packaged Food,19900,0.55
+P025,Seaweed Gift Set,Food,Packaged Food,24900,0.58
+P026,Cold Brew Coffee,Food,Beverages,12900,0.48
+P027,Greek Yogurt,Food,Fresh Food,8900,0.52
+P028,Red Ginseng Extract,Food,Health Food,89000,0.5
+P031,Microfiber Duvet,Home,Bedding,79000,0.48
+P032,Hotel Towel Set,Home,Bath,29900,0.45
+P033,Laundry Detergent,Home,Bath,18900,0.55
+P034,Kitchen Knife Set,Home,Kitchen,69000,0.46
+P035,Storage Box,Home,Decor,15900,0.42
+P036,Diffuser,Home,Decor,32000,0.35
+P037,Insulated Tumbler,Home,Kitchen,27000,0.4
+P038,Camping Chair,Home,Outdoor,49000,0.47
+P041,Moisturizing Cream,Beauty,Skincare,38000,0.3
+P042,Sunscreen,Beauty,Skincare,22000,0.32
+P043,Vitamin C Serum,Beauty,Skincare,45000,0.28
+P044,Cushion Foundation,Beauty,Makeup,42000,0.33
+P045,Lipstick,Beauty,Makeup,29000,0.3
+P046,Scalp Care Shampoo,Beauty,Hair & Body,16900,0.36
+P047,Sheet Masks x10,Beauty,Skincare,15000,0.34
+P048,Eau de Parfum 50ml,Beauty,Fragrance,98000,0.38

@@ -1,0 +1,47 @@
+{
+  "$comment": "새 리포트를 시작할 때 사용자에게 묻는 선택지. 에이전트는 이 파일과 tools/new_report.py의 출력만 본다 (파일럿의 생성 결과·테마·TMDL은 읽지 않는다).",
+  "purposes": [
+    {
+      "id": "dashboard",
+      "name": { "en": "Dashboard", "ko": "대시보드" },
+      "when": { "en": "Executives and weekly reviews: KPIs, trends and a one-line conclusion, then drill to detail", "ko": "경영진·주간 보고: KPI, 추이, 결론 한 줄 → 상세로 드릴스루" },
+      "pages": { "en": "Summary · Categories · Stores · Store detail (drillthrough)", "ko": "요약 · 카테고리 · 매장 · 매장 상세(드릴스루)" },
+      "visuals": ["cardVisual", "lineChart", "barChart", "columnChart", "scatterChart", "tableEx"],
+      "pilot": "dashboard/pilot.spec.json",
+      "screenshots": "dashboard/screenshots"
+    },
+    {
+      "id": "table",
+      "name": { "en": "Measure table", "ko": "지표 테이블" },
+      "when": { "en": "Many measures per item side by side (stores, products, SKUs); export and sort", "ko": "항목(매장·제품)마다 측정값 여러 개를 나란히: 정렬·내보내기" },
+      "pages": { "en": "Store table · Product table", "ko": "매장 성과표 · 제품 성과표" },
+      "visuals": ["tableEx (bar · heat · sign)"],
+      "pilot": "table/pilot.spec.json",
+      "screenshots": "table/screenshots"
+    },
+    {
+      "id": "matrix",
+      "name": { "en": "Metric check (matrix)", "ko": "지표 확인 (행렬)" },
+      "when": { "en": "Check a metric across two dimensions and hierarchy levels; find the cell that stands out", "ko": "두 차원·계층으로 지표를 훑어 튀는 칸 찾기" },
+      "pages": { "en": "Monthly heatmap · Region > store scorecard", "ko": "월별 히트맵 · 권역 > 매장 성적표" },
+      "visuals": ["pivotTable (heat · bar · sign, expanded)"],
+      "pilot": "matrix/pilot.spec.json",
+      "screenshots": "matrix/screenshots"
+    },
+    {
+      "id": "deepdive",
+      "name": { "en": "Deep dive", "ko": "딥다이브" },
+      "when": { "en": "Analysts exploring why: decompose a number, compare two measures, read the raw rows", "ko": "분석가가 이유를 파고들 때: 숫자 분해, 두 지표의 관계, 원천 행" },
+      "pages": { "en": "Decomposition · Discount vs margin · Raw data", "ko": "요인 분해 · 할인과 이익 · 상세 데이터" },
+      "visuals": ["decompositionTreeVisual", "scatterChart", "barChart", "tableEx", "slicer (dropdown)"],
+      "pilot": "deepdive/pilot.spec.json",
+      "screenshots": "deepdive/screenshots"
+    }
+  ],
+  "themes": [
+    { "id": "navy", "name": { "en": "Navy", "ko": "네이비" }, "when": { "en": "Dark navy rail, white cards. Board decks and presentations", "ko": "어두운 네이비 레일 + 흰 카드. 경영진 보고·발표" } },
+    { "id": "paper", "name": { "en": "Paper", "ko": "페이퍼" }, "when": { "en": "White rail, hairlines. Light, document-like; prints and PDFs well", "ko": "흰 레일 + 옅은 선. 문서처럼 가볍고 인쇄·PDF에 무난" } },
+    { "id": "midnight", "name": { "en": "Midnight", "ko": "미드나잇" }, "when": { "en": "Full dark. Wall screens, dim rooms, long monitoring", "ko": "전체 다크. 관제 화면·장시간 모니터링" } }
+  ],
+  "languages": "design-system/i18n/locales.json"
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Pilot-Matrix"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3bb683b7b0a4950bf60ff420b8a6b024"
+  }
+}

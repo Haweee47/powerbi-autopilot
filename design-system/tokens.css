@@ -1,10 +1,11 @@
-/* tools/build_themes.py가 design-system/tokens.json에서 생성. 직접 고치지 말 것 */
+/* tools/build_themes.py가 design-system/tokens.json에서 생성. 직접 고치지 말 것 (밝은 = 네이비, 어두운 = 미드나잇) */
 :root {
   color-scheme: light;
   --page: #F2F4F7;
   --surface: #FFFFFF;
   --hover: #F5F7FA;
   --border: #E4E7EC;
+  --shadow: #101828;
   --ink: #101828;
   --ink2: #475467;
   --ink3: #667085;
@@ -18,7 +19,11 @@
   --neg: #E34948;
   --posInk: #1C5CAB;
   --negInk: #C0392B;
+  --barPos: #BFD6F2;
+  --barNeg: #F5C2C1;
+  --heatMax: #8DB8EC;
   --rail: #0F1A2A;
+  --railBorder: #0F1A2A;
   --railHover: #1A2739;
   --railOn: #23344D;
   --railAccent: #6EA8FE;
@@ -39,13 +44,14 @@
   :root:not([data-theme="light"]) {
   color-scheme: dark;
   --page: #0B1017;
-  --surface: #141C26;
-  --hover: #1B2530;
-  --border: #222D3A;
+  --surface: #131B25;
+  --hover: #1A2430;
+  --border: #223040;
+  --shadow: #000000;
   --ink: #EEF2F6;
   --ink2: #B4BEC9;
   --ink3: #8E99A6;
-  --grid: #222D3A;
+  --grid: #223040;
   --axis: #3A4755;
   --mid: #3A4755;
   --accent: #3987E5;
@@ -55,7 +61,11 @@
   --neg: #E66767;
   --posInk: #86B6EF;
   --negInk: #F08A8A;
+  --barPos: #24466F;
+  --barNeg: #6A2F35;
+  --heatMax: #2D5F98;
   --rail: #070B11;
+  --railBorder: #070B11;
   --railHover: #111A25;
   --railOn: #1B2A3E;
   --railAccent: #6EA8FE;
@@ -63,20 +73,21 @@
   --railInk2: #AEB9C7;
   --railInk3: #7D8A9B;
   --segBg: #111A25;
-  --segOn: #2A3A52;
-  --segOnInk: #F2F5F9;
+  --segOn: #3987E5;
+  --segOnInk: #FFFFFF;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
   --page: #0B1017;
-  --surface: #141C26;
-  --hover: #1B2530;
-  --border: #222D3A;
+  --surface: #131B25;
+  --hover: #1A2430;
+  --border: #223040;
+  --shadow: #000000;
   --ink: #EEF2F6;
   --ink2: #B4BEC9;
   --ink3: #8E99A6;
-  --grid: #222D3A;
+  --grid: #223040;
   --axis: #3A4755;
   --mid: #3A4755;
   --accent: #3987E5;
@@ -86,7 +97,11 @@
   --neg: #E66767;
   --posInk: #86B6EF;
   --negInk: #F08A8A;
+  --barPos: #24466F;
+  --barNeg: #6A2F35;
+  --heatMax: #2D5F98;
   --rail: #070B11;
+  --railBorder: #070B11;
   --railHover: #111A25;
   --railOn: #1B2A3E;
   --railAccent: #6EA8FE;
@@ -94,6 +109,6 @@
   --railInk2: #AEB9C7;
   --railInk3: #7D8A9B;
   --segBg: #111A25;
-  --segOn: #2A3A52;
-  --segOnInk: #F2F5F9;
+  --segOn: #3987E5;
+  --segOnInk: #FFFFFF;
 }

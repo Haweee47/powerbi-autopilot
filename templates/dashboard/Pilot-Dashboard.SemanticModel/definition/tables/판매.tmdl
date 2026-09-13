@@ -1,0 +1,85 @@
+/// 주문 1건 = 1행. 2024-01-01 ~ 2026-08-31 가상 소매 판매.
+table 판매
+	lineageTag: 1058e0e2-f3e8-4de2-bbeb-8dfa99e07273
+
+	/// 주문 식별자
+	column 주문번호
+		dataType: string
+		lineageTag: e31a225d-bed7-44ad-aa68-7f94ad0f5faa
+		summarizeBy: none
+		sourceColumn: 주문번호
+
+	column 주문일자
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: c1fb6f17-c4db-4998-99b2-695f0f1e30b7
+		summarizeBy: none
+		sourceColumn: 주문일자
+
+	column 매장코드
+		dataType: string
+		isHidden
+		lineageTag: 4b13abde-910a-43ac-8fb6-325e4561333c
+		summarizeBy: none
+		sourceColumn: 매장코드
+
+	column 제품코드
+		dataType: string
+		isHidden
+		lineageTag: 3b429b67-c418-48a1-980e-8265c4045045
+		summarizeBy: none
+		sourceColumn: 제품코드
+
+	column 수량
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 2bf2f1d8-68a7-4b1b-ad0d-f42921d4a9be
+		summarizeBy: sum
+		sourceColumn: 수량
+
+	column 정가
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 9899c4a3-6a5b-43d9-b887-d5c5f1c74a7e
+		summarizeBy: none
+		sourceColumn: 정가
+
+	column 할인율
+		dataType: double
+		isHidden
+		formatString: 0%
+		lineageTag: e6da69b1-c296-4943-b476-85d8210f6fc5
+		summarizeBy: none
+		sourceColumn: 할인율
+
+	/// 수량 × 정가 × (1 − 할인율), 원
+	column 매출액
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 021cee40-e7df-4344-adde-1afdd119fe35
+		summarizeBy: sum
+		sourceColumn: 매출액
+
+	/// 수량 × 정가 × 원가율, 원
+	column 원가
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 5ecd985a-81ab-46e7-aed1-ced06d0f2b2b
+		summarizeBy: sum
+		sourceColumn: 원가
+
+	partition 판매 = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(#"데이터폴더" & "\판매.csv"), [Delimiter = ",", Columns = 9, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"주문번호", type text}, {"주문일자", type date}, {"매장코드", type text}, {"제품코드", type text}, {"수량", Int64.Type}, {"정가", Int64.Type}, {"할인율", type number}, {"매출액", Int64.Type}, {"원가", Int64.Type}}, "en-US")
+				in
+				    Typed
+

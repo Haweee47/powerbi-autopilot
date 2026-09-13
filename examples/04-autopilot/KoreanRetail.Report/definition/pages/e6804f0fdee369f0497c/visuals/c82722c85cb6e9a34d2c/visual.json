@@ -21,7 +21,7 @@
                   {
                     "value": "데이터 기준일 2026.08.31",
                     "textStyle": {
-                      "fontFamily": "Segoe UI, Malgun Gothic, sans-serif",
+                      "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
                       "fontSize": "9pt",
                       "color": "#7D8A9B"
                     }

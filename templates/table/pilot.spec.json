@@ -1,0 +1,58 @@
+{
+  "$comment": "Pilot: measure table (input matrix). Rows = items, columns = measures. Pick a cell format per column: bar (data bar) · heat (color scale) · sign (only decreases in red). For a new report change only columns and format.",
+  "name": "Pilot-Table",
+  "model": "../../examples/03-modeling-mcp/tmdl",
+  "dataLang": "ko",
+  "dataLocales": "../../examples/_data/korean-retail/locales",
+  "measureTable": "측정값",
+  "theme": "navy",
+  "glossary": "../_shared/glossary.json",
+  "include": ["../_shared/measures.common.json", "../_shared/measures.{lang}.json"],
+  "measures": {
+    "Headline Store Table": {
+      "en": "VAR t = FILTER ( VALUES ( '매장'[매장명] ), NOT ISBLANK ( [매출] ) ) VAR best = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, FILTER ( t, NOT ISBLANK ( [전년 대비 증감률] ) ), [전년 대비 증감률], ASC ) RETURN COUNTROWS ( t ) & \" stores  ·  Top seller: \" & CONCATENATEX ( best, '매장'[매장명], \", \" ) & \" \" & FORMAT ( MAXX ( best, [매출] ) / 1000000, \"#,0.0\" ) & \"M  ·  Weakest YoY: \" & CONCATENATEX ( lo, '매장'[매장명], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )",
+      "ko": "VAR t = FILTER ( VALUES ( '매장'[매장명] ), NOT ISBLANK ( [매출] ) ) VAR best = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, FILTER ( t, NOT ISBLANK ( [전년 대비 증감률] ) ), [전년 대비 증감률], ASC ) RETURN \"매장 \" & COUNTROWS ( t ) & \"곳  ·  매출 1위 \" & CONCATENATEX ( best, '매장'[매장명], \", \" ) & \" \" & FORMAT ( MAXX ( best, [매출] ) / 10000, \"#,0만\" ) & \"  ·  전년 대비 최저 \" & CONCATENATEX ( lo, '매장'[매장명], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )"
+    },
+    "Headline Product Table": {
+      "en": "VAR t = FILTER ( VALUES ( '제품'[제품명] ), NOT ISBLANK ( [매출] ) ) VAR best = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, FILTER ( t, NOT ISBLANK ( [전년 대비 증감률] ) ), [전년 대비 증감률], ASC ) RETURN COUNTROWS ( t ) & \" products  ·  Top seller: \" & CONCATENATEX ( best, '제품'[제품명], \", \" ) & \" \" & FORMAT ( MAXX ( best, [매출] ) / 1000000, \"#,0.0\" ) & \"M  ·  Weakest YoY: \" & CONCATENATEX ( lo, '제품'[제품명], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )",
+      "ko": "VAR t = FILTER ( VALUES ( '제품'[제품명] ), NOT ISBLANK ( [매출] ) ) VAR best = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, FILTER ( t, NOT ISBLANK ( [전년 대비 증감률] ) ), [전년 대비 증감률], ASC ) RETURN \"제품 \" & COUNTROWS ( t ) & \"개  ·  매출 1위 \" & CONCATENATEX ( best, '제품'[제품명], \", \" ) & \" \" & FORMAT ( MAXX ( best, [매출] ) / 10000, \"#,0만\" ) & \"  ·  전년 대비 최저 \" & CONCATENATEX ( lo, '제품'[제품명], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )"
+    }
+  },
+  "shared": {
+    "brand": { "text": { "en": "Sales Report", "ko": "판매 리포트" }, "sub": { "en": "Measure table · sample data", "ko": "지표 테이블 · 가상 데이터" } },
+    "asof": { "text": { "en": "Data as of 2026-08-31", "ko": "데이터 기준일 2026.08.31" } },
+    "slicer_period": { "field": "날짜.연도", "default": 2026, "single": true, "title": { "en": "Period", "ko": "기간" } },
+    "slicer_channel": { "field": "매장.채널" },
+    "context": { "measure": "Context Label" }
+  },
+  "pages": [
+    {
+      "layout": "table_main",
+      "id": "stores",
+      "name": { "en": "Store table", "ko": "매장 성과표" },
+      "visuals": {
+        "title": { "text": { "en": "Store scorecard", "ko": "매장 성과표" } },
+        "headline": { "measure": "Headline Store Table" },
+        "slicer_a": { "field": "매장.권역" },
+        "grid": { "columns": ["매장.매장명", "매장.권역", "매장.채널", "Sales Disp", "전년 대비 증감률", "Profit Disp", "이익률", "Orders Disp", "AOV Disp", "AOV YoY %", "매출 구성비"],
+                  "sort": ["Sales Disp", "desc"], "format": { "Sales Disp": "bar", "전년 대비 증감률": "sign", "AOV YoY %": "sign", "이익률": "heat" },
+                  "title": { "en": "Measures by store", "ko": "매장별 지표" },
+                  "sub": { "en": "Bar = sales · darker cell = higher margin · red = down vs last year · click a header to sort", "ko": "막대 = 매출 크기 · 진한 칸 = 이익률이 높음 · 빨간 글자 = 전년보다 줄어듦 · 머리글을 누르면 정렬" } }
+      }
+    },
+    {
+      "layout": "table_main",
+      "id": "products",
+      "name": { "en": "Product table", "ko": "제품 성과표" },
+      "visuals": {
+        "title": { "text": { "en": "Product scorecard", "ko": "제품 성과표" } },
+        "headline": { "measure": "Headline Product Table" },
+        "slicer_a": { "field": "카테고리.카테고리" },
+        "grid": { "columns": ["제품.제품명", "제품.카테고리", "제품.하위카테고리", "Sales Disp", "전년 대비 증감률", "판매수량", "평균할인율", "이익률", "매출 구성비"],
+                  "sort": ["Sales Disp", "desc"], "format": { "Sales Disp": "bar", "전년 대비 증감률": "sign", "평균할인율": "heat" },
+                  "title": { "en": "Measures by product", "ko": "제품별 지표" },
+                  "sub": { "en": "Bar = sales · darker cell = deeper discount · red = down vs last year", "ko": "막대 = 매출 크기 · 진한 칸 = 할인을 많이 함 · 빨간 글자 = 전년보다 줄어듦" } }
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Pilot-Deepdive"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "71c4f86f276e559274e9f5a010319f06"
+  }
+}

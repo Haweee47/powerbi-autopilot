@@ -1,0 +1,21 @@
+{
+  "$comment": "한국어 표시용 측정값: 만·억 단위(1만 = 10,000, 1억 = 100,000,000), 한국어 문장. measures.en.json과 측정값 이름이 같아서 언어를 바꿔도 명세는 그대로다.",
+  "measures": {
+    "Sales Disp": { "expr": "DIVIDE ( [매출], 10000 )", "format": "#,0\"만\"" },
+    "Sales PY Disp": { "expr": "DIVIDE ( [전년 매출], 10000 )", "format": "#,0\"만\"" },
+    "Target Disp": { "expr": "DIVIDE ( [목표매출], 10000 )", "format": "#,0\"만\"" },
+    "Target Gap Disp": { "expr": "DIVIDE ( [목표 대비 차이], 10000 )", "format": "+#,0\"만\";-#,0\"만\";0" },
+    "Profit Disp": { "expr": "DIVIDE ( [이익], 10000 )", "format": "#,0\"만\"" },
+    "Sales Big": { "expr": "DIVIDE ( [매출], 100000000 )", "format": "#,0.0\"억\"" },
+    "Profit Big": { "expr": "DIVIDE ( [이익], 100000000 )", "format": "#,0.0\"억\"" },
+    "AOV Disp": { "expr": "DIVIDE ( [객단가], 10000 )", "format": "#,0.0\"만원\"" },
+    "Orders Disp": { "expr": "[주문건수]", "format": "#,0\"건\"" },    "YoY Text": "VAR r = [전년 대비 증감률] RETURN IF ( NOT ISBLANK ( r ), \"전년 대비 \" & FORMAT ( r, \"▲0.0%;▼0.0%;0.0%\" ) )",
+    "Profit YoY Text": "VAR r = [이익 증감률] RETURN IF ( NOT ISBLANK ( r ), \"전년 대비 \" & FORMAT ( r, \"▲0.0%;▼0.0%;0.0%\" ) )",
+    "Target Gap Text": "VAR d = [목표 대비 차이] RETURN IF ( NOT ISBLANK ( d ), \"목표 대비 \" & FORMAT ( d / 10000, \"▲#,0만;▼#,0만;0\" ) )",
+    "AOV YoY Text": "VAR r = [AOV YoY %] RETURN IF ( NOT ISBLANK ( r ), \"전년 대비 \" & FORMAT ( r, \"▲0.0%;▼0.0%;0.0%\" ) )",
+    "Margin YoY Text": "VAR d = [Margin YoY pp] RETURN IF ( NOT ISBLANK ( d ), \"전년 대비 \" & FORMAT ( d * 100, \"▲0.0;▼0.0;0.0\" ) & \"%p\" )",
+    "Orders YoY Text": "VAR r = [Orders YoY %] RETURN IF ( NOT ISBLANK ( r ), \"전년 대비 \" & FORMAT ( r, \"▲0.0%;▼0.0%;0.0%\" ) )",
+    "Context Label": "VAR y = SELECTEDVALUE ( '날짜'[연도] ) VAR last = CALCULATE ( MAX ( '판매'[주문일자] ) ) VAR ch = IF ( ISFILTERED ( '매장'[채널] ), CONCATENATEX ( VALUES ( '매장'[채널] ), '매장'[채널], \" + \" ), \"전체 채널\" ) RETURN IF ( ISBLANK ( y ), \"전체 기간\", y & \"년 1–\" & MONTH ( last ) & \"월\" ) & \"  ·  \" & ch",
+    "Headline Stores":"VAR t = FILTER ( VALUES ( '매장'[매장명] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) RETURN \"전년보다 줄어든 매장 \" & COUNTROWS ( FILTER ( t, [전년 대비 증감률] < 0 ) ) & \"곳 / \" & COUNTROWS ( t ) & \"곳  ·  가장 크게 준 곳 \" & CONCATENATEX ( lo, '매장'[매장명], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )"
+  }
+}

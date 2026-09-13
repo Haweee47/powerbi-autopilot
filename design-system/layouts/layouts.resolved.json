@@ -33,6 +33,7 @@
  "pages": [
   {
    "id": "summary",
+   "purpose": "dashboard",
    "name": "요약",
    "archetype": "경영 요약",
    "question": "목표 대비 어디쯤인가",
@@ -116,6 +117,17 @@
      "height": 40
     },
     {
+     "id": "context",
+     "role": "context",
+     "col": 9,
+     "span": 4,
+     "label": "지금 보는 범위 (측정값)",
+     "x": 920,
+     "y": 24,
+     "width": 336,
+     "height": 40
+    },
+    {
      "id": "headline",
      "role": "headline",
      "col": 1,
@@ -180,11 +192,11 @@
      "col": 1,
      "span": 6,
      "y": 240,
-     "h": 224,
+     "h": 208,
      "label": "월별 매출: 올해·작년·목표",
      "x": 216,
      "width": 512,
-     "height": 224
+     "height": 208
     },
     {
      "id": "category",
@@ -192,40 +204,41 @@
      "col": 7,
      "span": 6,
      "y": 240,
-     "h": 224,
+     "h": 208,
      "label": "카테고리 목표 대비 (발산 막대)",
      "x": 744,
      "width": 512,
-     "height": 224
+     "height": 208
     },
     {
      "id": "stores",
      "role": "tableEx",
      "col": 1,
      "span": 6,
-     "y": 480,
-     "h": 216,
+     "y": 464,
+     "h": 232,
      "label": "주의 매장 → 드릴스루",
      "x": 216,
      "width": 512,
-     "height": 216
+     "height": 232
     },
     {
      "id": "region",
      "role": "barChart",
      "col": 7,
      "span": 6,
-     "y": 480,
-     "h": 216,
-     "label": "권역별 매출",
+     "y": 464,
+     "h": 232,
+     "label": "권역별 매출 (7개 막대가 스크롤 없이 들어가는 높이)",
      "x": 744,
      "width": 512,
-     "height": 216
+     "height": 232
     }
    ]
   },
   {
    "id": "category",
+   "purpose": "dashboard",
    "name": "카테고리",
    "archetype": "분석",
    "question": "어느 카테고리가 왜 못 맞췄나",
@@ -309,6 +322,17 @@
      "height": 40
     },
     {
+     "id": "context",
+     "role": "context",
+     "col": 9,
+     "span": 4,
+     "label": "지금 보는 범위 (측정값)",
+     "x": 920,
+     "y": 24,
+     "width": 336,
+     "height": 40
+    },
+    {
      "id": "headline",
      "role": "headline",
      "col": 1,
@@ -359,6 +383,7 @@
   },
   {
    "id": "stores",
+   "purpose": "dashboard",
    "name": "매장",
    "archetype": "비교",
    "question": "어느 매장이 뒤처지나",
@@ -442,6 +467,17 @@
      "height": 40
     },
     {
+     "id": "context",
+     "role": "context",
+     "col": 9,
+     "span": 4,
+     "label": "지금 보는 범위 (측정값)",
+     "x": 920,
+     "y": 24,
+     "width": 336,
+     "height": 40
+    },
+    {
      "id": "headline",
      "role": "headline",
      "col": 1,
@@ -492,6 +528,7 @@
   },
   {
    "id": "store_detail",
+   "purpose": "dashboard",
    "name": "매장 상세",
    "archetype": "상세 (드릴스루 대상, 선택기에서 숨김)",
    "question": "이 매장에 무슨 일이 있었나",
@@ -656,6 +693,735 @@
      "x": 744,
      "width": 512,
      "height": 456
+    }
+   ]
+  },
+  {
+   "id": "table_main",
+   "purpose": "table",
+   "name": "성과표",
+   "archetype": "지표 테이블",
+   "question": "항목마다 지표가 어떻게 다른가",
+   "regions": [
+    {
+     "id": "rail",
+     "role": "shape",
+     "zone": "rail",
+     "layer": "background",
+     "y": 0,
+     "h": 720,
+     "label": "내비 레일 (바탕)",
+     "x": 0,
+     "width": 192,
+     "height": 720
+    },
+    {
+     "id": "brand",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 24,
+     "h": 48,
+     "label": "리포트 이름",
+     "x": 16,
+     "width": 160,
+     "height": 48
+    },
+    {
+     "id": "nav",
+     "role": "pageNavigator",
+     "zone": "rail",
+     "y": 96,
+     "h": 136,
+     "label": "페이지 (세로)",
+     "x": 16,
+     "width": 160,
+     "height": 136
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 256,
+     "h": 72,
+     "label": "기간",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "slicer_channel",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 344,
+     "h": 72,
+     "label": "채널",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 664,
+     "h": 32,
+     "label": "데이터 기준일",
+     "x": 16,
+     "width": 160,
+     "height": 32
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 8,
+     "label": "페이지 제목",
+     "x": 216,
+     "y": 24,
+     "width": 688,
+     "height": 40
+    },
+    {
+     "id": "context",
+     "role": "context",
+     "col": 9,
+     "span": 4,
+     "label": "지금 보는 범위 (측정값)",
+     "x": 920,
+     "y": 24,
+     "width": 336,
+     "height": 40
+    },
+    {
+     "id": "headline",
+     "role": "headline",
+     "col": 1,
+     "span": 12,
+     "label": "결론 한 줄 (측정값)",
+     "x": 216,
+     "y": 64,
+     "width": 1040,
+     "height": 32
+    },
+    {
+     "id": "slicer_a",
+     "role": "dropdownSlicer",
+     "zone": "rail",
+     "y": 432,
+     "h": 64,
+     "label": "추가 필터 (드롭다운)",
+     "x": 16,
+     "width": 160,
+     "height": 64
+    },
+    {
+     "id": "grid",
+     "role": "tableEx",
+     "col": 1,
+     "span": 12,
+     "y": 112,
+     "h": 584,
+     "label": "행 = 항목, 열 = 측정값 (막대·색 척도·부호 색)",
+     "x": 216,
+     "width": 1040,
+     "height": 584
+    }
+   ]
+  },
+  {
+   "id": "matrix_main",
+   "purpose": "matrix",
+   "name": "행렬",
+   "archetype": "지표 확인",
+   "question": "어느 칸이 튀나",
+   "regions": [
+    {
+     "id": "rail",
+     "role": "shape",
+     "zone": "rail",
+     "layer": "background",
+     "y": 0,
+     "h": 720,
+     "label": "내비 레일 (바탕)",
+     "x": 0,
+     "width": 192,
+     "height": 720
+    },
+    {
+     "id": "brand",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 24,
+     "h": 48,
+     "label": "리포트 이름",
+     "x": 16,
+     "width": 160,
+     "height": 48
+    },
+    {
+     "id": "nav",
+     "role": "pageNavigator",
+     "zone": "rail",
+     "y": 96,
+     "h": 136,
+     "label": "페이지 (세로)",
+     "x": 16,
+     "width": 160,
+     "height": 136
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 256,
+     "h": 72,
+     "label": "기간",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "slicer_channel",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 344,
+     "h": 72,
+     "label": "채널",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 664,
+     "h": 32,
+     "label": "데이터 기준일",
+     "x": 16,
+     "width": 160,
+     "height": 32
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 8,
+     "label": "페이지 제목",
+     "x": 216,
+     "y": 24,
+     "width": 688,
+     "height": 40
+    },
+    {
+     "id": "context",
+     "role": "context",
+     "col": 9,
+     "span": 4,
+     "label": "지금 보는 범위 (측정값)",
+     "x": 920,
+     "y": 24,
+     "width": 336,
+     "height": 40
+    },
+    {
+     "id": "headline",
+     "role": "headline",
+     "col": 1,
+     "span": 12,
+     "label": "결론 한 줄 (측정값)",
+     "x": 216,
+     "y": 64,
+     "width": 1040,
+     "height": 32
+    },
+    {
+     "id": "slicer_a",
+     "role": "dropdownSlicer",
+     "zone": "rail",
+     "y": 432,
+     "h": 64,
+     "label": "추가 필터 (드롭다운)",
+     "x": 16,
+     "width": 160,
+     "height": 64
+    },
+    {
+     "id": "matrix",
+     "role": "pivotTable",
+     "col": 1,
+     "span": 12,
+     "y": 112,
+     "h": 584,
+     "label": "행렬: 계층 행 × 열, 히트맵·막대",
+     "x": 216,
+     "width": 1040,
+     "height": 584
+    }
+   ]
+  },
+  {
+   "id": "deep_tree",
+   "purpose": "deepdive",
+   "name": "요인 분해",
+   "archetype": "딥다이브",
+   "question": "숫자가 어디서 왔나",
+   "regions": [
+    {
+     "id": "rail",
+     "role": "shape",
+     "zone": "rail",
+     "layer": "background",
+     "y": 0,
+     "h": 720,
+     "label": "내비 레일 (바탕)",
+     "x": 0,
+     "width": 192,
+     "height": 720
+    },
+    {
+     "id": "brand",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 24,
+     "h": 48,
+     "label": "리포트 이름",
+     "x": 16,
+     "width": 160,
+     "height": 48
+    },
+    {
+     "id": "nav",
+     "role": "pageNavigator",
+     "zone": "rail",
+     "y": 96,
+     "h": 136,
+     "label": "페이지 (세로)",
+     "x": 16,
+     "width": 160,
+     "height": 136
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 256,
+     "h": 72,
+     "label": "기간",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "slicer_channel",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 344,
+     "h": 72,
+     "label": "채널",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 664,
+     "h": 32,
+     "label": "데이터 기준일",
+     "x": 16,
+     "width": 160,
+     "height": 32
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 8,
+     "label": "페이지 제목",
+     "x": 216,
+     "y": 24,
+     "width": 688,
+     "height": 40
+    },
+    {
+     "id": "context",
+     "role": "context",
+     "col": 9,
+     "span": 4,
+     "label": "지금 보는 범위 (측정값)",
+     "x": 920,
+     "y": 24,
+     "width": 336,
+     "height": 40
+    },
+    {
+     "id": "headline",
+     "role": "headline",
+     "col": 1,
+     "span": 12,
+     "label": "결론 한 줄 (측정값)",
+     "x": 216,
+     "y": 64,
+     "width": 1040,
+     "height": 32
+    },
+    {
+     "id": "slicer_a",
+     "role": "dropdownSlicer",
+     "zone": "rail",
+     "y": 432,
+     "h": 64,
+     "label": "추가 필터 1",
+     "x": 16,
+     "width": 160,
+     "height": 64
+    },
+    {
+     "id": "slicer_b",
+     "role": "dropdownSlicer",
+     "zone": "rail",
+     "y": 512,
+     "h": 64,
+     "label": "추가 필터 2",
+     "x": 16,
+     "width": 160,
+     "height": 64
+    },
+    {
+     "id": "tree",
+     "role": "decompositionTreeVisual",
+     "col": 1,
+     "span": 12,
+     "y": 112,
+     "h": 352,
+     "label": "요인 분해 트리",
+     "x": 216,
+     "width": 1040,
+     "height": 352
+    },
+    {
+     "id": "trend",
+     "role": "lineChart",
+     "col": 1,
+     "span": 6,
+     "y": 480,
+     "h": 216,
+     "label": "월 추이",
+     "x": 216,
+     "width": 512,
+     "height": 216
+    },
+    {
+     "id": "mix",
+     "role": "barChart",
+     "col": 7,
+     "span": 6,
+     "y": 480,
+     "h": 216,
+     "label": "항목별 증감",
+     "x": 744,
+     "width": 512,
+     "height": 216
+    }
+   ]
+  },
+  {
+   "id": "deep_scatter",
+   "purpose": "deepdive",
+   "name": "분포",
+   "archetype": "딥다이브",
+   "question": "무엇과 무엇이 같이 움직이나",
+   "regions": [
+    {
+     "id": "rail",
+     "role": "shape",
+     "zone": "rail",
+     "layer": "background",
+     "y": 0,
+     "h": 720,
+     "label": "내비 레일 (바탕)",
+     "x": 0,
+     "width": 192,
+     "height": 720
+    },
+    {
+     "id": "brand",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 24,
+     "h": 48,
+     "label": "리포트 이름",
+     "x": 16,
+     "width": 160,
+     "height": 48
+    },
+    {
+     "id": "nav",
+     "role": "pageNavigator",
+     "zone": "rail",
+     "y": 96,
+     "h": 136,
+     "label": "페이지 (세로)",
+     "x": 16,
+     "width": 160,
+     "height": 136
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 256,
+     "h": 72,
+     "label": "기간",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "slicer_channel",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 344,
+     "h": 72,
+     "label": "채널",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 664,
+     "h": 32,
+     "label": "데이터 기준일",
+     "x": 16,
+     "width": 160,
+     "height": 32
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 8,
+     "label": "페이지 제목",
+     "x": 216,
+     "y": 24,
+     "width": 688,
+     "height": 40
+    },
+    {
+     "id": "context",
+     "role": "context",
+     "col": 9,
+     "span": 4,
+     "label": "지금 보는 범위 (측정값)",
+     "x": 920,
+     "y": 24,
+     "width": 336,
+     "height": 40
+    },
+    {
+     "id": "headline",
+     "role": "headline",
+     "col": 1,
+     "span": 12,
+     "label": "결론 한 줄 (측정값)",
+     "x": 216,
+     "y": 64,
+     "width": 1040,
+     "height": 32
+    },
+    {
+     "id": "slicer_a",
+     "role": "dropdownSlicer",
+     "zone": "rail",
+     "y": 432,
+     "h": 64,
+     "label": "추가 필터 1",
+     "x": 16,
+     "width": 160,
+     "height": 64
+    },
+    {
+     "id": "slicer_b",
+     "role": "dropdownSlicer",
+     "zone": "rail",
+     "y": 512,
+     "h": 64,
+     "label": "추가 필터 2",
+     "x": 16,
+     "width": 160,
+     "height": 64
+    },
+    {
+     "id": "scatter",
+     "role": "scatterChart",
+     "col": 1,
+     "span": 8,
+     "y": 112,
+     "h": 584,
+     "label": "두 지표의 관계 (점 크기 = 규모)",
+     "x": 216,
+     "width": 688,
+     "height": 584
+    },
+    {
+     "id": "side",
+     "role": "barChart",
+     "col": 9,
+     "span": 4,
+     "y": 112,
+     "h": 584,
+     "label": "그룹별 순위",
+     "x": 920,
+     "width": 336,
+     "height": 584
+    }
+   ]
+  },
+  {
+   "id": "deep_detail",
+   "purpose": "deepdive",
+   "name": "상세 데이터",
+   "archetype": "딥다이브",
+   "question": "원천 행을 직접 보자",
+   "regions": [
+    {
+     "id": "rail",
+     "role": "shape",
+     "zone": "rail",
+     "layer": "background",
+     "y": 0,
+     "h": 720,
+     "label": "내비 레일 (바탕)",
+     "x": 0,
+     "width": 192,
+     "height": 720
+    },
+    {
+     "id": "brand",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 24,
+     "h": 48,
+     "label": "리포트 이름",
+     "x": 16,
+     "width": 160,
+     "height": 48
+    },
+    {
+     "id": "nav",
+     "role": "pageNavigator",
+     "zone": "rail",
+     "y": 96,
+     "h": 136,
+     "label": "페이지 (세로)",
+     "x": 16,
+     "width": 160,
+     "height": 136
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 256,
+     "h": 72,
+     "label": "기간",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "slicer_channel",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 344,
+     "h": 72,
+     "label": "채널",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 664,
+     "h": 32,
+     "label": "데이터 기준일",
+     "x": 16,
+     "width": 160,
+     "height": 32
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 8,
+     "label": "페이지 제목",
+     "x": 216,
+     "y": 24,
+     "width": 688,
+     "height": 40
+    },
+    {
+     "id": "context",
+     "role": "context",
+     "col": 9,
+     "span": 4,
+     "label": "지금 보는 범위 (측정값)",
+     "x": 920,
+     "y": 24,
+     "width": 336,
+     "height": 40
+    },
+    {
+     "id": "headline",
+     "role": "headline",
+     "col": 1,
+     "span": 12,
+     "label": "결론 한 줄 (측정값)",
+     "x": 216,
+     "y": 64,
+     "width": 1040,
+     "height": 32
+    },
+    {
+     "id": "slicer_a",
+     "role": "dropdownSlicer",
+     "zone": "rail",
+     "y": 432,
+     "h": 64,
+     "label": "추가 필터 1",
+     "x": 16,
+     "width": 160,
+     "height": 64
+    },
+    {
+     "id": "slicer_b",
+     "role": "dropdownSlicer",
+     "zone": "rail",
+     "y": 512,
+     "h": 64,
+     "label": "추가 필터 2",
+     "x": 16,
+     "width": 160,
+     "height": 64
+    },
+    {
+     "id": "grid",
+     "role": "tableEx",
+     "col": 1,
+     "span": 12,
+     "y": 112,
+     "h": 584,
+     "label": "원천 행 목록",
+     "x": 216,
+     "width": 1040,
+     "height": 584
     }
    ]
   }

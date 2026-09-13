@@ -1,15 +1,16 @@
-"""디자인 토큰(design-system/tokens.json) 하나로 Power BI 테마(밝은·어두운)와 CSS 변수를 만들고, 공식 스키마로 검증한다.
+"""디자인 토큰(design-system/tokens.json) 하나로 Power BI 테마 프리셋(네이비·페이퍼·미드나잇)과 CSS 변수를 만들고, 공식 스키마로 검증한다.
 
 왜: 색·글자·간격을 테마 JSON, HTML 시안, 문서에 따로 적으면 반드시 어긋난다. 원본을 하나로 두고 나머지는 생성한다.
 또 서식을 테마에 모아 두면 visual.json에는 위치와 필드만 남는다 (토큰 절약).
 
-v3 (앱형): 페이지 선택기·슬라이서는 모두 왼쪽 어두운 레일 위에 있다고 보고 레일 색으로 칠한다.
-본문 카드는 흰 바탕 + 머리카락 두께 테두리 + 거의 안 보이는 그림자.
+앱형 레이아웃: 페이지 선택기·슬라이서는 모두 왼쪽 레일 위에 있다고 보고 레일 색으로 칠한다.
+본문 카드는 바탕 + 머리카락 두께 테두리 + 거의 안 보이는 그림자. 프리셋은 색 토큰만 다르고 구조는 같다.
 
 속성 이름·허용값은 기억이 아니라 `powerbi-report-author formatting describe-object/describe-property`로 확인한 것만 쓴다.
 검증 스키마: microsoft/powerbi-desktop-samples 의 reportThemeSchema-2.157.json (Desktop 2.157과 같은 버전)
 
 사용법: python tools/build_themes.py [--schema <로컬 스키마 경로>]
+결과: design-system/themes/autopilot-<프리셋>.json, design-system/tokens.css
 """
 import argparse
 import json
@@ -39,8 +40,9 @@ def bare() -> dict:
             "padding": zero_padding(), "title": [{"show": False}]}
 
 
-def build(tok: dict, mode: str) -> dict:
-    c, T, S, SH = tok["color"][mode], tok["type"]["pt"], tok["space"], tok["shadow"]
+def build(tok: dict, tid: str) -> dict:
+    th = tok["themes"][tid]
+    c, T, S, SH = th["color"], tok["type"]["pt"], tok["space"], tok["shadow"]
     F, FS = tok["font"]["family"], tok["font"]["semibold"]
     ink, ink2, ink3 = solid(c["ink"]), solid(c["ink2"]), solid(c["ink3"])
 
@@ -54,7 +56,10 @@ def build(tok: dict, mode: str) -> dict:
     # 막대: 값은 막대 끝 레이블로 읽고 값 축은 숨긴다. innerPadding을 넓혀 막대를 얇게 (dataviz: 두꺼운 덩어리 금지)
     bar_like = {
         # preferredCategoryWidth: 기본 최소 폭이면 항목 7개가 카드 높이를 넘어 스크롤바가 생긴다 (Desktop 캡처로 확인)
-        "categoryAxis": [{**category_axis, "fontSize": T["body"], "labelColor": ink2, "innerPadding": 45, "preferredCategoryWidth": 16}],
+        # maxMarginFactor: 긴 영어 이름("Health Food")이 기본 폭(25%)에서 "Health F…"로 잘렸다 (Desktop 캡처로 확인)
+        # 항목 이름 9pt: 10pt에서는 권역 7개가 216px 카드를 넘겨 스크롤이 다시 생겼다 (영어 이름 + 가로 막대, Desktop 캡처)
+        "categoryAxis": [{**category_axis, "fontSize": T["caption"], "labelColor": ink2, "innerPadding": 40, "preferredCategoryWidth": 16,
+                          "maxMarginFactor": 40}],
         "valueAxis": [{"show": False, "gridlineShow": False, "showAxisTitle": False}],
         "labels": [{"show": True, "fontSize": T["caption"], "color": ink2, "fontFamily": F, "labelDisplayUnits": 1}],
         "dataPoint": [{"borderShow": False}],
@@ -73,11 +78,12 @@ def build(tok: dict, mode: str) -> dict:
     nav_states = lambda d, h, s: [{"$id": "default", **d}, {"$id": "hover", **h}, {"$id": "selected", **s}]
     # 주의: 슬라이서 선택 상태 이름이 PBIR(CLI)은 "selected", 테마 스키마는 "selection:selected"다
     seg_states = lambda d, h, s: [{"$id": "default", **d}, {"$id": "hover", **h}, {"$id": "selection:selected", **s}]
+    rail_title = [{"show": True, "fontFamily": F, "fontSize": T["caption"], "bold": False, "fontColor": solid(c["railInk3"]), "alignment": "left"}]
 
     return {
         "$schema": SCHEMA_URL,
-        "name": f"Autopilot {mode.title()}",
-        "dataColors": tok["categorical"][mode],
+        "name": f"Autopilot {tid.title()}",
+        "dataColors": th["categorical"],
         "good": c["pos"], "neutral": c["context"], "bad": c["neg"],
         "maximum": c["pos"], "center": c["mid"], "minimum": c["neg"], "null": c["context"],
         # 구조 색은 어두운 테마에서 한꺼번에 바꿔야 글자가 사라지지 않는다 (MS theming 문서)
@@ -95,10 +101,10 @@ def build(tok: dict, mode: str) -> dict:
         },
         "visualStyles": {
             "*": {"*": {
-                # 흰 카드 + 머리카락 두께 테두리 + 거의 안 보이는 그림자: "종이 한 장" 정도의 깊이
+                # 카드 바탕 + 머리카락 두께 테두리 + 거의 안 보이는 그림자: "종이 한 장" 정도의 깊이
                 "background": [{"show": True, "color": solid(c["surface"]), "transparency": 0}],
                 "border": [{"show": True, "color": solid(c["border"]), "radius": S["radius"], "width": 1}],
-                "dropShadow": [{"show": True, "preset": "Custom", "position": "Outer", "color": solid(c["ink"]),
+                "dropShadow": [{"show": True, "preset": "Custom", "position": "Outer", "color": solid(c["shadow"]),
                                 "transparency": SH["transparency"], "shadowBlur": SH["blur"], "shadowDistance": SH["distance"],
                                 "shadowSpread": SH["spread"], "angle": 90}],
                 "padding": [{"top": S["padding"], "bottom": S["padding"], "left": S["padding"] + 4, "right": S["padding"] + 4}],
@@ -122,28 +128,26 @@ def build(tok: dict, mode: str) -> dict:
             }},
             # 글상자: 페이지 바탕이나 레일 위에 바로 놓인다 (글자색은 생성기가 자리에 맞춰 넣는다)
             "textbox": {"*": bare()},
-            # 도형은 레일 바탕 한 곳에만 쓴다
+            # 도형은 레일 바탕 한 곳에만 쓴다. 밝은 레일(페이퍼)은 오른쪽 경계선이 필요해 테두리를 레일 경계색으로
             "shape": {"*": {
                 **bare(),
                 "fill": [{"$id": "default", "show": True, "fillColor": solid(c["rail"]), "transparency": 0}],
-                "outline": [{"$id": "default", "show": False}],
+                "outline": [{"$id": "default", "show": True, "lineColor": solid(c["railBorder"]), "weight": 1}],
             }},
             "cardVisual": {"*": {
-                # KPI: 왼쪽 정렬, 작은 이름 → 큰 숫자 → 비교 문구. 단위는 측정값 서식이 붙인다 (자동 단위를 끄지 않으면 1,234건이 "1.2천")
+                # KPI: 이름(컨테이너 제목) → 큰 숫자 → 비교 문구. 단위는 측정값 서식이 붙인다 (자동 단위를 끄지 않으면 1,234건이 "1.2천")
                 "value": [{"$id": "default", "fontFamily": FS, "fontSize": T["kpi"], "bold": False, "fontColor": ink,
                            "labelDisplayUnits": 1, "horizontalAlignment": "left"}],  # CLI는 문자열 열거형으로 보여 주지만 테마 스키마는 정수
-                # 이름·숫자·비교 문구 세 줄이 카드 안(높이 − 여백 32)에 들어가야 한다. 104px 카드에서 숫자 위가 잘려 112px + 9pt로 맞췄다
                 "label": [{"$id": "default", "show": True, "position": "aboveValue", "fontFamily": F, "fontSize": T["caption"], "fontColor": ink3}],
                 # 비교 문구("전년 대비 ▲12.3%")는 측정값이 통째로 만든다 → 제목은 숨긴다. 색은 생성기가 부호에 맞춰 넣는다
                 "referenceLabelTitle": [{"$id": "default", "show": False}],
                 "referenceLabelValue": [{"$id": "default", "valueFontFamily": FS, "valueFontSize": T["body"], "valueFontColor": ink2}],
                 "referenceLabelLayout": [{"position": "below", "horizontalAlignment": "left"}],
-                # 기본값은 회색 상자 + 안쪽 여백이라 카드에서 값이 위로 밀려 잘렸다 (Desktop 캡처로 확인)
                 # $id 없이 두면 적용되지 않았다 (Desktop이 쓰는 형식도 selector id "default")
                 "referenceLabel": [{"$id": "default", "backgroundShow": False, "paddingUniform": 0}],
                 "divider": [{"$id": "default", "show": False}],
                 "title": [{"show": False}],
-                # 카드 안쪽 기본 윤곽선: 흰 카드 안에 상자가 하나 더 보여 끈다 (Desktop 캡처로 확인)
+                # 카드 안쪽 기본 윤곽선: 카드 안에 상자가 하나 더 보여 끈다 (Desktop 캡처로 확인)
                 "outline": [{"$id": "default", "show": False}],
                 # MS 디자인 스킬 base.json의 카드 안전장치 (값 잘림 방지).
                 # 같은 파일의 spacing.customizeSpacing은 공식 CLI 검증에서 모르는 속성이라 뺐다
@@ -152,6 +156,10 @@ def build(tok: dict, mode: str) -> dict:
             "lineChart": {"*": {
                 "lineStyles": [{"strokeWidth": 2, "lineChartType": "linear", "showMarker": False, "areaShow": False}],
                 "labels": [{"show": False}],
+                # 선 끝에 계열 이름 + 범례 유지 (literature.md R3). 선 끝이 가까우면 Power BI가 겹치는 이름을 숨겨서
+                # 범례를 끄면 작년·목표가 이름 없이 남았다 (Desktop 캡처) → 둘 다 둔다. 중복은 기억에 도움 (Borkin 2016)
+                "seriesLabels": [{"show": True, "seriesPosition": "Right", "seriesMatchColor": True, "textSize": T["caption"],
+                                  "seriesFontFamily": FS}],
                 # 작은 여러 차트 칸이 좁으면 월 축에 가로 스크롤이 생겼다 → 최소 항목 폭을 줄인다 (Desktop 캡처로 확인)
                 "valueAxis": [value_axis], "categoryAxis": [{**category_axis, "preferredCategoryWidth": 12}], "legend": [legend_top],
                 "smallMultiplesLayout": [{"gridLineShow": False}],
@@ -163,7 +171,20 @@ def build(tok: dict, mode: str) -> dict:
             "clusteredColumnChart": {"*": {**bar_like, "legend": [legend_top]}},
             "scatterChart": {"*": {"valueAxis": [value_axis], "categoryAxis": [{**value_axis}], "legend": [legend_top]}},
             "tableEx": {"*": table},
-            "pivotTable": {"*": table},
+            # 행렬: 표와 같은 선·글자 + 계단식 행 머리글
+            "pivotTable": {"*": {
+                **table,
+                "rowHeaders": [{"fontFamily": F, "fontSize": T["body"], "fontColor": ink, "backColor": solid(c["surface"]),
+                                "stepped": True, "steppedLayoutIndentation": 16, "showExpandCollapseButtons": True,
+                                "expandCollapseButtonsColor": ink3}],
+            }},
+            # 요인 분해 트리: 강조색 경로, 회색 미선택 선
+            "decompositionTreeVisual": {"*": {
+                "tree": [{"accentColor": solid(c["accent"]), "connectorDefaultColor": solid(c["axis"]), "density": "default",
+                          "connectorType": "round"}],
+                "dataBars": [{"positiveBarColor": solid(c["accent"]), "negativeBarColor": solid(c["neg"]),
+                              "dataBarBackgroundColor": solid(c["grid"])}],
+            }},
             # 페이지 선택기 (레일): 세로 목록. 선택된 페이지만 밝은 바탕 + 왼쪽 강조 막대
             "pageNavigator": {"*": {
                 **bare(),
@@ -176,12 +197,13 @@ def build(tok: dict, mode: str) -> dict:
                                    {"fontColor": solid(c["railInk"])}, {"fontFamily": FS, "fontColor": solid(c["railInk"])}),
                 "accentBar": nav_states({"show": False}, {"show": False},
                                         {"show": True, "position": "Left", "width": 3, "color": solid(c["railAccent"]), "transparency": 0}),
-                "outline": nav_states({"show": False}, {"show": False}, {"show": False}),
+                # 끄기는 상태 없는 첫 항목에 (버튼과 같은 규칙). 상태 안에만 두었더니 페이퍼·미드나잇에서 칸마다 테두리가 보였다
+                "outline": [{"show": False}] + nav_states({"show": False}, {"show": False}, {"show": False}),
                 "shape": [{"tileShape": "rectangleRounded", "rectangleRoundedCurve": 6}],
                 "layout": [{"orientation": 1, "cellPadding": 4}],
                 "pages": [{"showHiddenPages": False}],  # 드릴스루 전용 숨김 페이지는 선택기에 넣지 않는다
             }},
-            # 버튼 슬라이서 (레일): 어두운 칸 안에서 선택된 값만 흰색. 위에 작은 제목("기간", "채널")
+            # 버튼 슬라이서 (레일): 칸 안에서 선택된 값만 강조. 위에 작은 제목("기간", "채널")
             "advancedSlicerVisual": {"*": {
                 # 버튼 칠은 fillCustom이다. background(상태별)는 글자 상자 바탕이라 끈다
                 # (background로 칠했더니 흰 버튼 안에 어두운 글자 상자가 생겼다 — 공개 PBIR 예시와 대조해 확인)
@@ -193,9 +215,16 @@ def build(tok: dict, mode: str) -> dict:
                                     {"fontColor": solid(c["railInk"])}, {"fontFamily": FS, "fontColor": solid(c["segOnInk"])}),
                 "outline": seg_states({"show": False}, {"show": False}, {"show": False}),
                 "shapeCustomRectangle": [{"tileShape": "rectangleRounded", "rectangleRoundedCurve": 6}],
-                "title": [{"show": True, "fontFamily": F, "fontSize": T["caption"], "bold": False, "fontColor": solid(c["railInk3"]), "alignment": "left"}],
+                "title": rail_title,
                 "border": [{"show": False}], "dropShadow": [{"show": False}],
                 "layout": [{"rowCount": 1, "cellPadding": 4}],
+            }},
+            # 드롭다운 슬라이서 (레일): 값이 많은 필드(권역·카테고리). 레일 색 칸 + 작은 제목
+            "slicer": {"*": {
+                **bare(),
+                "title": rail_title,
+                "header": [{"show": False}],
+                "items": [{"fontFamily": F, "textSize": T["body"], "fontColor": solid(c["railInk"]), "background": solid(c["segBg"])}],
             }},
             # 뒤로 가기 버튼: 본문 위의 작은 알약
             "actionButton": {"*": {
@@ -215,15 +244,15 @@ def build(tok: dict, mode: str) -> dict:
 
 
 def css(tok: dict) -> str:
-    def block(mode):
-        c = tok["color"][mode]
+    def block(tid):
+        c = tok["themes"][tid]["color"]
         return "\n".join(f"  --{k}: {v};" for k, v in c.items())
     px = tok["type"]["px"]
     fs = "\n".join(f"  --fs-{k}: {v}px;" for k, v in px.items())
-    return (f"/* tools/build_themes.py가 design-system/tokens.json에서 생성. 직접 고치지 말 것 */\n"
-            f":root {{\n  color-scheme: light;\n{block('light')}\n{fs}\n  --radius: {tok['space']['radius']}px;\n}}\n"
-            f"@media (prefers-color-scheme: dark) {{\n  :root:not([data-theme=\"light\"]) {{\n  color-scheme: dark;\n{block('dark')}\n  }}\n}}\n"
-            f":root[data-theme=\"dark\"] {{\n  color-scheme: dark;\n{block('dark')}\n}}\n")
+    return (f"/* tools/build_themes.py가 design-system/tokens.json에서 생성. 직접 고치지 말 것 (밝은 = 네이비, 어두운 = 미드나잇) */\n"
+            f":root {{\n  color-scheme: light;\n{block('navy')}\n{fs}\n  --radius: {tok['space']['radius']}px;\n}}\n"
+            f"@media (prefers-color-scheme: dark) {{\n  :root:not([data-theme=\"light\"]) {{\n  color-scheme: dark;\n{block('midnight')}\n  }}\n}}\n"
+            f":root[data-theme=\"dark\"] {{\n  color-scheme: dark;\n{block('midnight')}\n}}\n")
 
 
 def load_schema(path: str | None) -> dict:
@@ -246,13 +275,13 @@ def main() -> None:
     out_dir = DS / "themes"
     out_dir.mkdir(exist_ok=True)
     failed = 0
-    for mode in ("light", "dark"):
-        theme = build(tok, mode)
+    for tid in tok["themes"]:
+        theme = build(tok, tid)
         errors = sorted(validator.iter_errors(theme), key=lambda e: list(e.absolute_path))
-        path = out_dir / f"autopilot-{mode}.json"
+        path = out_dir / f"autopilot-{tid}.json"
         path.write_text(json.dumps(theme, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         size = path.stat().st_size
-        print(f"[{mode}] {path.relative_to(ROOT)} · {size / 1024:.1f}KB · 스키마 {SCHEMA_VERSION} 검증: {'통과' if not errors else f'오류 {len(errors)}건'}")
+        print(f"[{tid}] {path.relative_to(ROOT)} · {size / 1024:.1f}KB · 스키마 {SCHEMA_VERSION} 검증: {'통과' if not errors else f'오류 {len(errors)}건'}")
         for e in errors[:15]:
             print(f"   - {'/'.join(map(str, e.absolute_path))}: {e.message[:160]}")
         failed += len(errors)

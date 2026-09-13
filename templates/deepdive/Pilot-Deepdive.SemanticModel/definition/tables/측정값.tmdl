@@ -1,0 +1,351 @@
+/// 측정값 전용 테이블. 모든 측정값을 여기에 모은다.
+table 측정값
+	lineageTag: 271b6ff8-2b34-4faf-8995-0d7babed8a5a
+
+	/// 할인 후 매출액 합계 (원).
+	measure 매출 = SUM ( '판매'[매출액] )
+		formatString: #,0
+		displayFolder: 1. 기본
+		lineageTag: e62bc9e9-54b4-4edd-b87e-c3b09cd092f3
+
+	/// 판매 원가 합계 (원).
+	measure 원가 = SUM ( '판매'[원가] )
+		formatString: #,0
+		displayFolder: 1. 기본
+		lineageTag: d7dbe5d0-7b02-46fa-a97f-00aa6b3bd6a8
+
+	/// 매출 − 원가 (원).
+	measure 이익 = [매출] - [원가]
+		formatString: #,0
+		displayFolder: 1. 기본
+		lineageTag: 07f6f55b-c20a-47d6-92a5-5fa3c10d41db
+
+	/// 이익 ÷ 매출.
+	measure 이익률 = DIVIDE ( [이익], [매출] )
+		formatString: 0.0%
+		displayFolder: 1. 기본
+		lineageTag: b9d865c7-6196-4973-924d-b0dc54d39ce2
+
+	/// 판매 수량 합계.
+	measure 판매수량 = SUM ( '판매'[수량] )
+		formatString: #,0
+		displayFolder: 1. 기본
+		lineageTag: 8d2b5f95-7b20-4811-9099-3f7803c38392
+
+	/// 주문 수 (판매 테이블 1행 = 1주문).
+	measure 주문건수 = COUNTROWS ( '판매' )
+		formatString: #,0
+		displayFolder: 1. 기본
+		lineageTag: 54cdf32b-367b-4fe8-bd43-1e97a1d86786
+
+	/// 주문 1건당 평균 매출 (원).
+	measure 객단가 = DIVIDE ( [매출], [주문건수] )
+		formatString: #,0
+		displayFolder: 1. 기본
+		lineageTag: bec17a9b-f992-4adf-85fc-ac3825957bf4
+
+	/// 정가 기준 매출 대비 실제 할인된 비율 (금액 가중 평균).
+	measure 평균할인율 = 1 - DIVIDE ( [매출], SUMX ( '판매', '판매'[수량] * '판매'[정가] ) )
+		formatString: 0.0%
+		displayFolder: 1. 기본
+		lineageTag: 7cb53314-c521-44a1-aa91-d6a8bfba9594
+
+	/// 카테고리×월 목표 매출. 목표는 매장·제품 단위로 정해져 있지 않으므로, 매장이나 제품으로 걸러지면 잘못된 비교를 막기 위해 빈칸을 반환한다.
+	measure 목표매출 =
+			IF (
+			    ISFILTERED ( '제품' ) || ISCROSSFILTERED ( '매장' ),
+			    BLANK (),
+			    SUM ( '목표'[목표매출액] )
+			)
+		formatString: #,0
+		displayFolder: 2. 목표
+		lineageTag: 167e57aa-f789-4506-8848-e6ec652db84d
+
+	/// 매출 ÷ 목표매출.
+	measure '목표 달성률' = DIVIDE ( [매출], [목표매출] )
+		formatString: 0.0%
+		displayFolder: 2. 목표
+		lineageTag: ab006870-5edb-4ac6-835f-b23069205bcc
+
+	/// 매출 − 목표매출 (원). 목표가 없으면 빈칸.
+	measure '목표 대비 차이' = IF ( NOT ISBLANK ( [목표매출] ), [매출] - [목표매출] )
+		formatString: +#,0;-#,0;0
+		displayFolder: 2. 목표
+		lineageTag: 4fc3ae6d-ce0f-4798-bcb3-8aeda9a7828d
+
+	/// 전년 동기 매출. 실적이 있는 기간(기준일까지)만 1년 전으로 옮기므로, 연 단위로 보아도 올해 1~8월과 작년 1~8월을 비교한다.
+	measure '전년 매출' =
+			CALCULATE (
+			    [매출],
+			    CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () )
+			)
+		formatString: #,0
+		displayFolder: 3. 전년 대비
+		lineageTag: 3bfefbf5-4e29-4769-aa86-579aedb4313a
+
+	/// 매출 − 전년 매출 (원).
+	measure '전년 대비 증감' =
+			IF (
+			    NOT ISBLANK ( [매출] ) && NOT ISBLANK ( [전년 매출] ),
+			    [매출] - [전년 매출]
+			)
+		formatString: +#,0;-#,0;0
+		displayFolder: 3. 전년 대비
+		lineageTag: 5b751daf-6d95-4c2b-aa67-6d843cea0ae9
+
+	/// (매출 − 전년 매출) ÷ 전년 매출.
+	measure '전년 대비 증감률' =
+			IF (
+			    NOT ISBLANK ( [매출] ),
+			    DIVIDE ( [매출] - [전년 매출], [전년 매출] )
+			)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 3. 전년 대비
+		lineageTag: 27e745d3-bc18-4a77-8e8f-c59b6bdb9b06
+
+	/// 전년 동기 이익.
+	measure '전년 이익' =
+			CALCULATE (
+			    [이익],
+			    CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () )
+			)
+		formatString: #,0
+		displayFolder: 3. 전년 대비
+		lineageTag: 94900232-e5fc-4d03-83f1-196589e34bc9
+
+	/// (이익 − 전년 이익) ÷ 전년 이익.
+	measure '이익 증감률' =
+			IF (
+			    NOT ISBLANK ( [이익] ),
+			    DIVIDE ( [이익] - [전년 이익], [전년 이익] )
+			)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 3. 전년 대비
+		lineageTag: 71660a5c-6181-499a-8664-fff63a337530
+
+	/// 연초부터 현재 기간 끝까지 매출 누계.
+	measure '매출 YTD' = CALCULATE ( [매출], DATESYTD ( '날짜'[날짜] ) )
+		formatString: #,0
+		displayFolder: 4. 누계
+		lineageTag: 44c0101c-163c-4a92-ade5-18b59591f5d4
+
+	/// 전년 같은 기간까지의 매출 누계.
+	measure '전년 매출 YTD' =
+			CALCULATE (
+			    [매출 YTD],
+			    CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () )
+			)
+		formatString: #,0
+		displayFolder: 4. 누계
+		lineageTag: 291d6e9c-7a48-4d7e-9a5d-3035136cd53a
+
+	/// 누계 매출의 전년 대비 증감률.
+	measure '매출 YTD 증감률' = DIVIDE ( [매출 YTD] - [전년 매출 YTD], [전년 매출 YTD] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 4. 누계
+		lineageTag: 295cf09b-9f74-4389-9d9e-e682711e8e79
+
+	/// 연초부터 현재 기간까지 목표 누계.
+	measure '목표매출 YTD' = CALCULATE ( [목표매출], DATESYTD ( '날짜'[날짜] ) )
+		formatString: #,0
+		displayFolder: 4. 누계
+		lineageTag: 43c3570c-6ac9-4fbf-8543-db31c5e52d26
+
+	/// 누계 매출 ÷ 누계 목표.
+	measure '목표 달성률 YTD' = DIVIDE ( [매출 YTD], [목표매출 YTD] )
+		formatString: 0.0%
+		displayFolder: 4. 누계
+		lineageTag: 4ece79a2-a176-41bd-bc3a-b11c4678d67c
+
+	/// KPI 카드용. 서식 문자열로는 1억(10^8) 단위로 나눌 수 없어 값을 직접 나눈다.
+	measure '매출 (억)' = DIVIDE ( [매출], 100000000 )
+		formatString: #,0.0"억"
+		displayFolder: 5. 억 단위 표시
+		lineageTag: 4e8b7da9-56b7-415f-b8e2-83c01eef16e1
+
+	/// KPI 카드용 이익 (억 원).
+	measure '이익 (억)' = DIVIDE ( [이익], 100000000 )
+		formatString: #,0.0"억"
+		displayFolder: 5. 억 단위 표시
+		lineageTag: 5d9588b7-ef4d-4407-b435-4ba9bbf58391
+
+	/// KPI 카드용 누계 매출 (억 원).
+	measure '매출 YTD (억)' = DIVIDE ( [매출 YTD], 100000000 )
+		formatString: #,0.0"억"
+		displayFolder: 5. 억 단위 표시
+		lineageTag: 235b00fa-3b03-4e72-ac02-cd1c3ddbec81
+
+	/// KPI 카드용 누계 목표 (억 원).
+	measure '목표매출 YTD (억)' = DIVIDE ( [목표매출 YTD], 100000000 )
+		formatString: #,0.0"억"
+		displayFolder: 5. 억 단위 표시
+		lineageTag: 7ed653c3-ec35-4c10-8b94-ffc7c9e0bb29
+
+	/// 전체 매출 중 온라인 채널 비율.
+	measure '온라인 매출 비중' = DIVIDE ( CALCULATE ( [매출], '매장'[채널] = "온라인" ), [매출] )
+		formatString: 0.0%
+		displayFolder: 6. 구성비
+		lineageTag: 6d2f80f6-7018-4195-b1f4-3b29dcc4a74f
+
+	/// 화면에 선택된 전체 대비 현재 항목의 매출 비율.
+	measure '매출 구성비' = DIVIDE ( [매출], CALCULATE ( [매출], ALLSELECTED () ) )
+		formatString: 0.0%
+		displayFolder: 6. 구성비
+		lineageTag: 16ed8d67-4b9a-485f-92f5-0920cf5a0a35
+
+	/// 데이터 마지막 날짜. 필터와 무관하게 항상 같은 값.
+	measure 기준일 = CALCULATE ( MAX ( '판매'[주문일자] ), REMOVEFILTERS () )
+		formatString: yyyy-mm-dd
+		displayFolder: 7. 기준
+		lineageTag: f8ab5fd3-d8f9-4274-8e06-39c48e642906
+
+	/// 리포트 제목 옆에 붙이는 텍스트.
+	measure '기준일 표시' = "기준일 " & FORMAT ( [기준일], "yyyy.mm.dd" )
+		displayFolder: 7. 기준
+		lineageTag: c742977d-28bd-44f2-a7b5-3c24c5b2c0ca
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'AOV YoY %' = VAR prev = DIVIDE ( [전년 매출], CALCULATE ( [주문건수], CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () ) ) ) RETURN IF ( prev > 0, DIVIDE ( [객단가] - prev, prev ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Margin YoY pp' = VAR ly = DIVIDE ( [전년 이익], [전년 매출] ) RETURN IF ( NOT ISBLANK ( ly ), [이익률] - ly )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Orders YoY %' = VAR prev = CALCULATE ( [주문건수], CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () ) ) RETURN IF ( prev > 0, DIVIDE ( [주문건수] - prev, prev ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Margin YoY Color' = IF ( [Margin YoY pp] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Orders YoY Color' = IF ( [Orders YoY %] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'YoY Color' = IF ( [전년 대비 증감률] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Profit YoY Color' = IF ( [이익 증감률] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Target Gap Color' = IF ( [목표 대비 차이] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'AOV YoY Color' = IF ( [AOV YoY %] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Target Gap Bar Color' = IF ( [목표 대비 차이] < 0, "#E34948", "#2A78D6" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'YoY Bar Color' = IF ( [전년 대비 증감률] < 0, "#E34948", "#2A78D6" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Sales Disp' = DIVIDE ( [매출], 1000000 )
+		formatString: #,0.0"M"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Sales PY Disp' = DIVIDE ( [전년 매출], 1000000 )
+		formatString: #,0.0"M"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Target Disp' = DIVIDE ( [목표매출], 1000000 )
+		formatString: #,0.0"M"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Target Gap Disp' = DIVIDE ( [목표 대비 차이], 1000000 )
+		formatString: +#,0.0"M";-#,0.0"M";0
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Profit Disp' = DIVIDE ( [이익], 1000000 )
+		formatString: #,0.0"M"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Sales Big' = DIVIDE ( [매출], 1000000 )
+		formatString: #,0.0"M"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Profit Big' = DIVIDE ( [이익], 1000000 )
+		formatString: #,0.0"M"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'AOV Disp' = DIVIDE ( [객단가], 1000 )
+		formatString: #,0.0"K"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Orders Disp' = [주문건수]
+		formatString: #,0
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'YoY Text' = VAR r = [전년 대비 증감률] RETURN IF ( NOT ISBLANK ( r ), "YoY " & FORMAT ( r, "▲0.0%;▼0.0%;0.0%" ) )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Profit YoY Text' = VAR r = [이익 증감률] RETURN IF ( NOT ISBLANK ( r ), "YoY " & FORMAT ( r, "▲0.0%;▼0.0%;0.0%" ) )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Target Gap Text' = VAR d = [목표 대비 차이] RETURN IF ( NOT ISBLANK ( d ), "vs target " & FORMAT ( d / 1000000, "▲#,0.0;▼#,0.0;0" ) & "M" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'AOV YoY Text' = VAR r = [AOV YoY %] RETURN IF ( NOT ISBLANK ( r ), "YoY " & FORMAT ( r, "▲0.0%;▼0.0%;0.0%" ) )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Margin YoY Text' = VAR d = [Margin YoY pp] RETURN IF ( NOT ISBLANK ( d ), "YoY " & FORMAT ( d * 100, "▲0.0;▼0.0;0.0" ) & "pp" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Orders YoY Text' = VAR r = [Orders YoY %] RETURN IF ( NOT ISBLANK ( r ), "YoY " & FORMAT ( r, "▲0.0%;▼0.0%;0.0%" ) )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Context Label' = VAR y = SELECTEDVALUE ( '날짜'[연도] ) VAR last = CALCULATE ( MAX ( '판매'[주문일자] ) ) VAR ch = IF ( ISFILTERED ( '매장'[채널] ), CONCATENATEX ( VALUES ( '매장'[채널] ), '매장'[채널], " + " ), "All channels" ) RETURN IF ( ISBLANK ( y ), "All years", y & "  ·  Jan–" & FORMAT ( last, "MMM", "en-US" ) ) & "  ·  " & ch
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Stores' = VAR t = FILTER ( VALUES ( '매장'[매장명] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) RETURN "Stores down YoY: " & COUNTROWS ( FILTER ( t, [전년 대비 증감률] < 0 ) ) & " of " & COUNTROWS ( t ) & "  ·  Largest drop: " & CONCATENATEX ( lo, '매장'[매장명], ", " ) & " " & FORMAT ( MINX ( lo, [전년 대비 증감률] ), "▲0.0%;▼0.0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Tree' = VAR t = VALUES ( '매장'[권역] ) VAR hi = TOPN ( 1, t, [매출], DESC ) RETURN "Sales " & FORMAT ( [매출] / 1000000, "#,0.0" ) & "M  ·  Top region: " & CONCATENATEX ( hi, '매장'[권역], ", " ) & " " & FORMAT ( DIVIDE ( MAXX ( hi, [매출] ), [매출] ), "0%" ) & "  ·  click + next to a bar to drill one level"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Discount' = VAR t = FILTER ( VALUES ( '제품'[제품명] ), NOT ISBLANK ( [매출] ) ) VAR top5 = TOPN ( 5, t, [평균할인율], DESC ) RETURN "Margin of the 5 most-discounted products " & FORMAT ( CALCULATE ( [이익률], top5 ), "0.0%" ) & "  ·  all other products " & FORMAT ( CALCULATE ( [이익률], EXCEPT ( t, top5 ) ), "0.0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Detail' = FORMAT ( [주문건수], "#,0" ) & " orders  ·  Sales " & FORMAT ( [매출] / 1000000, "#,0.0" ) & "M  ·  click a header to sort, right-click a row to copy"
+		displayFolder: 9. 리포트 표시용
+
+	column _
+		isHidden
+		isNameInferred
+		sourceColumn: [_]
+
+	partition 측정값 = calculated
+		mode: import
+		source = ROW ( "_", BLANK () )
+

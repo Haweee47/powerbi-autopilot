@@ -1,0 +1,24 @@
+relationship 판매_주문일자_날짜_날짜
+	fromColumn: 판매.주문일자
+	toColumn: 날짜.날짜
+
+relationship 판매_제품코드_제품_제품코드
+	fromColumn: 판매.제품코드
+	toColumn: 제품.제품코드
+
+relationship 판매_매장코드_매장_매장코드
+	fromColumn: 판매.매장코드
+	toColumn: 매장.매장코드
+
+relationship 목표_목표월_날짜_날짜
+	fromColumn: 목표.목표월
+	toColumn: 날짜.날짜
+
+relationship 제품_카테고리
+	fromColumn: 제품.카테고리
+	toColumn: 카테고리.카테고리
+
+relationship 목표_카테고리
+	fromColumn: 목표.카테고리
+	toColumn: 카테고리.카테고리
+

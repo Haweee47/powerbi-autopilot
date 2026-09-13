@@ -16,6 +16,8 @@
 <text x="26" y="684" font-size="11" font-weight="600" fill="#F2F5F9">데이터 기준일</text>
 <rect x="216" y="24" width="688" height="40" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
 <text x="226" y="44" font-size="11" font-weight="600" fill="#14202B">페이지 제목</text>
+<rect x="920" y="24" width="336" height="40" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="930" y="44" font-size="11" font-weight="600" fill="#14202B">지금 보는 범위 (측정값)</text>
 <rect x="216" y="64" width="1040" height="32" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
 <text x="226" y="84" font-size="11" font-weight="600" fill="#14202B">결론 한 줄 (측정값)</text>
 <rect x="216" y="112" width="688" height="296" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>

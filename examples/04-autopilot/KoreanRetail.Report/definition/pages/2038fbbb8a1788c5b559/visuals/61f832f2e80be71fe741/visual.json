@@ -21,7 +21,7 @@
                   {
                     "value": "판매 리포트",
                     "textStyle": {
-                      "fontFamily": "Segoe UI Semibold, Malgun Gothic, sans-serif",
+                      "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
                       "fontSize": "12pt",
                       "color": "#F2F5F9"
                     }
@@ -34,7 +34,7 @@
                   {
                     "value": "KoreanRetail · 가상 데이터",
                     "textStyle": {
-                      "fontFamily": "Segoe UI, Malgun Gothic, sans-serif",
+                      "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
                       "fontSize": "9pt",
                       "color": "#7D8A9B"
                     }

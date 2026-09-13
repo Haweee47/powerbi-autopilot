@@ -1,0 +1,21 @@
+{
+  "$comment": "English display measures: values divided to millions (M) or thousands (K) in the expression, unit letter in the format string. Format-string scaling (#,0.0,,) does not work in Power BI Desktop 2.157 — it rendered '110,558,285.0,,M' (Desktop capture). Same measure names as measures.ko.json, so specs never change per language.",
+  "measures": {
+    "Sales Disp": { "expr": "DIVIDE ( [매출], 1000000 )", "format": "#,0.0\"M\"" },
+    "Sales PY Disp": { "expr": "DIVIDE ( [전년 매출], 1000000 )", "format": "#,0.0\"M\"" },
+    "Target Disp": { "expr": "DIVIDE ( [목표매출], 1000000 )", "format": "#,0.0\"M\"" },
+    "Target Gap Disp": { "expr": "DIVIDE ( [목표 대비 차이], 1000000 )", "format": "+#,0.0\"M\";-#,0.0\"M\";0" },
+    "Profit Disp": { "expr": "DIVIDE ( [이익], 1000000 )", "format": "#,0.0\"M\"" },
+    "Sales Big": { "expr": "DIVIDE ( [매출], 1000000 )", "format": "#,0.0\"M\"" },
+    "Profit Big": { "expr": "DIVIDE ( [이익], 1000000 )", "format": "#,0.0\"M\"" },
+    "AOV Disp": { "expr": "DIVIDE ( [객단가], 1000 )", "format": "#,0.0\"K\"" },
+    "Orders Disp": { "expr": "[주문건수]", "format": "#,0" },    "YoY Text": "VAR r = [전년 대비 증감률] RETURN IF ( NOT ISBLANK ( r ), \"YoY \" & FORMAT ( r, \"▲0.0%;▼0.0%;0.0%\" ) )",
+    "Profit YoY Text": "VAR r = [이익 증감률] RETURN IF ( NOT ISBLANK ( r ), \"YoY \" & FORMAT ( r, \"▲0.0%;▼0.0%;0.0%\" ) )",
+    "Target Gap Text": "VAR d = [목표 대비 차이] RETURN IF ( NOT ISBLANK ( d ), \"vs target \" & FORMAT ( d / 1000000, \"▲#,0.0;▼#,0.0;0\" ) & \"M\" )",
+    "AOV YoY Text": "VAR r = [AOV YoY %] RETURN IF ( NOT ISBLANK ( r ), \"YoY \" & FORMAT ( r, \"▲0.0%;▼0.0%;0.0%\" ) )",
+    "Margin YoY Text": "VAR d = [Margin YoY pp] RETURN IF ( NOT ISBLANK ( d ), \"YoY \" & FORMAT ( d * 100, \"▲0.0;▼0.0;0.0\" ) & \"pp\" )",
+    "Orders YoY Text": "VAR r = [Orders YoY %] RETURN IF ( NOT ISBLANK ( r ), \"YoY \" & FORMAT ( r, \"▲0.0%;▼0.0%;0.0%\" ) )",
+    "Context Label": "VAR y = SELECTEDVALUE ( '날짜'[연도] ) VAR last = CALCULATE ( MAX ( '판매'[주문일자] ) ) VAR ch = IF ( ISFILTERED ( '매장'[채널] ), CONCATENATEX ( VALUES ( '매장'[채널] ), '매장'[채널], \" + \" ), \"All channels\" ) RETURN IF ( ISBLANK ( y ), \"All years\", y & \"  ·  Jan–\" & FORMAT ( last, \"MMM\", \"en-US\" ) ) & \"  ·  \" & ch",
+    "Headline Stores":"VAR t = FILTER ( VALUES ( '매장'[매장명] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) RETURN \"Stores down YoY: \" & COUNTROWS ( FILTER ( t, [전년 대비 증감률] < 0 ) ) & \" of \" & COUNTROWS ( t ) & \"  ·  Largest drop: \" & CONCATENATEX ( lo, '매장'[매장명], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )"
+  }
+}

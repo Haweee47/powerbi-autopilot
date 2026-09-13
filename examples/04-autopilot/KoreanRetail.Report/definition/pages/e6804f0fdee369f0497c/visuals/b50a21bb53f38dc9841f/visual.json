@@ -21,7 +21,7 @@
                   {
                     "value": "매장별 성과",
                     "textStyle": {
-                      "fontFamily": "Segoe UI Semibold, Malgun Gothic, sans-serif",
+                      "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
                       "fontSize": "18pt",
                       "color": "#101828"
                     }

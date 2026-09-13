@@ -168,6 +168,19 @@
             "metadata": "측정값.전년 대비 증감률"
           }
         }
+      ],
+      "total": [
+        {
+          "properties": {
+            "label": {
+              "expr": {
+                "Literal": {
+                  "Value": "'합계'"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {

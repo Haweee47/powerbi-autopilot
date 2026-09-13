@@ -123,12 +123,19 @@ powerbi-autopilot/
 │   ├── prototypes/            # HTML 시안과 캡처
 │   ├── themes/                # 테마 JSON 프리셋
 │   └── layouts/               # 페이지 유형별 레이아웃 템플릿
+│   ├── i18n/locales.json      # 언어 등록부 (기본 영어)
+│   └── literature.md          # 논문·자료 → 디자인 규칙
+├── templates/                 # 용도별 파일럿 4종 + 공용 측정값(언어별)·용어집 + catalog.json
 ├── research/                  # 공개 리포트 수집·분석 스크립트와 결과
-├── tools/                     # 토큰 측정 등 보조 스크립트
+├── tools/                     # 생성기, new_report, 테마·레이아웃 빌드, 공유 이미지, 토큰 측정
+├── .claude/skills/new-report/ # 새 리포트: 용도·테마·언어를 묻고 파일럿으로 시작
 └── examples/
-    ├── _data/                 # 공용 가상 데이터
+    ├── _data/                 # 공용 가상 데이터 (한·영)
     └── <예제명>/              # prompts.md, 모델, 리포트, 스크린샷
 ```
+
+**새 리포트는 파일럿에서 시작한다.** 용도·테마·언어를 물은 뒤 `tools/new_report.py`로 파일럿 명세를 복사하고,
+대상 모델에 없는 필드와 문장만 고친다. 파일럿의 생성 결과·테마 JSON·TMDL을 통째로 읽지 않는다.
 
 ## 7. Git 규칙
 
@@ -151,7 +158,8 @@ powerbi-autopilot/
 
 - [x] 환경 세팅, 가상 데이터, 예제 03 (Modeling MCP)
 - [x] 공개 리포트 1,700여 개 분석 → 디자인 원칙·채점표·HTML 시안
-- [ ] 여러 페이지 시안 v2 (페이지 선택기, 드릴스루, 지표 전환)
-- [ ] 테마 JSON + 페이지 레이아웃 템플릿
-- [ ] 명세 → PBIR 생성기와 토큰 비교
+- [x] 여러 페이지 시안 v2, 테마 JSON + 레이아웃 템플릿, 명세 → PBIR 생성기
+- [x] 용도별 파일럿 4종 · 테마 3종 · 다국어(기본 영어) · 논문 기반 규칙
+- [ ] GitHub push (`gh auth login` 필요), 노션 업로드 (Notion MCP 연결 필요)
+- [ ] 표 안의 미니 추이선(SVG 측정값), 실데이터(Presto·Redshift) 흐름
 - [ ] 예제 01·02 (새 세션에서 토큰 측정)

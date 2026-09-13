@@ -1,0 +1,16 @@
+{
+  "$comment": "언어와 무관한 표시용 측정값 (예제 03 모델 기준): 증감 색, 파생 비율. @이름은 테마 색 토큰.",
+  "measures": {
+    "AOV YoY %": { "expr": "VAR prev = DIVIDE ( [전년 매출], CALCULATE ( [주문건수], CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () ) ) ) RETURN IF ( prev > 0, DIVIDE ( [객단가] - prev, prev ) )", "format": "+0.0%;-0.0%;0.0%" },
+    "Margin YoY pp": { "expr": "VAR ly = DIVIDE ( [전년 이익], [전년 매출] ) RETURN IF ( NOT ISBLANK ( ly ), [이익률] - ly )", "format": "+0.0%;-0.0%;0.0%" },
+    "Orders YoY %": { "expr": "VAR prev = CALCULATE ( [주문건수], CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () ) ) RETURN IF ( prev > 0, DIVIDE ( [주문건수] - prev, prev ) )", "format": "+0.0%;-0.0%;0.0%" },
+    "Margin YoY Color": "IF ( [Margin YoY pp] < 0, \"@negInk\", \"@posInk\" )",
+    "Orders YoY Color": "IF ( [Orders YoY %] < 0, \"@negInk\", \"@posInk\" )",
+    "YoY Color":"IF ( [전년 대비 증감률] < 0, \"@negInk\", \"@posInk\" )",
+    "Profit YoY Color": "IF ( [이익 증감률] < 0, \"@negInk\", \"@posInk\" )",
+    "Target Gap Color": "IF ( [목표 대비 차이] < 0, \"@negInk\", \"@posInk\" )",
+    "AOV YoY Color": "IF ( [AOV YoY %] < 0, \"@negInk\", \"@posInk\" )",
+    "Target Gap Bar Color": "IF ( [목표 대비 차이] < 0, \"@neg\", \"@pos\" )",
+    "YoY Bar Color": "IF ( [전년 대비 증감률] < 0, \"@neg\", \"@pos\" )"
+  }
+}

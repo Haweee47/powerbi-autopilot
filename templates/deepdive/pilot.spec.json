@@ -1,0 +1,71 @@
+{
+  "$comment": "Pilot: deep dive. Decomposition → distribution → raw rows. Two extra dropdown filters on the rail. Change only the tree's 'by' list, the scatter axes and the detail columns.",
+  "name": "Pilot-Deepdive",
+  "model": "../../examples/03-modeling-mcp/tmdl",
+  "dataLang": "ko",
+  "dataLocales": "../../examples/_data/korean-retail/locales",
+  "measureTable": "측정값",
+  "theme": "navy",
+  "glossary": "../_shared/glossary.json",
+  "include": ["../_shared/measures.common.json", "../_shared/measures.{lang}.json"],
+  "measures": {
+    "Headline Tree": {
+      "en": "VAR t = VALUES ( '매장'[권역] ) VAR hi = TOPN ( 1, t, [매출], DESC ) RETURN \"Sales \" & FORMAT ( [매출] / 1000000, \"#,0.0\" ) & \"M  ·  Top region: \" & CONCATENATEX ( hi, '매장'[권역], \", \" ) & \" \" & FORMAT ( DIVIDE ( MAXX ( hi, [매출] ), [매출] ), \"0%\" ) & \"  ·  click + next to a bar to drill one level\"",
+      "ko": "VAR t = VALUES ( '매장'[권역] ) VAR hi = TOPN ( 1, t, [매출], DESC ) RETURN \"매출 \" & FORMAT ( [매출] / 100000000, \"0.0억\" ) & \"  ·  권역 1위 \" & CONCATENATEX ( hi, '매장'[권역], \", \" ) & \" \" & FORMAT ( DIVIDE ( MAXX ( hi, [매출] ), [매출] ), \"0%\" ) & \"  ·  막대 옆 +를 눌러 기준을 골라 한 단계씩 내려가기\""
+    },
+    "Headline Discount": {
+      "en": "VAR t = FILTER ( VALUES ( '제품'[제품명] ), NOT ISBLANK ( [매출] ) ) VAR top5 = TOPN ( 5, t, [평균할인율], DESC ) RETURN \"Margin of the 5 most-discounted products \" & FORMAT ( CALCULATE ( [이익률], top5 ), \"0.0%\" ) & \"  ·  all other products \" & FORMAT ( CALCULATE ( [이익률], EXCEPT ( t, top5 ) ), \"0.0%\" )",
+      "ko": "VAR t = FILTER ( VALUES ( '제품'[제품명] ), NOT ISBLANK ( [매출] ) ) VAR top5 = TOPN ( 5, t, [평균할인율], DESC ) RETURN \"할인율 상위 5개 제품의 이익률 \" & FORMAT ( CALCULATE ( [이익률], top5 ), \"0.0%\" ) & \"  ·  나머지 제품 \" & FORMAT ( CALCULATE ( [이익률], EXCEPT ( t, top5 ) ), \"0.0%\" )"
+    },
+    "Headline Detail": {
+      "en": "FORMAT ( [주문건수], \"#,0\" ) & \" orders  ·  Sales \" & FORMAT ( [매출] / 1000000, \"#,0.0\" ) & \"M  ·  click a header to sort, right-click a row to copy\"",
+      "ko": "\"주문 \" & FORMAT ( [주문건수], \"#,0\" ) & \"건  ·  매출 \" & FORMAT ( [매출] / 100000000, \"0.0억\" ) & \"  ·  머리글을 눌러 정렬, 행을 오른쪽 클릭해 복사\""
+    }
+  },
+  "shared": {
+    "brand": { "text": { "en": "Sales Report", "ko": "판매 리포트" }, "sub": { "en": "Deep dive · sample data", "ko": "딥다이브 · 가상 데이터" } },
+    "asof": { "text": { "en": "Data as of 2026-08-31", "ko": "데이터 기준일 2026.08.31" } },
+    "slicer_period": { "field": "날짜.연도", "default": 2026, "single": true, "title": { "en": "Period", "ko": "기간" } },
+    "slicer_channel": { "field": "매장.채널" },
+    "slicer_a": { "field": "매장.권역" },
+    "slicer_b": { "field": "카테고리.카테고리" },
+    "context": { "measure": "Context Label" }
+  },
+  "pages": [
+    {
+      "layout": "deep_tree",
+      "name": { "en": "Decomposition", "ko": "요인 분해" },
+      "visuals": {
+        "title": { "text": { "en": "Where sales come from", "ko": "요인 분해" } },
+        "headline": { "measure": "Headline Tree" },
+        "tree": { "measure": "Sales Disp", "by": ["매장.권역", "매장.채널", "카테고리.카테고리", "제품.하위카테고리", "매장.매장명"],
+                  "title": { "en": "Sales breakdown", "ko": "매출은 어디서 나오나" }, "sub": { "en": "Click + next to a bar and pick the next split", "ko": "막대 옆 +를 눌러 다음 기준 고르기" } },
+        "trend": { "x": "날짜.월", "y": ["Sales Disp", "Sales PY Disp"], "title": { "en": "Monthly sales", "ko": "월 매출" }, "sub": { "en": "This year vs last year", "ko": "올해 · 작년" } },
+        "mix": { "x": "카테고리.카테고리", "y": ["전년 대비 증감률"], "sort": "desc", "color": "YoY Bar Color",
+                 "title": { "en": "YoY by category", "ko": "카테고리별 전년 대비" }, "sub": { "en": "Red = decline", "ko": "빨강은 감소" } }
+      }
+    },
+    {
+      "layout": "deep_scatter",
+      "name": { "en": "Discount vs margin", "ko": "할인과 이익" },
+      "visuals": {
+        "title": { "text": { "en": "Discount vs margin", "ko": "할인과 이익" } },
+        "headline": { "measure": "Headline Discount" },
+        "scatter": { "point": "제품.제품명", "x": "평균할인율", "y": "이익률", "size": "Sales Disp",
+                     "title": { "en": "Discount and margin by product", "ko": "제품별 할인율과 이익률" }, "sub": { "en": "Dot size = sales · lower right = margin given away to discounts", "ko": "점 크기 = 매출 · 오른쪽 아래일수록 할인에 이익을 내준 제품" } },
+        "side": { "x": "제품.하위카테고리", "y": ["평균할인율"], "sort": "desc", "title": { "en": "Discount by subcategory", "ko": "하위카테고리 할인율" }, "sub": { "en": "Highest first", "ko": "높은 순" } }
+      }
+    },
+    {
+      "layout": "deep_detail",
+      "name": { "en": "Raw data", "ko": "상세 데이터" },
+      "visuals": {
+        "title": { "text": { "en": "Raw data", "ko": "상세 데이터" } },
+        "headline": { "measure": "Headline Detail" },
+        "grid": { "columns": ["판매.주문일자", "판매.주문번호", "매장.매장명", "제품.제품명", "판매.수량", "판매.정가", "판매.할인율", "판매.매출액"],
+                  "sort": ["판매.주문일자", "desc"], "format": { "판매.매출액": "bar" }, "totals": false,
+                  "title": { "en": "Order lines", "ko": "판매 내역" }, "sub": { "en": "Every order line for the current filters", "ko": "선택한 조건의 모든 주문 행" } }
+      }
+    }
+  ]
+}

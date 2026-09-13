@@ -1,0 +1,21 @@
+﻿매장코드,매장명,시도,권역,채널,개점일
+S01,Gangnam,Seoul,Capital Area,Offline,2015-03-01
+S02,Yeouido,Seoul,Capital Area,Offline,2016-05-01
+S03,Hongdae,Seoul,Capital Area,Offline,2017-09-01
+S04,Jamsil,Seoul,Capital Area,Offline,2014-11-01
+S05,Pangyo,Gyeonggi,Capital Area,Offline,2024-09-01
+S06,Suwon,Gyeonggi,Capital Area,Offline,2018-04-01
+S07,Ilsan,Gyeonggi,Capital Area,Offline,2013-06-01
+S08,Songdo,Incheon,Capital Area,Offline,2019-10-01
+S09,Seomyeon,Busan,Yeongnam,Offline,2015-08-01
+S10,Centum,Busan,Yeongnam,Offline,2017-03-01
+S11,Dongseongno,Daegu,Yeongnam,Offline,2016-07-01
+S12,Ulsan Store,Ulsan,Yeongnam,Offline,2019-02-01
+S13,Chungjangno,Gwangju,Honam,Offline,2018-11-01
+S14,Jeonju,Jeonbuk,Honam,Offline,2020-05-01
+S15,Dunsan,Daejeon,Chungcheong,Offline,2017-12-01
+S16,Cheongju,Chungbuk,Chungcheong,Offline,2021-03-01
+S17,Jeju Store,Jeju,Jeju,Offline,2020-08-01
+S18,Gangneung,Gangwon,Gangwon,Offline,2022-06-01
+ON1,Online Store,Nationwide,Online,Online,2012-01-01
+ON2,Mobile App,Nationwide,Online,Online,2020-01-01

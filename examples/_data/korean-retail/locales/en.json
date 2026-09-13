@@ -1,0 +1,36 @@
+{
+  "$comment": "영어 데이터 로케일. values: CSV 값 번역(generate.py --lang en이 en/ 폴더에 쓴다). tmdl: 같은 모델을 영어 리포트로 만들 때 생성기가 복사한 TMDL에 적용하는 치환(날짜 테이블 글자 값, 카테고리 정렬 값, 데이터 폴더). 모델 식별자(테이블·열·측정값 이름)는 바꾸지 않는다.",
+  "values": {
+    "가전": "Electronics", "패션": "Fashion", "식품": "Food", "생활용품": "Home", "뷰티": "Beauty",
+    "영상가전": "TV & Video", "생활가전": "Home Appliances", "주방가전": "Kitchen Appliances", "음향기기": "Audio",
+    "아우터": "Outerwear", "상의": "Tops", "하의": "Bottoms", "신발": "Shoes", "잡화": "Accessories",
+    "신선식품": "Fresh Food", "가공식품": "Packaged Food", "음료": "Beverages", "건강식품": "Health Food",
+    "침구": "Bedding", "욕실": "Bath", "주방": "Kitchen", "인테리어": "Decor", "레저": "Outdoor",
+    "스킨케어": "Skincare", "메이크업": "Makeup", "헤어/바디": "Hair & Body", "향수": "Fragrance",
+    "55형 OLED TV": "55-inch OLED TV", "무선청소기": "Cordless Vacuum", "공기청정기": "Air Purifier", "전자레인지": "Microwave",
+    "에어프라이어": "Air Fryer", "커피머신": "Coffee Machine", "무선이어폰": "Wireless Earbuds", "블루투스 스피커": "Bluetooth Speaker",
+    "경량 패딩": "Light Down Jacket", "트렌치코트": "Trench Coat", "니트 스웨터": "Knit Sweater", "옥스퍼드 셔츠": "Oxford Shirt",
+    "와이드 청바지": "Wide Jeans", "러닝화": "Running Shoes", "가죽 백팩": "Leather Backpack", "린넨 원피스": "Linen Dress",
+    "한우 선물세트": "Korean Beef Gift Set", "제주 감귤 5kg": "Jeju Tangerines 5kg", "유기농 쌀 10kg": "Organic Rice 10kg", "견과류 믹스": "Mixed Nuts",
+    "김 선물세트": "Seaweed Gift Set", "콜드브루 커피": "Cold Brew Coffee", "그릭요거트": "Greek Yogurt", "홍삼정": "Red Ginseng Extract",
+    "극세사 이불": "Microfiber Duvet", "호텔 수건 세트": "Hotel Towel Set", "세탁세제": "Laundry Detergent", "주방칼 세트": "Kitchen Knife Set",
+    "수납박스": "Storage Box", "디퓨저": "Diffuser", "보온 텀블러": "Insulated Tumbler", "캠핑 의자": "Camping Chair",
+    "수분크림": "Moisturizing Cream", "선크림": "Sunscreen", "비타민C 세럼": "Vitamin C Serum", "쿠션 파운데이션": "Cushion Foundation",
+    "립스틱": "Lipstick", "탈모 샴푸": "Scalp Care Shampoo", "마스크팩 10매": "Sheet Masks x10", "오드퍼퓸 50ml": "Eau de Parfum 50ml",
+    "강남점": "Gangnam", "여의도점": "Yeouido", "홍대점": "Hongdae", "잠실점": "Jamsil", "판교점": "Pangyo", "수원점": "Suwon",
+    "일산점": "Ilsan", "송도점": "Songdo", "서면점": "Seomyeon", "센텀점": "Centum", "동성로점": "Dongseongno", "울산점": "Ulsan Store",
+    "충장로점": "Chungjangno", "전주점": "Jeonju", "둔산점": "Dunsan", "청주점": "Cheongju", "제주점": "Jeju Store", "강릉점": "Gangneung",
+    "공식 온라인몰": "Online Store", "모바일 앱": "Mobile App",
+    "서울": "Seoul", "경기": "Gyeonggi", "인천": "Incheon", "부산": "Busan", "대구": "Daegu", "울산": "Ulsan", "광주": "Gwangju",
+    "전북": "Jeonbuk", "대전": "Daejeon", "충북": "Chungbuk", "제주": "Jeju", "강원": "Gangwon", "전국": "Nationwide",
+    "수도권": "Capital Area", "영남": "Yeongnam", "호남": "Honam", "충청": "Chungcheong", "온라인": "Online", "오프라인": "Offline"
+  },
+  "tmdl": [
+    { "file": "tables/날짜.tmdl", "find": "QUARTER ( [Date] ) & \"분기\"", "replace": "\"Q\" & QUARTER ( [Date] )" },
+    { "file": "tables/날짜.tmdl", "find": "MONTH ( [Date] ) & \"월\"", "replace": "FORMAT ( [Date], \"MMM\", \"en-US\" )" },
+    { "file": "tables/날짜.tmdl", "find": "SWITCH ( WEEKDAY ( [Date], 2 ), 1, \"월\", 2, \"화\", 3, \"수\", 4, \"목\", 5, \"금\", 6, \"토\", \"일\" )", "replace": "FORMAT ( [Date], \"ddd\", \"en-US\" )" },
+    { "file": "tables/날짜.tmdl", "find": "\"주말\", \"평일\"", "replace": "\"Weekend\", \"Weekday\"" },
+    { "file": "tables/카테고리.tmdl", "find": "\"가전\", 1, \"패션\", 2, \"식품\", 3, \"생활용품\", 4, \"뷰티\", 5", "replace": "\"Electronics\", 1, \"Fashion\", 2, \"Food\", 3, \"Home\", 4, \"Beauty\", 5" },
+    { "file": "expressions.tmdl", "find": "korean-retail\"", "replace": "korean-retail\\en\"" }
+  ]
+}

@@ -19,7 +19,7 @@ OUT = SRC.parent
 ROLE_COLOR = {  # 와이어프레임 색: 레일 위 요소는 어두운 톤, 데이터 비주얼은 파랑 계열
     "pageNavigator": "#23344D", "actionButton": "#C6CDD5", "textbox": "#E4E8ED", "advancedSlicerVisual": "#23344D",
     "headline": "#E4E8ED", "cardVisual": "#CFE0F5", "lineChart": "#DCE8F8", "barChart": "#DCE8F8", "scatterChart": "#DCE8F8",
-    "tableEx": "#E8EEF6",
+    "context": "#E4E8ED", "tableEx": "#E8EEF6", "pivotTable": "#E8EEF6", "decompositionTreeVisual": "#DCE8F8", "dropdownSlicer": "#23344D",
 }
 
 

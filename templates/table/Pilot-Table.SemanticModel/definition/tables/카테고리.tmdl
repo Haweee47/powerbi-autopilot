@@ -1,0 +1,26 @@
+/// 카테고리 5개. 판매(제품 경유)와 목표를 같은 카테고리로 묶는 공통 차원. DISTINCT를 써서 순환 종속을 피한다.
+table 카테고리
+	lineageTag: a519dc5b-9dc6-4930-b2b5-59a202a80779
+
+	/// 가전 · 패션 · 식품 · 생활용품 · 뷰티
+	column 카테고리
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: 제품[카테고리]
+		sortByColumn: 카테고리순서
+		columnOrigin: 제품.카테고리
+
+	column 카테고리순서
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [카테고리순서]
+
+	partition 카테고리 = calculated
+		mode: import
+		source =
+				ADDCOLUMNS (
+				    DISTINCT ( '제품'[카테고리] ),
+				    "카테고리순서", SWITCH ( '제품'[카테고리], "Electronics", 1, "Fashion", 2, "Food", 3, "Home", 4, "Beauty", 5, 9 )
+				)
+

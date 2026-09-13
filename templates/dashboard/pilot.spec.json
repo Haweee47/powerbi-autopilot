@@ -1,0 +1,97 @@
+{
+  "$comment": "Pilot: dashboard (executive summary). Summary → Category → Stores → Store detail (drillthrough). Copy this file for a new report and change only fields and sentences. Text is {en, ko}; the default language is English.",
+  "name": "Pilot-Dashboard",
+  "model": "../../examples/03-modeling-mcp/tmdl",
+  "dataLang": "ko",
+  "dataLocales": "../../examples/_data/korean-retail/locales",
+  "measureTable": "측정값",
+  "theme": "navy",
+  "glossary": "../_shared/glossary.json",
+  "include": ["../_shared/measures.common.json", "../_shared/measures.{lang}.json"],
+  "measures": {
+    "Headline Summary": {
+      "en": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [목표 대비 차이] ) ) VAR w = TOPN ( 1, t, [목표 대비 차이], ASC ) VAR d = MINX ( w, [목표 대비 차이] ) RETURN \"Target attainment \" & FORMAT ( [목표 달성률], \"0.0%\" ) & \"  ·  YoY \" & FORMAT ( [전년 대비 증감률], \"▲0.0%;▼0.0%\" ) & IF ( d < 0, \"  ·  Furthest behind: \" & CONCATENATEX ( w, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( d / 1000000, \"▲#,0.0;▼#,0.0\" ) & \"M\", \"  ·  Every category on target\" )",
+      "ko": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [목표 대비 차이] ) ) VAR w = TOPN ( 1, t, [목표 대비 차이], ASC ) VAR d = MINX ( w, [목표 대비 차이] ) RETURN \"목표 달성률 \" & FORMAT ( [목표 달성률], \"0.0%\" ) & \"  ·  전년 대비 \" & FORMAT ( [전년 대비 증감률], \"▲0.0%;▼0.0%\" ) & IF ( d < 0, \"  ·  가장 모자란 카테고리 \" & CONCATENATEX ( w, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( d / 10000, \"▲#,0만;▼#,0만\" ), \"  ·  모든 카테고리가 목표 이상\" )"
+    },
+    "Headline Category": {
+      "en": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) VAR hi = TOPN ( 1, t, [전년 대비 증감률], DESC ) RETURN \"Weakest: \" & CONCATENATEX ( lo, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" ) & \"  ·  Strongest: \" & CONCATENATEX ( hi, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( MAXX ( hi, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )",
+      "ko": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) VAR hi = TOPN ( 1, t, [전년 대비 증감률], DESC ) RETURN \"가장 부진 \" & CONCATENATEX ( lo, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" ) & \"  ·  가장 성장 \" & CONCATENATEX ( hi, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( MAXX ( hi, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )"
+    },
+    "Headline Store Detail": {
+      "en": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) RETURN SELECTEDVALUE ( '매장'[매장명], \"All stores\" ) & \"  ·  YoY \" & FORMAT ( [전년 대비 증감률], \"▲0.0%;▼0.0%\" ) & \"  ·  Biggest category drop: \" & CONCATENATEX ( lo, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )",
+      "ko": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) RETURN SELECTEDVALUE ( '매장'[매장명], \"전체 매장\" ) & \"  ·  전년 대비 \" & FORMAT ( [전년 대비 증감률], \"▲0.0%;▼0.0%\" ) & \"  ·  가장 크게 준 카테고리 \" & CONCATENATEX ( lo, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )"
+    }
+  },
+  "shared": {
+    "brand": { "text": { "en": "Sales Report", "ko": "판매 리포트" }, "sub": { "en": "Dashboard · sample data", "ko": "대시보드 · 가상 데이터" } },
+    "asof": { "text": { "en": "Data as of 2026-08-31", "ko": "데이터 기준일 2026.08.31" } },
+    "slicer_period": { "field": "날짜.연도", "default": 2026, "single": true, "title": { "en": "Period", "ko": "기간" } },
+    "slicer_channel": { "field": "매장.채널" },
+    "context": { "measure": "Context Label" }
+  },
+  "pages": [
+    {
+      "layout": "summary",
+      "name": { "en": "Summary", "ko": "요약" },
+      "visuals": {
+        "title": { "text": { "en": "Sales performance", "ko": "판매 실적" } },
+        "headline": { "measure": "Headline Summary" },
+        "kpi_sales": { "measure": "Sales Big", "ref": "YoY Text", "ref_color": "YoY Color" },
+        "kpi_profit": { "measure": "Profit Big", "ref": "Profit YoY Text", "ref_color": "Profit YoY Color" },
+        "kpi_target": { "measure": "목표 달성률", "ref": "Target Gap Text", "ref_color": "Target Gap Color" },
+        "kpi_aov": { "measure": "AOV Disp", "ref": "AOV YoY Text", "ref_color": "AOV YoY Color" },
+        "trend": { "x": "날짜.월", "y": ["Sales Disp", "Sales PY Disp", "Target Disp"], "target": "Target Disp",
+                   "title": { "en": "Monthly sales", "ko": "월별 매출" }, "sub": { "en": "This year · last year · target (dashed)", "ko": "만 원 · 올해 · 작년 · 목표(점선)" } },
+        "category": { "x": "카테고리.카테고리", "y": ["Target Gap Disp"], "sort": "desc", "color": "Target Gap Bar Color",
+                      "title": { "en": "Sales vs target by category", "ko": "카테고리별 목표 대비" }, "sub": { "en": "Red = below target", "ko": "만 원 · 빨강은 목표 미달" } },
+        "stores": { "columns": ["매장.매장명", "Sales Disp", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"], "format": { "전년 대비 증감률": "sign" }, "totals": false,
+                    "title": { "en": "Stores with the weakest YoY", "ko": "전년 대비가 낮은 매장" }, "sub": { "en": "Right-click a row → Drill through → Store detail", "ko": "행을 오른쪽 클릭 → 드릴스루 → 매장 상세" } },
+        "region": { "x": "매장.권역", "y": ["Sales Big"], "sort": "desc", "title": { "en": "Sales by region", "ko": "권역별 매출" } }
+      }
+    },
+    {
+      "layout": "category",
+      "name": { "en": "Categories", "ko": "카테고리" },
+      "visuals": {
+        "title": { "text": { "en": "Category performance", "ko": "카테고리별 성과" } },
+        "headline": { "measure": "Headline Category" },
+        "multiples": { "x": "날짜.월번호", "continuous": true, "y": ["Sales Disp", "Sales PY Disp"], "small": "카테고리.카테고리", "grid": [1, 5],
+                       "title": { "en": "Monthly sales by category", "ko": "카테고리별 월 매출" }, "sub": { "en": "Month 1–8 · this year vs last year · shared y-axis", "ko": "만 원 · 가로축 월(1–8) · 올해 · 작년 · 세로축 공통" } },
+        "table": { "columns": ["카테고리.카테고리", "Sales Disp", "Sales PY Disp", "전년 대비 증감률", "목표 달성률", "매출 구성비"], "sort": ["전년 대비 증감률", "desc"],
+                   "format": { "전년 대비 증감률": "sign" }, "title": { "en": "Category summary", "ko": "카테고리 요약" } },
+        "mix": { "x": "카테고리.카테고리", "y": ["매출 구성비"], "sort": "desc", "title": { "en": "Sales mix", "ko": "매출 구성비" }, "sub": { "en": "Within the selected period and channel", "ko": "선택한 기간·채널 안에서" } }
+      }
+    },
+    {
+      "layout": "stores",
+      "name": { "en": "Stores", "ko": "매장" },
+      "visuals": {
+        "title": { "text": { "en": "Store performance", "ko": "매장별 성과" } },
+        "headline": { "measure": "Headline Stores" },
+        "scatter": { "point": "매장.매장명", "x": "Sales Disp", "y": "전년 대비 증감률", "color": "YoY Bar Color", "zero": true,
+                     "title": { "en": "Store size vs growth", "ko": "매장 규모와 성장률" }, "sub": { "en": "x = sales · y = YoY · right-click a dot to drill through", "ko": "가로 매출(만 원) · 세로 전년 대비 · 점을 오른쪽 클릭 → 드릴스루" } },
+        "watch": { "columns": ["매장.매장명", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"], "format": { "전년 대비 증감률": "sign" }, "totals": false,
+                   "title": { "en": "Watch list", "ko": "주의 매장" }, "sub": { "en": "Lowest YoY first", "ko": "전년 대비 낮은 순" } },
+        "rank": { "columns": ["매장.매장명", "매장.권역", "매장.채널", "Sales Disp", "이익률", "AOV Disp", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"],
+                  "format": { "Sales Disp": "bar", "전년 대비 증감률": "sign" }, "title": { "en": "All stores", "ko": "전체 매장 순위" } }
+      }
+    },
+    {
+      "layout": "store_detail",
+      "name": { "en": "Store detail", "ko": "매장 상세" },
+      "hidden": true,
+      "drillthrough": "매장.매장명",
+      "visuals": {
+        "title": { "text": { "en": "Store detail", "ko": "매장 상세" } },
+        "back": { "action": "Back", "text": { "en": "← All stores", "ko": "← 매장 목록" } },
+        "headline": { "measure": "Headline Store Detail" },
+        "kpi_sales": { "measure": "Sales Big", "ref": "YoY Text", "ref_color": "YoY Color" },
+        "kpi_margin": { "measure": "이익률", "ref": "Margin YoY Text", "ref_color": "Margin YoY Color" },
+        "kpi_orders": { "measure": "Orders Disp", "ref": "Orders YoY Text", "ref_color": "Orders YoY Color" },
+        "kpi_aov": { "measure": "AOV Disp", "ref": "AOV YoY Text", "ref_color": "AOV YoY Color" },
+        "trend": { "x": "날짜.월", "y": ["Sales Disp", "Sales PY Disp"], "title": { "en": "Monthly sales", "ko": "월 매출" }, "sub": { "en": "This year vs last year", "ko": "만 원 · 올해 · 작년" } },
+        "mix": { "x": "카테고리.카테고리", "y": ["매출 구성비"], "sort": "desc", "title": { "en": "Category mix", "ko": "카테고리 구성비" }, "sub": { "en": "Share of this store's sales", "ko": "이 매장 매출 안에서" } }
+      }
+    }
+  ]
+}

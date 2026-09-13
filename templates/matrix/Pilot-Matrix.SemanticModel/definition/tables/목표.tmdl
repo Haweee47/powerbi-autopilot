@@ -1,0 +1,37 @@
+/// 카테고리별 월 목표 매출. 2025년부터 전년 동월 실적 × 1.06.
+table 목표
+	lineageTag: 52b03477-aae5-41f5-bc82-635a1e8f4063
+
+	column 목표월
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm
+		lineageTag: d0077902-2ebb-4c59-adf1-2893b0e95d4d
+		summarizeBy: none
+		sourceColumn: 목표월
+
+	column 카테고리
+		dataType: string
+		isHidden
+		lineageTag: 2198ef68-65c3-4021-9140-127c8189584a
+		summarizeBy: none
+		sourceColumn: 카테고리
+
+	column 목표매출액
+		dataType: double
+		isHidden
+		formatString: #,0
+		lineageTag: 8a6694fd-632a-4d5f-9adf-152ec11cc164
+		summarizeBy: sum
+		sourceColumn: 목표매출액
+
+	partition 목표 = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(#"데이터폴더" & "\목표.csv"), [Delimiter = ",", Columns = 3, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"목표월", type date}, {"카테고리", type text}, {"목표매출액", type number}}, "en-US")
+				in
+				    Typed
+

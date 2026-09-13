@@ -3,7 +3,8 @@
   "name": "KoreanRetail",
   "model": "../03-modeling-mcp/tmdl",
   "measureTable": "측정값",
-  "theme": "autopilot-light",
+  "theme": "navy",
+  "lang": "ko",
   "measures": {
     "매출 (만)": { "expr": "DIVIDE ( [매출], 10000 )", "format": "#,0\"만\"" },
     "전년 매출 (만)": { "expr": "DIVIDE ( [전년 매출], 10000 )", "format": "#,0\"만\"" },

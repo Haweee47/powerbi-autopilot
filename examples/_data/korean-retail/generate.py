@@ -4,11 +4,15 @@
 똑같은 입력으로 리포트를 만들도록 공용 데이터를 만든다.
 시드를 고정했으므로 누가 실행해도 같은 CSV가 나온다.
 
-실행: python generate.py
+실행: python generate.py [--lang en]
 결과: 판매.csv, 제품.csv, 매장.csv, 목표.csv (UTF-8 BOM)
+  --lang en  값(제품·카테고리·매장·권역·채널 이름)만 locales/en.json으로 번역해 en/ 폴더에 쓴다.
+             파일 이름·열 이름·숫자는 같다 → 같은 모델이 데이터 폴더만 바꿔 영어 리포트가 된다.
 """
+import argparse
 import csv
 import datetime as dt
+import json
 import random
 from collections import defaultdict
 from pathlib import Path
@@ -139,6 +143,13 @@ def poisson(lam: float, rng: random.Random) -> int:
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--lang", default="ko")
+    lang = ap.parse_args().lang
+    out = OUT if lang == "ko" else OUT / lang
+    out.mkdir(exist_ok=True)
+    vmap = {} if lang == "ko" else json.load(open(OUT / "locales" / f"{lang}.json", encoding="utf-8"))["values"]
+    tr = lambda v: vmap.get(v, v) if isinstance(v, str) else v  # 번역 사전에 있는 문자열 값만 바꾼다 (코드·날짜·숫자는 그대로)
     rng = random.Random(SEED)
     by_cat = defaultdict(list)
     for p in PRODUCTS:
@@ -193,10 +204,10 @@ def main() -> None:
         target_rows.append([f"{ym}-01", cat, round(target, -6)])  # 백만원 단위 반올림
 
     def write(name, header, rows):
-        with open(OUT / name, "w", newline="", encoding="utf-8-sig") as f:
+        with open(out / name, "w", newline="", encoding="utf-8-sig") as f:
             w = csv.writer(f)
             w.writerow(header)
-            w.writerows(rows)
+            w.writerows([[tr(v) for v in r] for r in rows])
 
     write("판매.csv",
           ["주문번호", "주문일자", "매장코드", "제품코드", "수량", "정가", "할인율", "매출액", "원가"],
@@ -209,8 +220,12 @@ def main() -> None:
           [list(s[:6]) for s in STORES])
     write("목표.csv", ["목표월", "카테고리", "목표매출액"], target_rows)
 
+    missing = sorted({v for r in [list(p) for p in PRODUCTS] + [list(s[:6]) for s in STORES] for v in r[1:5]
+                      if isinstance(v, str) and not v[:1].isdigit() and vmap and v not in vmap})
+    if missing:
+        print("번역 없음:", ", ".join(missing))
     total = sum(r[7] for r in sales_rows)
-    print(f"판매 {len(sales_rows):,}행 / 총매출 {total / 1e8:,.1f}억 원 / 목표 {len(target_rows)}행")
+    print(f"[{lang}] {out.name}/ · 판매 {len(sales_rows):,}행 / 총매출 {total / 1e8:,.1f}억 원 / 목표 {len(target_rows)}행")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="Segoe UI, Malgun Gothic, sans-serif">
+<rect width="1280" height="720" fill="#F2F4F7"/>
+<rect x="0" y="0" width="192" height="720" fill="#0F1A2A"/>
+<rect x="16" y="24" width="160" height="48" rx="8" fill="#E4E8ED" stroke="#3A4B63" stroke-width="1"/>
+<text x="26" y="44" font-size="11" font-weight="600" fill="#F2F5F9">리포트 이름</text>
+<rect x="16" y="96" width="160" height="136" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<text x="26" y="116" font-size="13" font-weight="600" fill="#F2F5F9">페이지 (세로)</text>
+<text x="26" y="134" font-size="11" fill="#AEB9C7">pageNavigator · 16,96 · 160×136</text>
+<rect x="16" y="256" width="160" height="72" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<text x="26" y="276" font-size="13" font-weight="600" fill="#F2F5F9">기간</text>
+<text x="26" y="294" font-size="11" fill="#AEB9C7">advancedSlicerVisual · 16,256 · 160×72</text>
+<rect x="16" y="344" width="160" height="72" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<text x="26" y="364" font-size="13" font-weight="600" fill="#F2F5F9">채널</text>
+<text x="26" y="382" font-size="11" fill="#AEB9C7">advancedSlicerVisual · 16,344 · 160×72</text>
+<rect x="16" y="664" width="160" height="32" rx="8" fill="#E4E8ED" stroke="#3A4B63" stroke-width="1"/>
+<text x="26" y="684" font-size="11" font-weight="600" fill="#F2F5F9">데이터 기준일</text>
+<rect x="216" y="24" width="688" height="40" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="226" y="44" font-size="11" font-weight="600" fill="#14202B">페이지 제목</text>
+<rect x="920" y="24" width="336" height="40" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="930" y="44" font-size="11" font-weight="600" fill="#14202B">지금 보는 범위 (측정값)</text>
+<rect x="216" y="64" width="1040" height="32" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="226" y="84" font-size="11" font-weight="600" fill="#14202B">결론 한 줄 (측정값)</text>
+<rect x="16" y="432" width="160" height="64" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<text x="26" y="452" font-size="13" font-weight="600" fill="#F2F5F9">추가 필터 (드롭다운)</text>
+<text x="26" y="470" font-size="11" fill="#AEB9C7">dropdownSlicer · 16,432 · 160×64</text>
+<rect x="216" y="112" width="1040" height="584" rx="8" fill="#E8EEF6" stroke="#8E99A6" stroke-width="1"/>
+<text x="226" y="132" font-size="13" font-weight="600" fill="#14202B">행 = 항목, 열 = 측정값 (막대·색 척도·부호 색)</text>
+<text x="226" y="150" font-size="11" fill="#4A5563">tableEx · 216,112 · 1040×584</text>
+<text x="1256" y="714" font-size="11" text-anchor="end" fill="#5A6471">성과표 · 지표 테이블 — 항목마다 지표가 어떻게 다른가</text>
+</svg>
