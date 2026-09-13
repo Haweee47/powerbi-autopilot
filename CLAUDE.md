@@ -139,7 +139,7 @@ powerbi-autopilot/
 
 ## 7. Git 규칙
 
-- 원격 저장소: GitHub `jinseong0407/powerbi-autopilot` (공개).
+- 원격 저장소: GitHub `Haweee47/powerbi-autopilot` (공개).
 - **작업 단위가 끝날 때마다 커밋하고 push한다** (2026-09-13 사용자 승인).
 - push 전에 추적 파일에 로컬 경로·사용자명·개인정보·회사 정보가 없는지 검사한다.
 - 커밋 메시지: Conventional Commits (`feat:` `fix:` `docs:` `refactor:` `chore:`)

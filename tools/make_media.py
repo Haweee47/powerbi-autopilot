@@ -73,7 +73,7 @@ def cover() -> Image.Image:
         d.text((x + 24, y + c.height - 14), label, font=font(True, 28), fill=INK)
     facts = ["4 pilots by purpose  ·  3 themes  ·  English default, Korean built in",
              "Agent writes a 1–3K-token spec  ·  0 errors on Microsoft's PBIR validator",
-             "github.com/jinseong0407/powerbi-autopilot"]
+             "github.com/Haweee47/powerbi-autopilot"]
     for i, f in enumerate(facts):
         d.text((72, H - 190 + i * 44), f, font=font(i == 2, 26), fill=ACCENT if i == 2 else SOFT)
     return im

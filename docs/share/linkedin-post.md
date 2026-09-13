@@ -17,7 +17,7 @@ One request → a finished PBIP report, checked in Power BI Desktop:
 • 0 errors on Microsoft's PBIR validator, and every page is screenshotted in Desktop before it counts as done
 • Design rules from 1,800+ public reports and research (Bach et al. 2023, Kim et al. 2021, Borkin et al. 2016)
 
-Open source, MIT: https://github.com/jinseong0407/powerbi-autopilot
+Open source, MIT: https://github.com/Haweee47/powerbi-autopilot
 
 What would you add as a 5th pilot?
 
@@ -37,7 +37,7 @@ Power BI 리포트를 손으로 만들던 걸 멈추고, AI 에이전트가 적�
 • Microsoft 공식 PBIR 검증 오류 0, 모든 페이지를 Desktop에서 캡처해 확인한 뒤에야 완료
 • 디자인 규칙은 공개 리포트 1,800여 개와 연구(Bach 2023, Kim 2021, Borkin 2016)에서
 
-오픈소스(MIT): https://github.com/jinseong0407/powerbi-autopilot
+오픈소스(MIT): https://github.com/Haweee47/powerbi-autopilot
 
 다섯 번째 파일럿으로 무엇이 있으면 좋을까요?
 

@@ -136,4 +136,4 @@ Claude Code + MCP (Power BI Modeling MCP) · Windows UI Automation (Desktop 캡�
 
 ---
 
-만든 사람: [jinseong0407](https://github.com/jinseong0407) · 라이선스: [MIT](LICENSE)
+만든 사람: [Haweee47](https://github.com/Haweee47) · 라이선스: [MIT](LICENSE)
