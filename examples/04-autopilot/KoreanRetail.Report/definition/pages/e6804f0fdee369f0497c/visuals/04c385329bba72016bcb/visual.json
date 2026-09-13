@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "04c385329bba72016bcb",
   "position": {
-    "x": 24,
-    "y": 432,
-    "z": 7000,
-    "height": 264,
-    "width": 1232,
-    "tabOrder": 7000
+    "x": 216,
+    "y": 424,
+    "z": 10000,
+    "height": 272,
+    "width": 1040,
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "tableEx",
@@ -65,11 +65,12 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "매출"
+                  "Property": "매출 (만)"
                 }
               },
-              "queryRef": "측정값.매출",
-              "nativeQueryRef": "매출"
+              "queryRef": "측정값.매출 (만)",
+              "nativeQueryRef": "매출 (만)",
+              "displayName": "매출"
             },
             {
               "field": {
@@ -134,6 +135,40 @@
         ],
         "isDefaultSort": false
       }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "측정값"
+                        }
+                      },
+                      "Property": "증감 글자색"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "측정값.전년 대비 증감률"
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [

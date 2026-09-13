@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "e491b72ee6fe01e2136e",
   "position": {
-    "x": 24,
-    "y": 72,
-    "z": 4000,
-    "height": 56,
-    "width": 1024,
-    "tabOrder": 4000
+    "x": 216,
+    "y": 24,
+    "z": 3000,
+    "height": 40,
+    "width": 688,
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "textbox",
@@ -22,26 +22,50 @@
                     "value": "매장 상세",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold, Malgun Gothic, sans-serif",
-                      "fontSize": "16pt"
-                    }
-                  }
-                ],
-                "horizontalTextAlignment": "left"
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "이 매장에 무슨 일이 있었나 · 매장 페이지에서 드릴스루",
-                    "textStyle": {
-                      "fontFamily": "Segoe UI, Malgun Gothic, sans-serif",
-                      "fontSize": "10pt",
-                      "color": "#5A6471"
+                      "fontSize": "18pt",
+                      "color": "#101828"
                     }
                   }
                 ],
                 "horizontalTextAlignment": "left"
               }
             ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
           }
         }
       ]

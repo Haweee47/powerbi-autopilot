@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "3821a65148de3943d2f7",
   "position": {
-    "x": 24,
-    "y": 144,
-    "z": 5000,
-    "height": 232,
-    "width": 1232,
-    "tabOrder": 5000
+    "x": 216,
+    "y": 112,
+    "z": 6000,
+    "height": 248,
+    "width": 1040,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "lineChart",
@@ -23,11 +23,11 @@
                       "Entity": "날짜"
                     }
                   },
-                  "Property": "월"
+                  "Property": "월번호"
                 }
               },
-              "queryRef": "날짜.월",
-              "nativeQueryRef": "월",
+              "queryRef": "날짜.월번호",
+              "nativeQueryRef": "월번호",
               "active": true
             }
           ]
@@ -42,11 +42,12 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "매출"
+                  "Property": "매출 (만)"
                 }
               },
-              "queryRef": "측정값.매출",
-              "nativeQueryRef": "매출"
+              "queryRef": "측정값.매출 (만)",
+              "nativeQueryRef": "매출 (만)",
+              "displayName": "매출"
             },
             {
               "field": {
@@ -56,11 +57,12 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "전년 매출"
+                  "Property": "전년 매출 (만)"
                 }
               },
-              "queryRef": "측정값.전년 매출",
-              "nativeQueryRef": "전년 매출"
+              "queryRef": "측정값.전년 매출 (만)",
+              "nativeQueryRef": "전년 매출 (만)",
+              "displayName": "전년 매출"
             }
           ]
         },
@@ -84,6 +86,64 @@
         }
       }
     },
+    "objects": {
+      "lineStyles": [
+        {
+          "properties": {
+            "strokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "측정값.매출 (만)"
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "axisType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Scalar'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "smallMultiplesLayout": [
+        {
+          "properties": {
+            "layoutType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'custom'"
+                }
+              }
+            },
+            "rowCount": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "columnCount": {
+              "expr": {
+                "Literal": {
+                  "Value": "5L"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -91,7 +151,27 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'카테고리별 월 매출 — 올해 · 작년 (세로축 공통)'"
+                  "Value": "'카테고리별 월 매출'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'만 원 · 가로축 월(1–8) · 올해 · 작년 · 세로축 공통'"
                 }
               }
             }

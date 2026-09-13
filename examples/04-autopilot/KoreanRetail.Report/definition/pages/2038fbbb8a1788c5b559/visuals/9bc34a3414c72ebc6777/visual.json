@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "9bc34a3414c72ebc6777",
   "position": {
-    "x": 24,
-    "y": 504,
-    "z": 11000,
-    "height": 192,
-    "width": 608,
-    "tabOrder": 11000
+    "x": 216,
+    "y": 480,
+    "z": 14000,
+    "height": 216,
+    "width": 512,
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "tableEx",
@@ -37,11 +37,12 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "매출"
+                  "Property": "매출 (만)"
                 }
               },
-              "queryRef": "측정값.매출",
-              "nativeQueryRef": "매출"
+              "queryRef": "측정값.매출 (만)",
+              "nativeQueryRef": "매출 (만)",
+              "displayName": "매출"
             },
             {
               "field": {
@@ -79,6 +80,53 @@
         "isDefaultSort": false
       }
     },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "측정값"
+                        }
+                      },
+                      "Property": "증감 글자색"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "측정값.전년 대비 증감률"
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -86,7 +134,27 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'전년 대비가 낮은 매장 (행을 누르면 상세)'"
+                  "Value": "'전년 대비가 낮은 매장'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'행을 오른쪽 클릭 → 드릴스루 → 매장 상세'"
                 }
               }
             }

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "2226d62597b3a817de7c",
   "position": {
-    "x": 960,
-    "y": 144,
-    "z": 9000,
+    "x": 1008,
+    "y": 112,
+    "z": 10000,
     "height": 112,
-    "width": 296,
-    "tabOrder": 9000
+    "width": 248,
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,16 +23,81 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "객단가"
+                  "Property": "객단가 (만원)"
                 }
               },
-              "queryRef": "측정값.객단가",
-              "nativeQueryRef": "객단가",
+              "queryRef": "측정값.객단가 (만원)",
+              "nativeQueryRef": "객단가 (만원)",
               "displayName": "객단가"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "referenceLabel": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "객단가 전년 대비"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "측정값.객단가 (만원)",
+            "id": "field-bdf25045917c7c50375e9de61e1f28e9",
+            "order": 0
+          }
+        }
+      ],
+      "referenceLabelValue": [
+        {
+          "properties": {
+            "valueFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "측정값"
+                        }
+                      },
+                      "Property": "객단가 증감 색"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "측정값.객단가 (만원)",
+            "id": "field-bdf25045917c7c50375e9de61e1f28e9"
+          }
+        }
+      ]
     }
   }
 }

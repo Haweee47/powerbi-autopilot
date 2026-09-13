@@ -1,34 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="Segoe UI, Malgun Gothic, sans-serif">
-<rect width="1280" height="720" fill="#EEF1F5"/>
-<rect x="24" y="16" width="88" height="40" rx="8" fill="#C6CDD5" stroke="#8E99A6" stroke-width="1"/>
-<text x="34" y="36" font-size="11" font-weight="600" fill="#14202B">← 뒤로</text>
-<rect x="128" y="16" width="816" height="40" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
-<text x="138" y="36" font-size="11" font-weight="600" fill="#14202B">경로: 매장 › (선택한 매장)</text>
-<rect x="960" y="16" width="296" height="40" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
-<text x="970" y="36" font-size="11" font-weight="600" fill="#14202B">데이터 기준일</text>
-<rect x="24" y="72" width="1024" height="56" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
-<text x="34" y="92" font-size="13" font-weight="600" fill="#14202B">매장 이름 + 인사이트 문장 (측정값)</text>
-<text x="34" y="110" font-size="11" fill="#4A5563">textbox · 24,72 · 1024×56</text>
-<rect x="1064" y="72" width="192" height="56" rx="8" fill="#D5DCE4" stroke="#8E99A6" stroke-width="1"/>
-<text x="1074" y="92" font-size="13" font-weight="600" fill="#14202B">기간</text>
-<text x="1074" y="110" font-size="11" fill="#4A5563">advancedSlicerVisual · 1064,72 · 192×56</text>
-<rect x="24" y="144" width="296" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
-<text x="34" y="164" font-size="13" font-weight="600" fill="#14202B">매출</text>
-<text x="34" y="182" font-size="11" fill="#4A5563">cardVisual · 24,144 · 296×112</text>
-<rect x="336" y="144" width="296" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
-<text x="346" y="164" font-size="13" font-weight="600" fill="#14202B">이익률</text>
-<text x="346" y="182" font-size="11" fill="#4A5563">cardVisual · 336,144 · 296×112</text>
-<rect x="648" y="144" width="296" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
-<text x="658" y="164" font-size="13" font-weight="600" fill="#14202B">주문</text>
-<text x="658" y="182" font-size="11" fill="#4A5563">cardVisual · 648,144 · 296×112</text>
-<rect x="960" y="144" width="296" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
-<text x="970" y="164" font-size="13" font-weight="600" fill="#14202B">객단가</text>
-<text x="970" y="182" font-size="11" fill="#4A5563">cardVisual · 960,144 · 296×112</text>
-<rect x="24" y="272" width="608" height="424" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
-<text x="34" y="292" font-size="13" font-weight="600" fill="#14202B">매장 월 매출: 올해·작년</text>
-<text x="34" y="310" font-size="11" fill="#4A5563">lineChart · 24,272 · 608×424</text>
-<rect x="648" y="272" width="608" height="424" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
-<text x="658" y="292" font-size="13" font-weight="600" fill="#14202B">카테고리 구성비: 이 매장 vs 같은 채널</text>
-<text x="658" y="310" font-size="11" fill="#4A5563">barChart · 648,272 · 608×424</text>
-<text x="1256" y="714" font-size="11" text-anchor="end" fill="#5A6471">매장 상세 · 상세 (드릴스루 대상, 탭에서 숨김) — 이 매장에 무슨 일이 있었나</text>
+<rect width="1280" height="720" fill="#F2F4F7"/>
+<rect x="0" y="0" width="192" height="720" fill="#0F1A2A"/>
+<rect x="16" y="24" width="160" height="48" rx="8" fill="#E4E8ED" stroke="#3A4B63" stroke-width="1"/>
+<text x="26" y="44" font-size="11" font-weight="600" fill="#F2F5F9">리포트 이름</text>
+<rect x="16" y="96" width="160" height="136" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<text x="26" y="116" font-size="13" font-weight="600" fill="#F2F5F9">페이지 (세로)</text>
+<text x="26" y="134" font-size="11" fill="#AEB9C7">pageNavigator · 16,96 · 160×136</text>
+<rect x="16" y="256" width="160" height="72" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<text x="26" y="276" font-size="13" font-weight="600" fill="#F2F5F9">기간</text>
+<text x="26" y="294" font-size="11" fill="#AEB9C7">advancedSlicerVisual · 16,256 · 160×72</text>
+<rect x="16" y="664" width="160" height="32" rx="8" fill="#E4E8ED" stroke="#3A4B63" stroke-width="1"/>
+<text x="26" y="684" font-size="11" font-weight="600" fill="#F2F5F9">데이터 기준일</text>
+<rect x="216" y="24" width="688" height="40" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="226" y="44" font-size="11" font-weight="600" fill="#14202B">페이지 제목</text>
+<rect x="1096" y="24" width="160" height="40" rx="8" fill="#C6CDD5" stroke="#8E99A6" stroke-width="1"/>
+<text x="1106" y="44" font-size="11" font-weight="600" fill="#14202B">← 뒤로</text>
+<rect x="216" y="64" width="1040" height="32" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="226" y="84" font-size="11" font-weight="600" fill="#14202B">매장 이름 + 결론 한 줄 (측정값)</text>
+<rect x="216" y="112" width="248" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="226" y="132" font-size="13" font-weight="600" fill="#14202B">매출</text>
+<text x="226" y="150" font-size="11" fill="#4A5563">cardVisual · 216,112 · 248×112</text>
+<rect x="480" y="112" width="248" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="490" y="132" font-size="13" font-weight="600" fill="#14202B">이익률</text>
+<text x="490" y="150" font-size="11" fill="#4A5563">cardVisual · 480,112 · 248×112</text>
+<rect x="744" y="112" width="248" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="754" y="132" font-size="13" font-weight="600" fill="#14202B">주문</text>
+<text x="754" y="150" font-size="11" fill="#4A5563">cardVisual · 744,112 · 248×112</text>
+<rect x="1008" y="112" width="248" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="1018" y="132" font-size="13" font-weight="600" fill="#14202B">객단가</text>
+<text x="1018" y="150" font-size="11" fill="#4A5563">cardVisual · 1008,112 · 248×112</text>
+<rect x="216" y="240" width="512" height="456" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
+<text x="226" y="260" font-size="13" font-weight="600" fill="#14202B">매장 월 매출: 올해·작년</text>
+<text x="226" y="278" font-size="11" fill="#4A5563">lineChart · 216,240 · 512×456</text>
+<rect x="744" y="240" width="512" height="456" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
+<text x="754" y="260" font-size="13" font-weight="600" fill="#14202B">카테고리 구성비</text>
+<text x="754" y="278" font-size="11" fill="#4A5563">barChart · 744,240 · 512×456</text>
+<text x="1256" y="714" font-size="11" text-anchor="end" fill="#5A6471">매장 상세 · 상세 (드릴스루 대상, 선택기에서 숨김) — 이 매장에 무슨 일이 있었나</text>
 </svg>

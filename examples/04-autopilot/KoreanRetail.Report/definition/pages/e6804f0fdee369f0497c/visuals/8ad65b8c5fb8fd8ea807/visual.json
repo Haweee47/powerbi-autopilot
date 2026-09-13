@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "8ad65b8c5fb8fd8ea807",
   "position": {
-    "x": 24,
-    "y": 144,
-    "z": 5000,
-    "height": 272,
-    "width": 816,
-    "tabOrder": 5000
+    "x": 216,
+    "y": 112,
+    "z": 6000,
+    "height": 296,
+    "width": 688,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "scatterChart",
@@ -42,11 +42,12 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "매출"
+                  "Property": "매출 (만)"
                 }
               },
-              "queryRef": "측정값.매출",
-              "nativeQueryRef": "매출"
+              "queryRef": "측정값.매출 (만)",
+              "nativeQueryRef": "매출 (만)",
+              "displayName": "매출"
             }
           ]
         },
@@ -78,6 +79,26 @@
               "expr": {
                 "Literal": {
                   "Value": "'매장 규모와 성장률'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'가로 매출(만 원) · 세로 전년 대비 · 점을 오른쪽 클릭 → 드릴스루'"
                 }
               }
             }

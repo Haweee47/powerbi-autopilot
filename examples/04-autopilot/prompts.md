@@ -14,7 +14,25 @@
 ```bash
 python tools/generate_pbir.py examples/04-autopilot/report.spec.json
 powerbi-report-author validate examples/04-autopilot/KoreanRetail.Report
+# Desktop에서 열어 볼 사본 (이 PC의 데이터 경로로 바꿔 저장소 밖에 쓴다)
+python tools/generate_pbir.py examples/04-autopilot/report.spec.json --local-data --out <작업 폴더>
 ```
+
+## 명세에서 쓸 수 있는 것
+
+| 키 | 어디에 | 하는 일 |
+|---|---|---|
+| `measures` | 최상위 | 표시용 측정값을 모델에 더한다. 억·만 단위, "전년 대비 ▲12.3%" 같은 문구, 결론 문장, 증감 색(`@neg` 같은 토큰 이름) |
+| `shared` | 최상위 | 레일(리포트 이름·기준일·슬라이서)에 들어갈 내용. 한 번 적으면 모든 페이지에 들어간다 |
+| `headline` | 페이지 | 제목 아래 결론 한 줄 (문장을 돌려주는 측정값) |
+| `default`, `single` | 슬라이서 | 처음 열 때 선택할 값(예: 2026), 하나만 고르기 |
+| `ref`, `ref_color` | 카드 | 값 아래 비교 문구와 그 색 (측정값) |
+| `sub` | 차트·표 | 부제목: 단위, 읽는 법 |
+| `target` | 선 차트 | 목표 계열을 흐린 점선으로 |
+| `color` | 막대 | 막대마다 색을 측정값으로 (목표 미달 빨강) |
+| `colors`, `totals` | 표 | 열 글자색을 측정값으로 (감소만 빨강), 합계 줄 끄기 |
+| `type` | 막대 | 가로·세로 막대만 명세가 바꿀 수 있다 (항목이 많으면 세로) |
+| (자동) | 전 페이지 | 레일 바탕과 페이지 선택기는 적지 않아도 놓인다. 이름 끝의 `(만)`·`(억)`은 범례·머리글에서 뗀다. 선 차트 첫 계열(올해)은 굵게 |
 
 ## 사용자가 입력한 프롬프트 (원문 그대로)
 

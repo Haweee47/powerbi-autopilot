@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "d1a7a4b8d3aed92f4661",
   "position": {
-    "x": 856,
-    "y": 392,
-    "z": 7000,
-    "height": 304,
-    "width": 400,
-    "tabOrder": 7000
+    "x": 920,
+    "y": 376,
+    "z": 10000,
+    "height": 320,
+    "width": 336,
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "barChart",
@@ -78,6 +78,26 @@
               "expr": {
                 "Literal": {
                   "Value": "'매출 구성비'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'선택한 기간·채널 안에서'"
                 }
               }
             }

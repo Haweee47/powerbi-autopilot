@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "e0ff38e8c2be60c99292",
   "position": {
-    "x": 648,
-    "y": 272,
-    "z": 11000,
-    "height": 424,
-    "width": 608,
-    "tabOrder": 11000
+    "x": 744,
+    "y": 240,
+    "z": 12000,
+    "height": 456,
+    "width": 512,
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "barChart",
@@ -78,6 +78,26 @@
               "expr": {
                 "Literal": {
                   "Value": "'카테고리 구성비'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'이 매장 매출 안에서'"
                 }
               }
             }

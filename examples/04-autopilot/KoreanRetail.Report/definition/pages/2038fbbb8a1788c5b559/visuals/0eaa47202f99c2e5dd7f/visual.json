@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "0eaa47202f99c2e5dd7f",
   "position": {
-    "x": 336,
-    "y": 144,
-    "z": 6000,
+    "x": 480,
+    "y": 112,
+    "z": 7000,
     "height": 112,
-    "width": 296,
-    "tabOrder": 6000
+    "width": 248,
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -33,6 +33,71 @@
           ]
         }
       }
+    },
+    "objects": {
+      "referenceLabel": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "이익 전년 대비"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "측정값.이익 (억)",
+            "id": "field-5bbc6c16f94c67cb637a3f69b49f5f0a",
+            "order": 0
+          }
+        }
+      ],
+      "referenceLabelValue": [
+        {
+          "properties": {
+            "valueFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "측정값"
+                        }
+                      },
+                      "Property": "이익 증감 색"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "측정값.이익 (억)",
+            "id": "field-5bbc6c16f94c67cb637a3f69b49f5f0a"
+          }
+        }
+      ]
     }
   }
 }

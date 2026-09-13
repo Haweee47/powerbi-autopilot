@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "375139110670569b21c7",
   "position": {
-    "x": 856,
-    "y": 144,
-    "z": 6000,
-    "height": 272,
-    "width": 400,
-    "tabOrder": 6000
+    "x": 920,
+    "y": 112,
+    "z": 7000,
+    "height": 296,
+    "width": 336,
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "tableEx",
@@ -65,6 +65,53 @@
         "isDefaultSort": false
       }
     },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "측정값"
+                        }
+                      },
+                      "Property": "증감 글자색"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "측정값.전년 대비 증감률"
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -73,6 +120,26 @@
               "expr": {
                 "Literal": {
                   "Value": "'주의 매장'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'전년 대비 낮은 순'"
                 }
               }
             }

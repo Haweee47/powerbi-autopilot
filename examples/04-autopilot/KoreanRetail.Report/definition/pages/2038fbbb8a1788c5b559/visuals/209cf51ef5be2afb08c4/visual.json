@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "209cf51ef5be2afb08c4",
   "position": {
-    "x": 24,
-    "y": 144,
-    "z": 5000,
+    "x": 216,
+    "y": 112,
+    "z": 6000,
     "height": 112,
-    "width": 296,
-    "tabOrder": 5000
+    "width": 248,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -33,6 +33,71 @@
           ]
         }
       }
+    },
+    "objects": {
+      "referenceLabel": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "전년 대비"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "측정값.매출 (억)",
+            "id": "field-477bc47da93ea97f2d46d96fb413505a",
+            "order": 0
+          }
+        }
+      ],
+      "referenceLabelValue": [
+        {
+          "properties": {
+            "valueFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "측정값"
+                        }
+                      },
+                      "Property": "전년 대비 색"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "측정값.매출 (억)",
+            "id": "field-477bc47da93ea97f2d46d96fb413505a"
+          }
+        }
+      ]
     }
   }
 }

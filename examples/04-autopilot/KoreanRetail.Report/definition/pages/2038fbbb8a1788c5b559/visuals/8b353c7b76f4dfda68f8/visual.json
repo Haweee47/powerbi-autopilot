@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "8b353c7b76f4dfda68f8",
   "position": {
-    "x": 648,
-    "y": 144,
-    "z": 7000,
+    "x": 744,
+    "y": 112,
+    "z": 8000,
     "height": 112,
-    "width": 296,
-    "tabOrder": 7000
+    "width": 248,
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -33,6 +33,71 @@
           ]
         }
       }
+    },
+    "objects": {
+      "referenceLabel": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "목표 대비"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "측정값.목표 달성률",
+            "id": "field-26019b54ca5edcca1b8cab6bc8fb9343",
+            "order": 0
+          }
+        }
+      ],
+      "referenceLabelValue": [
+        {
+          "properties": {
+            "valueFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "측정값"
+                        }
+                      },
+                      "Property": "목표 대비 색"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "측정값.목표 달성률",
+            "id": "field-26019b54ca5edcca1b8cab6bc8fb9343"
+          }
+        }
+      ]
     }
   }
 }

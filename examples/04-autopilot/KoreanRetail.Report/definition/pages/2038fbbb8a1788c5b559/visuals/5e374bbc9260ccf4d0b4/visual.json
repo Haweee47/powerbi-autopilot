@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "5e374bbc9260ccf4d0b4",
   "position": {
-    "x": 24,
-    "y": 72,
-    "z": 2000,
-    "height": 56,
-    "width": 816,
-    "tabOrder": 2000
+    "x": 216,
+    "y": 24,
+    "z": 3000,
+    "height": 40,
+    "width": 688,
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "textbox",
@@ -22,26 +22,50 @@
                     "value": "판매 실적",
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold, Malgun Gothic, sans-serif",
-                      "fontSize": "16pt"
-                    }
-                  }
-                ],
-                "horizontalTextAlignment": "left"
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "목표 대비 어디쯤인가 · 1–8월 누계",
-                    "textStyle": {
-                      "fontFamily": "Segoe UI, Malgun Gothic, sans-serif",
-                      "fontSize": "10pt",
-                      "color": "#5A6471"
+                      "fontSize": "18pt",
+                      "color": "#101828"
                     }
                   }
                 ],
                 "horizontalTextAlignment": "left"
               }
             ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
           }
         }
       ]

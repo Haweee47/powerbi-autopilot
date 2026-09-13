@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "b0da08403a469097ccfc",
   "position": {
-    "x": 24,
-    "y": 392,
-    "z": 6000,
-    "height": 304,
-    "width": 816,
-    "tabOrder": 6000
+    "x": 216,
+    "y": 376,
+    "z": 9000,
+    "height": 320,
+    "width": 688,
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "tableEx",
@@ -37,11 +37,12 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "매출"
+                  "Property": "매출 (만)"
                 }
               },
-              "queryRef": "측정값.매출",
-              "nativeQueryRef": "매출"
+              "queryRef": "측정값.매출 (만)",
+              "nativeQueryRef": "매출 (만)",
+              "displayName": "매출"
             },
             {
               "field": {
@@ -51,11 +52,12 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "전년 매출"
+                  "Property": "전년 매출 (만)"
                 }
               },
-              "queryRef": "측정값.전년 매출",
-              "nativeQueryRef": "전년 매출"
+              "queryRef": "측정값.전년 매출 (만)",
+              "nativeQueryRef": "전년 매출 (만)",
+              "displayName": "전년 매출"
             },
             {
               "field": {
@@ -120,6 +122,40 @@
         ],
         "isDefaultSort": false
       }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "측정값"
+                        }
+                      },
+                      "Property": "증감 글자색"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "측정값.전년 대비 증감률"
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [

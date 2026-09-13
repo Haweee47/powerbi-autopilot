@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "1f5ba0f3218de86c9ebc",
   "position": {
-    "x": 24,
-    "y": 272,
-    "z": 9000,
-    "height": 216,
-    "width": 608,
-    "tabOrder": 9000
+    "x": 216,
+    "y": 240,
+    "z": 10000,
+    "height": 224,
+    "width": 512,
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "lineChart",
@@ -42,11 +42,12 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "매출"
+                  "Property": "매출 (만)"
                 }
               },
-              "queryRef": "측정값.매출",
-              "nativeQueryRef": "매출"
+              "queryRef": "측정값.매출 (만)",
+              "nativeQueryRef": "매출 (만)",
+              "displayName": "매출"
             },
             {
               "field": {
@@ -56,11 +57,12 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "전년 매출"
+                  "Property": "전년 매출 (만)"
                 }
               },
-              "queryRef": "측정값.전년 매출",
-              "nativeQueryRef": "전년 매출"
+              "queryRef": "측정값.전년 매출 (만)",
+              "nativeQueryRef": "전년 매출 (만)",
+              "displayName": "전년 매출"
             },
             {
               "field": {
@@ -70,15 +72,75 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "목표매출"
+                  "Property": "목표매출 (만)"
                 }
               },
-              "queryRef": "측정값.목표매출",
-              "nativeQueryRef": "목표매출"
+              "queryRef": "측정값.목표매출 (만)",
+              "nativeQueryRef": "목표매출 (만)",
+              "displayName": "목표매출"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#667085'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "측정값.목표매출 (만)"
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "strokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "측정값.매출 (만)"
+          }
+        },
+        {
+          "properties": {
+            "lineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "'dashed'"
+                }
+              }
+            },
+            "strokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1.5D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "측정값.목표매출 (만)"
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -87,7 +149,27 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'월별 매출 — 올해 · 작년 · 목표'"
+                  "Value": "'월별 매출'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'만 원 · 올해 · 작년 · 목표(점선)'"
                 }
               }
             }

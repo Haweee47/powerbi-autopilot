@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
   "themeCollection": {
     "customTheme": {
-      "name": "autopilot-light-4dbab242.json",
+      "name": "autopilot-light-39d7b13d.json",
       "type": "RegisteredResources",
       "reportVersionAtImport": {
         "visual": "2.9.0",
@@ -17,8 +17,8 @@
       "type": "RegisteredResources",
       "items": [
         {
-          "name": "autopilot-light-4dbab242.json",
-          "path": "autopilot-light-4dbab242.json",
+          "name": "autopilot-light-39d7b13d.json",
+          "path": "autopilot-light-39d7b13d.json",
           "type": "CustomTheme"
         }
       ]

@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "98b90805dbd469ee5fc4",
   "position": {
-    "x": 648,
-    "y": 504,
-    "z": 12000,
-    "height": 192,
-    "width": 608,
-    "tabOrder": 12000
+    "x": 744,
+    "y": 480,
+    "z": 15000,
+    "height": 216,
+    "width": 512,
+    "tabOrder": 15000
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "columnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -42,11 +42,12 @@
                       "Entity": "측정값"
                     }
                   },
-                  "Property": "매출"
+                  "Property": "매출 (억)"
                 }
               },
-              "queryRef": "측정값.매출",
-              "nativeQueryRef": "매출"
+              "queryRef": "측정값.매출 (억)",
+              "nativeQueryRef": "매출 (억)",
+              "displayName": "매출"
             }
           ]
         }
@@ -61,7 +62,7 @@
                     "Entity": "측정값"
                   }
                 },
-                "Property": "매출"
+                "Property": "매출 (억)"
               }
             },
             "direction": "Descending"
@@ -78,6 +79,26 @@
               "expr": {
                 "Literal": {
                   "Value": "'권역별 매출'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'억 원'"
                 }
               }
             }
