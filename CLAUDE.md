@@ -160,6 +160,7 @@ powerbi-autopilot/
 - [x] 공개 리포트 1,700여 개 분석 → 디자인 원칙·채점표·HTML 시안
 - [x] 여러 페이지 시안 v2, 테마 JSON + 레이아웃 템플릿, 명세 → PBIR 생성기
 - [x] 용도별 파일럿 4종 · 테마 3종 · 다국어(기본 영어) · 논문 기반 규칙
-- [ ] GitHub push (`gh auth login` 필요), 노션 업로드 (Notion MCP 연결 필요)
+- [x] GitHub 공개 저장소 `Haweee47/powerbi-autopilot` push (2026-09-14, 커밋 작성자는 no-reply 주소)
+- [ ] 노션 업로드 (Notion MCP 연결 필요 — VS Code 새로 고침 후 `/mcp`에서 notion 인증)
 - [ ] 표 안의 미니 추이선(SVG 측정값), 실데이터(Presto·Redshift) 흐름
 - [ ] 예제 01·02 (새 세션에서 토큰 측정)
