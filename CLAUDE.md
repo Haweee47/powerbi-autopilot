@@ -112,7 +112,8 @@
 
 ```
 powerbi-autopilot/
-├── README.md                  # 소개, 결과, 빠른 시작
+├── README.md                  # 소개, 결과, 빠른 시작 (영어, GitHub 첫 화면)
+├── README.ko.md               # 같은 내용 한국어 — README를 고치면 둘 다 고친다
 ├── CLAUDE.md                  # 이 파일 — 에이전트 운영 지침
 ├── LICENSE                    # MIT
 ├── .mcp.json                  # MCP 서버 설정 (비밀값 없음)
