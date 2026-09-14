@@ -1,5 +1,11 @@
 # powerbi-autopilot
 
+[![Release](https://img.shields.io/github/v/release/Haweee47/powerbi-autopilot)](https://github.com/Haweee47/powerbi-autopilot/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Power BI Desktop 2.157+](https://img.shields.io/badge/Power%20BI%20Desktop-2.157%2B-F2C811)](docs/guide/ko.md)
+[![PBIR validator: 0 errors](https://img.shields.io/badge/PBIR%20validator-0%20errors-2ea44f)](CHANGELOG.md)
+[![Discussions](https://img.shields.io/github/discussions/Haweee47/powerbi-autopilot)](https://github.com/Haweee47/powerbi-autopilot/discussions)
+
 [English](README.md) · **한국어**
 
 요청 한 줄로 Power BI 리포트를 **데이터 모델 → 디자인 → 검증**까지 처음부터 끝까지 만드는 AI 에이전트 워크플로우.

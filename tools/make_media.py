@@ -105,11 +105,32 @@ def all_pages() -> list[tuple[str, Image.Image]]:
     return pages
 
 
+def social_preview() -> Image.Image:
+    """GitHub 소셜 미리보기(Settings → Social preview, 1280×640). 저장소 링크를 공유하면 이 이미지가 카드로 뜬다."""
+    W, H = 1280, 640
+    im = Image.new("RGBA", (W, H), NAVY)
+    d = ImageDraw.Draw(im)
+    d.text((64, 56), "powerbi-autopilot", font=font(True, 30), fill=ACCENT)
+    d.text((64, 104), "One request →", font=font(True, 56), fill=INK)
+    d.text((64, 172), "a finished Power BI report", font=font(True, 56), fill=INK)
+    d.text((64, 256), "AI agent · 4 pilots · 3 themes · checked in Power BI Desktop · open source", font=font(False, 24), fill=SOFT)
+    x = 64 - 24
+    for pid in ("dashboard", "matrix", "table"):
+        p = first_shot(pid)
+        if p:
+            c = card(Image.open(p), 368, 10)
+            im.alpha_composite(c, (x, 322))
+            x += 368 + 20
+    return im
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     cv = cover()
     cv.convert("RGB").save(OUT / "cover.png", optimize=True)
     made = ["cover.png"]
+    social_preview().convert("RGB").save(OUT / "social-preview.png", optimize=True)
+    made.append("social-preview.png")
     ts = themes_strip()
     if ts:
         ts.convert("RGB").save(OUT / "themes.png", optimize=True)

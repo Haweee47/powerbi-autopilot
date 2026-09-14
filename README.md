@@ -1,5 +1,11 @@
 # powerbi-autopilot
 
+[![Release](https://img.shields.io/github/v/release/Haweee47/powerbi-autopilot)](https://github.com/Haweee47/powerbi-autopilot/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Power BI Desktop 2.157+](https://img.shields.io/badge/Power%20BI%20Desktop-2.157%2B-F2C811)](docs/guide/en.md)
+[![PBIR validator: 0 errors](https://img.shields.io/badge/PBIR%20validator-0%20errors-2ea44f)](CHANGELOG.md)
+[![Discussions](https://img.shields.io/github/discussions/Haweee47/powerbi-autopilot)](https://github.com/Haweee47/powerbi-autopilot/discussions)
+
 **English** · [한국어](README.ko.md)
 
 An AI-agent workflow that builds a Power BI report from start to finish (**data model → design → validation**) from a one-line request.

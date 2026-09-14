@@ -279,6 +279,12 @@ KPI 카드의 비교 줄("YoY ▲1.5%")이 사라지고, 결론 한 줄 윗부�
 **첫 릴리스 v0.1.0.** Store판 2.157.1354로 파일럿 4종 11페이지를 다시 열어(새로 고침 → 변경 내용 적용 → 페이지마다 캡처) 모두 README 캡처와 같은 것을 확인한 뒤
 [v0.1.0](https://github.com/Haweee47/powerbi-autopilot/releases/tag/v0.1.0)을 냈다. 이제 "무엇이 언제 바뀌었나"는 CHANGELOG와 릴리스로, "무엇이 문제인가"는 이슈로 남는다.
 
+**공개 알림 준비.** 스타는 광고보다 첫 화면과 찾기 쉬움에서 나온다고 보고, 저장소 안에서 할 수 있는 것부터 했다.
+검색 주제 15개와 홈페이지 링크, README 배지, 소셜 미리보기 이미지(1280×640), Discussions 첫 글([#4](https://github.com/Haweee47/powerbi-autopilot/discussions/4)),
+번역을 도와줄 사람을 위한 good first issue 두 개([#2](https://github.com/Haweee47/powerbi-autopilot/issues/2)·[#3](https://github.com/Haweee47/powerbi-autopilot/issues/3)), 채널별 알림 초안([launch-posts.md](share/launch-posts.md)).
+- awesome 목록은 규칙부터 읽었다. awesome-claude-code(5.4만 스타)는 **사람이 웹 양식으로**, 첫 커밋 14일 뒤(09-25)부터 추천할 수 있다.
+  Power BI awesome 목록 두 곳은 2024년에 올라온 PR도 아직 열려 있어서 PR은 보류했다. 받아 줄 가능성이 낮은 곳에 포크만 늘리지 않는다.
+
 ---
 
 ## 다음 계획
