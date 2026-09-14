@@ -8,7 +8,7 @@ From download to an open Power BI report in about five minutes, then how to buil
 
 | | Needed for | Where |
 |---|---|---|
-| Windows 10/11 + Power BI Desktop | Everything | Free from the Microsoft Store |
+| Windows 10/11 + Power BI Desktop **2.157 or newer** | Everything | Microsoft Store (free, keeps itself up to date). Older versions cut off some labels ([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)) |
 | Python 3.10 or newer | Everything | [python.org](https://www.python.org/downloads/). Tick **Add python.exe to PATH** during setup |
 | Claude Code | Building reports by asking | [claude.com/claude-code](https://claude.com/claude-code) |
 | Microsoft's PBIR validator | Optional checks | `npm install -g @microsoft/powerbi-report-authoring-cli` |
@@ -94,7 +94,8 @@ Want your language finished? Open a [Language support](https://github.com/Haweee
 | `python` is not recognized | Reinstall Python with **Add python.exe to PATH**, or run `py tools\quickstart.py` |
 | Desktop won't open the `.pbip` | Update Power BI Desktop |
 | Table and column names in the Data pane are Korean | The sample model is a Korean retail dataset. Labels on the page are translated; your own model keeps its own names |
-| Something is cut off or missing | Check **Known issues** in the [changelog](../../CHANGELOG.md), then report it with a screenshot |
+| KPI comparison lines missing, text cut off | Your Power BI Desktop is older than 2.157 (**Help → About**). With two copies installed (installer and Store), double-clicking opens the older one: run `python tools/quickstart.py --open`, or start Desktop from the Start menu and use **File → Open** ([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)) |
+| Anything else looks wrong | [Report it](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=1-render-bug.yml) with a full-window screenshot |
 
 ## Feedback
 

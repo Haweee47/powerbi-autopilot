@@ -39,7 +39,8 @@ powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                
 말로 요청해 만들기, 내 데이터 쓰기까지 단계별 안내서:
 [English](docs/guide/en.md) · [한국어](docs/guide/ko.md) · [日本語](docs/guide/ja.md) · [简体中文](docs/guide/zh-CN.md)
 
-> 알려진 문제: Power BI Desktop 2.157.1354.0에서 파일럿의 글자 몇 곳이 잘린다. 자세한 내용과 진행 상황은 [변경 기록](CHANGELOG.md#known-issues)에 있다.
+> Power BI Desktop **2.157 이상**이 필요하다. 이전 버전에서는 글자 몇 곳이 잘린다([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)).
+> Microsoft Store 판은 스스로 업데이트되고, `quickstart`는 Store 판이 있으면 그걸로 연다.
 
 ## 용도별 파일럿 4종
 

@@ -21,7 +21,7 @@
 | 항목 | 내용 |
 |---|---|
 | OS / 에디터 | Windows 10 Pro, VS Code + Claude Code |
-| Power BI Desktop | 2.157.1354.0 (Microsoft Store판, 자동 업데이트. 09-13 캡처는 2.157.879.0 — 버전이 바뀌면 파일럿을 다시 캡처한다) |
+| Power BI Desktop | Store판 2.157.1354.0 (자동 업데이트) + 설치 관리자판 2.147.1085.0 (`.pbip` 더블클릭은 이쪽이 열린다). 캡처는 반드시 Store판(`PBIDesktopStore.exe`)으로. 파일럿 최소 버전 2.157 (#1) |
 | Python / Node.js | 3.11.9 / 24.19.0 (포터블 설치) |
 | git / gh | 2.47.1 / 2.98.0 |
 | MCP | Power BI Modeling MCP, Notion MCP (`.mcp.json`) |
@@ -179,5 +179,6 @@ powerbi-autopilot/
 - [ ] 표 안의 미니 추이선(SVG 측정값), 실데이터(Presto·Redshift) 흐름
 - [ ] 예제 01·02 (새 세션에서 토큰 측정)
 - [x] 쉽게 쓰기: quickstart(더블클릭) · 안내서 4개 언어 · 피드백 구조(이슈 양식·Discussions·라벨·triage 스킬·CHANGELOG) (2026-09-14)
-- [ ] **Desktop 2.157.1354.0 렌더링 회귀 수정** — KPI 비교 줄 사라짐, 결론 줄 윗부분 잘림, 표 열 폭, 채널 버튼 잘림 → 파일럿 재캡처 → v0.1.0 릴리스
+- [x] 옛 Desktop(2.147) 대응 (#1): quickstart가 Store판 우선·버전 경고, 안내서에 2.157 이상. Store판 2.157.1354로 파일럿 전 페이지 재캡처
+- [x] v0.1.0 릴리스 (2026-09-14). 다음 릴리스부터: CHANGELOG Unreleased → 버전, 태그, `gh release create`, 고친 이슈에 버전 댓글
 - [ ] 일본어·중국어 완성 (명세 글자, measures.ja/zh-CN.json, 데이터 값)

@@ -40,7 +40,8 @@ powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                
 Step-by-step guide, including building reports by asking and using your own data:
 [English](docs/guide/en.md) · [한국어](docs/guide/ko.md) · [日本語](docs/guide/ja.md) · [简体中文](docs/guide/zh-CN.md)
 
-> Known issue: Power BI Desktop 2.157.1354.0 cuts off a few labels in the pilots. Details and status in the [changelog](CHANGELOG.md#known-issues).
+> Needs Power BI Desktop **2.157 or newer**. Older versions cut off a few labels ([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1));
+> the Microsoft Store version keeps itself up to date, and `quickstart` opens it when it's installed.
 
 ## Four pilots by purpose
 

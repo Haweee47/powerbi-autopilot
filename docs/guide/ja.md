@@ -8,7 +8,7 @@
 
 | | 使う場面 | 入手先 |
 |---|---|---|
-| Windows 10/11 + Power BI Desktop | 常に | Microsoft Store（無料） |
+| Windows 10/11 + Power BI Desktop **2.157 以降** | 常に | Microsoft Store（無料・自動更新）。古いバージョンでは一部の文字が切れます（[#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)） |
 | Python 3.10 以上 | 常に | [python.org](https://www.python.org/downloads/)。インストール時に **Add python.exe to PATH** にチェック |
 | Claude Code | 言葉で頼んでレポートを作るとき | [claude.com/claude-code](https://claude.com/claude-code) |
 | Microsoft の PBIR 検証ツール | 任意 | `npm install -g @microsoft/powerbi-report-authoring-cli` |
@@ -94,7 +94,8 @@ claude
 | `python` が見つからない | **Add python.exe to PATH** にチェックして Python を入れ直すか、`py tools\quickstart.py` で実行 |
 | Desktop が `.pbip` を開けない | Power BI Desktop を更新 |
 | データペインのテーブル名・列名が韓国語 | サンプルは韓国の小売データです。ページ上の表示は翻訳されています。自分のモデルは元の名前のままです |
-| 切れている・表示されないものがある | [変更履歴](../../CHANGELOG.md) の **Known issues** を確認し、スクリーンショット付きで知らせてください |
+| KPI の比較行がない・文字が切れる | Power BI Desktop が 2.157 より古いバージョンです（**ヘルプ → バージョン情報**）。インストーラー版と Store 版が両方あると、ダブルクリックで古い方が開きます。`python tools/quickstart.py --open` で開くか、スタートメニューから Desktop を起動して **ファイル → 開く** を使ってください（[#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)） |
+| そのほかの表示の問題 | ウィンドウ全体のスクリーンショット付きで[知らせてください](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=1-render-bug.yml) |
 
 ## フィードバック
 

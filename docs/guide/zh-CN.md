@@ -8,7 +8,7 @@
 
 | | 用途 | 获取方式 |
 |---|---|---|
-| Windows 10/11 + Power BI Desktop | 必需 | Microsoft Store 免费下载 |
+| Windows 10/11 + Power BI Desktop **2.157 或更高** | 必需 | Microsoft Store 免费下载（自动更新）。旧版本会截断部分文字（[#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)） |
 | Python 3.10 或更高版本 | 必需 | [python.org](https://www.python.org/downloads/)，安装时勾选 **Add python.exe to PATH** |
 | Claude Code | 用自然语言生成报表时 | [claude.com/claude-code](https://claude.com/claude-code) |
 | Microsoft PBIR 校验工具 | 可选 | `npm install -g @microsoft/powerbi-report-authoring-cli` |
@@ -94,7 +94,8 @@ claude
 | 提示找不到 `python` | 重新安装 Python 并勾选 **Add python.exe to PATH**，或运行 `py tools\quickstart.py` |
 | Desktop 无法打开 `.pbip` | 更新 Power BI Desktop |
 | 数据窗格中的表名、列名是韩文 | 示例模型是韩国零售数据。页面上的标签已翻译；你自己的模型保留原来的名称 |
-| 有内容被截断或缺失 | 查看 [更新日志](../../CHANGELOG.md) 中的 **Known issues**，并附截图告诉我们 |
+| KPI 对比行缺失、文字被截断 | 你的 Power BI Desktop 早于 2.157（**帮助 → 关于**）。如果同时装了安装程序版和 Store 版，双击会打开旧版：请运行 `python tools/quickstart.py --open`，或从开始菜单启动 Desktop 后用 **文件 → 打开**（[#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)） |
+| 其他显示问题 | 附上整个窗口的截图[告诉我们](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=1-render-bug.yml) |
 
 ## 反馈
 

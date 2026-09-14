@@ -8,7 +8,7 @@
 
 | | 필요한 경우 | 받는 곳 |
 |---|---|---|
-| Windows 10/11 + Power BI Desktop | 항상 | Microsoft Store에서 무료 |
+| Windows 10/11 + Power BI Desktop **2.157 이상** | 항상 | Microsoft Store에서 무료 (스스로 업데이트됨). 이전 버전은 글자 몇 곳이 잘립니다 ([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)) |
 | Python 3.10 이상 | 항상 | [python.org](https://www.python.org/downloads/). 설치할 때 **Add python.exe to PATH**를 체크 |
 | Claude Code | 말로 요청해 리포트를 만들 때 | [claude.com/claude-code](https://claude.com/claude-code) |
 | Microsoft PBIR 검증기 | 선택 | `npm install -g @microsoft/powerbi-report-authoring-cli` |
@@ -93,7 +93,8 @@ claude
 | "파일을 찾을 수 없음" 같은 데이터 폴더 오류 | `templates/`가 아니라 quickstart가 만든 `out/`의 리포트를 엽니다 (`templates/`의 파일럿에는 자리표시 경로가 들어 있습니다). 또는 **데이터 변환 → 매개 변수 편집 → 데이터폴더**를 `examples\_data\korean-retail\en`의 전체 경로로 바꿉니다 |
 | `python`을 찾을 수 없다 | Python을 **Add python.exe to PATH** 체크하고 다시 설치하거나 `py tools\quickstart.py`로 실행 |
 | Desktop이 `.pbip`를 못 연다 | Power BI Desktop 업데이트 |
-| 잘리거나 빠진 것이 있다 | [변경 기록](../../CHANGELOG.md)의 **Known issues**를 확인하고, 스크린샷과 함께 알려 주세요 |
+| KPI 비교 줄이 없거나 글자가 잘린다 | Power BI Desktop이 2.157보다 오래된 버전입니다(**도움말 → 정보**). 설치 관리자판과 Store판이 둘 다 있으면 더블클릭 시 오래된 쪽이 열립니다. `python tools/quickstart.py --open`으로 열거나, 시작 메뉴에서 Desktop을 켜고 **파일 → 열기**를 쓰세요 ([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)) |
+| 그 밖에 이상한 것 | 창 전체 스크린샷과 함께 [알려 주세요](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=1-render-bug.yml) |
 
 ## 피드백
 

@@ -5,7 +5,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
-The first release (v0.1.0) goes out once the known issue below is fixed.
+## [0.1.0] - 2026-09-14
+
+First public release. Requires **Power BI Desktop 2.157 or newer**: every pilot page was captured in 2.157.1354 before release.
 
 ### Added
 - Four pilots by purpose: dashboard, measure table, metric check (matrix), deep dive
@@ -20,7 +22,10 @@ The first release (v0.1.0) goes out once the known issue below is fixed.
 ### Changed
 - Japanese and Chinese reports use English sample data values when no data translation exists (previously Korean)
 
-### Known issues
-- **Power BI Desktop 2.157.1354.0** (a Microsoft Store auto-update, September 2026) renders the pilots differently from 2.157.879.0, where they were checked:
-  KPI cards drop the comparison line ("YoY ▲1.5%"), the one-line takeaway is clipped at the top, table columns no longer stretch to the visual's width,
-  and the channel slicer buttons truncate ("Offli…"). The generated files are unchanged; a fix is in progress.
+### Fixed
+- Pilots looked broken when the `.pbip` opened in an older Power BI Desktop (2.147): KPI comparison lines missing, takeaway clipped,
+  table columns narrow, slicer buttons truncated. `quickstart` now opens the Microsoft Store version when it's installed and warns
+  when only an older Desktop is found; the guides state the minimum version. ([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1))
+
+[Unreleased]: https://github.com/Haweee47/powerbi-autopilot/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/Haweee47/powerbi-autopilot/releases/tag/v0.1.0

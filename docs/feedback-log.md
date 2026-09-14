@@ -22,3 +22,4 @@ Recomputed at each triage. A rule in the principles or rubric is revisited when 
 
 | Date | Issue | Type | Summary | Decision | Fixed in |
 |---|---|---|---|---|---|
+| 2026-09-14 | [#1](https://github.com/Haweee47/powerbi-autopilot/issues/1) | render | Pilots look broken in Desktop 2.147 (an older installer copy opened on double-click); fine in 2.157 | accepted: quickstart prefers the Store Desktop and warns; docs state 2.157+ | v0.1.0 |

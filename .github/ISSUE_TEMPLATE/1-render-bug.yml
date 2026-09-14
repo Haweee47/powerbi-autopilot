@@ -34,7 +34,7 @@ body:
     id: desktop
     attributes:
       label: Power BI Desktop version
-      description: "Help > About, for example 2.157.879.0"
+      description: "Help > About, for example 2.157.1354.0. Versions older than 2.157 are known to cut off labels (#1)."
   - type: input
     id: command
     attributes:

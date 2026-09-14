@@ -9,7 +9,8 @@ What it does
   1. picks the pilot for the purpose (templates/catalog.json)
   2. generates the PBIP into out/<purpose>-<theme>-<lang>/ with the data folder pointed at this clone
      (the committed pilots carry a placeholder path, so opening them directly finds no data)
-  3. prints what to open next
+  3. checks which Power BI Desktop will open it: versions older than 2.157 cut off labels in the pilots (#1)
+  4. prints what to open next
 
 Only the Python standard library is needed. Power BI Desktop runs on Windows.
 """
@@ -28,6 +29,10 @@ LOCALES = ROOT / "design-system" / "i18n" / "locales.json"
 DATA = ROOT / "examples" / "_data" / "korean-retail"
 OUT = ROOT / "out"
 FEEDBACK = "https://github.com/Haweee47/powerbi-autopilot/issues/new/choose"
+# Microsoft Store 판은 스스로 업데이트된다. 설치 관리자(MSI) 판은 오래된 채로 남아 .pbip 연결을 차지하기도 한다 (#1)
+STORE_ALIAS = Path(os.environ.get("LOCALAPPDATA", "")) / "Microsoft" / "WindowsApps" / "PBIDesktopStore.exe"
+MSI_EXE = Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Microsoft Power BI Desktop" / "bin" / "PBIDesktop.exe"
+MIN_DESKTOP = (2, 157)  # 파일럿을 캡처로 확인한 버전. 2.147은 KPI 비교 줄·결론 줄·표 열 폭·버튼 글자가 틀린다
 
 
 def load(p: Path) -> dict:
@@ -53,6 +58,36 @@ def build(purpose: dict, theme: str, lang: str) -> Path | None:
         print(f"  FAILED  {purpose['id']}\n{r.stdout}{r.stderr}")
         return None
     return dest / f"{load(spec)['name']}.pbip"
+
+
+def file_version(exe: Path) -> tuple[int, ...] | None:
+    try:
+        out = subprocess.run(["powershell", "-NoProfile", "-Command", f"(Get-Item '{exe}').VersionInfo.FileVersion"],
+                             capture_output=True, text=True, timeout=30).stdout.strip()
+        return tuple(int(x) for x in out.split(".")) if out else None
+    except (OSError, ValueError, subprocess.SubprocessError):
+        return None
+
+
+def desktop_check() -> tuple[bool, str | None]:
+    """(Store version available, warning text or None)."""
+    if os.name != "nt":
+        return False, "Power BI Desktop runs on Windows only."
+    msi = file_version(MSI_EXE) if MSI_EXE.exists() else None
+    old = msi is not None and msi[:2] < MIN_DESKTOP
+    ver = ".".join(map(str, msi)) if msi else ""
+    need = f"{MIN_DESKTOP[0]}.{MIN_DESKTOP[1]}"
+    if STORE_ALIAS.exists():
+        if old:
+            return True, (f"Two copies of Power BI Desktop are installed. Double-clicking a .pbip may open the older one ({ver}),\n"
+                          f"  which cuts off some labels. Use --open, or start Power BI Desktop from the Start menu and use File > Open.")
+        return True, None
+    if old:
+        return False, (f"Power BI Desktop {ver} is older than {need} and will cut off some labels.\n"
+                       f"  Update it, or install the Microsoft Store version (it keeps itself up to date).")
+    if msi is None:
+        return False, "Power BI Desktop was not found. Install it from the Microsoft Store (free)."
+    return False, None
 
 
 def main() -> None:
@@ -83,17 +118,21 @@ def main() -> None:
     if not built:
         sys.exit(1)
 
+    store, warning = desktop_check()
     print("\nNext")
-    print("  1. Open the .pbip file above in Power BI Desktop (double-click it).")
-    print("  2. If the visuals are empty, click Home > Refresh once. The data is bundled sample data.")
+    print("  1. Open the .pbip file above in Power BI Desktop 2.157 or newer.")
+    print("  2. If the visuals are empty, click Refresh now on the yellow bar (then Apply changes if asked).")
     print("  3. To build your own report by asking in plain language, see docs/guide/ (Claude Code section).")
+    if warning:
+        print(f"\n! {warning}")
     print(f"\nSomething looks off? Tell me: {FEEDBACK}")
-    if a.open:
-        if os.name == "nt":
-            os.startfile(built[0])  # noqa: S606 - opens the file with its associated app (Power BI Desktop)
-            print(f"\nOpening {built[0].name} in Power BI Desktop ...")
+    if a.open and os.name == "nt":
+        if store:
+            subprocess.Popen([str(STORE_ALIAS), str(built[0])])
+            print(f"\nOpening {built[0].name} in Power BI Desktop (Microsoft Store version) ...")
         else:
-            print("\n--open works on Windows only (Power BI Desktop is Windows-only).")
+            os.startfile(built[0])  # noqa: S606 - opens the file with its associated app
+            print(f"\nOpening {built[0].name} in Power BI Desktop ...")
 
 
 if __name__ == "__main__":
