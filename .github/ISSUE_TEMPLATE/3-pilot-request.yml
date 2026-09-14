@@ -1,0 +1,40 @@
+name: New pilot or feature
+description: A report type, visual or workflow you'd like the agent to build.
+title: "[Request] "
+labels: ["enhancement", "pilot-request", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Pilots are pre-built, rendered and checked once, then reused by everyone. Tell me what yours should do. Any language is fine.
+  - type: textarea
+    id: usecase
+    attributes:
+      label: Who reads it, and which decision does it support?
+      placeholder: "Regional managers, weekly: which stores need a visit this week"
+    validations:
+      required: true
+  - type: textarea
+    id: questions
+    attributes:
+      label: Which 3-5 questions should it answer?
+  - type: textarea
+    id: visuals
+    attributes:
+      label: Visuals or layout you have in mind
+  - type: dropdown
+    id: source
+    attributes:
+      label: Where does your data live?
+      options: [CSV or Excel, SQL Server or Azure SQL, ODBC, Other database, Not sure]
+  - type: textarea
+    id: example
+    attributes:
+      label: Example (optional)
+      description: A sketch or a screenshot with the numbers blurred.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: My text and screenshots contain no confidential or personal data.
+          required: true

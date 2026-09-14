@@ -1,0 +1,2 @@
+# Windows batch files need CRLF line endings on every clone
+*.cmd text eol=crlf

@@ -1,0 +1,76 @@
+name: Design feedback
+description: Something about the look or readability could be better. A quick rating helps too.
+title: "[Design] "
+labels: ["design", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Every design issue is mapped to the [review rubric](https://github.com/Haweee47/powerbi-autopilot/blob/main/design-system/review-rubric.md).
+        When the same point comes up from several people, the design rule itself changes. Any language is fine.
+  - type: dropdown
+    id: pilot
+    attributes:
+      label: Pilot
+      options: [Dashboard, Measure table, Metric check (matrix), Deep dive]
+    validations:
+      required: true
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      options: [Navy, Paper, Midnight]
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      placeholder: Summary
+  - type: dropdown
+    id: rating
+    attributes:
+      label: Overall, how does it look?
+      options:
+        - "5 - I'd ship it as is"
+        - "4 - Good, small fixes"
+        - "3 - OK"
+        - "2 - Needs work"
+        - "1 - Doesn't work for me"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: What is it mostly about?
+      options:
+        - Takeaway and hierarchy
+        - Layout and spacing
+        - Charts
+        - Numbers and text
+        - Color
+        - Context and filters
+        - Page navigation
+        - Other
+  - type: textarea
+    id: what
+    attributes:
+      label: What feels off?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would make it better?
+      description: A sketch, a reference report, or a sentence is all fine.
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: My text and screenshots contain no confidential or personal data.
+          required: true

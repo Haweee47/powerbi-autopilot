@@ -594,10 +594,12 @@ def main() -> None:
         inject_measures(sm / "definition", spec["measureTable"], extra, palette)
     data_note = ""
     if spec.get("dataLocales") and lang_code != spec.get("dataLang", "ko"):
-        dl = (base / spec["dataLocales"] / f"{lang_code}.json").resolve()
-        if dl.exists():
+        # 데이터 값 번역이 없는 언어(ja 등)는 화면 글자처럼 대체 언어(영어) 데이터를 쓴다
+        data_lang = next((c for c in (lang_code, loc["fallback"]) if (base / spec["dataLocales"] / f"{c}.json").exists()), None)
+        if data_lang and data_lang != spec.get("dataLang", "ko"):
+            dl = (base / spec["dataLocales"] / f"{data_lang}.json").resolve()
             misses = patch_model(sm / "definition", load_json(dl).get("tmdl", []))
-            data_note = f" · 데이터 값 {lang_code}" + (f" (치환 실패 {len(misses)}: {misses})" if misses else "")
+            data_note = f" · 데이터 값 {data_lang}" + (f" (치환 실패 {len(misses)}: {misses})" if misses else "")
         else:
             data_note = f" · 데이터 값은 {spec.get('dataLang', 'ko')} 그대로 ({lang_code} 데이터 로케일 없음)"
     if args.local_data:

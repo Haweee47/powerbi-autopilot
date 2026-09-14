@@ -1,0 +1,60 @@
+name: Something looks wrong in Power BI Desktop
+description: A pilot or a report built from one renders incorrectly, won't load, or shows wrong numbers.
+title: "[Render] "
+labels: ["bug", "render", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for trying powerbi-autopilot. Write in any language: English, 한국어, 日本語, 中文.
+        **Please don't attach real company data.** Screenshots of the bundled sample data are perfect.
+  - type: dropdown
+    id: pilot
+    attributes:
+      label: Pilot
+      options:
+        - Dashboard
+        - Measure table
+        - Metric check (matrix)
+        - Deep dive
+        - My own report (started from a pilot)
+    validations:
+      required: true
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      options: [Navy, Paper, Midnight]
+  - type: dropdown
+    id: lang
+    attributes:
+      label: Report language
+      options: [English, 한국어, 日本語, 简体中文, Other]
+  - type: input
+    id: desktop
+    attributes:
+      label: Power BI Desktop version
+      description: "Help > About, for example 2.157.879.0"
+  - type: input
+    id: command
+    attributes:
+      label: How did you build it?
+      placeholder: "python tools/quickstart.py --purpose matrix --theme midnight"
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Drag and drop an image. A full-window capture helps, because it shows the zoom level and which panes are open.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: My text and screenshots contain no confidential or personal data.
+          required: true

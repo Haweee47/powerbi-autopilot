@@ -31,6 +31,17 @@ python tools/generate_pbir.py examples/StoreKPI/report.spec.json                
 powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                       # official validation
 ```
 
+## Quick start
+
+1. **Download**: green **Code** button → **Download ZIP** (or `git clone`). You need Windows, Power BI Desktop and Python 3.10+.
+2. **Double-click `quickstart.cmd`**. It builds the dashboard pilot with bundled sample data and opens it in Power BI Desktop.
+3. Click **Refresh now** on the yellow bar (and **Apply changes** if asked).
+
+Step-by-step guide, including building reports by asking and using your own data:
+[English](docs/guide/en.md) · [한국어](docs/guide/ko.md) · [日本語](docs/guide/ja.md) · [简体中文](docs/guide/zh-CN.md)
+
+> Known issue: Power BI Desktop 2.157.1354.0 cuts off a few labels in the pilots. Details and status in the [changelog](CHANGELOG.md#known-issues).
+
 ## Four pilots by purpose
 
 | Dashboard: executive summary | Measure table: measure input matrix |
@@ -123,6 +134,17 @@ python tools/build_layouts.py && python tools/build_themes.py
 python tools/generate_pbir.py templates/dashboard/pilot.spec.json               # English · Navy
 python tools/generate_pbir.py templates/dashboard/pilot.spec.json --lang ko --theme midnight --out <folder>
 ```
+
+## Feedback
+
+I read, log and answer every issue. Design feedback comes with a 1–5 rating and is mapped to the review rubric;
+when several people point at the same thing, the design rule changes. [How feedback becomes changes](CONTRIBUTING.md#how-feedback-becomes-changes)
+
+[Something looks wrong](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=1-render-bug.yml) ·
+[Design feedback](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=2-design-feedback.yml) ·
+[New pilot or feature](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=3-pilot-request.yml) ·
+[Language support](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=4-language-request.yml) ·
+[Discussions](https://github.com/Haweee47/powerbi-autopilot/discussions). Any language is fine. What changed: [CHANGELOG](CHANGELOG.md).
 
 ## Roadmap
 

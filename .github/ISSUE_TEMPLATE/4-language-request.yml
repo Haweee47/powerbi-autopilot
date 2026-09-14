@@ -1,0 +1,42 @@
+name: Language support
+description: Add a report language, or fix a translation.
+title: "[Language] "
+labels: ["i18n", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A language needs more than translated words: number units, sentence patterns and data values change too.
+        English and Korean are complete. Japanese and Simplified Chinese have UI labels only so far.
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      placeholder: "Deutsch (de)"
+    validations:
+      required: true
+  - type: textarea
+    id: numbers
+    attributes:
+      label: How are large numbers written?
+      placeholder: "1,2 Mio. € / 12万 / 1.2M"
+  - type: textarea
+    id: dates
+    attributes:
+      label: Month and weekday names, date format
+  - type: textarea
+    id: terms
+    attributes:
+      label: Terms that shouldn't be translated literally
+      placeholder: "YoY, AOV, drillthrough"
+  - type: textarea
+    id: fix
+    attributes:
+      label: Translation fix (if that's what this is)
+      description: Where you saw it and what it should say.
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Help
+      options:
+        - label: I can review or translate the report text for this language.

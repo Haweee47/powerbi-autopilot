@@ -1,0 +1,106 @@
+# 快速上手
+
+[English](en.md) · [한국어](ko.md) · [日本語](ja.md) · **简体中文**
+
+从下载到打开 Power BI 报表大约 5 分钟。之后介绍如何用一句话描述需求，让 AI 生成你自己的报表。
+
+## 准备
+
+| | 用途 | 获取方式 |
+|---|---|---|
+| Windows 10/11 + Power BI Desktop | 必需 | Microsoft Store 免费下载 |
+| Python 3.10 或更高版本 | 必需 | [python.org](https://www.python.org/downloads/)，安装时勾选 **Add python.exe to PATH** |
+| Claude Code | 用自然语言生成报表时 | [claude.com/claude-code](https://claude.com/claude-code) |
+| Microsoft PBIR 校验工具 | 可选 | `npm install -g @microsoft/powerbi-report-authoring-cli` |
+
+不需要安装其他东西。脚本只使用 Python 标准库。
+
+## 1. 下载
+
+点击绿色 **Code** 按钮 → **Download ZIP** 并解压。或者：
+
+```bash
+git clone https://github.com/Haweee47/powerbi-autopilot.git
+```
+
+## 2. 打开一份完成的报表（无需 AI）
+
+双击文件夹中的 **`quickstart.cmd`**。它会用自带的示例数据生成仪表板模板，并在 Power BI Desktop 中打开。
+
+第一次打开时：
+
+1. 黄色提示栏显示“部分表没有数据” → 点击 **立即刷新**
+2. 接着如果提示“有尚未应用的更改” → 点击 **应用更改**
+
+想试其他模板、主题或语言，在文件夹中打开终端运行：
+
+```bash
+python tools/quickstart.py --purpose matrix --theme midnight
+python tools/quickstart.py --all --lang zh-CN
+```
+
+| 选项 | 取值 |
+|---|---|
+| `--purpose` | `dashboard`（仪表板）· `table`（指标表）· `matrix`（矩阵）· `deepdive`（深入分析） |
+| `--theme` | `navy` · `paper` · `midnight` |
+| `--lang` | `en` · `ko` · `ja` · `zh-CN` |
+
+结果保存在 `out/` 文件夹，git 会忽略它。折叠筛选器、可视化和数据窗格（»）可以看到完整大小的页面。
+
+## 3. 用一句话生成报表（Claude Code）
+
+```bash
+cd powerbi-autopilot
+claude
+```
+
+然后写下你想要的内容，例如：
+
+> 用 Paper 主题、中文做一个门店 KPI 表。
+
+智能体只会询问你没说明的部分（用途、主题、语言），复制最接近的模板，替换字段和标题，生成 PBIP 并校验。
+它遵循的流程见 [`.claude/skills/new-report/SKILL.md`](../../.claude/skills/new-report/SKILL.md)。
+
+## 4. 使用自己的数据
+
+1. 在 Power BI Desktop 中打开现有报表，选择 **文件 → 另存为 → Power BI 项目 (.pbip)**。
+   旧版本需先开启 **选项 → 预览功能 → Power BI 项目 (.pbip) 保存选项**。
+2. 告诉智能体模型的位置：
+   > 用 C:\Reports\Sales\Sales.SemanticModel\definition 的模型做一个仪表板
+3. 智能体不会读取整个模型文件，只看一屏摘要，找出模板中你的模型没有的字段并替换。
+
+数据连接（SQL Server、文件、ODBC 等）会随模型一起复制，只保存在你的电脑上。
+**ODBC 还没有充分验证。** 如果你使用 ODBC，请先把一份现有报表另存为 PBIP，让智能体先学习它的设计和连接方式，结果会更贴合你的环境。
+
+不要把真实数据提交到仓库或贴到 Issue 里。`out/` 会被 git 忽略，但放在 `examples/` 下的报表会被跟踪。
+
+## 语言
+
+| 语言 | 报表文字 | 数字 | 示例数据值 |
+|---|---|---|---|
+| English | 完整 | K · M | 英文 |
+| 한국어 | 完整 | 만 · 억 | 韩文 |
+| 日本語 | 目前大部分为英文 | K · M | 英文 |
+| 简体中文 | 目前大部分为英文 | K · M | 英文 |
+
+想让中文版完整？请开一个 [Language support](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=4-language-request.yml) Issue。特别欢迎能帮忙校对的母语使用者。
+
+## 常见问题
+
+| 现象 | 处理方法 |
+|---|---|
+| 视觉对象是空的 | 点击黄色提示栏的 **立即刷新**，或 **主页 → 刷新** |
+| “找不到文件”等数据文件夹错误 | 打开 quickstart 生成在 `out/` 里的报表，而不是 `templates/` 里的（那里的模板是占位路径）。或者在 **转换数据 → 编辑参数 → 데이터폴더** 中填入 `examples\_data\korean-retail\en` 的完整路径 |
+| 提示找不到 `python` | 重新安装 Python 并勾选 **Add python.exe to PATH**，或运行 `py tools\quickstart.py` |
+| Desktop 无法打开 `.pbip` | 更新 Power BI Desktop |
+| 数据窗格中的表名、列名是韩文 | 示例模型是韩国零售数据。页面上的标签已翻译；你自己的模型保留原来的名称 |
+| 有内容被截断或缺失 | 查看 [更新日志](../../CHANGELOG.md) 中的 **Known issues**，并附截图告诉我们 |
+
+## 反馈
+
+每个 Issue 都会被阅读、记录并回复。[反馈如何变成改进](../../CONTRIBUTING.md#how-feedback-becomes-changes)
+
+- [显示有问题](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=1-render-bug.yml)
+- [设计意见](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=2-design-feedback.yml)（只打 1–5 分也可以）
+- [新模板或新功能](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=3-pilot-request.yml)
+- [提问与作品分享](https://github.com/Haweee47/powerbi-autopilot/discussions)

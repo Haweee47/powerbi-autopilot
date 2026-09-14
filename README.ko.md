@@ -30,6 +30,17 @@ python tools/generate_pbir.py examples/StoreKPI/report.spec.json                
 powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                       # 공식 검증
 ```
 
+## 바로 시작하기
+
+1. **내려받기**: 초록색 **Code** 버튼 → **Download ZIP** (또는 `git clone`). Windows, Power BI Desktop, Python 3.10 이상이 필요하다.
+2. **`quickstart.cmd` 더블클릭**. 들어 있는 가상 데이터로 대시보드 파일럿을 만들어 Power BI Desktop으로 연다.
+3. 노란 줄의 **지금 새로 고침**을 누른다 (묻는다면 **변경 내용 적용**도).
+
+말로 요청해 만들기, 내 데이터 쓰기까지 단계별 안내서:
+[English](docs/guide/en.md) · [한국어](docs/guide/ko.md) · [日本語](docs/guide/ja.md) · [简体中文](docs/guide/zh-CN.md)
+
+> 알려진 문제: Power BI Desktop 2.157.1354.0에서 파일럿의 글자 몇 곳이 잘린다. 자세한 내용과 진행 상황은 [변경 기록](CHANGELOG.md#known-issues)에 있다.
+
 ## 용도별 파일럿 4종
 
 | 대시보드 — 경영 요약 | 지표 테이블 — 측정값 입력 매트릭스 |
@@ -122,6 +133,17 @@ python tools/build_layouts.py && python tools/build_themes.py
 python tools/generate_pbir.py templates/dashboard/pilot.spec.json               # 영어 · 네이비
 python tools/generate_pbir.py templates/dashboard/pilot.spec.json --lang ko --theme midnight --out <폴더>
 ```
+
+## 피드백
+
+모든 이슈를 읽고, 기록하고, 답한다. 디자인 의견은 1~5점 평가와 함께 받아 채점표 항목에 연결하고,
+여러 사람이 같은 곳을 짚으면 디자인 규칙을 바꾼다. [피드백이 변경으로 이어지는 방식](CONTRIBUTING.md#how-feedback-becomes-changes)
+
+[화면이 이상해요](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=1-render-bug.yml) ·
+[디자인 의견](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=2-design-feedback.yml) ·
+[새 파일럿·기능 요청](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=3-pilot-request.yml) ·
+[언어 지원](https://github.com/Haweee47/powerbi-autopilot/issues/new?template=4-language-request.yml) ·
+[Discussions](https://github.com/Haweee47/powerbi-autopilot/discussions). 어떤 언어로 써도 된다. 바뀐 것: [CHANGELOG](CHANGELOG.md).
 
 ## 다음 계획
 

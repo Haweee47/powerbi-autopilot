@@ -24,3 +24,6 @@ credential*.py
 
 # 임시 파일
 *.tmp
+
+# quickstart 산출물 (이 PC의 데이터 경로가 들어간다)
+out/
