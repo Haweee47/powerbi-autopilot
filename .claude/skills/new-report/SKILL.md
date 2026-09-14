@@ -29,6 +29,15 @@ python tools/new_report.py --purpose <id> --theme <id> --lang <code> --name <Nam
 Read only what it prints: the new spec path, a one-screen model summary, and the list of pilot fields missing in the target model.
 Do **not** open the pilot's generated `.Report`, the theme JSON, or TMDL files.
 
+**The user's own model (`--model`).** The pilot's DAX is written for the reference model, so the tool also lists every column and
+measure the pilot needs that the model lacks, including those used inside its DAX, and writes `model-map.json` next to the spec:
+empty values plus `_hints` with the reference definition, the English name, where it's used, and RULE notes. Fill it in:
+
+- `columns`: the user's `'Table.Column'`. `measures`: DAX in the user's model; keep the `format` the skeleton suggests.
+- Follow the RULE notes: last-year and target measures stop at the last data date (a naive `SAMEPERIODLASTYEAR` or a full-year budget gives wrong YoY and attainment).
+- If a missing column is only used inside one display measure (e.g. `Orders PY`), map that measure name instead of the column.
+- The generator stops if a value is still empty. Worked example: `examples/05-own-model/`.
+
 ## 3. Edit only the new spec
 
 - Replace each field the tool listed as missing with the closest field from the model summary.

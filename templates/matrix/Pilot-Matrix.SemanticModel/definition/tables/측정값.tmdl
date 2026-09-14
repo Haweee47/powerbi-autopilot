@@ -205,7 +205,12 @@ table 측정값
 		lineageTag: c742977d-28bd-44f2-a7b5-3c24c5b2c0ca
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'AOV YoY %' = VAR prev = DIVIDE ( [전년 매출], CALCULATE ( [주문건수], CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () ) ) ) RETURN IF ( prev > 0, DIVIDE ( [객단가] - prev, prev ) )
+	measure 'Orders PY' = CALCULATE ( [주문건수], CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () ) )
+		formatString: #,0
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'AOV YoY %' = VAR prev = DIVIDE ( [전년 매출], [Orders PY] ) RETURN IF ( prev > 0, DIVIDE ( [객단가] - prev, prev ) )
 		formatString: +0.0%;-0.0%;0.0%
 		displayFolder: 9. 리포트 표시용
 
@@ -215,7 +220,7 @@ table 측정값
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'Orders YoY %' = VAR prev = CALCULATE ( [주문건수], CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () ) ) RETURN IF ( prev > 0, DIVIDE ( [주문건수] - prev, prev ) )
+	measure 'Orders YoY %' = VAR prev = [Orders PY] RETURN IF ( prev > 0, DIVIDE ( [주문건수] - prev, prev ) )
 		formatString: +0.0%;-0.0%;0.0%
 		displayFolder: 9. 리포트 표시용
 
@@ -252,44 +257,60 @@ table 측정값
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'Sales Disp' = DIVIDE ( [매출], 1000000 )
-		formatString: #,0.0"M"
+	measure 'Unit Scale' = VAR t = ABS ( CALCULATE ( [매출], ALLSELECTED () ) ) RETURN SWITCH ( TRUE (), t >= 1E9, 1E9, t >= 1E6, 1E6, t >= 1E4, 1E3, 1 )
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'Sales PY Disp' = DIVIDE ( [전년 매출], 1000000 )
-		formatString: #,0.0"M"
+	measure 'Unit Suffix' = SWITCH ( [Unit Scale], 1E9, "B", 1E6, "M", 1E3, "K", "" )
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'Target Disp' = DIVIDE ( [목표매출], 1000000 )
-		formatString: #,0.0"M"
+	measure 'Unit Format' = VAR s = [Unit Suffix] RETURN IF ( s = "", "#,0", "#,0.0""" & s & """" )
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'Target Gap Disp' = DIVIDE ( [목표 대비 차이], 1000000 )
-		formatString: +#,0.0"M";-#,0.0"M";0
+	measure 'Unit Format Signed' = VAR s = [Unit Suffix] RETURN IF ( s = "", "+#,0;-#,0;0", "+#,0.0""" & s & """;-#,0.0""" & s & """;0" )
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'Profit Disp' = DIVIDE ( [이익], 1000000 )
-		formatString: #,0.0"M"
+	measure 'Sales Disp' = DIVIDE ( [매출], [Unit Scale] )
 		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'Sales Big' = DIVIDE ( [매출], 1000000 )
-		formatString: #,0.0"M"
+	measure 'Sales PY Disp' = DIVIDE ( [전년 매출], [Unit Scale] )
 		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'Profit Big' = DIVIDE ( [이익], 1000000 )
-		formatString: #,0.0"M"
+	measure 'Target Disp' = DIVIDE ( [목표매출], [Unit Scale] )
 		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'AOV Disp' = DIVIDE ( [객단가], 1000 )
-		formatString: #,0.0"K"
+	measure 'Target Gap Disp' = DIVIDE ( [목표 대비 차이], [Unit Scale] )
 		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format Signed]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Profit Disp' = DIVIDE ( [이익], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Sales Big' = DIVIDE ( [매출], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Profit Big' = DIVIDE ( [이익], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'AOV Disp' = VAR k = ABS ( CALCULATE ( [객단가], ALLSELECTED () ) ) >= 1E4 RETURN DIVIDE ( [객단가], IF ( k, 1000, 1 ) )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = IF ( ABS ( CALCULATE ( [객단가], ALLSELECTED () ) ) >= 1E4, "#,0.0""K""", "#,0.0" )
 
 	/// 리포트 표시용 (명세에서 생성)
 	measure 'Orders Disp' = [주문건수]
@@ -305,7 +326,7 @@ table 측정값
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'Target Gap Text' = VAR d = [목표 대비 차이] RETURN IF ( NOT ISBLANK ( d ), "vs target " & FORMAT ( d / 1000000, "▲#,0.0;▼#,0.0;0" ) & "M" )
+	measure 'Target Gap Text' = VAR d = [목표 대비 차이] RETURN IF ( NOT ISBLANK ( d ), "vs target " & FORMAT ( d / [Unit Scale], "▲#,0.0;▼#,0.0;0" ) & [Unit Suffix] )
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
@@ -329,7 +350,7 @@ table 측정값
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
-	measure 'Headline Heatmap' = VAR t = FILTER ( VALUES ( '날짜'[월] ), NOT ISBLANK ( [매출] ) ) VAR hi = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, t, [매출], ASC ) RETURN "Peak month: " & CONCATENATEX ( hi, '날짜'[월], ", " ) & " " & FORMAT ( MAXX ( hi, [매출] ) / 1000000, "#,0.0" ) & "M  ·  Low month: " & CONCATENATEX ( lo, '날짜'[월], ", " ) & " " & FORMAT ( MINX ( lo, [매출] ) / 1000000, "#,0.0" ) & "M  ·  darker cell = higher sales"
+	measure 'Headline Heatmap' = VAR t = FILTER ( VALUES ( '날짜'[월] ), NOT ISBLANK ( [매출] ) ) VAR hi = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, t, [매출], ASC ) RETURN "Peak month: " & CONCATENATEX ( hi, '날짜'[월], ", " ) & " " & FORMAT ( MAXX ( hi, [매출] ) / [Unit Scale], "#,0.0" ) & [Unit Suffix] & "  ·  Low month: " & CONCATENATEX ( lo, '날짜'[월], ", " ) & " " & FORMAT ( MINX ( lo, [매출] ) / [Unit Scale], "#,0.0" ) & [Unit Suffix] & "  ·  darker cell = higher sales"
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)

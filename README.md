@@ -86,6 +86,7 @@ save it as PBIP first and let the agent learn its design and connection setup. T
 | Data model | Built with Power BI Modeling MCP: 7 tables · 6 relationships · 29 measures. **Every DAX query result matched the Python expected values** ([example 03](examples/03-modeling-mcp/model-doc.md)) |
 | Generator | Spec → PBIP. All four pilots and the Korean example pass Microsoft's validator (`powerbi-report-author validate`) with **0 errors · 0 warnings** |
 | Render check | A loop that opens each generated file in Desktop and captures every page. It caught and fixed **25+ issues** that passed the validator but looked wrong on screen |
+| Your own model | The dashboard pilot on a differently shaped English model: `new_report.py` lists every column and measure the pilot needs, inside its DAX too, and writes a model map the agent fills. Numbers checked against the CSVs ([example 05](examples/05-own-model/README.md)) |
 
 ## How tokens were cut
 

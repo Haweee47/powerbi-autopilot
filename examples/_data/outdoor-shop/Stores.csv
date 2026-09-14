@@ -1,0 +1,13 @@
+Store ID,Store,City,Region,Channel
+ST01,Denver Flagship,Denver,West,Retail
+ST02,Boulder,Boulder,West,Retail
+ST03,Seattle,Seattle,West,Retail
+ST04,Portland,Portland,West,Retail
+ST05,Chicago,Chicago,Midwest,Retail
+ST06,Minneapolis,Minneapolis,Midwest,Retail
+ST07,Boston,Boston,Northeast,Retail
+ST08,Burlington,Burlington,Northeast,Retail
+ST09,Atlanta,Atlanta,South,Retail
+ST10,Austin,Austin,South,Retail
+ST11,Web Store,Online,Online,Online
+ST12,Marketplace,Online,Online,Online

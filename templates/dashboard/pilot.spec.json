@@ -10,7 +10,7 @@
   "include": ["../_shared/measures.common.json", "../_shared/measures.{lang}.json"],
   "measures": {
     "Headline Summary": {
-      "en": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [목표 대비 차이] ) ) VAR w = TOPN ( 1, t, [목표 대비 차이], ASC ) VAR d = MINX ( w, [목표 대비 차이] ) RETURN \"Target attainment \" & FORMAT ( [목표 달성률], \"0.0%\" ) & \"  ·  YoY \" & FORMAT ( [전년 대비 증감률], \"▲0.0%;▼0.0%\" ) & IF ( d < 0, \"  ·  Furthest behind: \" & CONCATENATEX ( w, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( d / 1000000, \"▲#,0.0;▼#,0.0\" ) & \"M\", \"  ·  Every category on target\" )",
+      "en": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [목표 대비 차이] ) ) VAR w = TOPN ( 1, t, [목표 대비 차이], ASC ) VAR d = MINX ( w, [목표 대비 차이] ) RETURN \"Target attainment \" & FORMAT ( [목표 달성률], \"0.0%\" ) & \"  ·  YoY \" & FORMAT ( [전년 대비 증감률], \"▲0.0%;▼0.0%\" ) & IF ( d < 0, \"  ·  Furthest behind: \" & CONCATENATEX ( w, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( d / [Unit Scale], \"▲#,0.0;▼#,0.0\" ) & [Unit Suffix], \"  ·  Every category on target\" )",
       "ko": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [목표 대비 차이] ) ) VAR w = TOPN ( 1, t, [목표 대비 차이], ASC ) VAR d = MINX ( w, [목표 대비 차이] ) RETURN \"목표 달성률 \" & FORMAT ( [목표 달성률], \"0.0%\" ) & \"  ·  전년 대비 \" & FORMAT ( [전년 대비 증감률], \"▲0.0%;▼0.0%\" ) & IF ( d < 0, \"  ·  가장 모자란 카테고리 \" & CONCATENATEX ( w, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( d / 10000, \"▲#,0만;▼#,0만\" ), \"  ·  모든 카테고리가 목표 이상\" )"
     },
     "Headline Category": {

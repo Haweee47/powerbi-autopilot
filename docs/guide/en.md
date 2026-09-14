@@ -67,7 +67,9 @@ generates the PBIP and validates it. The procedure it follows is in [`.claude/sk
    On older versions, first turn on **Options → Preview features → Power BI project (.pbip) save option**.
 2. Tell the agent where the model is:
    > Build a dashboard from the model in C:\Reports\Sales\Sales.SemanticModel\definition
-3. The agent reads a one-screen summary of your model (not the whole files), lists the pilot fields your model doesn't have, and maps them.
+3. The agent reads a one-screen summary of your model, not the whole files. `new_report.py` lists everything the pilot needs that your model
+   doesn't have (measures used inside its DAX too) and writes a `model-map.json` with the reference definitions as hints.
+   The agent fills in that map with your column names and your DAX. Worked example: [example 05](../../examples/05-own-model/README.md).
 
 Your data connection (SQL Server, files, ODBC …) is copied with the model and stays on your PC.
 **ODBC hasn't been fully tested yet.** If you use ODBC, save one existing report as PBIP and let the agent read its design and connection first. The result will fit your setup better.

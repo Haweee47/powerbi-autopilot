@@ -1,0 +1,25 @@
+Product ID,Product,Category,Subcategory,List Price
+TG01,Trail 2P Tent,Camping,Tents,349.0
+TG02,Ultralight 1P Tent,Camping,Tents,429.0
+SB01,Down Sleeping Bag,Camping,Sleep,279.0
+SB02,Sleeping Pad,Camping,Sleep,119.0
+CK01,Camp Stove,Camping,Kitchen,89.0
+CK02,Cookset,Camping,Kitchen,59.0
+CL01,Climbing Harness,Climbing,Hardware,79.0
+CL02,Dynamic Rope 60m,Climbing,Ropes,229.0
+CL03,Belay Device,Climbing,Hardware,39.0
+CL04,Chalk Bag,Climbing,Accessories,24.0
+FW01,Trail Runner,Footwear,Running,149.0
+FW02,Hiking Boot,Footwear,Hiking,219.0
+FW03,Approach Shoe,Footwear,Hiking,169.0
+FW04,Camp Sandal,Footwear,Casual,69.0
+AP01,Rain Shell,Apparel,Outerwear,249.0
+AP02,Insulated Jacket,Apparel,Outerwear,299.0
+AP03,Fleece Pullover,Apparel,Midlayer,99.0
+AP04,Merino Base Layer,Apparel,Base layer,89.0
+AP05,Hiking Pants,Apparel,Bottoms,89.0
+AC01,Headlamp,Accessories,Lighting,49.0
+AC02,Water Filter,Accessories,Hydration,45.0
+AC03,Trekking Poles,Accessories,Trekking,129.0
+AC04,Daypack 24L,Accessories,Packs,139.0
+AC05,Insulated Bottle,Accessories,Hydration,35.0

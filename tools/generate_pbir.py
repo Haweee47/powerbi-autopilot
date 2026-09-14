@@ -151,17 +151,21 @@ class FieldResolver:
         return "." in ref and ref.split(".", 1)[0] in self.model
 
     def __call__(self, ref: str) -> tuple[dict, str, str]:
-        """'테이블.열' → Column, 그 밖 → 측정값 테이블의 Measure. (식, queryRef, nativeQueryRef)"""
+        """'테이블.열' → Column, 그 밖 → Measure. (식, queryRef, nativeQueryRef)
+        측정값은 측정값 테이블에서 먼저 찾고, 없으면 그 측정값이 있는 테이블을 쓴다 (측정값을 사실 테이블에 두는 모델)."""
         if self.is_column(ref):
             table, col = ref.split(".", 1)
             if col not in self.model[table]["columns"]:
                 self.errors.append(f"열 없음: {ref}")
             expr = {"Column": {"Expression": {"SourceRef": {"Entity": table}}, "Property": col}}
             return expr, f"{table}.{col}", col
-        if ref not in self.model.get(self.mt, {}).get("measures", set()):
+        home = self.mt if ref in self.model.get(self.mt, {}).get("measures", set()) else \
+            next((t for t, info in self.model.items() if ref in info["measures"]), None)
+        if home is None:
             self.errors.append(f"측정값 없음: {ref}")
-        expr = {"Measure": {"Expression": {"SourceRef": {"Entity": self.mt}}, "Property": ref}}
-        return expr, f"{self.mt}.{ref}", ref
+            home = self.mt
+        expr = {"Measure": {"Expression": {"SourceRef": {"Entity": home}}, "Property": ref}}
+        return expr, f"{home}.{ref}", ref
 
     def dtype(self, ref: str) -> str | None:
         table, col = ref.split(".", 1)
@@ -173,24 +177,32 @@ def normalize_measure(m, t: Lang) -> dict:
     """측정값 표기 세 가지: "DAX" · {"expr": .., "format": ..} · {"en": "DAX", "ko": "DAX"} (값마다 언어 사전도 된다)."""
     if isinstance(m, str):
         return {"expr": m}
-    if "expr" in m:
-        return {"expr": t(m["expr"]), "format": t(m.get("format"))}
+    if "expr" in m:  # formatExpr: 동적 서식 문자열(DAX). 데이터 크기에 따라 K·M·B를 고를 때
+        return {"expr": t(m["expr"]), "format": t(m.get("format")), "formatExpr": t(m.get("formatExpr"))}
     return {"expr": t(m)}
 
 
 def measure_tmdl(measures: dict, palette: dict) -> list[str]:
-    """측정값을 TMDL 줄로. 식 안의 @pos·@neg 같은 이름은 디자인 토큰 색으로 바꾼다."""
+    """측정값을 TMDL 줄로. 식 안의 @pos·@neg 같은 이름은 디자인 토큰 색으로 바꾼다.
+    모델 대응표로 넣는 연결 측정값(adapter)은 숨기고 폴더를 따로 둔다."""
     out = []
     keys = sorted(palette, key=len, reverse=True)  # @negInk가 @neg보다 먼저 바뀌어야 한다
     for name, m in measures.items():
         expr = m["expr"]
         for k in keys:
             expr = expr.replace("@" + k, palette[k])
-        out.append("\t/// 리포트 표시용 (명세에서 생성)")
+        adapter = m.get("adapter", False)
+        out.append("\t/// " + ("Model map: a measure the pilot expects, in this model's terms" if adapter else "리포트 표시용 (명세에서 생성)"))
         out.append(f"\tmeasure '{name.replace(chr(39), chr(39) * 2)}' = {expr}")
-        if m.get("format"):
+        if m.get("format") and not m.get("formatExpr"):  # 동적 서식이 있으면 고정 서식은 쓰지 않는다
             out.append(f"\t\tformatString: {m['format']}")
-        out.append("\t\tdisplayFolder: 9. 리포트 표시용")
+        if adapter:
+            out.append("\t\tisHidden")
+        out.append(f"\t\tdisplayFolder: {'9. Model map (autopilot)' if adapter else '9. 리포트 표시용'}")
+        # formatStringDefinition은 속성이 아니라 하위 개체라 속성들 뒤, 맨 끝에 와야 한다.
+        # 중간에 두면 Desktop이 다음 속성 줄을 "들여쓰기 오류"로 보고 모델을 열지 못한다 (Desktop 오류 창에서 확인)
+        if m.get("formatExpr"):
+            out.append(f"\t\tformatStringDefinition = {m['formatExpr']}")
         out.append("")
     return out
 
@@ -214,6 +226,68 @@ def patch_model(def_dir: Path, patches: list) -> list[str]:
             continue
         f.write_text(text.replace(p["find"], p["replace"]), encoding="utf-8")
     return misses
+
+
+# ---------------------------------------------------------------- 다른 모델에 맞추기 (모델 대응표)
+# 파일럿의 DAX는 기준 모델(예제 03)의 이름으로 적혀 있다. 다른 모델은 대응표(model-map.json) 한 장으로 잇는다.
+#   columns      : 기준 열 '테이블.열' → 이 모델의 '테이블.열'. 명세의 필드와 DAX 안의 열을 함께 바꾼다
+#   measures     : 기준 측정값 이름 → 이 모델의 DAX. 숨긴 연결 측정값으로 넣고, 공용 측정값과 이름이 같으면 그 식을 바꾼다
+#   measureTable : 표시용 측정값을 넣을 테이블
+# 대응표 뼈대(없는 것 목록과 기준 식 힌트)는 tools/new_report.py --model 이 만든다.
+REF_COL = re.compile(r"(?:'([^']+)'|\b([^\W\d]\w*))\[([^\]]+)\]")   # 'T'[C] · T[C]
+REF_MEASURE = re.compile(r"(?<![\w'\]])\[([^\]]+)\]")                 # 테이블 없이 쓴 [M]
+DAX_STRING = re.compile(r'("(?:[^"]|"")*")')
+
+
+def dax_refs(expr: str) -> tuple[set[str], set[str]]:
+    """DAX 식이 부르는 열('테이블.열')과 측정값 이름. 문자열 리터럴 안은 보지 않는다."""
+    code = DAX_STRING.sub('""', expr)
+    return {f"{q or u}.{c}" for q, u, c in REF_COL.findall(code)}, set(REF_MEASURE.findall(code))
+
+
+def rename_columns(expr: str, cmap: dict) -> str:
+    """DAX 안의 열 참조를 대응표대로 바꾼다 (문자열 리터럴은 그대로)."""
+    if not cmap:
+        return expr
+
+    def sub(m: re.Match) -> str:
+        key = f"{m.group(1) or m.group(2)}.{m.group(3)}"
+        if key not in cmap:
+            return m.group(0)
+        table, col = cmap[key].split(".", 1)
+        return f"'{table}'[{col}]"
+    parts = DAX_STRING.split(expr)
+    return "".join(p if i % 2 else REF_COL.sub(sub, p) for i, p in enumerate(parts))
+
+
+def rename_fields(v, cmap: dict):
+    """명세 안의 필드 이름('테이블.열')을 대응표대로 바꾼다. format 같은 딕셔너리의 키도 바꾼다."""
+    if isinstance(v, str):
+        return cmap.get(v, v)
+    if isinstance(v, list):
+        return [rename_fields(x, cmap) for x in v]
+    if isinstance(v, dict):
+        return {cmap.get(k, k): rename_fields(x, cmap) for k, x in v.items()}
+    return v
+
+
+def read_measure_defs(tmdl_dir: Path) -> dict[str, dict]:
+    """TMDL 측정값 이름 → {"expr": 한 줄로 이은 식, "format": 서식 문자열}. 대응표 뼈대·힌트용."""
+    out = {}
+    for f in (tmdl_dir / "tables").glob("*.tmdl"):
+        cur = None
+        for line in f.read_text(encoding="utf-8").splitlines():
+            m = re.match(r"^\tmeasure\s+(?:'((?:[^']|'')+)'|([^\s=]+))\s*=\s*(.*)$", line)
+            if m:
+                first = m.group(3).strip()
+                cur = out[(m.group(1) or m.group(2)).replace("''", "'")] = {"expr": [first] if first else [], "format": None}
+            elif cur is not None and line.startswith("\t\t\t"):   # 여러 줄 식
+                cur["expr"].append(line.strip())
+            elif cur is not None and line.startswith("\t\tformatString:"):
+                cur["format"] = line.split(":", 1)[1].strip()
+            elif cur is not None and not line.startswith("\t\t"):
+                cur = None
+    return {k: {"expr": " ".join(v["expr"]), "format": v["format"]} for k, v in out.items()}
 
 
 # ---------------------------------------------------------------- 비주얼 만들기 (위치·필드·제목 + 위의 예외만)
@@ -492,6 +566,19 @@ def main() -> None:
     palette = tokens["themes"][theme_id]["color"]
     ui = {**loc["locales"][loc["fallback"]]["ui"], **loc["locales"].get(lang_code, {}).get("ui", {})}
 
+    # 다른 모델이면 대응표(model-map.json)로 먼저 잇는다: 명세의 필드 이름, 표시용 측정값 DAX 안의 열, 연결 측정값
+    mmap = load_json((base / spec["modelMap"]).resolve()) if spec.get("modelMap") else {}
+    entry = lambda v: v if isinstance(v, dict) else {"expr": v}  # noqa: E731 — 측정값 값은 "DAX" 또는 {"expr", "format"}
+    blank = [k for k, v in mmap.get("columns", {}).items() if not v] + [k for k, v in mmap.get("measures", {}).items() if not entry(v).get("expr")]
+    if blank:
+        sys.exit(f"model map has {len(blank)} empty values; fill them first: {', '.join(blank[:10])}")
+    cmap = mmap.get("columns", {})
+    if mmap.get("measureTable"):
+        spec["measureTable"] = mmap["measureTable"]
+    for k in ("pages", "shared"):
+        if k in spec:
+            spec[k] = rename_fields(spec[k], cmap)
+
     # 표시용 측정값: 공용 파일({lang} 자리에 언어) → 명세 순서로 덮어쓴다. 언어 파일이 없으면 대체 언어 파일
     raw = {}
     for inc in spec.get("include", []):
@@ -502,6 +589,19 @@ def main() -> None:
         raw.update(load_json(p)["measures"])
     raw.update(spec.get("measures", {}))
     extra = {k: normalize_measure(v, t) for k, v in raw.items()}
+    for m in extra.values():
+        m["expr"] = rename_columns(m["expr"], cmap)
+    model = read_model(tmdl)
+    existing = {m for info in model.values() for m in info["measures"]}
+    adapters = {}
+    for mname, v in mmap.get("measures", {}).items():  # 'name'은 리포트 이름이라 쓰지 않는다
+        v = entry(v)
+        if mname in extra:  # 공용 표시용 측정값을 이 모델의 식으로 바꿔 쓴다 (예: Orders PY)
+            extra[mname]["expr"] = v["expr"]
+            extra[mname]["format"] = v.get("format") or extra[mname].get("format")
+        elif mname not in existing:
+            adapters[mname] = {"expr": v["expr"], "format": v.get("format"), "adapter": True}
+    extra = {**adapters, **extra}
     # 부호 글자색 측정값 자동 생성 (format: sign) — 명세에 색 측정값을 따로 적지 않는다
     for page in spec["pages"]:
         for vs in list(page["visuals"].values()) + list(spec.get("shared", {}).values()):
@@ -509,8 +609,8 @@ def main() -> None:
                 if kind == "sign":
                     extra.setdefault(sign_measure(fld), {"expr": f"IF ( [{fld}] < 0, \"@negInk\", \"@ink\" )"})
     glossary = load_json((base / spec["glossary"]).resolve())["fields"] if spec.get("glossary") else {}
+    glossary = {cmap.get(k, k): v for k, v in glossary.items()}
 
-    model = read_model(tmdl)
     model.setdefault(spec["measureTable"], {"columns": set(), "measures": set(), "types": {}})["measures"] |= set(extra)
     resolve = FieldResolver(model, spec["measureTable"])
     x = Ctx(resolve, t, glossary, tokens, palette, ui)
@@ -596,6 +696,12 @@ def main() -> None:
     shutil.copytree(tmdl, sm / "definition")
     if extra:
         inject_measures(sm / "definition", spec["measureTable"], extra, palette)
+    if any(m.get("formatExpr") for m in extra.values()):
+        # 동적 서식 문자열(FormatStringDefinition)은 호환성 수준 1601 이상이 필요하다.
+        # 1550이면 Desktop이 "필요한 최소 호환성 수준 1601보다 낮습니다"로 모델을 열지 못한다 (복사본만 올린다)
+        db = sm / "definition" / "database.tmdl"
+        db.write_text(re.sub(r"(compatibilityLevel:\s*)(\d+)", lambda m: m.group(1) + str(max(int(m.group(2)), 1601)),
+                             db.read_text(encoding="utf-8")), encoding="utf-8")
     data_note = ""
     if spec.get("dataLocales") and lang_code != spec.get("dataLang", "ko"):
         # 데이터 값 번역이 없는 언어(ja 등)는 화면 글자처럼 대체 언어(영어) 데이터를 쓴다
@@ -607,9 +713,9 @@ def main() -> None:
         else:
             data_note = f" · 데이터 값은 {spec.get('dataLang', 'ko')} 그대로 ({lang_code} 데이터 로케일 없음)"
     if args.local_data:
+        # 자리표시 경로 "C:\path\to\powerbi-autopilot\examples\_data\<데이터>[\en]" → 이 PC의 저장소 경로 (어떤 샘플 데이터든)
         ex = sm / "definition" / "expressions.tmdl"
-        data_dir = str((ROOT / "examples" / "_data" / "korean-retail").resolve())
-        ex.write_text(re.sub(r'"[^"]*korean-retail(\\[A-Za-z-]+)?"', lambda m: '"' + data_dir + (m.group(1) or "") + '"',
+        ex.write_text(re.sub(r'"[^"]*?(\\examples\\_data\\[^"]+)"', lambda m: '"' + str(ROOT) + m.group(1) + '"',
                              ex.read_text(encoding="utf-8")), encoding="utf-8")
     write_json(sm / "definition.pbism", {"$schema": S_PBISM, "version": "4.2", "settings": {}})
     write_json(sm / ".platform", {"$schema": S_PLATFORM, "metadata": {"type": "SemanticModel", "displayName": name},

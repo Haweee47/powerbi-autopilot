@@ -1,0 +1,2 @@
+/// Folder with the four CSV files. On another PC, change only this value.
+expression DataFolder = "C:\path	o\powerbi-autopilot\examples\_data\outdoor-shop" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]

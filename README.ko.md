@@ -85,6 +85,7 @@ powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                
 | 데이터 모델 | Power BI Modeling MCP로 테이블 7 · 관계 6 · 측정값 29. **DAX 쿼리 결과가 Python 기대값과 전부 일치** ([예제 03](examples/03-modeling-mcp/model-doc.md)) |
 | 생성기 | 명세 → PBIP. 파일럿 4종 + 한국어 예제 모두 **공식 검증(`powerbi-report-author validate`) 오류 0 · 경고 0** |
 | 렌더링 검증 | 생성한 파일을 Desktop으로 열어 전 페이지를 캡처하는 루프. 검증기는 통과했지만 화면이 틀린 문제를 **25개 넘게** 찾아 고쳤다 |
+| 내 모델로 | 구조가 다른 영어 모델에 대시보드 파일럿 적용: `new_report.py`가 파일럿에 필요한 열·측정값을 DAX 속까지 모두 찾아 에이전트가 채울 대응표를 쓴다. 숫자는 CSV와 대조 ([예제 05](examples/05-own-model/README.md)) |
 
 ## 토큰을 어떻게 줄였나
 

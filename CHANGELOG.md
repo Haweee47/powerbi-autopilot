@@ -9,9 +9,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 - `tools/check.py`: one command that regenerates the committed files, builds all 24 pilot × theme × language combinations
   and runs Microsoft's validator. CI runs it on every push and pull request
 - `tools/render_check.ps1` + `tools/render_report.py`: open each pilot in Power BI Desktop, refresh, capture every page and
-  compare with the committed screenshots. Works in any Desktop display language
+  compare with the committed screenshots. Works in any Desktop display language. `-Dir` captures any report folder
+- Bring your own model: `new_report.py --model` finds every column and measure a pilot needs, inside its DAX too, and writes a
+  `model-map.json` skeleton with reference definitions and time rules as hints. The generator applies the map: renames fields and
+  DAX columns, adds hidden adapter measures, and finds measures that live on a fact table
+- Example 05: the dashboard pilot on a differently shaped English model (outdoor shop), numbers checked against the CSVs
+
+### Changed
+- English money measures pick K, M or B from the size of the current selection (dynamic format strings) instead of always M,
+  so a smaller model shows 634.3K instead of 0.6M. The reference pilots render exactly as before
+- Last-year orders moved into a display measure (`Orders PY`) so other models can replace it without a period flag column
 
 ### Fixed
+- `new_report.py` split a single field written as text (`"y": "…"`) into characters and missed the measures used inside the pilot's DAX
+- `render_check` reported "match" from old captures when a report failed to open. It now clears captures first, fails when a
+  report doesn't open, and `render_report` flags missing pages
+- Reports that use the unit measures get compatibility level 1601 (required for format string expressions; Desktop refused to
+  open 1550), and `formatStringDefinition` is written after the other measure properties
 - The generator crashed on Windows when its output was redirected and the console code page lacked a character (≈)
 - Theme file names hash line-ending-normalized content, so Windows and Linux generate identical pilot files
 

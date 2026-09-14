@@ -183,5 +183,6 @@ powerbi-autopilot/
 - [x] v0.1.0 릴리스 (2026-09-14). 다음 릴리스부터: CHANGELOG Unreleased → 버전, 태그, `gh release create`, 고친 이슈에 버전 댓글
 - [ ] 일본어·중국어 완성 (명세 글자, measures.ja/zh-CN.json, 데이터 값) — 기여 대기 #2 #3
 - [x] 검사 도구 저장소화: `tools/check.py`(CI와 같음) · `tools/render_check.ps1`(Desktop 캡처·비교) · GitHub Actions (2026-09-14)
-- [ ] 다른 모델(영어 이름, 공개 데이터)로 "내 데이터" 흐름 끝까지 → 예제 05
+- [x] 다른 모델로 "내 데이터" 흐름 끝까지 → 예제 05 (모델 대응표, 영어 금액 단위 자동, 2026-09-15)
+- [ ] 한국어 금액 단위도 데이터 크기에 맞게 (만·억 자동). 영어는 `Unit Scale`로 해결
 - [ ] 새 세션에서 실제 토큰 측정, 에이전트가 visual.json을 직접 쓰는 방식과 비교 (예제 01·02)

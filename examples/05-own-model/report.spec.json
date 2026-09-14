@@ -1,0 +1,287 @@
+{
+  "$comment": "dashboard pilot → OutdoorDashboard (en, paper). Change only what the tool listed as missing, sentences and titles.",
+  "name": "OutdoorDashboard",
+  "model": "OutdoorShop.SemanticModel/definition",
+  "measureTable": "측정값",
+  "theme": "paper",
+  "glossary": "../../templates/_shared/glossary.json",
+  "include": [
+    "../../templates/_shared/measures.common.json",
+    "../../templates/_shared/measures.{lang}.json"
+  ],
+  "measures": {
+    "Headline Summary": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [목표 대비 차이] ) ) VAR w = TOPN ( 1, t, [목표 대비 차이], ASC ) VAR d = MINX ( w, [목표 대비 차이] ) RETURN \"Target attainment \" & FORMAT ( [목표 달성률], \"0.0%\" ) & \"  ·  YoY \" & FORMAT ( [전년 대비 증감률], \"▲0.0%;▼0.0%\" ) & IF ( d < 0, \"  ·  Furthest behind: \" & CONCATENATEX ( w, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( d / [Unit Scale], \"▲#,0.0;▼#,0.0\" ) & [Unit Suffix], \"  ·  Every category on target\" )",
+    "Headline Category": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) VAR hi = TOPN ( 1, t, [전년 대비 증감률], DESC ) RETURN \"Weakest: \" & CONCATENATEX ( lo, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" ) & \"  ·  Strongest: \" & CONCATENATEX ( hi, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( MAXX ( hi, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )",
+    "Headline Store Detail": "VAR t = FILTER ( VALUES ( '카테고리'[카테고리] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) RETURN SELECTEDVALUE ( '매장'[매장명], \"All stores\" ) & \"  ·  YoY \" & FORMAT ( [전년 대비 증감률], \"▲0.0%;▼0.0%\" ) & \"  ·  Biggest category drop: \" & CONCATENATEX ( lo, '카테고리'[카테고리], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )"
+  },
+  "shared": {
+    "brand": {
+      "text": "Outdoor Shop",
+      "sub": "Dashboard · sample data"
+    },
+    "asof": {
+      "text": "Data as of 2026-08-31"
+    },
+    "slicer_period": {
+      "field": "날짜.연도",
+      "default": 2026,
+      "single": true,
+      "title": "Period"
+    },
+    "slicer_channel": {
+      "field": "매장.채널"
+    },
+    "context": {
+      "measure": "Context Label"
+    }
+  },
+  "pages": [
+    {
+      "layout": "summary",
+      "name": "Summary",
+      "visuals": {
+        "title": {
+          "text": "Sales performance"
+        },
+        "headline": {
+          "measure": "Headline Summary"
+        },
+        "kpi_sales": {
+          "measure": "Sales Big",
+          "ref": "YoY Text",
+          "ref_color": "YoY Color"
+        },
+        "kpi_profit": {
+          "measure": "Profit Big",
+          "ref": "Profit YoY Text",
+          "ref_color": "Profit YoY Color"
+        },
+        "kpi_target": {
+          "measure": "목표 달성률",
+          "ref": "Target Gap Text",
+          "ref_color": "Target Gap Color"
+        },
+        "kpi_aov": {
+          "measure": "AOV Disp",
+          "ref": "AOV YoY Text",
+          "ref_color": "AOV YoY Color"
+        },
+        "trend": {
+          "x": "날짜.월",
+          "y": [
+            "Sales Disp",
+            "Sales PY Disp",
+            "Target Disp"
+          ],
+          "target": "Target Disp",
+          "title": "Monthly sales",
+          "sub": "This year · last year · target (dashed)"
+        },
+        "category": {
+          "x": "카테고리.카테고리",
+          "y": [
+            "Target Gap Disp"
+          ],
+          "sort": "desc",
+          "color": "Target Gap Bar Color",
+          "title": "Sales vs target by category",
+          "sub": "Red = below target"
+        },
+        "stores": {
+          "columns": [
+            "매장.매장명",
+            "Sales Disp",
+            "전년 대비 증감률"
+          ],
+          "sort": [
+            "전년 대비 증감률",
+            "asc"
+          ],
+          "format": {
+            "전년 대비 증감률": "sign"
+          },
+          "totals": false,
+          "title": "Stores with the weakest YoY",
+          "sub": "Right-click a row → Drill through → Store detail"
+        },
+        "region": {
+          "x": "매장.권역",
+          "y": [
+            "Sales Big"
+          ],
+          "sort": "desc",
+          "title": "Sales by region"
+        }
+      }
+    },
+    {
+      "layout": "category",
+      "name": "Categories",
+      "visuals": {
+        "title": {
+          "text": "Category performance"
+        },
+        "headline": {
+          "measure": "Headline Category"
+        },
+        "multiples": {
+          "x": "날짜.월번호",
+          "continuous": true,
+          "y": [
+            "Sales Disp",
+            "Sales PY Disp"
+          ],
+          "small": "카테고리.카테고리",
+          "grid": [
+            1,
+            5
+          ],
+          "title": "Monthly sales by category",
+          "sub": "Month 1–8 · this year vs last year · shared y-axis"
+        },
+        "table": {
+          "columns": [
+            "카테고리.카테고리",
+            "Sales Disp",
+            "Sales PY Disp",
+            "전년 대비 증감률",
+            "목표 달성률",
+            "매출 구성비"
+          ],
+          "sort": [
+            "전년 대비 증감률",
+            "desc"
+          ],
+          "format": {
+            "전년 대비 증감률": "sign"
+          },
+          "title": "Category summary"
+        },
+        "mix": {
+          "x": "카테고리.카테고리",
+          "y": [
+            "매출 구성비"
+          ],
+          "sort": "desc",
+          "title": "Sales mix",
+          "sub": "Within the selected period and channel"
+        }
+      }
+    },
+    {
+      "layout": "stores",
+      "name": "Stores",
+      "visuals": {
+        "title": {
+          "text": "Store performance"
+        },
+        "headline": {
+          "measure": "Headline Stores"
+        },
+        "scatter": {
+          "point": "매장.매장명",
+          "x": "Sales Disp",
+          "y": "전년 대비 증감률",
+          "color": "YoY Bar Color",
+          "zero": true,
+          "title": "Store size vs growth",
+          "sub": "x = sales · y = YoY · right-click a dot to drill through"
+        },
+        "watch": {
+          "columns": [
+            "매장.매장명",
+            "전년 대비 증감률"
+          ],
+          "sort": [
+            "전년 대비 증감률",
+            "asc"
+          ],
+          "format": {
+            "전년 대비 증감률": "sign"
+          },
+          "totals": false,
+          "title": "Watch list",
+          "sub": "Lowest YoY first"
+        },
+        "rank": {
+          "columns": [
+            "매장.매장명",
+            "매장.권역",
+            "매장.채널",
+            "Sales Disp",
+            "이익률",
+            "AOV Disp",
+            "전년 대비 증감률"
+          ],
+          "sort": [
+            "전년 대비 증감률",
+            "asc"
+          ],
+          "format": {
+            "Sales Disp": "bar",
+            "전년 대비 증감률": "sign"
+          },
+          "title": "All stores"
+        }
+      }
+    },
+    {
+      "layout": "store_detail",
+      "name": "Store detail",
+      "hidden": true,
+      "drillthrough": "매장.매장명",
+      "visuals": {
+        "title": {
+          "text": "Store detail"
+        },
+        "back": {
+          "action": "Back",
+          "text": "← All stores"
+        },
+        "headline": {
+          "measure": "Headline Store Detail"
+        },
+        "kpi_sales": {
+          "measure": "Sales Big",
+          "ref": "YoY Text",
+          "ref_color": "YoY Color"
+        },
+        "kpi_margin": {
+          "measure": "이익률",
+          "ref": "Margin YoY Text",
+          "ref_color": "Margin YoY Color"
+        },
+        "kpi_orders": {
+          "measure": "Orders Disp",
+          "ref": "Orders YoY Text",
+          "ref_color": "Orders YoY Color"
+        },
+        "kpi_aov": {
+          "measure": "AOV Disp",
+          "ref": "AOV YoY Text",
+          "ref_color": "AOV YoY Color"
+        },
+        "trend": {
+          "x": "날짜.월",
+          "y": [
+            "Sales Disp",
+            "Sales PY Disp"
+          ],
+          "title": "Monthly sales",
+          "sub": "This year vs last year"
+        },
+        "mix": {
+          "x": "카테고리.카테고리",
+          "y": [
+            "매출 구성비"
+          ],
+          "sort": "desc",
+          "title": "Category mix",
+          "sub": "Share of this store's sales"
+        }
+      }
+    }
+  ],
+  "lang": "en",
+  "modelMap": "model-map.json"
+}

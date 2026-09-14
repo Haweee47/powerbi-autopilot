@@ -1,0 +1,45 @@
+{
+  "$comment": "Model map for the outdoor shop model: reference names (examples/03) → this model. Filled by the agent from the hints new_report.py wrote.",
+  "measureTable": "Orders",
+  "columns": {
+    "날짜.연도": "Calendar.Year",
+    "날짜.월": "Calendar.Month",
+    "날짜.월번호": "Calendar.Month No",
+    "매장.권역": "Stores.Region",
+    "매장.매장명": "Stores.Store",
+    "매장.채널": "Stores.Channel",
+    "카테고리.카테고리": "Products.Category",
+    "판매.주문일자": "Orders.Order Date"
+  },
+  "measures": {
+    "매출": "[Revenue]",
+    "이익": "[Gross Profit]",
+    "이익률": {
+      "expr": "[GP %]",
+      "format": "0.0%"
+    },
+    "주문건수": "[Order Count]",
+    "객단가": "[AOV]",
+    "목표매출": "VAR lastDay = [Last Order Date] RETURN IF ( ISFILTERED ( Products[Product] ) || ISFILTERED ( Products[Subcategory] ) || ISCROSSFILTERED ( Stores ), BLANK (), CALCULATE ( [Budget Sales], TREATAS ( VALUES ( Products[Category] ), Budget[Category] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
+    "목표 대비 차이": "IF ( NOT ISBLANK ( [목표매출] ), [매출] - [목표매출] )",
+    "목표 달성률": {
+      "expr": "DIVIDE ( [매출], [목표매출] )",
+      "format": "0.0%"
+    },
+    "전년 매출": "VAR lastDay = [Last Order Date] RETURN CALCULATE ( [Revenue], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
+    "전년 이익": "VAR lastDay = [Last Order Date] RETURN CALCULATE ( [Gross Profit], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
+    "Orders PY": "VAR lastDay = [Last Order Date] RETURN CALCULATE ( [Order Count], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
+    "전년 대비 증감률": {
+      "expr": "IF ( NOT ISBLANK ( [매출] ), DIVIDE ( [매출] - [전년 매출], [전년 매출] ) )",
+      "format": "+0.0%;-0.0%;0.0%"
+    },
+    "이익 증감률": {
+      "expr": "IF ( NOT ISBLANK ( [이익] ), DIVIDE ( [이익] - [전년 이익], [전년 이익] ) )",
+      "format": "+0.0%;-0.0%;0.0%"
+    },
+    "매출 구성비": {
+      "expr": "DIVIDE ( [매출], CALCULATE ( [매출], ALLSELECTED () ) )",
+      "format": "0.0%"
+    }
+  }
+}

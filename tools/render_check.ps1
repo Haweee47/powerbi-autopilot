@@ -42,6 +42,7 @@ public static class RenderCap {
 '@
 $AE = [System.Windows.Automation.AutomationElement]
 $CT = [System.Windows.Automation.ControlType]
+$failed = @()   # reports that never opened
 
 function Find-Type($el, $type) {
   $cond = New-Object System.Windows.Automation.PropertyCondition($AE::ControlTypeProperty, $type)
@@ -94,6 +95,10 @@ function Test-Report($exe, $dir) {
   $order = (Get-Content (Join-Path $pagesDir "pages.json") -Raw -Encoding UTF8 | ConvertFrom-Json).pageOrder
   $titles = foreach ($id in $order) { (Get-Content (Join-Path $pagesDir "$id\page.json") -Raw -Encoding UTF8 | ConvertFrom-Json).displayName }
   $before = @(Get-Process PBIDesktop -ErrorAction SilentlyContinue | ForEach-Object Id)
+  # 이전 캡처를 먼저 지운다: 열기에 실패했는데 옛 캡처로 "일치"라고 보고하지 않게
+  $dest = Join-Path $outRoot (Split-Path $dir -Leaf)
+  New-Item -ItemType Directory -Force $dest | Out-Null
+  Get-ChildItem $dest -Filter *.png | Remove-Item
 
   Start-Process -FilePath $exe -ArgumentList "`"$($pbip.FullName)`""
   $deadline = (Get-Date).AddSeconds($TimeoutSeconds); $proc = $null; $win = $null
@@ -102,7 +107,12 @@ function Test-Report($exe, $dir) {
     $proc = Get-Process PBIDesktop -ErrorAction SilentlyContinue | Where-Object { $_.Id -notin $before -and $_.MainWindowTitle -like "*$name*" } | Select-Object -First 1
     if ($proc) { $w = $AE::FromHandle($proc.MainWindowHandle); if (Get-PageHost $w) { $win = $w } }
   }
-  if (-not $win) { Write-Warning "$name did not open within $TimeoutSeconds s"; return }
+  if (-not $win) {
+    Write-Warning "$name did not open within $TimeoutSeconds s: the model or report failed to load (open it in Desktop to read the error)"
+    $script:failed += $name
+    Get-Process PBIDesktop -ErrorAction SilentlyContinue | Where-Object { $_.Id -notin $before } | Stop-Process -Force
+    return
+  }
 
   # First open has no data yet: the yellow bar's first button refreshes (class 'action-button' in every language)
   Start-Sleep -Seconds 5
@@ -122,9 +132,6 @@ function Test-Report($exe, $dir) {
   $reportView = $tabs | Where-Object { $_.Current.BoundingRectangle.X -lt 8 -and $_.Current.BoundingRectangle.Width -le 48 } |
     Sort-Object { $_.Current.BoundingRectangle.Y } | Select-Object -First 1
   $pageTabs = @($tabs | Where-Object { $_.Current.ClassName -match 'thumbnail-container' } | Sort-Object { $_.Current.BoundingRectangle.X })
-  $dest = Join-Path $outRoot (Split-Path $dir -Leaf)
-  New-Item -ItemType Directory -Force $dest | Out-Null
-  Get-ChildItem $dest -Filter *.png | Remove-Item
   for ($i = 0; $i -lt $pageTabs.Count; $i++) {
     Invoke-Element $pageTabs[$i]; Start-Sleep -Seconds 2
     if ($reportView) { Invoke-Element $reportView }   # moves focus off the tab so its tooltip doesn't cover the page
@@ -152,4 +159,7 @@ try {
     foreach ($p in $purposes) { Test-Report $exe (Join-Path $repo "out\$p-$Theme-$Lang") }
   }
   & $py tools\render_report.py $outRoot
+  $reportExit = $LASTEXITCODE
 } finally { Pop-Location }
+if ($failed.Count) { Write-Host "FAILED to open in Desktop: $($failed -join ', ')"; exit 1 }
+exit $reportExit

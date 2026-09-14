@@ -85,7 +85,11 @@ def main() -> None:
         if (theme, lang) != ("navy", "en") or not (ROOT / "templates" / purpose / "pilot.spec.json").exists():
             continue
         refs = reference_names(purpose)
-        for i, p in enumerate(sorted(d.glob("*.png"))):
+        captured = sorted(d.glob("*.png"))
+        if len(captured) < len(refs):  # 열기에 실패했거나 페이지를 못 넘긴 경우: 비교할 게 없다고 통과시키지 않는다
+            flagged += 1
+            print(f"  MISSING {d.name}: {len(captured)} of {len(refs)} pages captured")
+        for i, p in enumerate(captured):
             ref = ROOT / "templates" / purpose / "screenshots" / f"{refs[i]}.png" if i < len(refs) else None
             if not ref or not ref.exists():
                 continue

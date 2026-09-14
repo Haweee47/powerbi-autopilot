@@ -1,0 +1,18 @@
+/// Outdoor gear retailer sample (2024-01 to 2026-08). Stands in for "your own model" in example 05:
+/// English names, measures on the fact table, a budget linked to the calendar only.
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+ref table Orders
+ref table Stores
+ref table Products
+ref table Budget
+ref table Calendar
