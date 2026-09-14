@@ -147,7 +147,11 @@ powerbi-autopilot/
 ## 7. Git 규칙
 
 - 원격 저장소: GitHub `Haweee47/powerbi-autopilot` (공개).
-- **작업 단위가 끝날 때마다 커밋하고 push한다** (2026-09-13 사용자 승인).
+- **주요 수정사항이 생길 때마다 GitHub와 노션에 올린다. 매번 묻지 않는다** (2026-09-13 승인, 2026-09-15 다시 확인).
+  1. 커밋·push (push 전 개인정보 검사). CI(`check.yml`) 결과까지 확인한다.
+  2. `docs/progress-log.md`에 날짜별 항목을 더한다.
+  3. 노션 "포트폴리오 허브 > 작업 일지" 맨 위에 같은 날짜 항목을 더한다 (페이지 위치는 에이전트 메모리). 허브의 숫자가 바뀌면 허브도 고친다.
+  4. 사용자에게 올린 링크(커밋, 노션)를 알려 준다.
 - push 전에 추적 파일에 로컬 경로·사용자명·개인정보·회사 정보가 없는지 검사한다.
 - 커밋 메시지: Conventional Commits (`feat:` `fix:` `docs:` `refactor:` `chore:`)
 - `.gitignore`: `**/.pbi/localSettings.json`, `**/.pbi/cache.abf`, `research/collected/`, 자격 증명 파일
