@@ -5,6 +5,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+### Added
+- `tools/check.py`: one command that regenerates the committed files, builds all 24 pilot × theme × language combinations
+  and runs Microsoft's validator. CI runs it on every push and pull request
+- `tools/render_check.ps1` + `tools/render_report.py`: open each pilot in Power BI Desktop, refresh, capture every page and
+  compare with the committed screenshots. Works in any Desktop display language
+
+### Fixed
+- The generator crashed on Windows when its output was redirected and the console code page lacked a character (≈)
+- Theme file names hash line-ending-normalized content, so Windows and Linux generate identical pilot files
+
 ## [0.1.0] - 2026-09-14
 
 First public release. Requires **Power BI Desktop 2.157 or newer**: every pilot page was captured in 2.157.1354 before release.

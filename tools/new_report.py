@@ -64,6 +64,7 @@ def rel(target: Path, start: Path) -> str:
 
 
 def main() -> None:
+    sys.stdout.reconfigure(**({} if sys.stdout.isatty() else {"encoding": "utf-8"}), errors="replace")
     cat, loc = load(TEMPLATES / "catalog.json"), load(LOCALES)
     ap = argparse.ArgumentParser()
     ap.add_argument("--purpose", required=True, choices=[p["id"] for p in cat["purposes"]])

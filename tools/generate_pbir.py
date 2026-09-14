@@ -467,6 +467,8 @@ def load_json(p: Path) -> dict:
 
 
 def main() -> None:
+    # 파이프·파일로 출력할 때 시스템 코드 페이지(cp949 등)에 없는 글자(≈)에서 멈추지 않게 UTF-8로 고정한다
+    sys.stdout.reconfigure(**({} if sys.stdout.isatty() else {"encoding": "utf-8"}), errors="replace")
     ap = argparse.ArgumentParser()
     ap.add_argument("spec")
     ap.add_argument("--lang")
@@ -563,7 +565,9 @@ def main() -> None:
         if d.exists():
             shutil.rmtree(d)
     theme_src = THEMES / f"autopilot-{theme_id}.json"
-    theme_file = f"autopilot-{theme_id}-{hashlib.md5(theme_src.read_bytes()).hexdigest()[:8]}.json"  # 테마가 바뀌면 이름도 바뀐다 (Desktop 캐시 회피)
+    # 테마가 바뀌면 이름도 바뀐다 (Desktop 캐시 회피). 줄바꿈을 LF로 맞춰 해시해야 Windows와 CI(Linux)가 같은 이름을 만든다
+    theme_hash = hashlib.md5(theme_src.read_bytes().replace(b"\r\n", b"\n")).hexdigest()[:8]
+    theme_file = f"autopilot-{theme_id}-{theme_hash}.json"
     res_dir = rep / "StaticResources" / "RegisteredResources"
     res_dir.mkdir(parents=True, exist_ok=True)
     theme_obj = load_json(theme_src)

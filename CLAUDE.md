@@ -131,7 +131,7 @@ powerbi-autopilot/
 ├── tools/                     # 생성기, new_report, 테마·레이아웃 빌드, 공유 이미지, 토큰 측정
 ├── .claude/skills/new-report/ # 새 리포트: 용도·테마·언어를 묻고 파일럿으로 시작
 ├── .claude/skills/triage-feedback/ # GitHub 이슈 분류 → feedback-log → 결정·수정
-├── .github/                   # 이슈 양식 4종, PR 양식
+├── .github/                   # 이슈 양식 4종, PR 양식, workflows/check.yml (CI = tools/check.py)
 ├── quickstart.cmd             # 더블클릭 시작 (tools/quickstart.py → out/, git 무시)
 ├── CONTRIBUTING.md · CHANGELOG.md
 ├── docs/guide/                # 시작 안내서 en · ko · ja · zh-CN
@@ -181,4 +181,7 @@ powerbi-autopilot/
 - [x] 쉽게 쓰기: quickstart(더블클릭) · 안내서 4개 언어 · 피드백 구조(이슈 양식·Discussions·라벨·triage 스킬·CHANGELOG) (2026-09-14)
 - [x] 옛 Desktop(2.147) 대응 (#1): quickstart가 Store판 우선·버전 경고, 안내서에 2.157 이상. Store판 2.157.1354로 파일럿 전 페이지 재캡처
 - [x] v0.1.0 릴리스 (2026-09-14). 다음 릴리스부터: CHANGELOG Unreleased → 버전, 태그, `gh release create`, 고친 이슈에 버전 댓글
-- [ ] 일본어·중국어 완성 (명세 글자, measures.ja/zh-CN.json, 데이터 값)
+- [ ] 일본어·중국어 완성 (명세 글자, measures.ja/zh-CN.json, 데이터 값) — 기여 대기 #2 #3
+- [x] 검사 도구 저장소화: `tools/check.py`(CI와 같음) · `tools/render_check.ps1`(Desktop 캡처·비교) · GitHub Actions (2026-09-14)
+- [ ] 다른 모델(영어 이름, 공개 데이터)로 "내 데이터" 흐름 끝까지 → 예제 05
+- [ ] 새 세션에서 실제 토큰 측정, 에이전트가 visual.json을 직접 쓰는 방식과 비교 (예제 01·02)

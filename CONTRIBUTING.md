@@ -39,19 +39,18 @@ issue form ─▶ needs-triage ─▶ triage ─▶ accepted / roadmap / wontfix
 
 ## Working on the code
 
-Python 3.10+ with only the standard library. Power BI Desktop (Windows) to look at results.
+Python 3.10+. The generator itself uses only the standard library; the checks need `pip install jsonschema pillow`
+and Microsoft's validator (`npm install -g @microsoft/powerbi-report-authoring-cli`).
 
 ```bash
-python tools/quickstart.py --all                          # build all pilots with the sample data
-python tools/generate_pbir.py templates/table/pilot.spec.json --lang ko --theme paper --local-data --out out/test
-npm install -g @microsoft/powerbi-report-authoring-cli     # optional: Microsoft's PBIR validator
-powerbi-report-author validate out/test/Pilot-Table.Report
+python tools/check.py                                            # what CI runs: regenerate, build 24 reports, validate
+powershell -ExecutionPolicy Bypass -File tools\render_check.ps1  # Windows: open every pilot in Desktop, capture, compare
 ```
 
 Before opening a pull request:
 
-1. The validator shows **0 errors · 0 warnings** for every report you touched.
-2. You opened the result in Power BI Desktop and looked at every page you changed. The validator can pass while the screen is wrong.
+1. `python tools/check.py` passes: committed files are up to date and every report shows **0 errors · 0 warnings**. CI runs the same check on your PR.
+2. For anything visual, `tools/render_check.ps1` shows no unexpected change and you attach before/after captures. The validator can pass while the screen is wrong.
 3. Formatting goes in the theme (`design-system/tokens.json` → `tools/build_themes.py`), not in individual visuals.
 4. No confidential data, personal data or local paths. Sample data must be synthetic or public.
 5. If you change `README.md`, change `README.ko.md` too, and add a line to `CHANGELOG.md` under "Unreleased".

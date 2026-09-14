@@ -45,8 +45,9 @@ powerbi-report-author validate examples/<Name>/<Name>.Report
 ```
 
 The generator stops before writing anything if a field doesn't exist. Fix the spec, rerun.
-If Power BI Desktop is available, render and capture every page (see `docs/progress-log.md` for the capture loop) before calling it done:
-validation passing does not mean the screen is right.
+If Power BI Desktop is available, capture every page before calling it done:
+`powershell -ExecutionPolicy Bypass -File tools\render_check.ps1 -Dir examples\<Name>` opens it in the Store Desktop, refreshes and saves each page to `out/render/`.
+Build with `--local-data` when the report uses the bundled sample model, or Desktop finds no data. Validation passing does not mean the screen is right.
 
 ## 5. Report back
 

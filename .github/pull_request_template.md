@@ -8,8 +8,8 @@
 
 ## Checklist
 
-- [ ] `powerbi-report-author validate` shows 0 errors · 0 warnings for every report I touched
-- [ ] I opened the result in Power BI Desktop and looked at every page I changed
+- [ ] `python tools/check.py` passes (CI runs it too)
+- [ ] Visual change: I ran `tools/render_check.ps1` (or opened the result in Power BI Desktop 2.157+) and looked at every page I changed
 - [ ] No confidential data, personal data or local paths in the diff
 - [ ] If I changed README.md, I changed README.ko.md too
 - [ ] CHANGELOG.md has a line under "Unreleased"

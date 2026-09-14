@@ -1,5 +1,6 @@
 # powerbi-autopilot
 
+[![check](https://github.com/Haweee47/powerbi-autopilot/actions/workflows/check.yml/badge.svg)](https://github.com/Haweee47/powerbi-autopilot/actions/workflows/check.yml)
 [![Release](https://img.shields.io/github/v/release/Haweee47/powerbi-autopilot)](https://github.com/Haweee47/powerbi-autopilot/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Power BI Desktop 2.157+](https://img.shields.io/badge/Power%20BI%20Desktop-2.157%2B-F2C811)](docs/guide/en.md)

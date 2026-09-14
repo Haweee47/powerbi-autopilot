@@ -27,7 +27,7 @@ Open one body at a time, only when you triage that issue: `gh issue view <n> -R 
 
 | Label | What to do |
 |---|---|
-| `render` | Check the reported Desktop version first: older than 2.157 is the known cause ([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)); answer with the fix and close. Otherwise reproduce: `python tools/quickstart.py --purpose <p> --theme <t> --lang <l>`, open it in the **Store** Desktop (`PBIDesktopStore.exe`, not a double-click, which may open an older copy), capture every page it mentions. Reproduced → `accepted`. Not reproduced → ask for a full-window capture |
+| `render` | Check the reported Desktop version first: older than 2.157 is the known cause ([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)); answer with the fix and close. Otherwise reproduce: `powershell -ExecutionPolicy Bypass -File tools\render_check.ps1 -Purpose <p> -Theme <t> -Lang <l>` (builds, opens in the Store Desktop, captures every page, compares), then look at the pages it mentions. Reproduced → `accepted`. Not reproduced → ask for a full-window capture |
 | `design` | Record the 1-5 rating. Map the area to the [rubric](../../../design-system/review-rubric.md): takeaway/hierarchy → A, H · layout → B · charts → C · numbers/text → D · color → E · context/filters → F · navigation → G |
 | `pilot-request` | Check `templates/catalog.json`: can an existing pilot plus a spec change cover it? If yes, reply with the recipe. If not, `roadmap` |
 | `i18n` | Check `design-system/i18n/locales.json`, `templates/_shared/measures.<lang>.json`, the glossary and the data locale; list what's missing |
