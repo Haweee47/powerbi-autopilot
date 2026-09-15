@@ -43,7 +43,7 @@
         "title": { "text": { "en": "Region · store scorecard", "ko": "권역 · 매장 성적표" } },
         "headline": { "measure": "Headline Stores" },
         "slicer_a": { "field": "카테고리.카테고리" },
-        "matrix": { "rows": ["매장.권역", "매장.매장명"], "values": ["Sales Disp", "Sales PY Disp", "전년 대비 증감률", "이익률", "AOV Disp", "매출 구성비"],
+        "matrix": { "rows": ["매장.권역", "매장.매장명"], "values": ["Sales Disp", "Sales Trend", "Sales PY Disp", "전년 대비 증감률", "이익률", "AOV Disp", "매출 구성비"],
                     "format": { "Sales Disp": "bar", "전년 대비 증감률": "sign", "이익률": "heat" }, "expand": true,
                     "title": { "en": "Region > store", "ko": "권역 > 매장" },
                     "sub": { "en": "Bar = sales · darker cell = higher margin · red = down vs last year", "ko": "막대 = 매출 크기 · 진한 칸 = 이익률이 높음 · 빨간 글자 = 전년보다 줄어듦" } }

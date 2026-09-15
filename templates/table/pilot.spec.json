@@ -34,7 +34,7 @@
         "title": { "text": { "en": "Store scorecard", "ko": "매장 성과표" } },
         "headline": { "measure": "Headline Store Table" },
         "slicer_a": { "field": "매장.권역" },
-        "grid": { "columns": ["매장.매장명", "매장.권역", "매장.채널", "Sales Disp", "전년 대비 증감률", "Profit Disp", "이익률", "Orders Disp", "AOV Disp", "AOV YoY %", "매출 구성비"],
+        "grid": { "columns": ["매장.매장명", "매장.권역", "매장.채널", "Sales Disp", "Sales Trend", "전년 대비 증감률", "Profit Disp", "이익률", "Orders Disp", "AOV Disp", "AOV YoY %", "매출 구성비"],
                   "sort": ["Sales Disp", "desc"], "format": { "Sales Disp": "bar", "전년 대비 증감률": "sign", "AOV YoY %": "sign", "이익률": "heat" },
                   "title": { "en": "Measures by store", "ko": "매장별 지표" },
                   "sub": { "en": "Bar = sales · darker cell = higher margin · red = down vs last year · click a header to sort", "ko": "막대 = 매출 크기 · 진한 칸 = 이익률이 높음 · 빨간 글자 = 전년보다 줄어듦 · 머리글을 누르면 정렬" } }
@@ -48,7 +48,7 @@
         "title": { "text": { "en": "Product scorecard", "ko": "제품 성과표" } },
         "headline": { "measure": "Headline Product Table" },
         "slicer_a": { "field": "카테고리.카테고리" },
-        "grid": { "columns": ["제품.제품명", "제품.카테고리", "제품.하위카테고리", "Sales Disp", "전년 대비 증감률", "판매수량", "평균할인율", "이익률", "매출 구성비"],
+        "grid": { "columns": ["제품.제품명", "제품.카테고리", "제품.하위카테고리", "Sales Disp", "Sales Trend", "전년 대비 증감률", "판매수량", "평균할인율", "이익률", "매출 구성비"],
                   "sort": ["Sales Disp", "desc"], "format": { "Sales Disp": "bar", "전년 대비 증감률": "sign", "평균할인율": "heat" },
                   "title": { "en": "Measures by product", "ko": "제품별 지표" },
                   "sub": { "en": "Bar = sales · darker cell = deeper discount · red = down vs last year", "ko": "막대 = 매출 크기 · 진한 칸 = 할인을 많이 함 · 빨간 글자 = 전년보다 줄어듦" } }

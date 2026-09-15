@@ -68,7 +68,8 @@ def build(tok: dict, tid: str) -> dict:
     # 표: 가로 줄만, 줄무늬 없음, 머리글은 흐린 글자 (principles 5절)
     table = {
         "grid": [{"gridVertical": False, "gridHorizontal": True, "gridHorizontalColor": solid(c["grid"]), "gridHorizontalWeight": 1,
-                  "rowPadding": 8, "outlineColor": solid(c["grid"])}],
+                  "rowPadding": 8, "outlineColor": solid(c["grid"]),
+                  "imageHeight": 20, "imageWidth": 84}],  # sparkline SVGs (100×24 viewBox) in table and matrix cells
         "columnHeaders": [{"fontFamily": FS, "fontSize": T["caption"], "bold": False, "fontColor": ink3, "backColor": solid(c["surface"]),
                            "autoSizeColumnWidth": True, "columnAdjustment": "growToFit", "wordWrap": False}],
         "values": [{"fontFamily": F, "fontSize": T["body"], "fontColorPrimary": ink, "backColorPrimary": solid(c["surface"]),

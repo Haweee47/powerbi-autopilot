@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
   "themeCollection": {
     "customTheme": {
-      "name": "autopilot-paper-3f58eb99.json",
+      "name": "autopilot-paper-78017d0b.json",
       "type": "RegisteredResources",
       "reportVersionAtImport": {
         "visual": "2.9.0",
@@ -17,8 +17,8 @@
       "type": "RegisteredResources",
       "items": [
         {
-          "name": "autopilot-paper-3f58eb99.json",
-          "path": "autopilot-paper-3f58eb99.json",
+          "name": "autopilot-paper-78017d0b.json",
+          "path": "autopilot-paper-78017d0b.json",
           "type": "CustomTheme"
         }
       ]

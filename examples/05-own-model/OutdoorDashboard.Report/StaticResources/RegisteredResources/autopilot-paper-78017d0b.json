@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/powerbi-desktop-samples/main/Report%20Theme%20JSON%20Schema/reportThemeSchema-2.157.json",
-  "name": "autopilot-paper-3f58eb99.json",
+  "name": "autopilot-paper-78017d0b.json",
   "dataColors": [
     "#2A78D6",
     "#848E9B",
@@ -837,7 +837,9 @@
               "solid": {
                 "color": "#EAECF0"
               }
-            }
+            },
+            "imageHeight": 20,
+            "imageWidth": 84
           }
         ],
         "columnHeaders": [
@@ -922,7 +924,9 @@
               "solid": {
                 "color": "#EAECF0"
               }
-            }
+            },
+            "imageHeight": 20,
+            "imageWidth": 84
           }
         ],
         "columnHeaders": [

@@ -72,7 +72,7 @@
                      "title": { "en": "Store size vs growth", "ko": "매장 규모와 성장률" }, "sub": { "en": "x = sales · y = YoY · right-click a dot to drill through", "ko": "가로 매출(만 원) · 세로 전년 대비 · 점을 오른쪽 클릭 → 드릴스루" } },
         "watch": { "columns": ["매장.매장명", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"], "format": { "전년 대비 증감률": "sign" }, "totals": false,
                    "title": { "en": "Watch list", "ko": "주의 매장" }, "sub": { "en": "Lowest YoY first", "ko": "전년 대비 낮은 순" } },
-        "rank": { "columns": ["매장.매장명", "매장.권역", "매장.채널", "Sales Disp", "이익률", "AOV Disp", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"],
+        "rank": { "columns": ["매장.매장명", "매장.권역", "매장.채널", "Sales Disp", "Sales Trend", "이익률", "AOV Disp", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"],
                   "format": { "Sales Disp": "bar", "전년 대비 증감률": "sign" }, "title": { "en": "All stores", "ko": "전체 매장 순위" } }
       }
     },

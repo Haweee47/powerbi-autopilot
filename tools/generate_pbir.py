@@ -178,7 +178,8 @@ def normalize_measure(m, t: Lang) -> dict:
     if isinstance(m, str):
         return {"expr": m}
     if "expr" in m:  # formatExpr: 동적 서식 문자열(DAX). 데이터 크기에 따라 K·M·B를 고를 때
-        return {"expr": t(m["expr"]), "format": t(m.get("format")), "formatExpr": t(m.get("formatExpr"))}
+        # category: data category such as ImageUrl, so a measure that returns an SVG data URI renders as a picture
+        return {"expr": t(m["expr"]), "format": t(m.get("format")), "formatExpr": t(m.get("formatExpr")), "category": m.get("category")}
     return {"expr": t(m)}
 
 
@@ -199,6 +200,8 @@ def measure_tmdl(measures: dict, palette: dict) -> list[str]:
         if adapter:
             out.append("\t\tisHidden")
         out.append(f"\t\tdisplayFolder: {'9. Model map (autopilot)' if adapter else '9. 리포트 표시용'}")
+        if m.get("category"):
+            out.append(f"\t\tdataCategory: {m['category']}")
         # formatStringDefinition은 속성이 아니라 하위 개체라 속성들 뒤, 맨 끝에 와야 한다.
         # 중간에 두면 Desktop이 다음 속성 줄을 "들여쓰기 오류"로 보고 모델을 열지 못한다 (Desktop 오류 창에서 확인)
         if m.get("formatExpr"):
@@ -616,6 +619,18 @@ def main() -> None:
 
     model.setdefault(spec["measureTable"], {"columns": set(), "measures": set(), "types": {}})["measures"] |= set(extra)
     resolve = FieldResolver(model, spec["measureTable"])
+    # The DAX of display and adapter measures must point at real columns and measures. The validator can't see this and
+    # Desktop only shows a broken visual (example 05), so stop here instead. Names made inside the expression ("SalesV") are local.
+    known = {m for info in model.values() for m in info["measures"]}
+    for mname, m in extra.items():
+        local = set(re.findall(r'"([^"]*)"', m["expr"]))
+        cols, meas = dax_refs(m["expr"])
+        for c in sorted(cols):
+            table, col = c.split(".", 1)
+            if col not in model.get(table, {}).get("columns", set()):
+                resolve.errors.append(f"DAX of '{mname}': column {c} is not in the model (add it to the model map)")
+        for ref in sorted(meas - known - local):
+            resolve.errors.append(f"DAX of '{mname}': measure [{ref}] is not in the model (add it to the model map)")
     x = Ctx(resolve, t, glossary, tokens, palette, ui)
 
     # 1) 페이지·비주얼을 메모리에서 먼저 만든다 (필드 오류가 있으면 아무것도 쓰지 않는다)

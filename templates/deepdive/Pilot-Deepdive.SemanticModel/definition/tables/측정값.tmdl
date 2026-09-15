@@ -205,6 +205,11 @@ table 측정값
 		lineageTag: c742977d-28bd-44f2-a7b5-3c24c5b2c0ca
 
 	/// 리포트 표시용 (명세에서 생성)
+	measure 'Sales Trend' = VAR _t = FILTER ( ADDCOLUMNS ( VALUES ( '날짜'[월번호] ), "SalesV", [매출] ), NOT ISBLANK ( [SalesV] ) ) VAR _m0 = MINX ( _t, '날짜'[월번호] ) VAR _m1 = MAXX ( _t, '날짜'[월번호] ) VAR _span = MAX ( _m1 - _m0, 1 ) VAR _lo = MINX ( _t, [SalesV] ) VAR _hi = MAXX ( _t, [SalesV] ) VAR _rng = IF ( _hi = _lo, 1, _hi - _lo ) VAR _pts = CONCATENATEX ( _t, FORMAT ( 3 + ( '날짜'[월번호] - _m0 ) * 94 / _span, "0.0", "en-US" ) & "," & FORMAT ( 21 - ( [SalesV] - _lo ) * 18 / _rng, "0.0", "en-US" ), " ", '날짜'[월번호], ASC ) VAR _end = MAXX ( FILTER ( _t, '날짜'[월번호] = _m1 ), [SalesV] ) VAR _dot = SUBSTITUTE ( IF ( [전년 대비 증감률] < 0, "#E34948", "#2A78D6" ), "#", "%23" ) VAR _stroke = SUBSTITUTE ( "#667085", "#", "%23" ) RETURN IF ( COUNTROWS ( _t ) > 1, "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='24' viewBox='0 0 100 24'><polyline fill='none' stroke='" & _stroke & "' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' points='" & _pts & "'/><circle cx='97' cy='" & FORMAT ( 21 - ( _end - _lo ) * 18 / _rng, "0.0", "en-US" ) & "' r='2.4' fill='" & _dot & "'/></svg>" )
+		displayFolder: 9. 리포트 표시용
+		dataCategory: ImageUrl
+
+	/// 리포트 표시용 (명세에서 생성)
 	measure 'Orders PY' = CALCULATE ( [주문건수], CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () ) )
 		formatString: #,0
 		displayFolder: 9. 리포트 표시용

@@ -335,6 +335,24 @@ KPI 카드의 비교 줄("YoY ▲1.5%")이 사라지고, 결론 한 줄 윗부�
 **한국어 금액 단위도 자동으로.** 차트·표는 만(1조 이상이면 억), KPI는 억(1억 미만이면 만)으로 선택 범위의 크기에 따라 고른다.
 바꾸기 전과 후를 캡처해 비교하니 한국어 파일럿 11페이지 중 10페이지가 0.00%로 같았고, 달라진 1페이지는 일부러 고친 트리였다.
 
+## 2026-09-15 · Sparklines in tables, and a DAX check before writing
+
+*From this entry on, the log is written in English: the repository is for a global audience (CLAUDE.md §7).*
+
+**Sparklines.** A measure table answers "how much" but not "which way". A `Sales Trend` measure now draws each row's monthly
+sales for the selected year as a small SVG line: muted gray, with an end dot that is blue when the row grew year over year and
+red when it shrank, so the single accent color still means one thing. It sits next to Sales in the measure table (stores and
+products), the matrix scorecard (regions and stores, subtotals included) and the dashboard's store ranking.
+- The theme sets the image size once (84×20 for a 100×24 drawing). Coordinates are formatted with `"en-US"` so the SVG stays
+  valid in locales that use a decimal comma.
+- Checked in Desktop: the pilots and the outdoor shop versions draw the lines, and the 12-column store table still fits without
+  a horizontal scroll. Pages without sparklines match the committed screenshots.
+
+**A DAX check before writing.** Several of today's bugs had one thing in common: DAX pointing at a column or measure the model
+didn't have passed Microsoft's validator and only broke in Desktop. The generator now reads the DAX of every display and adapter
+measure and stops with the measure's name when a reference is missing. It caught the new case at once: the sparkline needs the
+month number, which three of the example 05 model maps didn't have. The bundled pilots pass with no false alarms.
+
 ---
 
 ## 다음 계획

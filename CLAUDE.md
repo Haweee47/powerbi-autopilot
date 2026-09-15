@@ -153,6 +153,9 @@ powerbi-autopilot/
   2. `docs/progress-log.md`에 날짜별 항목을 더한다.
   3. 노션 "포트폴리오 허브 > 작업 일지" 맨 위에 같은 날짜 항목을 더한다 (페이지 위치는 에이전트 메모리). 허브의 숫자가 바뀌면 허브도 고친다.
   4. 사용자에게 올린 링크(커밋, 노션)를 알려 준다.
+- **Everything published to GitHub is written in English from 2026-09-15** (user request: the audience is global).
+  Commit messages, CHANGELOG, release notes, new progress-log entries, issues and PRs, new docs and new code comments.
+  Localized copies stay in their language: `README.ko.md`, `docs/guide/{ko,ja,zh-CN}.md`, and Korean text inside specs. The Notion portfolio stays Korean.
 - push 전에 추적 파일에 로컬 경로·사용자명·개인정보·회사 정보가 없는지 검사한다.
 - 커밋 메시지: Conventional Commits (`feat:` `fix:` `docs:` `refactor:` `chore:`)
 - `.gitignore`: `**/.pbi/localSettings.json`, `**/.pbi/cache.abf`, `research/collected/`, 자격 증명 파일
@@ -181,7 +184,8 @@ powerbi-autopilot/
 - [x] 용도별 파일럿 4종 · 테마 3종 · 다국어(기본 영어) · 논문 기반 규칙
 - [x] GitHub 공개 저장소 `Haweee47/powerbi-autopilot` push (2026-09-14, 커밋 작성자는 no-reply 주소)
 - [x] 노션 포트폴리오 허브 + 작업 일지 (2026-09-14, 비공개 새 페이지. 사용자의 기존 노션 페이지는 다른 프로젝트라 건드리지 않는다)
-- [ ] 표 안의 미니 추이선(SVG 측정값), 실데이터(Presto·Redshift) 흐름
+- [x] 표 안의 미니 추이선 (SVG 측정값 `Sales Trend`, 2026-09-15) + 생성 전 DAX 참조 검사
+- [ ] 실데이터(Presto·Redshift) 흐름, ODBC 실제 연결 시험
 - [ ] 예제 01·02 (새 세션에서 토큰 측정)
 - [x] 쉽게 쓰기: quickstart(더블클릭) · 안내서 4개 언어 · 피드백 구조(이슈 양식·Discussions·라벨·triage 스킬·CHANGELOG) (2026-09-14)
 - [x] 옛 Desktop(2.147) 대응 (#1): quickstart가 Store판 우선·버전 경고, 안내서에 2.157 이상. Store판 2.157.1354로 파일럿 전 페이지 재캡처

@@ -837,7 +837,9 @@
               "solid": {
                 "color": "#EAECF0"
               }
-            }
+            },
+            "imageHeight": 20,
+            "imageWidth": 84
           }
         ],
         "columnHeaders": [
@@ -922,7 +924,9 @@
               "solid": {
                 "color": "#EAECF0"
               }
-            }
+            },
+            "imageHeight": 20,
+            "imageWidth": 84
           }
         ],
         "columnHeaders": [

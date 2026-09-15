@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
   "themeCollection": {
     "customTheme": {
-      "name": "autopilot-navy-de007dca.json",
+      "name": "autopilot-navy-93585b8c.json",
       "type": "RegisteredResources",
       "reportVersionAtImport": {
         "visual": "2.9.0",
@@ -17,8 +17,8 @@
       "type": "RegisteredResources",
       "items": [
         {
-          "name": "autopilot-navy-de007dca.json",
-          "path": "autopilot-navy-de007dca.json",
+          "name": "autopilot-navy-93585b8c.json",
+          "path": "autopilot-navy-93585b8c.json",
           "type": "CustomTheme"
         }
       ]

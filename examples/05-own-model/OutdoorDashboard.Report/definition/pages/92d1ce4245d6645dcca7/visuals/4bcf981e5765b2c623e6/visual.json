@@ -83,6 +83,21 @@
                       "Entity": "Orders"
                     }
                   },
+                  "Property": "Sales Trend"
+                }
+              },
+              "queryRef": "Orders.Sales Trend",
+              "nativeQueryRef": "Sales Trend",
+              "displayName": "Trend"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Orders"
+                    }
+                  },
                   "Property": "이익률"
                 }
               },

@@ -38,6 +38,21 @@
                       "Entity": "측정값"
                     }
                   },
+                  "Property": "Sales Trend"
+                }
+              },
+              "queryRef": "측정값.Sales Trend",
+              "nativeQueryRef": "Sales Trend",
+              "displayName": "Trend"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
                   "Property": "Sales PY Disp"
                 }
               },

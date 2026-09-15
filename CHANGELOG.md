@@ -9,6 +9,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 - `new_report.py --reuse-map`: start another report on the same model from a map already filled. In example 05 the three
   other pilots needed only 5, 1 and 8 new values; hints are written only for what's still empty
 - Example 05 covers all four pilots, every headline checked against the CSVs
+- Sparklines in tables: a `Sales Trend` measure draws each row's monthly sales as a small SVG line with an end dot that is blue
+  when the row grew year over year and red when it shrank. Added to the measure table, the matrix scorecard and the dashboard's
+  store ranking; the theme sets the image size once
+- The generator checks the DAX of display and adapter measures before writing anything: a column or measure the model doesn't have
+  stops the build with the measure's name, instead of a visual that only breaks in Desktop
 
 ### Changed
 - Korean money measures pick the unit from the size of the selection: charts and tables use 만 (억 from 1조), KPIs use 억

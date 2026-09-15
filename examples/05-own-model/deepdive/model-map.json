@@ -15,7 +15,8 @@
     "판매.정가": "Orders.Unit Price",
     "판매.주문번호": "Orders.Order ID",
     "판매.주문일자": "Orders.Order Date",
-    "판매.할인율": "Orders.Discount"
+    "판매.할인율": "Orders.Discount",
+    "날짜.월번호": "Calendar.Month No"
   },
   "measures": {
     "객단가": "[AOV]",

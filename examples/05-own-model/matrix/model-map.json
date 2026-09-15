@@ -9,7 +9,8 @@
     "매장.채널": "Stores.Channel",
     "제품.하위카테고리": "Products.Subcategory",
     "카테고리.카테고리": "Products.Category",
-    "판매.주문일자": "Orders.Order Date"
+    "판매.주문일자": "Orders.Order Date",
+    "날짜.월번호": "Calendar.Month No"
   },
   "measures": {
     "객단가": "[AOV]",

@@ -43,6 +43,7 @@
     "전년 매출": { "en": "Sales LY", "ko": "전년 매출" },
     "전년 이익": { "en": "Profit LY", "ko": "전년 이익" },
     "이익 증감률": { "en": "Profit YoY", "ko": "이익 증감률" },
-    "기준일": { "en": "As-of date", "ko": "기준일" }
+    "기준일": { "en": "As-of date", "ko": "기준일" },
+    "Sales Trend": { "en": "Trend", "ko": "추이" }
   }
 }
