@@ -26,6 +26,7 @@
 | 01 | skills-for-fabric `powerbi-authoring` | Modeling MCP (플러그인에 포함된 1순위 도구) | `powerbi-report-author` + 스킬 문서 | `validate` + `powerbi-desktop` 스크린샷 |
 | 02 | data-goblin `reports`·`pbip`·`semantic-models` | TMDL 직접 작성 (`tmdl` 스킬, 저장소 내 검증기) | `pbir` CLI만 사용 (JSON 직접 작성 금지) | `pbir validate` + `pbir desktop screenshot` |
 | 03 | powerbi-modeling-mcp | MCP | 없음 (MCP 범위 밖) | DAX 쿼리 — **완료** |
+| 04 | powerbi-autopilot (이 저장소) `new-report` 스킬 | 기준 모델 (예제 03 TMDL) | `new_report.py` → 명세의 필드·문장만 수정 → `generate_pbir.py` | `tools/check.py`의 공식 검증 + `tools/render_check.ps1` — **새 세션에서 다시 측정** (처음 만든 04는 긴 세션이라 수치가 부풀었다) |
 
 ## 토큰 측정
 
@@ -33,6 +34,9 @@
 - 시작할 때 UTC 시각을 적어 두고, 끝나면 이렇게 합산한다:
   `python tools/token_usage.py --start <시작> --end <끝>`
 - 출력 토큰, 새 입력, 캐시 읽기, 응답 수를 `prompts.md`에 기록한다.
+- 함께 적는 것: 요청부터 Desktop에서 전 페이지가 열릴 때까지 걸린 시간(분), 사람이 손으로 고친 곳, 공식 검증 결과.
+  이 프로젝트의 첫 목적이 분석가의 시간을 줄이는 것이므로 **시간**이 토큰만큼 중요한 지표다.
+- 순서: 04 → 01 → 02. 세션 하나에 예제 하나. 01·02는 해당 플러그인을 설치한 새 세션에서, 이 저장소의 스킬은 읽지 않는다.
 
 ## 디자인 평가 (초안)
 
