@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "OutdoorDeepdive"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "96a3add73db74297bd67981a657527d0"
+  }
+}

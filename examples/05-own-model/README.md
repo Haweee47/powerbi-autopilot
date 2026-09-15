@@ -30,6 +30,21 @@ January-August 2026, all channels. Expected values computed from the CSV files w
 | Weakest store | Burlington ▼48.6% (5 of 12 stores down) | −48.6%, 5 of 12 |
 | Categories | Weakest Apparel ▼8.6%, strongest Footwear ▲19.3% | −8.6%, +19.3% |
 
+## The other three pilots
+
+Started with `new_report.py --reuse-map ../model-map.json`: everything the dashboard map already knew was prefilled,
+so the agent only filled what was new. Every headline matched the CSVs.
+
+| Pilot | Map: prefilled · filled by the agent | Checked against the CSVs |
+|---|---|---|
+| [Measure table](table/) | 19 · 5 | 12 stores, top seller Web Store 120.6K, weakest YoY Burlington ▼48.6% · 24 products, top Ultralight 1P Tent 65.6K, weakest Cookset ▼27.7% |
+| [Metric check](matrix/) | 20 · 1 | Peak month June 88.1K, low month February 65.7K · 5 of 12 stores down |
+| [Deep dive](deepdive/) | 19 · 8 | Sales 634.3K, top region West 36% · margin of the 5 most-discounted products 48.9% vs 48.5% · 3,422 orders |
+
+One more bug surfaced here: the decomposition tree listed its first level alphabetically, and only three bars fit,
+so the headline said "Top region: West 36%" while West wasn't on screen. The bundled pilot had the same bug (it hid the
+second and third regions) but looked right because its top region was also first in the alphabet. The tree now sorts by value.
+
 ## Two traps the reference model hid
 
 1. **Last year.** The model's `Revenue LY` is `SAMEPERIODLASTYEAR` over the whole selection, so at year level it compares
@@ -48,6 +63,7 @@ January-August 2026, all channels. Expected values computed from the CSV files w
 | `report.spec.json` | The pilot spec as `new_report.py` copied it, brand text changed |
 | `OutdoorDashboard.*` | The generated report. Its data folder is a placeholder; build with `--local-data` to open it |
 | `screenshots/` | Captures from Power BI Desktop 2.157 |
+| `table/` · `matrix/` · `deepdive/` | The other three pilots on the same model: spec, map, generated report, screenshots |
 | [`prompts.md`](prompts.md) | The request, the commands and every manual edit |
 
 ## Reproduce

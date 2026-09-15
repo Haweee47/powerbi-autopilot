@@ -1,0 +1,154 @@
+{
+  "$comment": "deepdive pilot → OutdoorDeepdive (en, paper). Change only what the tool listed as missing, sentences and titles.",
+  "name": "OutdoorDeepdive",
+  "model": "../OutdoorShop.SemanticModel/definition",
+  "measureTable": "측정값",
+  "theme": "paper",
+  "glossary": "../../../templates/_shared/glossary.json",
+  "include": [
+    "../../../templates/_shared/measures.common.json",
+    "../../../templates/_shared/measures.{lang}.json"
+  ],
+  "measures": {
+    "Headline Tree": "VAR t = VALUES ( '매장'[권역] ) VAR hi = TOPN ( 1, t, [매출], DESC ) RETURN \"Sales \" & FORMAT ( [매출] / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  Top region: \" & CONCATENATEX ( hi, '매장'[권역], \", \" ) & \" \" & FORMAT ( DIVIDE ( MAXX ( hi, [매출] ), [매출] ), \"0%\" ) & \"  ·  click + next to a bar to drill one level\"",
+    "Headline Discount": "VAR t = FILTER ( VALUES ( '제품'[제품명] ), NOT ISBLANK ( [매출] ) ) VAR top5 = TOPN ( 5, t, [평균할인율], DESC ) RETURN \"Margin of the 5 most-discounted products \" & FORMAT ( CALCULATE ( [이익률], top5 ), \"0.0%\" ) & \"  ·  all other products \" & FORMAT ( CALCULATE ( [이익률], EXCEPT ( t, top5 ) ), \"0.0%\" )",
+    "Headline Detail": "FORMAT ( [주문건수], \"#,0\" ) & \" orders  ·  Sales \" & FORMAT ( [매출] / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  click a header to sort, right-click a row to copy\""
+  },
+  "shared": {
+    "brand": {
+      "text": "Outdoor Shop",
+      "sub": "Deep dive · sample data"
+    },
+    "asof": {
+      "text": "Data as of 2026-08-31"
+    },
+    "slicer_period": {
+      "field": "날짜.연도",
+      "default": 2026,
+      "single": true,
+      "title": "Period"
+    },
+    "slicer_channel": {
+      "field": "매장.채널"
+    },
+    "slicer_a": {
+      "field": "매장.권역"
+    },
+    "slicer_b": {
+      "field": "카테고리.카테고리"
+    },
+    "context": {
+      "measure": "Context Label"
+    }
+  },
+  "pages": [
+    {
+      "layout": "deep_tree",
+      "name": "Decomposition",
+      "visuals": {
+        "title": {
+          "text": "Where sales come from"
+        },
+        "headline": {
+          "measure": "Headline Tree"
+        },
+        "tree": {
+          "measure": "Sales Disp",
+          "by": [
+            "매장.권역",
+            "매장.채널",
+            "카테고리.카테고리",
+            "제품.하위카테고리",
+            "매장.매장명"
+          ],
+          "title": "Sales breakdown",
+          "sub": "Click + next to a bar and pick the next split"
+        },
+        "trend": {
+          "x": "날짜.월",
+          "y": [
+            "Sales Disp",
+            "Sales PY Disp"
+          ],
+          "title": "Monthly sales",
+          "sub": "This year vs last year"
+        },
+        "mix": {
+          "x": "카테고리.카테고리",
+          "y": [
+            "전년 대비 증감률"
+          ],
+          "sort": "desc",
+          "color": "YoY Bar Color",
+          "title": "YoY by category",
+          "sub": "Red = decline"
+        }
+      }
+    },
+    {
+      "layout": "deep_scatter",
+      "name": "Discount vs margin",
+      "visuals": {
+        "title": {
+          "text": "Discount vs margin"
+        },
+        "headline": {
+          "measure": "Headline Discount"
+        },
+        "scatter": {
+          "point": "제품.제품명",
+          "x": "평균할인율",
+          "y": "이익률",
+          "size": "Sales Disp",
+          "title": "Discount and margin by product",
+          "sub": "Dot size = sales · lower right = margin given away to discounts"
+        },
+        "side": {
+          "x": "제품.하위카테고리",
+          "y": [
+            "평균할인율"
+          ],
+          "sort": "desc",
+          "title": "Discount by subcategory",
+          "sub": "Highest first"
+        }
+      }
+    },
+    {
+      "layout": "deep_detail",
+      "name": "Raw data",
+      "visuals": {
+        "title": {
+          "text": "Raw data"
+        },
+        "headline": {
+          "measure": "Headline Detail"
+        },
+        "grid": {
+          "columns": [
+            "판매.주문일자",
+            "판매.주문번호",
+            "매장.매장명",
+            "제품.제품명",
+            "판매.수량",
+            "판매.정가",
+            "판매.할인율",
+            "판매.매출액"
+          ],
+          "sort": [
+            "판매.주문일자",
+            "desc"
+          ],
+          "format": {
+            "판매.매출액": "bar"
+          },
+          "totals": false,
+          "title": "Order lines",
+          "sub": "Every order line for the current filters"
+        }
+      }
+    }
+  ],
+  "lang": "en",
+  "modelMap": "model-map.json"
+}

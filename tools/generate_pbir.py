@@ -524,9 +524,12 @@ def build_visual(role: str, spec: dict, x: Ctx, region: dict) -> dict:
         return v
     if role == "decompositionTreeVisual":
         by = spec["by"]
+        # 값이 큰 순서로: 정렬이 없으면 알파벳 순이라 한 칸에 보이는 몇 개 밖으로 1위 항목이 밀려난다
+        # (예제 05에서 결론 문장은 "1위 권역 West 36%"인데 트리에는 West가 보이지 않았다)
         return {"visualType": "decompositionTreeVisual",
                 "query": {"queryState": {"Analyze": {"projections": [x.proj(spec["measure"])]},
-                                         "ExplainBy": {"projections": [x.proj(b, active=True) for b in by]}}},
+                                         "ExplainBy": {"projections": [x.proj(b, active=True) for b in by]}},
+                          "sortDefinition": sort_def(x.resolve, spec["measure"], "desc")},
                 # 뿌리를 펼쳐 첫 기준(예: 권역)까지 보이게 연다. 그 아래는 사람이 +로 고른다
                 "expansionStates": [{"roles": ["ExplainBy"],
                                      "levels": [{"queryRefs": [x.resolve(b)[1]], "isCollapsed": True, "identityKeys": [x.resolve(b)[0]],

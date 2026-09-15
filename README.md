@@ -10,13 +10,21 @@
 **English** · [한국어](README.ko.md)
 
 An AI-agent workflow that builds a Power BI report from start to finish (**data model → design → validation**) from a one-line request.
-No manual clicks in Power BI Desktop. Two goals: **reports that look good**, and **low token cost**.
+No manual clicks in Power BI Desktop.
+
+**The point: analysts should spend their time on analysis, not on building dashboards.** Data and business analysts lose hours to
+placing visuals, formatting and fixing pages. This project cuts that work to one request, so the time goes back into data and business
+analysis, where the business impact is. Along the way it holds two bars: **reports that look good**, and **low token cost**.
 
 ![Four pilots](docs/share/media/cover.png)
 
 ---
 
 ## Why I built this
+
+Every hour spent building a dashboard is an hour not spent on the questions behind it: what changed, why, and what to do next.
+Most of that hour isn't analysis. It goes to layout, formatting, fixing visuals that render wrong and keeping reports consistent.
+Cutting that time comes first. The analysis is where an analyst creates business impact, so that's where the time should go.
 
 At my previous job I designed and rolled out a workflow for my team: convert existing Power BI reports to PBIP (a text-based format), have an LLM read them, and generate new reports from templates.
 It worked. But two things kept it from being practical day to day:

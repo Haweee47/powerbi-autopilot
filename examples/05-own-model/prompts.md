@@ -29,5 +29,23 @@ powershell -ExecutionPolicy Bypass -File tools\render_check.ps1 -Dir out\05-own-
 | `model-map.json` | Target stops at `[Last Order Date]` (second pass, after the first capture showed 64.5% attainment) | The budget covers whole years |
 | `report.spec.json` | Brand text "Outdoor Shop" | The pilot's name is "Sales Report" |
 
-No PBIR, TMDL or theme file was edited by hand. The sample model itself (`OutdoorShop.SemanticModel`) was written by a script to
+## The other three pilots (2026-09-15)
+
+Next-steps item 2, approved with "ㅇㅇ 진행해." ("yes, go ahead"): run the remaining pilots on the same model.
+
+```bash
+python tools/new_report.py --purpose table --theme paper --lang en --name OutdoorTable \
+    --model examples/05-own-model/OutdoorShop.SemanticModel/definition --out examples/05-own-model/table \
+    --reuse-map examples/05-own-model/model-map.json      # same for matrix (OutdoorMatrix) and deepdive (OutdoorDeepdive)
+```
+
+`--reuse-map` prefilled everything the dashboard map already knew. What the agent still filled:
+
+| Pilot | Prefilled | Filled by the agent |
+|---|---:|---|
+| table | 19 | `제품.제품명`, `제품.카테고리`, `제품.하위카테고리` → Products columns; `판매수량` = `SUM ( Orders[Quantity] )`; `평균할인율` = `1 - DIVIDE ( [Revenue], SUMX ( Orders, Orders[Quantity] * Orders[Unit Price] ) )` |
+| matrix | 20 | `제품.하위카테고리` → `Products.Subcategory` |
+| deepdive | 19 | Products columns as above; `판매.매출액`, `판매.수량`, `판매.정가`, `판매.주문번호`, `판매.할인율` → Orders columns; `평균할인율` as above |
+
+Each spec: brand text "Outdoor Shop". No PBIR, TMDL or theme file was edited by hand. The sample model itself (`OutdoorShop.SemanticModel`) was written by a script to
 stand in for a model a user brings; its measures and their names are deliberately different from the reference model.

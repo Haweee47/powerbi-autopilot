@@ -5,6 +5,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+### Added
+- `new_report.py --reuse-map`: start another report on the same model from a map already filled. In example 05 the three
+  other pilots needed only 5, 1 and 8 new values; hints are written only for what's still empty
+- Example 05 covers all four pilots, every headline checked against the CSVs
+
+### Changed
+- Korean money measures pick the unit from the size of the selection: charts and tables use 만 (억 from 1조), KPIs use 억
+  (만 below 1억). A smaller model shows 63만 instead of 0.0억; the bundled Korean pilots render as before
+
+### Fixed
+- The decomposition tree listed its first level alphabetically and only a few bars fit, so the top item could be off screen
+  (example 05 hid West, the top region; the bundled pilot hid the 2nd and 3rd). It now sorts by value, as most saved trees do
+
 ## [0.2.0] - 2026-09-15
 
 Bring your own model, and checks anyone can run. Reports that use the new unit measures need model compatibility level 1601,

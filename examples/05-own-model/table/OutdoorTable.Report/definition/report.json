@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "customTheme": {
+      "name": "autopilot-paper-3f58eb99.json",
+      "type": "RegisteredResources",
+      "reportVersionAtImport": {
+        "visual": "2.9.0",
+        "report": "3.3.0",
+        "page": "2.1.0"
+      }
+    }
+  },
+  "resourcePackages": [
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "autopilot-paper-3f58eb99.json",
+          "path": "autopilot-paper-3f58eb99.json",
+          "type": "CustomTheme"
+        }
+      ]
+    }
+  ]
+}

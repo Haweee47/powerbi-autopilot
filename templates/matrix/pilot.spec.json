@@ -11,7 +11,7 @@
   "measures": {
     "Headline Heatmap": {
       "en": "VAR t = FILTER ( VALUES ( '날짜'[월] ), NOT ISBLANK ( [매출] ) ) VAR hi = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, t, [매출], ASC ) RETURN \"Peak month: \" & CONCATENATEX ( hi, '날짜'[월], \", \" ) & \" \" & FORMAT ( MAXX ( hi, [매출] ) / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  Low month: \" & CONCATENATEX ( lo, '날짜'[월], \", \" ) & \" \" & FORMAT ( MINX ( lo, [매출] ) / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  darker cell = higher sales\"",
-      "ko": "VAR t = FILTER ( VALUES ( '날짜'[월] ), NOT ISBLANK ( [매출] ) ) VAR hi = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, t, [매출], ASC ) RETURN \"가장 높은 달 \" & CONCATENATEX ( hi, '날짜'[월], \", \" ) & \" \" & FORMAT ( MAXX ( hi, [매출] ) / 10000, \"#,0만\" ) & \"  ·  가장 낮은 달 \" & CONCATENATEX ( lo, '날짜'[월], \", \" ) & \" \" & FORMAT ( MINX ( lo, [매출] ) / 10000, \"#,0만\" ) & \"  ·  진한 칸일수록 매출이 크다\""
+      "ko": "VAR t = FILTER ( VALUES ( '날짜'[월] ), NOT ISBLANK ( [매출] ) ) VAR hi = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, t, [매출], ASC ) RETURN \"가장 높은 달 \" & CONCATENATEX ( hi, '날짜'[월], \", \" ) & \" \" & FORMAT ( MAXX ( hi, [매출] ) / [Unit Scale], \"#,0\" ) & [Unit Suffix] & \"  ·  가장 낮은 달 \" & CONCATENATEX ( lo, '날짜'[월], \", \" ) & \" \" & FORMAT ( MINX ( lo, [매출] ) / [Unit Scale], \"#,0\" ) & [Unit Suffix] & \"  ·  진한 칸일수록 매출이 크다\""
     }
   },
   "shared": {

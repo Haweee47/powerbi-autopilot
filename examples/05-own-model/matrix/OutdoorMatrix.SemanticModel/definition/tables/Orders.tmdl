@@ -1,0 +1,330 @@
+/// One row per order. 2024-01-01 to 2026-08-31.
+table Orders
+
+	/// Net sales after discount, USD.
+	measure Revenue = SUM ( Orders[Net Sales] )
+		formatString: $#,0
+		displayFolder: Sales
+
+	measure Cost = SUM ( Orders[COGS] )
+		formatString: $#,0
+		displayFolder: Sales
+
+	measure 'Gross Profit' = [Revenue] - [Cost]
+		formatString: $#,0
+		displayFolder: Sales
+
+	measure 'GP %' = DIVIDE ( [Gross Profit], [Revenue] )
+		formatString: 0.0%
+		displayFolder: Sales
+
+	measure 'Order Count' = COUNTROWS ( Orders )
+		formatString: #,0
+		displayFolder: Sales
+
+	/// Average order value.
+	measure AOV = DIVIDE ( [Revenue], [Order Count] )
+		formatString: $#,0.00
+		displayFolder: Sales
+
+	/// Same period last year.
+	measure 'Revenue LY' = CALCULATE ( [Revenue], SAMEPERIODLASTYEAR ( Calendar[Date] ) )
+		formatString: $#,0
+		displayFolder: Last year
+
+	measure 'Revenue YoY %' = DIVIDE ( [Revenue] - [Revenue LY], [Revenue LY] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Last year
+
+	/// Monthly budget by category.
+	measure 'Budget Sales' = SUM ( Budget[Amount] )
+		formatString: $#,0
+		displayFolder: Budget
+
+	measure 'Vs Budget' = [Revenue] - [Budget Sales]
+		formatString: +$#,0;-$#,0;0
+		displayFolder: Budget
+
+	measure 'Last Order Date' = CALCULATE ( MAX ( Orders[Order Date] ), REMOVEFILTERS () )
+		formatString: yyyy-mm-dd
+		displayFolder: Info
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '객단가' = [AOV]
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '매출' = [Revenue]
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '매출 구성비' = DIVIDE ( [매출], CALCULATE ( [매출], ALLSELECTED () ) )
+		formatString: 0.0%
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '목표 대비 차이' = IF ( NOT ISBLANK ( [목표매출] ), [매출] - [목표매출] )
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '목표매출' = VAR lastDay = [Last Order Date] RETURN IF ( ISFILTERED ( Products[Product] ) || ISFILTERED ( Products[Subcategory] ) || ISCROSSFILTERED ( Stores ), BLANK (), CALCULATE ( [Budget Sales], TREATAS ( VALUES ( Products[Category] ), Budget[Category] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '이익' = [Gross Profit]
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '이익 증감률' = IF ( NOT ISBLANK ( [이익] ), DIVIDE ( [이익] - [전년 이익], [전년 이익] ) )
+		formatString: +0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '이익률' = [GP %]
+		formatString: 0.0%
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '전년 대비 증감률' = IF ( NOT ISBLANK ( [매출] ), DIVIDE ( [매출] - [전년 매출], [전년 매출] ) )
+		formatString: +0.0%;-0.0%;0.0%
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '전년 매출' = VAR lastDay = [Last Order Date] RETURN CALCULATE ( [Revenue], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '전년 이익' = VAR lastDay = [Last Order Date] RETURN CALCULATE ( [Gross Profit], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// Model map: a measure the pilot expects, in this model's terms
+	measure '주문건수' = [Order Count]
+		isHidden
+		displayFolder: 9. Model map (autopilot)
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Orders PY' = VAR lastDay = [Last Order Date] RETURN CALCULATE ( [Order Count], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )
+		formatString: #,0
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'AOV YoY %' = VAR prev = DIVIDE ( [전년 매출], [Orders PY] ) RETURN IF ( prev > 0, DIVIDE ( [객단가] - prev, prev ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Margin YoY pp' = VAR ly = DIVIDE ( [전년 이익], [전년 매출] ) RETURN IF ( NOT ISBLANK ( ly ), [이익률] - ly )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Orders YoY %' = VAR prev = [Orders PY] RETURN IF ( prev > 0, DIVIDE ( [주문건수] - prev, prev ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Margin YoY Color' = IF ( [Margin YoY pp] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Orders YoY Color' = IF ( [Orders YoY %] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'YoY Color' = IF ( [전년 대비 증감률] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Profit YoY Color' = IF ( [이익 증감률] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Target Gap Color' = IF ( [목표 대비 차이] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'AOV YoY Color' = IF ( [AOV YoY %] < 0, "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Target Gap Bar Color' = IF ( [목표 대비 차이] < 0, "#E34948", "#2A78D6" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'YoY Bar Color' = IF ( [전년 대비 증감률] < 0, "#E34948", "#2A78D6" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Unit Scale' = VAR t = ABS ( CALCULATE ( [매출], ALLSELECTED () ) ) RETURN SWITCH ( TRUE (), t >= 1E9, 1E9, t >= 1E6, 1E6, t >= 1E4, 1E3, 1 )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Unit Suffix' = SWITCH ( [Unit Scale], 1E9, "B", 1E6, "M", 1E3, "K", "" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Unit Format' = VAR s = [Unit Suffix] RETURN IF ( s = "", "#,0", "#,0.0""" & s & """" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Unit Format Signed' = VAR s = [Unit Suffix] RETURN IF ( s = "", "+#,0;-#,0;0", "+#,0.0""" & s & """;-#,0.0""" & s & """;0" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Sales Disp' = DIVIDE ( [매출], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Sales PY Disp' = DIVIDE ( [전년 매출], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Target Disp' = DIVIDE ( [목표매출], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Target Gap Disp' = DIVIDE ( [목표 대비 차이], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format Signed]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Profit Disp' = DIVIDE ( [이익], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Sales Big' = DIVIDE ( [매출], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Profit Big' = DIVIDE ( [이익], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'AOV Disp' = VAR k = ABS ( CALCULATE ( [객단가], ALLSELECTED () ) ) >= 1E4 RETURN DIVIDE ( [객단가], IF ( k, 1000, 1 ) )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = IF ( ABS ( CALCULATE ( [객단가], ALLSELECTED () ) ) >= 1E4, "#,0.0""K""", "#,0.0" )
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Orders Disp' = [주문건수]
+		formatString: #,0
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'YoY Text' = VAR r = [전년 대비 증감률] RETURN IF ( NOT ISBLANK ( r ), "YoY " & FORMAT ( r, "▲0.0%;▼0.0%;0.0%" ) )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Profit YoY Text' = VAR r = [이익 증감률] RETURN IF ( NOT ISBLANK ( r ), "YoY " & FORMAT ( r, "▲0.0%;▼0.0%;0.0%" ) )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Target Gap Text' = VAR d = [목표 대비 차이] RETURN IF ( NOT ISBLANK ( d ), "vs target " & FORMAT ( d / [Unit Scale], "▲#,0.0;▼#,0.0;0" ) & [Unit Suffix] )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'AOV YoY Text' = VAR r = [AOV YoY %] RETURN IF ( NOT ISBLANK ( r ), "YoY " & FORMAT ( r, "▲0.0%;▼0.0%;0.0%" ) )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Margin YoY Text' = VAR d = [Margin YoY pp] RETURN IF ( NOT ISBLANK ( d ), "YoY " & FORMAT ( d * 100, "▲0.0;▼0.0;0.0" ) & "pp" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Orders YoY Text' = VAR r = [Orders YoY %] RETURN IF ( NOT ISBLANK ( r ), "YoY " & FORMAT ( r, "▲0.0%;▼0.0%;0.0%" ) )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Context Label' = VAR y = SELECTEDVALUE ( 'Calendar'[Year] ) VAR last = CALCULATE ( MAX ( 'Orders'[Order Date] ) ) VAR ch = IF ( ISFILTERED ( 'Stores'[Channel] ), CONCATENATEX ( VALUES ( 'Stores'[Channel] ), 'Stores'[Channel], " + " ), "All channels" ) RETURN IF ( ISBLANK ( y ), "All years", y & "  ·  Jan–" & FORMAT ( last, "MMM", "en-US" ) ) & "  ·  " & ch
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Stores' = VAR t = FILTER ( VALUES ( 'Stores'[Store] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) RETURN "Stores down YoY: " & COUNTROWS ( FILTER ( t, [전년 대비 증감률] < 0 ) ) & " of " & COUNTROWS ( t ) & "  ·  Largest drop: " & CONCATENATEX ( lo, 'Stores'[Store], ", " ) & " " & FORMAT ( MINX ( lo, [전년 대비 증감률] ), "▲0.0%;▼0.0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Heatmap' = VAR t = FILTER ( VALUES ( 'Calendar'[Month] ), NOT ISBLANK ( [매출] ) ) VAR hi = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, t, [매출], ASC ) RETURN "Peak month: " & CONCATENATEX ( hi, 'Calendar'[Month], ", " ) & " " & FORMAT ( MAXX ( hi, [매출] ) / [Unit Scale], "#,0.0" ) & [Unit Suffix] & "  ·  Low month: " & CONCATENATEX ( lo, 'Calendar'[Month], ", " ) & " " & FORMAT ( MINX ( lo, [매출] ) / [Unit Scale], "#,0.0" ) & [Unit Suffix] & "  ·  darker cell = higher sales"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure '전년 대비 증감률 Sign Color' = IF ( [전년 대비 증감률] < 0, "#C0392B", "#101828" )
+		displayFolder: 9. 리포트 표시용
+
+	column 'Order ID'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Order ID
+
+	column 'Order Date'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: Order Date
+
+	column 'Store ID'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: Store ID
+
+	column 'Product ID'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: Product ID
+
+	column Quantity
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+	column 'Unit Price'
+		dataType: double
+		formatString: $#,0.00
+		summarizeBy: none
+		sourceColumn: Unit Price
+
+	column Discount
+		dataType: double
+		formatString: 0%
+		summarizeBy: none
+		sourceColumn: Discount
+
+	column 'Net Sales'
+		dataType: double
+		formatString: $#,0
+		summarizeBy: sum
+		sourceColumn: Net Sales
+
+	column COGS
+		dataType: double
+		formatString: $#,0
+		summarizeBy: sum
+		sourceColumn: COGS
+
+	partition Orders = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\Orders.csv"), [Delimiter = ",", Columns = 9, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Order ID", type text}, {"Order Date", type date}, {"Store ID", type text}, {"Product ID", type text}, {"Quantity", Int64.Type}, {"Unit Price", type number}, {"Discount", type number}, {"Net Sales", type number}, {"COGS", type number}}, "en-US")
+				in
+				    Typed

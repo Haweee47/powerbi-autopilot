@@ -1,0 +1,112 @@
+{
+  "$comment": "matrix pilot → OutdoorMatrix (en, paper). Change only what the tool listed as missing, sentences and titles.",
+  "name": "OutdoorMatrix",
+  "model": "../OutdoorShop.SemanticModel/definition",
+  "measureTable": "측정값",
+  "theme": "paper",
+  "glossary": "../../../templates/_shared/glossary.json",
+  "include": [
+    "../../../templates/_shared/measures.common.json",
+    "../../../templates/_shared/measures.{lang}.json"
+  ],
+  "measures": {
+    "Headline Heatmap": "VAR t = FILTER ( VALUES ( '날짜'[월] ), NOT ISBLANK ( [매출] ) ) VAR hi = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, t, [매출], ASC ) RETURN \"Peak month: \" & CONCATENATEX ( hi, '날짜'[월], \", \" ) & \" \" & FORMAT ( MAXX ( hi, [매출] ) / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  Low month: \" & CONCATENATEX ( lo, '날짜'[월], \", \" ) & \" \" & FORMAT ( MINX ( lo, [매출] ) / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  darker cell = higher sales\""
+  },
+  "shared": {
+    "brand": {
+      "text": "Outdoor Shop",
+      "sub": "Metric check · sample data"
+    },
+    "asof": {
+      "text": "Data as of 2026-08-31"
+    },
+    "slicer_period": {
+      "field": "날짜.연도",
+      "default": 2026,
+      "single": true,
+      "title": "Period"
+    },
+    "slicer_channel": {
+      "field": "매장.채널"
+    },
+    "context": {
+      "measure": "Context Label"
+    }
+  },
+  "pages": [
+    {
+      "layout": "matrix_main",
+      "id": "heatmap",
+      "name": "Monthly heatmap",
+      "visuals": {
+        "title": {
+          "text": "Monthly heatmap"
+        },
+        "headline": {
+          "measure": "Headline Heatmap"
+        },
+        "slicer_a": {
+          "field": "매장.권역"
+        },
+        "matrix": {
+          "rows": [
+            "카테고리.카테고리",
+            "제품.하위카테고리"
+          ],
+          "columns": [
+            "날짜.월"
+          ],
+          "values": [
+            "Sales Disp"
+          ],
+          "format": {
+            "Sales Disp": "heat"
+          },
+          "expand": true,
+          "title": "Category · subcategory × month",
+          "sub": "Sales · darker = higher · use +/− on row headers to expand or collapse"
+        }
+      }
+    },
+    {
+      "layout": "matrix_main",
+      "id": "scorecard",
+      "name": "Region · store scorecard",
+      "visuals": {
+        "title": {
+          "text": "Region · store scorecard"
+        },
+        "headline": {
+          "measure": "Headline Stores"
+        },
+        "slicer_a": {
+          "field": "카테고리.카테고리"
+        },
+        "matrix": {
+          "rows": [
+            "매장.권역",
+            "매장.매장명"
+          ],
+          "values": [
+            "Sales Disp",
+            "Sales PY Disp",
+            "전년 대비 증감률",
+            "이익률",
+            "AOV Disp",
+            "매출 구성비"
+          ],
+          "format": {
+            "Sales Disp": "bar",
+            "전년 대비 증감률": "sign",
+            "이익률": "heat"
+          },
+          "expand": true,
+          "title": "Region > store",
+          "sub": "Bar = sales · darker cell = higher margin · red = down vs last year"
+        }
+      }
+    }
+  ],
+  "lang": "en",
+  "modelMap": "model-map.json"
+}

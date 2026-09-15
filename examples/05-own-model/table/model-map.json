@@ -1,0 +1,50 @@
+{
+  "$comment": "Model map for the outdoor shop model, started from ../model-map.json with --reuse-map; the agent filled the rest.",
+  "measureTable": "Orders",
+  "columns": {
+    "날짜.연도": "Calendar.Year",
+    "매장.권역": "Stores.Region",
+    "매장.매장명": "Stores.Store",
+    "매장.채널": "Stores.Channel",
+    "제품.제품명": "Products.Product",
+    "제품.카테고리": "Products.Category",
+    "제품.하위카테고리": "Products.Subcategory",
+    "카테고리.카테고리": "Products.Category",
+    "판매.주문일자": "Orders.Order Date"
+  },
+  "measures": {
+    "객단가": "[AOV]",
+    "매출": "[Revenue]",
+    "매출 구성비": {
+      "expr": "DIVIDE ( [매출], CALCULATE ( [매출], ALLSELECTED () ) )",
+      "format": "0.0%"
+    },
+    "목표 대비 차이": "IF ( NOT ISBLANK ( [목표매출] ), [매출] - [목표매출] )",
+    "목표매출": "VAR lastDay = [Last Order Date] RETURN IF ( ISFILTERED ( Products[Product] ) || ISFILTERED ( Products[Subcategory] ) || ISCROSSFILTERED ( Stores ), BLANK (), CALCULATE ( [Budget Sales], TREATAS ( VALUES ( Products[Category] ), Budget[Category] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
+    "이익": "[Gross Profit]",
+    "이익 증감률": {
+      "expr": "IF ( NOT ISBLANK ( [이익] ), DIVIDE ( [이익] - [전년 이익], [전년 이익] ) )",
+      "format": "+0.0%;-0.0%;0.0%"
+    },
+    "이익률": {
+      "expr": "[GP %]",
+      "format": "0.0%"
+    },
+    "전년 대비 증감률": {
+      "expr": "IF ( NOT ISBLANK ( [매출] ), DIVIDE ( [매출] - [전년 매출], [전년 매출] ) )",
+      "format": "+0.0%;-0.0%;0.0%"
+    },
+    "전년 매출": "VAR lastDay = [Last Order Date] RETURN CALCULATE ( [Revenue], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
+    "전년 이익": "VAR lastDay = [Last Order Date] RETURN CALCULATE ( [Gross Profit], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
+    "주문건수": "[Order Count]",
+    "판매수량": {
+      "expr": "SUM ( Orders[Quantity] )",
+      "format": "#,0"
+    },
+    "평균할인율": {
+      "expr": "1 - DIVIDE ( [Revenue], SUMX ( Orders, Orders[Quantity] * Orders[Unit Price] ) )",
+      "format": "0.0%"
+    },
+    "Orders PY": "VAR lastDay = [Last Order Date] RETURN CALCULATE ( [Order Count], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )"
+  }
+}

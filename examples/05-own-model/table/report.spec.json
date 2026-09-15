@@ -1,0 +1,124 @@
+{
+  "$comment": "table pilot → OutdoorTable (en, paper). Change only what the tool listed as missing, sentences and titles.",
+  "name": "OutdoorTable",
+  "model": "../OutdoorShop.SemanticModel/definition",
+  "measureTable": "측정값",
+  "theme": "paper",
+  "glossary": "../../../templates/_shared/glossary.json",
+  "include": [
+    "../../../templates/_shared/measures.common.json",
+    "../../../templates/_shared/measures.{lang}.json"
+  ],
+  "measures": {
+    "Headline Store Table": "VAR t = FILTER ( VALUES ( '매장'[매장명] ), NOT ISBLANK ( [매출] ) ) VAR best = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, FILTER ( t, NOT ISBLANK ( [전년 대비 증감률] ) ), [전년 대비 증감률], ASC ) RETURN COUNTROWS ( t ) & \" stores  ·  Top seller: \" & CONCATENATEX ( best, '매장'[매장명], \", \" ) & \" \" & FORMAT ( MAXX ( best, [매출] ) / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  Weakest YoY: \" & CONCATENATEX ( lo, '매장'[매장명], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )",
+    "Headline Product Table": "VAR t = FILTER ( VALUES ( '제품'[제품명] ), NOT ISBLANK ( [매출] ) ) VAR best = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, FILTER ( t, NOT ISBLANK ( [전년 대비 증감률] ) ), [전년 대비 증감률], ASC ) RETURN COUNTROWS ( t ) & \" products  ·  Top seller: \" & CONCATENATEX ( best, '제품'[제품명], \", \" ) & \" \" & FORMAT ( MAXX ( best, [매출] ) / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  Weakest YoY: \" & CONCATENATEX ( lo, '제품'[제품명], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )"
+  },
+  "shared": {
+    "brand": {
+      "text": "Outdoor Shop",
+      "sub": "Measure table · sample data"
+    },
+    "asof": {
+      "text": "Data as of 2026-08-31"
+    },
+    "slicer_period": {
+      "field": "날짜.연도",
+      "default": 2026,
+      "single": true,
+      "title": "Period"
+    },
+    "slicer_channel": {
+      "field": "매장.채널"
+    },
+    "context": {
+      "measure": "Context Label"
+    }
+  },
+  "pages": [
+    {
+      "layout": "table_main",
+      "id": "stores",
+      "name": "Store table",
+      "visuals": {
+        "title": {
+          "text": "Store scorecard"
+        },
+        "headline": {
+          "measure": "Headline Store Table"
+        },
+        "slicer_a": {
+          "field": "매장.권역"
+        },
+        "grid": {
+          "columns": [
+            "매장.매장명",
+            "매장.권역",
+            "매장.채널",
+            "Sales Disp",
+            "전년 대비 증감률",
+            "Profit Disp",
+            "이익률",
+            "Orders Disp",
+            "AOV Disp",
+            "AOV YoY %",
+            "매출 구성비"
+          ],
+          "sort": [
+            "Sales Disp",
+            "desc"
+          ],
+          "format": {
+            "Sales Disp": "bar",
+            "전년 대비 증감률": "sign",
+            "AOV YoY %": "sign",
+            "이익률": "heat"
+          },
+          "title": "Measures by store",
+          "sub": "Bar = sales · darker cell = higher margin · red = down vs last year · click a header to sort"
+        }
+      }
+    },
+    {
+      "layout": "table_main",
+      "id": "products",
+      "name": "Product table",
+      "visuals": {
+        "title": {
+          "text": "Product scorecard"
+        },
+        "headline": {
+          "measure": "Headline Product Table"
+        },
+        "slicer_a": {
+          "field": "카테고리.카테고리"
+        },
+        "grid": {
+          "columns": [
+            "제품.제품명",
+            "제품.카테고리",
+            "제품.하위카테고리",
+            "Sales Disp",
+            "전년 대비 증감률",
+            "판매수량",
+            "평균할인율",
+            "이익률",
+            "매출 구성비"
+          ],
+          "sort": [
+            "Sales Disp",
+            "desc"
+          ],
+          "format": {
+            "Sales Disp": "bar",
+            "전년 대비 증감률": "sign",
+            "평균할인율": "heat"
+          },
+          "title": "Measures by product",
+          "sub": "Bar = sales · darker cell = deeper discount · red = down vs last year"
+        }
+      }
+    }
+  ],
+  "lang": "en",
+  "modelMap": "model-map.json"
+}

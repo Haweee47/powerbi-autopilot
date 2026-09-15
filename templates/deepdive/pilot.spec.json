@@ -11,7 +11,7 @@
   "measures": {
     "Headline Tree": {
       "en": "VAR t = VALUES ( '매장'[권역] ) VAR hi = TOPN ( 1, t, [매출], DESC ) RETURN \"Sales \" & FORMAT ( [매출] / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  Top region: \" & CONCATENATEX ( hi, '매장'[권역], \", \" ) & \" \" & FORMAT ( DIVIDE ( MAXX ( hi, [매출] ), [매출] ), \"0%\" ) & \"  ·  click + next to a bar to drill one level\"",
-      "ko": "VAR t = VALUES ( '매장'[권역] ) VAR hi = TOPN ( 1, t, [매출], DESC ) RETURN \"매출 \" & FORMAT ( [매출] / 100000000, \"0.0억\" ) & \"  ·  권역 1위 \" & CONCATENATEX ( hi, '매장'[권역], \", \" ) & \" \" & FORMAT ( DIVIDE ( MAXX ( hi, [매출] ), [매출] ), \"0%\" ) & \"  ·  막대 옆 +를 눌러 기준을 골라 한 단계씩 내려가기\""
+      "ko": "VAR t = VALUES ( '매장'[권역] ) VAR hi = TOPN ( 1, t, [매출], DESC ) RETURN \"매출 \" & FORMAT ( [매출] / [Unit Scale Big], IF ( [Unit Scale Big] = 1E8, \"0.0\", \"#,0\" ) ) & [Unit Suffix Big] & \"  ·  권역 1위 \" & CONCATENATEX ( hi, '매장'[권역], \", \" ) & \" \" & FORMAT ( DIVIDE ( MAXX ( hi, [매출] ), [매출] ), \"0%\" ) & \"  ·  막대 옆 +를 눌러 기준을 골라 한 단계씩 내려가기\""
     },
     "Headline Discount": {
       "en": "VAR t = FILTER ( VALUES ( '제품'[제품명] ), NOT ISBLANK ( [매출] ) ) VAR top5 = TOPN ( 5, t, [평균할인율], DESC ) RETURN \"Margin of the 5 most-discounted products \" & FORMAT ( CALCULATE ( [이익률], top5 ), \"0.0%\" ) & \"  ·  all other products \" & FORMAT ( CALCULATE ( [이익률], EXCEPT ( t, top5 ) ), \"0.0%\" )",
@@ -19,7 +19,7 @@
     },
     "Headline Detail": {
       "en": "FORMAT ( [주문건수], \"#,0\" ) & \" orders  ·  Sales \" & FORMAT ( [매출] / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  click a header to sort, right-click a row to copy\"",
-      "ko": "\"주문 \" & FORMAT ( [주문건수], \"#,0\" ) & \"건  ·  매출 \" & FORMAT ( [매출] / 100000000, \"0.0억\" ) & \"  ·  머리글을 눌러 정렬, 행을 오른쪽 클릭해 복사\""
+      "ko": "\"주문 \" & FORMAT ( [주문건수], \"#,0\" ) & \"건  ·  매출 \" & FORMAT ( [매출] / [Unit Scale Big], IF ( [Unit Scale Big] = 1E8, \"0.0\", \"#,0\" ) ) & [Unit Suffix Big] & \"  ·  머리글을 눌러 정렬, 행을 오른쪽 클릭해 복사\""
     }
   },
   "shared": {

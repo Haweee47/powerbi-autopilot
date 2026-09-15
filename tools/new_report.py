@@ -84,6 +84,7 @@ def main() -> None:
     ap.add_argument("--name", required=True)
     ap.add_argument("--model", help="target model TMDL folder (default: the pilot's reference model)")
     ap.add_argument("--out", help="folder for the new spec (default examples/<name>)")
+    ap.add_argument("--reuse-map", help="a model-map.json already filled for this model: known values are prefilled")
     a = ap.parse_args()
 
     purpose = next(p for p in cat["purposes"] if p["id"] == a.purpose)
@@ -114,8 +115,14 @@ def main() -> None:
         p = out / inc.replace("{lang}", a.lang)
         layer.update(load(p if p.exists() else out / inc.replace("{lang}", loc["fallback"]))["measures"])
     layer.update(spec.get("measures", {}))
+    # 같은 모델로 이미 채운 대응표가 있으면 가져온다. 거기서 이 모델의 식으로 바꿔 쓴 표시용 측정값(예: Orders PY)은
+    # 기준 식이 부르던 열(날짜.실적기간 등)이 더는 필요 없다
+    reuse = load(Path(a.reuse_map)) if a.reuse_map else {}
+    overridden = {k for k in reuse.get("measures", {}) if k in layer}
     used_by: dict[str, set] = {}
     for name, v in layer.items():
+        if name in overridden:
+            continue
         cols, meas = dax_refs(expr_text(v, a.lang, loc["fallback"]))
         for r in cols | meas:
             used_by.setdefault(r, set()).add(name)
@@ -168,15 +175,23 @@ def main() -> None:
         for m in missing_meas:
             ref = f"reference: {ref_defs[m]['expr']}" if m in ref_defs else ""
             hints[m] = " · ".join(x for x in (label(m), notes.get(m, ""), ref, where(m)) if x)
-        guess = max(model, key=lambda t: len(model[t]["measures"]))
+        guess = reuse.get("measureTable") or max(model, key=lambda t: len(model[t]["measures"]))
+        columns = {c: reuse.get("columns", {}).get(c, "") for c in missing_cols}
+        measures = {m: reuse["measures"][m] if reuse.get("measures", {}).get(m) else
+                    ({"expr": "", "format": ref_defs[m]["format"]} if ref_defs.get(m, {}).get("format") else "") for m in missing_meas}
+        measures.update({m: reuse["measures"][m] for m in sorted(overridden)})
+        filled = lambda v: bool(v.get("expr") if isinstance(v, dict) else v)  # noqa: E731
+        prefilled = sum(filled(v) for v in list(columns.values()) + list(measures.values()))
+        empty = [k for k, v in {**columns, **measures}.items() if not filled(v)]
+        hints = {k: v for k, v in hints.items() if k in empty}  # 채운 항목의 힌트는 읽을 필요가 없다
         skeleton = {
             "$comment": ("Model map: the pilot was written for the reference model (examples/03-modeling-mcp). Fill each empty value: "
                          "columns → this model's 'Table.Column'; measures → a DAX expression in this model. Mapped measures are added hidden. "
                          "If a missing column is only used inside one display measure, you can map that measure name instead. "
                          "_hints shows the reference definition and where each item is used."),
             "measureTable": guess,
-            "columns": {c: "" for c in missing_cols},
-            "measures": {m: {"expr": "", "format": ref_defs[m]["format"]} if ref_defs.get(m, {}).get("format") else "" for m in missing_meas},
+            "columns": columns,
+            "measures": measures,
             "_hints": hints,
         }
         map_path = out / "model-map.json"
@@ -184,7 +199,8 @@ def main() -> None:
             size_note = f"model-map.json already exists; not overwritten ({len(missing_cols)} columns, {len(missing_meas)} measures still expected)"
         else:
             map_path.write_text(json.dumps(skeleton, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-            size_note = f"wrote {rel(map_path, ROOT)} ({map_path.stat().st_size / 1024:.1f}KB ≈ {map_path.stat().st_size // 3:,} tokens)"
+            size_note = (f"wrote {rel(map_path, ROOT)} ({map_path.stat().st_size / 1024:.1f}KB ≈ {map_path.stat().st_size // 3:,} tokens) · "
+                         f"{len(empty)} empty, {prefilled} prefilled" + (f" from {a.reuse_map}" if a.reuse_map else ""))
         spec["modelMap"] = "model-map.json"
     dest = out / "report.spec.json"
     dest.write_text(json.dumps(spec, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

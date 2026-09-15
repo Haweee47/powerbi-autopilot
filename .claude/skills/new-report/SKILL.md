@@ -37,6 +37,8 @@ empty values plus `_hints` with the reference definition, the English name, wher
 - Follow the RULE notes: last-year and target measures stop at the last data date (a naive `SAMEPERIODLASTYEAR` or a full-year budget gives wrong YoY and attainment).
 - If a missing column is only used inside one display measure (e.g. `Orders PY`), map that measure name instead of the column.
 - The generator stops if a value is still empty. Worked example: `examples/05-own-model/`.
+- **A second report on the same model:** add `--reuse-map <the filled model-map.json>`. Known values are prefilled and hints are
+  written only for what's still empty (example 05: the other three pilots needed 5, 1 and 8 new values). Read only those.
 
 ## 3. Edit only the new spec
 

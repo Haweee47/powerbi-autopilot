@@ -1,0 +1,29 @@
+/// Monthly sales budget by category. Linked to the calendar only (no category table).
+table Budget
+
+	column Month
+		dataType: dateTime
+		formatString: yyyy-mm
+		summarizeBy: none
+		sourceColumn: Month
+
+	column Category
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Category
+
+	column Amount
+		dataType: double
+		formatString: $#,0
+		summarizeBy: sum
+		sourceColumn: Amount
+
+	partition Budget = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\Budget.csv"), [Delimiter = ",", Columns = 3, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Month", type date}, {"Category", type text}, {"Amount", type number}}, "en-US")
+				in
+				    Typed

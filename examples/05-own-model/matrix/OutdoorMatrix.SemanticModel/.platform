@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "OutdoorMatrix"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5dc14f3b1d35c9759b91793e0644b623"
+  }
+}
