@@ -5,6 +5,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-15
+
+All four pilots on your own model, sparklines in tables, and a DAX check that catches broken references before Desktop does.
+
 ### Added
 - `new_report.py --reuse-map`: start another report on the same model from a map already filled. In example 05 the three
   other pilots needed only 5, 1 and 8 new values; hints are written only for what's still empty
@@ -74,6 +78,7 @@ First public release. Requires **Power BI Desktop 2.157 or newer**: every pilot 
   table columns narrow, slicer buttons truncated. `quickstart` now opens the Microsoft Store version when it's installed and warns
   when only an older Desktop is found; the guides state the minimum version. ([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1))
 
-[Unreleased]: https://github.com/Haweee47/powerbi-autopilot/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/Haweee47/powerbi-autopilot/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/Haweee47/powerbi-autopilot/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Haweee47/powerbi-autopilot/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Haweee47/powerbi-autopilot/releases/tag/v0.1.0

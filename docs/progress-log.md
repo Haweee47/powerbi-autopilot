@@ -353,6 +353,9 @@ didn't have passed Microsoft's validator and only broke in Desktop. The generato
 measure and stops with the measure's name when a reference is missing. It caught the new case at once: the sparkline needs the
 month number, which three of the example 05 model maps didn't have. The bundled pilots pass with no false alarms.
 
+**v0.3.0.** Released as [v0.3.0](https://github.com/Haweee47/powerbi-autopilot/releases/tag/v0.3.0): all four pilots on your own
+model, sparklines, the DAX check, Korean units that follow the data, and the decomposition tree fix.
+
 ---
 
 ## 다음 계획
