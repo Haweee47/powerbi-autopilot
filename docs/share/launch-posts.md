@@ -24,7 +24,9 @@ I've been working on letting an AI agent build Power BI reports without me touch
 
 - You ask for a report in one line. The agent picks one of 4 pre-built pilots (dashboard, measure table, matrix check, deep dive), swaps in your fields, generates the PBIP, runs Microsoft's PBIR validator, then opens it in Desktop and screenshots every page.
 - Formatting lives in the theme instead of every visual.json, so the agent only writes a 1–3.5K-token spec (about 6% of the generated report).
-- 7 themes (classic, showcase, practical), English and Korean. Japanese and Chinese are in progress, and native speakers are welcome to help.
+- Measured cost: about $0.60–4 of Claude Opus 5 API tokens and 2–10 minutes per report, including the Desktop capture pass ([how it was measured](https://github.com/Haweee47/powerbi-autopilot/blob/main/docs/cost-per-report.md)).
+- It works on your own model: a model map lists the fields and measures a pilot needs, with the reference DAX as hints.
+- 7 themes (classic, showcase, practical) or one made from your brand color, English and Korean. Japanese and Chinese are in progress, and native speakers are welcome to help.
 
 The part I didn't expect: files that passed the validator still looked wrong on screen more than 25 times (doubled units, clipped KPI cards, a slicer default filter silently ignored). So the Desktop screenshot step became the core of the workflow.
 
@@ -43,6 +45,8 @@ I'd really like to hear which pilot you'd use at work and what's missing. ODBC s
 Power BI's new text formats (PBIP/PBIR/TMDL) let an agent write reports directly. In practice two things got in the way for me: token cost (formatting is repeated in every visual file; 67% of visual.json bytes across ~11k public files) and quality (validator-clean files that render wrong).
 
 What I built: formatting moves into a generated theme, page coordinates into layout templates, and the agent only writes a small spec (1–3.5K tokens, ~6% of the output). A script checks every field against the model before anything is written. After Microsoft's validator passes, a UI Automation loop opens the report in Power BI Desktop and captures every page. That loop caught 25+ issues the validator couldn't see.
+
+Measured end to end, one report took 2.5–7.5 minutes and $0.57–2.43 of Claude Opus 5 API tokens (normalized to a fresh session), most of it cache reads.
 
 Design rules come from analyzing 1,800+ public reports and a handful of visualization papers (Kim et al. 2021 on chart+text emphasis, Bach et al. 2023 dashboard patterns).
 
@@ -89,7 +93,8 @@ Claude Code skills and scripts that build Power BI reports (PBIP) from pre-built
 1. **The problem.** At a previous job I had an LLM read existing PBIP reports and generate new ones. It worked, but it cost hundreds of thousands of tokens per report and the output looked like the reports it copied.
 2. **Where the tokens go.** 1,800+ public reports: 67% of visual.json bytes are formatting, repeated per visual. Move it into the theme, and the agent writes a spec that's about 6% of the final report.
 3. **Pilots, not prompts.** Four finished reports by purpose. A new report is a copy with different fields. The agent asks three questions: purpose, theme, language.
-4. **The validator is not the screen.** 25+ bugs that passed validation: a year filter ignored because it was written as text, "40천만" doubled units, clipped KPI cards, English numbers printed as "110,558,285.0,,M".
-5. **A wrong hypothesis, on the record.** I blamed a Desktop auto-update for broken pilots; the window I was testing was an older installer copy that `.pbip` files opened by default.
-6. **Design from evidence.** Takeaway sentence under every title, the same item highlighted in the chart, the current filter scope next to the title, 5–8 visuals per page.
-7. **Try it / tell me.** Link, quick start, feedback forms.
+4. **What a report costs.** Two reports built end to end: 8 and 28 requests, 2.5 and 7.5 minutes, about $0.6 and $2.4. A long session had cost $262 for the whole build, 96% of it re-reading context.
+5. **The validator is not the screen.** 25+ bugs that passed validation: a year filter ignored because it was written as text, "40천만" doubled units, clipped KPI cards, English numbers printed as "110,558,285.0,,M".
+6. **A wrong hypothesis, on the record.** I blamed a Desktop auto-update for broken pilots; the window I was testing was an older installer copy that `.pbip` files opened by default.
+7. **Design from evidence.** Takeaway sentence under every title, the same item highlighted in the chart, the current filter scope next to the title, 5–8 visuals per page.
+8. **Try it / tell me.** Link, quick start, feedback forms.
