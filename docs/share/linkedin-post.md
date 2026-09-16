@@ -29,8 +29,8 @@ What's inside 👇
 📚 Design rules from 1,800+ public reports and visualization research
 
 🔌 A note on data sources
-I haven't fully validated ODBC connections yet due to security constraints.
-If you already run a Power BI report on ODBC, save it as PBIP first and let the agent learn its design and connection setup. The results will fit your environment much better.
+ODBC works: I read the sample model through a local ODBC driver, and the report built unchanged with the same totals. A live warehouse (Presto, Redshift) is next.
+If you already run a Power BI report on ODBC, save it as PBIP. The agent keeps your connection and SQL as they are, and no password goes into the files.
 
 🚧 This is a work in progress. I'll keep improving it and share what I learn along the way.
 
@@ -54,7 +54,7 @@ Power BI 리포트를 처음부터 끝까지 AI로 만들었습니다. 손으로
 • Microsoft 공식 PBIR 검증 오류 0, 모든 페이지를 Desktop에서 렌더링해 확인한 뒤에야 완료
 • 디자인 규칙은 공개 리포트 1,800여 개와 시각화 연구에서
 
-데이터 연결 참고: 보안 문제로 ODBC 연결은 아직 충분히 검증하지 못했습니다. 지금 ODBC로 쓰는 Power BI 리포트가 있다면 먼저 PBIP로 저장해 에이전트에게 디자인과 연결 방식을 학습시키세요. 각자의 환경에 훨씬 잘 맞는 결과가 나옵니다.
+데이터 연결 참고: ODBC도 됩니다. 예제 모델을 로컬 ODBC 드라이버로 읽어도 리포트가 그대로 만들어지고 합계도 같았습니다. 실제 데이터 웨어하우스(Presto, Redshift)는 다음 순서입니다. 지금 ODBC로 쓰는 리포트가 있다면 PBIP로 저장하세요. 에이전트는 연결 방식과 SQL을 그대로 두고, 비밀번호는 파일에 들어가지 않습니다.
 
 계속 개선하면서 배운 것을 공유하겠습니다.
 

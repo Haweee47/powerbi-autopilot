@@ -32,7 +32,7 @@ The part I didn't expect: files that passed the validator still looked wrong on 
 
 Try it: download, double-click `quickstart.cmd`, click Refresh. https://github.com/Haweee47/powerbi-autopilot
 
-I'd really like to hear which pilot you'd use at work and what's missing. ODBC sources aren't fully tested yet, so that feedback is especially welcome.
+I'd really like to hear which pilot you'd use at work and what's missing. ODBC works through a local driver (example 06), but I haven't tried a live warehouse yet, so feedback from Presto, Redshift or Snowflake users is especially welcome.
 
 ---
 
@@ -50,7 +50,7 @@ Measured end to end, one report took 2.5–7.5 minutes and $0.57–2.43 of Claud
 
 Design rules come from analyzing 1,800+ public reports and a handful of visualization papers (Kim et al. 2021 on chart+text emphasis, Bach et al. 2023 dashboard patterns).
 
-Limits: Windows only (Desktop), Desktop 2.157+ (older builds clip labels, found while testing the first-run flow), ODBC not fully tested, Japanese/Chinese partial.
+Limits: Windows only (Desktop), Desktop 2.157+ (older builds clip labels, found while testing the first-run flow), ODBC tested only through a local driver so far, Japanese/Chinese partial.
 
 https://github.com/Haweee47/powerbi-autopilot
 
