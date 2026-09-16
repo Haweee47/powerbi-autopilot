@@ -375,8 +375,8 @@ Both passed Microsoft's validator on the first build, and B's numbers matched th
 
 **What the measurement found.** `new_report.py` listed `SalesV`, a name the sparkline measure creates inside its own DAX, as a
 measure the model lacked. The generator already skipped it, the copy tool didn't, and a user would have been stuck on a blank the
-generator refuses. Both now use the same rule in `dax_refs`. I also chased `3.422` on the orders card; zoomed in, it's a comma
-at 24pt Segoe UI in a 1280×720 capture, not a locale bug.
+generator refuses. Both now use the same rule in `dax_refs`. I also suspected `3.422` on the orders card again. I had already been fooled by this on 2026-09-13,
+so this time one zoom settled it: a comma at 24pt Segoe UI in a 1280×720 capture, not a locale bug.
 
 **README.** The top image is now the page-by-page GIF of all four pilots instead of the tall static cover.
 
