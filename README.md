@@ -97,8 +97,9 @@ Each series palette passes a color-vision check (adjacent series stay apart for 
 ## Data sources
 
 The pilots run on a seeded synthetic retail dataset, so anyone can reproduce them exactly.
-I haven't fully validated ODBC connections yet because of security constraints. If you already have a Power BI report on ODBC,
-save it as PBIP first and let the agent learn its design and connection setup. The output will fit your environment much better.
+**ODBC:** a report on ODBC works the same way. Save it as PBIP and the agent keeps its connection and SQL as they are; no password goes into the files.
+[Example 06](examples/06-odbc/README.md) reads the sample data through a local ODBC driver: the model builds and validates, and the totals match.
+The Desktop capture there waits for the one-time sign-in choice, and a live warehouse (Presto, Redshift …) hasn't been tested yet.
 
 ## What's done so far
 
@@ -111,6 +112,7 @@ save it as PBIP first and let the agent learn its design and connection setup. T
 | Generator | Spec → PBIP. All four pilots and the Korean example pass Microsoft's validator (`powerbi-report-author validate`) with **0 errors · 0 warnings** |
 | Render check | A loop that opens each generated file in Desktop and captures every page. It caught and fixed **25+ issues** that passed the validator but looked wrong on screen |
 | Your own model | The dashboard pilot on a differently shaped English model: `new_report.py` lists every column and measure the pilot needs, inside its DAX too, and writes a model map the agent fills. Numbers checked against the CSVs ([example 05](examples/05-own-model/README.md)) |
+| ODBC source | The same model read through a local ODBC driver: builds and validates unchanged, totals through the driver match. Desktop capture waits for the one-time sign-in choice ([example 06](examples/06-odbc/README.md)) |
 
 ## How tokens were cut
 

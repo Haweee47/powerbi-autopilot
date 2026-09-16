@@ -38,11 +38,24 @@ public static class RenderCap {
   [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr h, IntPtr hdc, uint flags);
   [DllImport("user32.dll")] public static extern bool IsIconic(IntPtr h);
   [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int cmd);
+  public delegate bool EnumProc(IntPtr h, IntPtr l);
+  [DllImport("user32.dll")] static extern bool EnumWindows(EnumProc cb, IntPtr l);
+  [DllImport("user32.dll")] static extern uint GetWindowThreadProcessId(IntPtr h, out uint pid);
+  [DllImport("user32.dll")] static extern bool IsWindowVisible(IntPtr h);
+  [DllImport("user32.dll", CharSet = CharSet.Unicode)] static extern int GetClassName(IntPtr h, System.Text.StringBuilder s, int n);
+  // Visible pop-up windows of a process (sign-in and error dialogs are separate WinForms windows)
+  public static int PopupCount(uint target) {
+    int n = 0;
+    EnumWindows((h, l) => { uint pid; GetWindowThreadProcessId(h, out pid);
+      if (pid == target && IsWindowVisible(h)) { var c = new System.Text.StringBuilder(128); GetClassName(h, c, 128);
+        if (c.ToString().Contains(".20008.")) n++; }
+      return true; }, IntPtr.Zero);
+    return n; }
 }
 '@
 $AE = [System.Windows.Automation.AutomationElement]
 $CT = [System.Windows.Automation.ControlType]
-$failed = @()   # reports that never opened
+$failed = @()   # reports that never opened or never loaded their data
 
 function Find-Type($el, $type) {
   $cond = New-Object System.Windows.Automation.PropertyCondition($AE::ControlTypeProperty, $type)
@@ -130,7 +143,9 @@ function Test-Report($exe, $dir) {
     Start-Sleep -Seconds 15
   }
   if (Find-Type $win $CT::Button | Where-Object { $_.Current.ClassName -match '^action-button' }) {
-    Write-Warning "$name still shows a refresh or apply-changes bar: its pages may be empty"
+    # The load dialog is one pop-up; a second one is usually a data source asking how to sign in (ODBC, databases)
+    $hint = if ([RenderCap]::PopupCount([uint32]$proc.Id) -gt 1) { " A dialog is open, likely a data source asking how to sign in: open the report once, choose the sign-in method (Desktop remembers it), then run this again." } else { "" }
+    Write-Warning "$name still shows a refresh or apply-changes bar: its pages may be empty.$hint"
     $script:failed += $name
   }
 
@@ -168,5 +183,5 @@ try {
   & $py tools\render_report.py $outRoot
   $reportExit = $LASTEXITCODE
 } finally { Pop-Location }
-if ($failed.Count) { Write-Host "FAILED to open in Desktop: $($failed -join ', ')"; exit 1 }
+if ($failed.Count) { Write-Host "FAILED (did not open, or the data did not load): $($failed -join ', ')"; exit 1 }
 exit $reportExit

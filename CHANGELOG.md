@@ -6,6 +6,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 ## [Unreleased]
 
 ### Added
+- Example 06: example 05's dashboard on the same model read through ODBC (the Access Text driver that comes with Office).
+  The report builds and validates unchanged, and totals queried through the driver match the CSVs. The Desktop capture waits for the
+  one-time sign-in choice; guides in four languages describe the ODBC flow
 - Four more themes, seven in all, in three groups: classic (Navy, Paper, Midnight), showcase (Aurora, Coast) and practical
   (Ledger, Contrast). A theme is now a color palette plus a card shape (`soft`, `bold`, `flat`), so shape changes without touching
   layouts or specs. Every series palette passes the color-vision check; Navy, Paper and Midnight render exactly as before
@@ -19,6 +22,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 - `render_check.ps1 -Theme` accepts any preset in the tokens file; the `new-report` skill offers four themes at a time and names the rest
 
 ### Fixed
+- `render_check.ps1` says when a data source is probably asking how to sign in, and reports "did not open, or the data did not
+  load" instead of only "did not open"
 - `render_check.ps1` clicks a second bar ("pending changes") after the refresh and fails a report when a bar is still showing;
   a capture under that bar came out empty but was reported as captured
 - `new_report.py` listed names a measure creates inside its own DAX (`SalesV` in the sparkline) as missing measures, which left a

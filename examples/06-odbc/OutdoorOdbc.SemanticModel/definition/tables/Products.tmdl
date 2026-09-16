@@ -1,0 +1,37 @@
+table Products
+
+	column 'Product ID'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: Product ID
+
+	column Product
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Product
+
+	column Category
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Category
+
+	column Subcategory
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Subcategory
+
+	column 'List Price'
+		dataType: double
+		formatString: $#,0.00
+		summarizeBy: none
+		sourceColumn: List Price
+
+	partition Products = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.Query(OdbcConnection, "SELECT * FROM [Products.csv]"),
+				    Typed = Table.TransformColumnTypes(Source, {{"Product ID", type text}, {"Product", type text}, {"Category", type text}, {"Subcategory", type text}, {"List Price", type number}}, "en-US")
+				in
+				    Typed

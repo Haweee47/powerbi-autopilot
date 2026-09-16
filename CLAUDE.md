@@ -186,7 +186,8 @@ powerbi-autopilot/
 - [x] GitHub 공개 저장소 `Haweee47/powerbi-autopilot` push (2026-09-14, 커밋 작성자는 no-reply 주소)
 - [x] 노션 포트폴리오 허브 + 작업 일지 (2026-09-14, 비공개 새 페이지. 사용자의 기존 노션 페이지는 다른 프로젝트라 건드리지 않는다)
 - [x] 표 안의 미니 추이선 (SVG 측정값 `Sales Trend`, 2026-09-15) + 생성 전 DAX 참조 검사
-- [ ] 실데이터(Presto·Redshift) 흐름, ODBC 실제 연결 시험
+- [ ] 실데이터(Presto·Redshift) 흐름, ODBC 실제 연결 시험 — 로컬 ODBC 드라이버(Access Text)로 모델 생성·검증·합계 대조까지 확인 (예제 06, 2026-09-17).
+      남은 것: Desktop에서 ODBC 로그인 방식을 한 번 고른 뒤 `render_check -Dir out-odbc` 캡처, 실제 웨어하우스 연결
 - [ ] 예제 01·02 (새 세션에서 토큰 측정)
 - [x] 쉽게 쓰기: quickstart(더블클릭) · 안내서 4개 언어 · 피드백 구조(이슈 양식·Discussions·라벨·triage 스킬·CHANGELOG) (2026-09-14)
 - [x] 옛 Desktop(2.147) 대응 (#1): quickstart가 Store판 우선·버전 경고, 안내서에 2.157 이상. Store판 2.157.1354로 파일럿 전 페이지 재캡처

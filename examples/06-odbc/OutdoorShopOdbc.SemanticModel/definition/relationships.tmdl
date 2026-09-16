@@ -1,0 +1,15 @@
+relationship Orders_OrderDate_Calendar
+	fromColumn: Orders.'Order Date'
+	toColumn: Calendar.Date
+
+relationship Orders_Store
+	fromColumn: Orders.'Store ID'
+	toColumn: Stores.'Store ID'
+
+relationship Orders_Product
+	fromColumn: Orders.'Product ID'
+	toColumn: Products.'Product ID'
+
+relationship Budget_Month_Calendar
+	fromColumn: Budget.Month
+	toColumn: Calendar.Date

@@ -1,0 +1,7 @@
+/// Folder with the four CSV files. On another PC, change only this value.
+expression DataFolder = "C:\path\to\powerbi-autopilot\examples\_data\outdoor-shop" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+/// ODBC connection string, shared by every table. A report saved from a real ODBC source has its own here, such as "dsn=Sales";
+/// keep it as it is and never write a user name or password into it. This one uses the Access Text driver that comes with
+/// Microsoft Office (Access Database Engine), so the example reads the same CSV files without installing anything.
+expression OdbcConnection = "driver={Microsoft Access Text Driver (*.txt, *.csv)};dbq=" & DataFolder & ";extensions=asc,csv,tab,txt"

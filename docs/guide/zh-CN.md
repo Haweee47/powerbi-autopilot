@@ -80,7 +80,7 @@ claude
    写入 `model-map.json` 并附上参考定义作为提示。智能体只需在这张对照表里填上你的列名和 DAX。示例：[例 05](../../examples/05-own-model/README.md)
 
 数据连接（SQL Server、文件、ODBC 等）会随模型一起复制，只保存在你的电脑上。
-**ODBC 还没有充分验证。** 如果你使用 ODBC，请先把一份现有报表另存为 PBIP，让智能体先学习它的设计和连接方式，结果会更贴合你的环境。
+**ODBC。** ODBC 报表同样按上面的方法另存为 PBIP。连接字符串和 SQL 会原样复制，密码不会写入文件。第一次刷新时选择一次登录方式（默认或自定义、Windows、数据库），Desktop 会记住。在本地 ODBC 驱动上的验证见 [示例 06](../../examples/06-odbc/README.md)；真实数据仓库（Presto、Redshift 等）还没有测试。
 
 不要把真实数据提交到仓库或贴到 Issue 里。`out/` 会被 git 忽略，但放在 `examples/` 下的报表会被跟踪。
 

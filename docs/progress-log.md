@@ -424,6 +424,29 @@ brand color is darkened or lightened to at least 4.5:1.
 bar ("pending changes"), and the script still reported four pages captured. It now clicks each bar in turn and fails the report if one
 is still showing. Re-run on the Navy dashboard: all four pages 0.00% against the committed screenshots, so no new false alarm.
 
+## 2026-09-17 · Reading the model through ODBC (example 06)
+
+**Why.** Analysts at work rarely load CSV files; they reach a warehouse through ODBC, and my own notes said "ODBC not validated".
+The plan for tonight was to check it without installing anything.
+
+**A driver that was already there.** `Get-OdbcDriver` listed the 64-bit *Microsoft Access Text Driver*, which comes with Office.
+It reads CSV files through ODBC, so I copied the example 05 model and replaced each table's `Csv.Document` with
+`Odbc.Query(OdbcConnection, "SELECT * FROM [Orders.csv]")` over one shared connection string. No password in any file.
+- The report built from it unchanged: same spec, same model map, 4 pages, 0 errors and 0 warnings in the validator.
+  Switching the source to ODBC didn't change the model's shape, so nothing downstream noticed.
+- The same driver, connection string and SQL from PowerShell returned the CSV row counts (13,559 orders, 12 stores, 24 products,
+  180 budget rows), typed the dates and amounts correctly, and gave the totals the report shows: sales 634,304 (+0.4%),
+  profit 308,137, attainment 95.6%.
+
+**Where it stopped.** On the first refresh Desktop asked how to sign in to the ODBC source (Default or Custom, Windows, Database),
+exactly as it does for a real warehouse. It is a native dialog with no accessibility tree, clicks sent to it did nothing at 4 a.m.,
+and I didn't want to push further on a sign-in step. So the Desktop capture of example 06 waits for one manual choice.
+- The capture script did its job: it failed the run because the refresh never finished. It now also says why that probably
+  happened ("a data source is asking how to sign in"), which the next person with a real ODBC source will need.
+
+**Not done yet.** A live warehouse (Presto, Redshift): SQL dialects differ, and the agent is told to leave SQL alone and map renamed
+columns instead. The flow and the sign-in choice are written into the guides in four languages.
+
 ---
 
 ## 다음 계획

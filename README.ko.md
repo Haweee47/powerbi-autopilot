@@ -96,8 +96,9 @@ powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                
 ## 데이터 연결
 
 파일럿은 시드를 고정한 가상 소매 데이터로 돌아간다. 누구나 똑같이 재현할 수 있다.
-보안 문제로 ODBC 연결은 아직 충분히 검증하지 못했다. 지금 ODBC로 쓰는 Power BI 리포트가 있다면
-먼저 PBIP로 저장해 에이전트에게 디자인과 연결 방식을 학습시키자. 각자의 환경에 훨씬 잘 맞는 결과가 나온다.
+**ODBC:** ODBC 리포트도 같은 방식으로 된다. PBIP로 저장하면 에이전트가 연결 문자열과 SQL을 그대로 두고, 비밀번호는 파일에 들어가지 않는다.
+[예제 06](examples/06-odbc/README.md)은 로컬 ODBC 드라이버로 예제 데이터를 읽는다. 모델 생성·검증과 합계 대조까지 확인했다.
+Desktop 캡처는 처음 한 번 고르는 로그인 방식 선택을 기다리고 있고, 실제 데이터 웨어하우스(Presto, Redshift 등)는 아직 시험하지 못했다.
 
 ## 지금까지 한 것
 
@@ -110,6 +111,7 @@ powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                
 | 생성기 | 명세 → PBIP. 파일럿 4종 + 한국어 예제 모두 **공식 검증(`powerbi-report-author validate`) 오류 0 · 경고 0** |
 | 렌더링 검증 | 생성한 파일을 Desktop으로 열어 전 페이지를 캡처하는 루프. 검증기는 통과했지만 화면이 틀린 문제를 **25개 넘게** 찾아 고쳤다 |
 | 내 모델로 | 구조가 다른 영어 모델에 대시보드 파일럿 적용: `new_report.py`가 파일럿에 필요한 열·측정값을 DAX 속까지 모두 찾아 에이전트가 채울 대응표를 쓴다. 숫자는 CSV와 대조 ([예제 05](examples/05-own-model/README.md)) |
+| ODBC 연결 | 같은 모델을 로컬 ODBC 드라이버로 읽기: 그대로 생성·검증되고 드라이버로 조회한 합계도 일치. Desktop 캡처는 처음 한 번 고르는 로그인 방식 선택 대기 ([예제 06](examples/06-odbc/README.md)) |
 
 ## 토큰을 어떻게 줄였나
 

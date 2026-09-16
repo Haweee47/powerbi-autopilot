@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "42558e77e976013d8d49",
+  "position": {
+    "x": 16,
+    "y": 96,
+    "z": 6000,
+    "height": 136,
+    "width": 160,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "pageNavigator"
+  }
+}

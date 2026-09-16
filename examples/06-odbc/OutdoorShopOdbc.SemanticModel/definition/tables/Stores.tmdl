@@ -1,0 +1,36 @@
+table Stores
+
+	column 'Store ID'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: Store ID
+
+	column Store
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Store
+
+	column City
+		dataType: string
+		summarizeBy: none
+		sourceColumn: City
+
+	column Region
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Region
+
+	column Channel
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Channel
+
+	partition Stores = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.Query(OdbcConnection, "SELECT * FROM [Stores.csv]"),
+				    Typed = Table.TransformColumnTypes(Source, {{"Store ID", type text}, {"Store", type text}, {"City", type text}, {"Region", type text}, {"Channel", type text}}, "en-US")
+				in
+				    Typed
