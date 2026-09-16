@@ -16,7 +16,7 @@ No manual clicks in Power BI Desktop.
 placing visuals, formatting and fixing pages. This project cuts that work to one request, so the time goes back into data and business
 analysis, where the business impact is. Along the way it holds two bars: **reports that look good**, and **low token cost**.
 
-![Four pilots](docs/share/media/cover.png)
+![Every page of the four pilots, rendered in Power BI Desktop](docs/share/media/pages.gif)
 
 ---
 
@@ -97,6 +97,9 @@ save it as PBIP first and let the agent learn its design and connection setup. T
 | Your own model | The dashboard pilot on a differently shaped English model: `new_report.py` lists every column and measure the pilot needs, inside its DAX too, and writes a model map the agent fills. Numbers checked against the CSVs ([example 05](examples/05-own-model/README.md)) |
 
 ## How tokens were cut
+
+**One report costs about $0.6–4 on Claude Opus 5 API pricing and takes 2–10 minutes**, from the request to every page captured in
+Power BI Desktop ([measured runs](docs/cost-per-report.md)). The low end is a pilot on the bundled model; the high end is a first report on a model the agent has never seen.
 
 | Pilot | Spec the agent writes | Generated report JSON |
 |---|---:|---:|

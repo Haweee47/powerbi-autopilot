@@ -16,7 +16,7 @@ Power BI Desktop에서 손으로 조작하지 않는다.
 깨진 화면 고치기에 많은 시간을 쓴다. 이 프로젝트는 그 일을 요청 한 줄로 줄여, 그 시간을 본업인 데이터 분석과 비즈니스 분석에 돌리고
 비즈니스 임팩트를 높이는 것을 가장 먼저 목표로 한다. 그러면서 두 가지 기준을 지킨다. **보기 좋은 리포트**, 그리고 **적은 토큰**.
 
-![파일럿 4종](docs/share/media/cover.png)
+![파일럿 4종의 전 페이지 (Power BI Desktop 캡처)](docs/share/media/pages.gif)
 
 ---
 
@@ -96,6 +96,9 @@ powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                
 | 내 모델로 | 구조가 다른 영어 모델에 대시보드 파일럿 적용: `new_report.py`가 파일럿에 필요한 열·측정값을 DAX 속까지 모두 찾아 에이전트가 채울 대응표를 쓴다. 숫자는 CSV와 대조 ([예제 05](examples/05-own-model/README.md)) |
 
 ## 토큰을 어떻게 줄였나
+
+**리포트 하나에 Claude Opus 5 API 요금으로 약 $0.6~4(약 800~5,500원), 요청부터 Desktop 전 페이지 캡처까지 2~10분**이 든다
+([실측 기록](docs/cost-per-report.md), 영어). 낮은 쪽은 기준 모델로 파일럿을 조금 고친 경우, 높은 쪽은 처음 보는 내 모델로 첫 리포트를 만든 경우다. 원화는 1달러 1,380원으로 계산했다.
 
 | 파일럿 | 에이전트가 쓰는 명세 | 생성되는 리포트 JSON |
 |---|---:|---:|

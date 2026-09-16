@@ -356,6 +356,30 @@ month number, which three of the example 05 model maps didn't have. The bundled 
 **v0.3.0.** Released as [v0.3.0](https://github.com/Haweee47/powerbi-autopilot/releases/tag/v0.3.0): all four pilots on your own
 model, sparklines, the DAX check, Korean units that follow the data, and the decomposition tree fix.
 
+## 2026-09-16 · What one report costs
+
+**The question.** The project's first goal is analyst time, and its second is token cost, but I had no per-report number.
+The only total I had was the development itself: five days in one session, about 275M tokens, $262 at Opus 5 API prices,
+96% of it cache reads because every request re-read a long conversation.
+
+**Two reports, end to end.** A: the dashboard pilot on the bundled model, cut to one page with a channel bar, in Korean.
+B: an English dashboard on a model the agent had never seen, filling the model map from the tool's hints.
+Both passed Microsoft's validator on the first build, and B's numbers matched the source CSVs.
+- A: 8 requests, 3.7K output tokens, 2 min 26 s. B: 28 requests, 20.2K output tokens, 7 min 35 s.
+- Both ran inside this long session, so I removed the extra context from the cache reads, using the 45.8K-token first request of a
+  new session as the baseline. Result: **A $0.57–0.93, B $2.07–2.43.** Band for users: $0.6–4 and 2–10 minutes per report
+  ([write-up](cost-per-report.md)).
+- I first tried to run each report in a separate headless Claude Code session. The permission check blocked starting an agent
+  with broad tool access, so the runs happened here and were converted. Independent new sessions are still the next step,
+  together with the Microsoft and data-goblin skills.
+
+**What the measurement found.** `new_report.py` listed `SalesV`, a name the sparkline measure creates inside its own DAX, as a
+measure the model lacked. The generator already skipped it, the copy tool didn't, and a user would have been stuck on a blank the
+generator refuses. Both now use the same rule in `dax_refs`. I also chased `3.422` on the orders card; zoomed in, it's a comma
+at 24pt Segoe UI in a 1280×720 capture, not a locale bug.
+
+**README.** The top image is now the page-by-page GIF of all four pilots instead of the tall static cover.
+
 ---
 
 ## 다음 계획

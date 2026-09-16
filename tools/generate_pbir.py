@@ -240,12 +240,15 @@ def patch_model(def_dir: Path, patches: list) -> list[str]:
 REF_COL = re.compile(r"(?:'([^']+)'|\b([^\W\d]\w*))\[([^\]]+)\]")   # 'T'[C] · T[C]
 REF_MEASURE = re.compile(r"(?<![\w'\]])\[([^\]]+)\]")                 # 테이블 없이 쓴 [M]
 DAX_STRING = re.compile(r'("(?:[^"]|"")*")')
+DAX_STRING_BODY = re.compile(r'"((?:[^"]|"")*)"')
 
 
 def dax_refs(expr: str) -> tuple[set[str], set[str]]:
-    """DAX 식이 부르는 열('테이블.열')과 측정값 이름. 문자열 리터럴 안은 보지 않는다."""
+    """DAX 식이 부르는 열('테이블.열')과 측정값 이름. 문자열 리터럴 안은 보지 않는다.
+    Names the expression makes itself (ADDCOLUMNS ( …, "SalesV", … ) → [SalesV]) are local, not measures."""
     code = DAX_STRING.sub('""', expr)
-    return {f"{q or u}.{c}" for q, u, c in REF_COL.findall(code)}, set(REF_MEASURE.findall(code))
+    local = {x.replace('""', '"') for x in DAX_STRING_BODY.findall(expr)}
+    return {f"{q or u}.{c}" for q, u, c in REF_COL.findall(code)}, set(REF_MEASURE.findall(code)) - local
 
 
 def rename_columns(expr: str, cmap: dict) -> str:
@@ -620,16 +623,15 @@ def main() -> None:
     model.setdefault(spec["measureTable"], {"columns": set(), "measures": set(), "types": {}})["measures"] |= set(extra)
     resolve = FieldResolver(model, spec["measureTable"])
     # The DAX of display and adapter measures must point at real columns and measures. The validator can't see this and
-    # Desktop only shows a broken visual (example 05), so stop here instead. Names made inside the expression ("SalesV") are local.
+    # Desktop only shows a broken visual (example 05), so stop here instead. Names made inside the expression ("SalesV") are local (dax_refs skips them).
     known = {m for info in model.values() for m in info["measures"]}
     for mname, m in extra.items():
-        local = set(re.findall(r'"([^"]*)"', m["expr"]))
         cols, meas = dax_refs(m["expr"])
         for c in sorted(cols):
             table, col = c.split(".", 1)
             if col not in model.get(table, {}).get("columns", set()):
                 resolve.errors.append(f"DAX of '{mname}': column {c} is not in the model (add it to the model map)")
-        for ref in sorted(meas - known - local):
+        for ref in sorted(meas - known):
             resolve.errors.append(f"DAX of '{mname}': measure [{ref}] is not in the model (add it to the model map)")
     x = Ctx(resolve, t, glossary, tokens, palette, ui)
 

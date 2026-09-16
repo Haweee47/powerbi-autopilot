@@ -5,6 +5,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+### Added
+- `docs/cost-per-report.md`: two reports built end to end and priced. About $0.6–4 per report on Claude Opus 5 API pricing,
+  2–10 minutes from the request to every page captured in Desktop
+
+### Changed
+- The README opens with the page-by-page GIF of the four pilots
+
+### Fixed
+- `new_report.py` listed names a measure creates inside its own DAX (`SalesV` in the sparkline) as missing measures, which left a
+  model-map blank no value could fill. It now shares the generator's rule
+
 ## [0.3.0] - 2026-09-15
 
 All four pilots on your own model, sparklines in tables, and a DAX check that catches broken references before Desktop does.
