@@ -1,4 +1,4 @@
-"""디자인 토큰(design-system/tokens.json) 하나로 Power BI 테마 프리셋(네이비·페이퍼·미드나잇)과 CSS 변수를 만들고, 공식 스키마로 검증한다.
+"""디자인 토큰(design-system/tokens.json) 하나로 Power BI 테마 프리셋 7종(색 × 카드 모양 soft·bold·flat)과 CSS 변수를 만들고, 공식 스키마로 검증한다.
 
 왜: 색·글자·간격을 테마 JSON, HTML 시안, 문서에 따로 적으면 반드시 어긋난다. 원본을 하나로 두고 나머지는 생성한다.
 또 서식을 테마에 모아 두면 visual.json에는 위치와 필드만 남는다 (토큰 절약).
@@ -42,7 +42,10 @@ def bare() -> dict:
 
 def build(tok: dict, tid: str) -> dict:
     th = tok["themes"][tid]
-    c, T, S, SH = th["color"], tok["type"]["pt"], tok["space"], tok["shadow"]
+    c, T = th["color"], tok["type"]["pt"]
+    st = tok["styles"][th.get("style", "soft")]  # card shape: soft · bold · flat
+    S = {**tok["space"], "radius": st["radius"]}
+    SH = {**tok["shadow"], **{k: st[f"shadow{k.title()}"] for k in ("transparency", "blur", "distance") if f"shadow{k.title()}" in st}}
     F, FS = tok["font"]["family"], tok["font"]["semibold"]
     ink, ink2, ink3 = solid(c["ink"]), solid(c["ink2"]), solid(c["ink3"])
 
@@ -104,10 +107,11 @@ def build(tok: dict, tid: str) -> dict:
             "*": {"*": {
                 # 카드 바탕 + 머리카락 두께 테두리 + 거의 안 보이는 그림자: "종이 한 장" 정도의 깊이
                 "background": [{"show": True, "color": solid(c["surface"]), "transparency": 0}],
-                "border": [{"show": True, "color": solid(c["border"]), "radius": S["radius"], "width": 1}],
+                # bold draws the border in the card color: the border is what rounds the corners
+                "border": [{"show": True, "color": solid(c[st["borderColor"]]), "radius": S["radius"], "width": 1}],
                 "dropShadow": [{"show": True, "preset": "Custom", "position": "Outer", "color": solid(c["shadow"]),
                                 "transparency": SH["transparency"], "shadowBlur": SH["blur"], "shadowDistance": SH["distance"],
-                                "shadowSpread": SH["spread"], "angle": 90}],
+                                "shadowSpread": SH["spread"], "angle": 90}] if st["shadow"] else [{"show": False}],
                 "padding": [{"top": S["padding"], "bottom": S["padding"], "left": S["padding"] + 4, "right": S["padding"] + 4}],
                 "title": [{"show": True, "fontFamily": FS, "fontSize": T["title"], "bold": False, "fontColor": ink, "alignment": "left", "titleWrap": True}],
                 "subTitle": [{"fontFamily": F, "fontSize": T["caption"], "fontColor": ink3, "alignment": "left"}],
@@ -200,7 +204,7 @@ def build(tok: dict, tid: str) -> dict:
                                         {"show": True, "position": "Left", "width": 3, "color": solid(c["railAccent"]), "transparency": 0}),
                 # 끄기는 상태 없는 첫 항목에 (버튼과 같은 규칙). 상태 안에만 두었더니 페이퍼·미드나잇에서 칸마다 테두리가 보였다
                 "outline": [{"show": False}] + nav_states({"show": False}, {"show": False}, {"show": False}),
-                "shape": [{"tileShape": "rectangleRounded", "rectangleRoundedCurve": 6}],
+                "shape": [{"tileShape": "rectangleRounded", "rectangleRoundedCurve": st["tileCurve"]}],
                 "layout": [{"orientation": 1, "cellPadding": 4}],
                 "pages": [{"showHiddenPages": False}],  # 드릴스루 전용 숨김 페이지는 선택기에 넣지 않는다
             }},
@@ -215,7 +219,7 @@ def build(tok: dict, tid: str) -> dict:
                 "value": seg_states({"fontFamily": F, "fontSize": T["body"], "fontColor": solid(c["railInk2"])},
                                     {"fontColor": solid(c["railInk"])}, {"fontFamily": FS, "fontColor": solid(c["segOnInk"])}),
                 "outline": seg_states({"show": False}, {"show": False}, {"show": False}),
-                "shapeCustomRectangle": [{"tileShape": "rectangleRounded", "rectangleRoundedCurve": 6}],
+                "shapeCustomRectangle": [{"tileShape": "rectangleRounded", "rectangleRoundedCurve": st["tileCurve"]}],
                 "title": rail_title,
                 "border": [{"show": False}], "dropShadow": [{"show": False}],
                 "layout": [{"rowCount": 1, "cellPadding": 4}],
@@ -238,7 +242,7 @@ def build(tok: dict, tid: str) -> dict:
                                                          {"lineColor": solid(c["axis"]), "weight": 1}, {"lineColor": solid(c["axis"]), "weight": 1}),
                 "text": [{"show": True}] + nav_states({"fontFamily": FS, "fontSize": T["body"], "fontColor": ink2}, {"fontColor": ink}, {"fontColor": ink}),
                 "icon": [{"show": False}],  # 화살표는 글자("← 매장 목록")에 넣는다
-                "shape": [{"tileShape": "rectangleRounded", "rectangleRoundedCurve": 16}],
+                "shape": [{"tileShape": "rectangleRounded", "rectangleRoundedCurve": st["buttonCurve"]}],
             }},
         },
     }

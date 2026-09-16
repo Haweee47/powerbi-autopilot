@@ -1,0 +1,1542 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/powerbi-desktop-samples/main/Report%20Theme%20JSON%20Schema/reportThemeSchema-2.157.json",
+  "name": "Autopilot Coast",
+  "dataColors": [
+    "#008C9E",
+    "#9EA7AD",
+    "#EB6834",
+    "#4A3AA7",
+    "#EDA100",
+    "#E87BA4",
+    "#2A78D6",
+    "#D9534F"
+  ],
+  "good": "#008C9E",
+  "neutral": "#9EA7AD",
+  "bad": "#D9534F",
+  "maximum": "#008C9E",
+  "center": "#E6EEEE",
+  "minimum": "#D9534F",
+  "null": "#9EA7AD",
+  "foreground": "#0F2426",
+  "firstLevelElements": "#0F2426",
+  "secondLevelElements": "#3F5A5C",
+  "foregroundNeutralSecondary": "#3F5A5C",
+  "thirdLevelElements": "#E6EEEE",
+  "backgroundLight": "#E6EEEE",
+  "fourthLevelElements": "#62797B",
+  "foregroundNeutralTertiary": "#62797B",
+  "background": "#FFFFFF",
+  "secondaryBackground": "#C9D7D7",
+  "backgroundNeutral": "#C9D7D7",
+  "tableAccent": "#C9D7D7",
+  "hyperlink": "#006D7B",
+  "visitedHyperlink": "#006D7B",
+  "textClasses": {
+    "callout": {
+      "fontSize": 24,
+      "fontFace": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+      "color": "#0F2426"
+    },
+    "title": {
+      "fontSize": 12,
+      "fontFace": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+      "color": "#0F2426"
+    },
+    "header": {
+      "fontSize": 10,
+      "fontFace": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+      "color": "#0F2426"
+    },
+    "label": {
+      "fontSize": 9,
+      "fontFace": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+      "color": "#0F2426"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#DDE7E7"
+              }
+            },
+            "radius": 12,
+            "width": 1
+          }
+        ],
+        "dropShadow": [
+          {
+            "show": true,
+            "preset": "Custom",
+            "position": "Outer",
+            "color": {
+              "solid": {
+                "color": "#0B2A2C"
+              }
+            },
+            "transparency": 93,
+            "shadowBlur": 16,
+            "shadowDistance": 2,
+            "shadowSpread": 0,
+            "angle": 90
+          }
+        ],
+        "padding": [
+          {
+            "top": 16,
+            "bottom": 16,
+            "left": 20,
+            "right": 20
+          }
+        ],
+        "title": [
+          {
+            "show": true,
+            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 12,
+            "bold": false,
+            "fontColor": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "alignment": "left",
+            "titleWrap": true
+          }
+        ],
+        "subTitle": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "fontColor": {
+              "solid": {
+                "color": "#62797B"
+              }
+            },
+            "alignment": "left"
+          }
+        ],
+        "valueAxis": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#62797B"
+              }
+            },
+            "showAxisTitle": false,
+            "gridlineShow": true,
+            "gridlineStyle": "solid",
+            "gridlineColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            },
+            "gridlineThickness": 1,
+            "labelDisplayUnits": 1
+          }
+        ],
+        "categoryAxis": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#62797B"
+              }
+            },
+            "showAxisTitle": false,
+            "gridlineShow": false
+          }
+        ],
+        "legend": [
+          {
+            "show": true,
+            "position": "Top",
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "showTitle": false
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#F2F6F6"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "outspace": [
+          {
+            "color": {
+              "solid": {
+                "color": "#F2F6F6"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "outspacePane": [
+          {
+            "backgroundColor": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "foregroundColor": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "titleSize": 12,
+            "border": true,
+            "borderColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            },
+            "checkboxAndApplyColor": {
+              "solid": {
+                "color": "#008C9E"
+              }
+            },
+            "inputBoxColor": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            }
+          }
+        ],
+        "filterCard": [
+          {
+            "$id": "Applied",
+            "backgroundColor": {
+              "solid": {
+                "color": "#F2F6F6"
+              }
+            },
+            "foregroundColor": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "border": true,
+            "borderColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            }
+          },
+          {
+            "$id": "Available",
+            "backgroundColor": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "foregroundColor": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "border": true,
+            "borderColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "textbox": {
+      "*": {
+        "background": [
+          {
+            "show": false
+          }
+        ],
+        "border": [
+          {
+            "show": false
+          }
+        ],
+        "dropShadow": [
+          {
+            "show": false
+          }
+        ],
+        "padding": [
+          {
+            "top": 0,
+            "bottom": 0,
+            "left": 0,
+            "right": 0
+          }
+        ],
+        "title": [
+          {
+            "show": false
+          }
+        ]
+      }
+    },
+    "shape": {
+      "*": {
+        "background": [
+          {
+            "show": false
+          }
+        ],
+        "border": [
+          {
+            "show": false
+          }
+        ],
+        "dropShadow": [
+          {
+            "show": false
+          }
+        ],
+        "padding": [
+          {
+            "top": 0,
+            "bottom": 0,
+            "left": 0,
+            "right": 0
+          }
+        ],
+        "title": [
+          {
+            "show": false
+          }
+        ],
+        "fill": [
+          {
+            "$id": "default",
+            "show": true,
+            "fillColor": {
+              "solid": {
+                "color": "#0B3336"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "outline": [
+          {
+            "$id": "default",
+            "show": true,
+            "lineColor": {
+              "solid": {
+                "color": "#0B3336"
+              }
+            },
+            "weight": 1
+          }
+        ]
+      }
+    },
+    "cardVisual": {
+      "*": {
+        "value": [
+          {
+            "$id": "default",
+            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 24,
+            "bold": false,
+            "fontColor": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "labelDisplayUnits": 1,
+            "horizontalAlignment": "left"
+          }
+        ],
+        "label": [
+          {
+            "$id": "default",
+            "show": true,
+            "position": "aboveValue",
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "fontColor": {
+              "solid": {
+                "color": "#62797B"
+              }
+            }
+          }
+        ],
+        "referenceLabelTitle": [
+          {
+            "$id": "default",
+            "show": false
+          }
+        ],
+        "referenceLabelValue": [
+          {
+            "$id": "default",
+            "valueFontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "valueFontSize": 10,
+            "valueFontColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            }
+          }
+        ],
+        "referenceLabelLayout": [
+          {
+            "position": "below",
+            "horizontalAlignment": "left"
+          }
+        ],
+        "referenceLabel": [
+          {
+            "$id": "default",
+            "backgroundShow": false,
+            "paddingUniform": 0
+          }
+        ],
+        "divider": [
+          {
+            "$id": "default",
+            "show": false
+          }
+        ],
+        "title": [
+          {
+            "show": false
+          }
+        ],
+        "outline": [
+          {
+            "$id": "default",
+            "show": false
+          }
+        ],
+        "cardCalloutArea": [
+          {
+            "paddingUniform": 0
+          }
+        ]
+      }
+    },
+    "lineChart": {
+      "*": {
+        "lineStyles": [
+          {
+            "strokeWidth": 2,
+            "lineChartType": "linear",
+            "showMarker": false,
+            "areaShow": false
+          }
+        ],
+        "labels": [
+          {
+            "show": false
+          }
+        ],
+        "seriesLabels": [
+          {
+            "show": true,
+            "seriesPosition": "Right",
+            "seriesMatchColor": true,
+            "textSize": 9,
+            "seriesFontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif"
+          }
+        ],
+        "valueAxis": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#62797B"
+              }
+            },
+            "showAxisTitle": false,
+            "gridlineShow": true,
+            "gridlineStyle": "solid",
+            "gridlineColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            },
+            "gridlineThickness": 1,
+            "labelDisplayUnits": 1
+          }
+        ],
+        "categoryAxis": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#62797B"
+              }
+            },
+            "showAxisTitle": false,
+            "gridlineShow": false,
+            "preferredCategoryWidth": 12
+          }
+        ],
+        "legend": [
+          {
+            "show": true,
+            "position": "Top",
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "showTitle": false
+          }
+        ],
+        "smallMultiplesLayout": [
+          {
+            "gridLineShow": false
+          }
+        ],
+        "subheader": [
+          {
+            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 10,
+            "fontColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "barChart": {
+      "*": {
+        "categoryAxis": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "showAxisTitle": false,
+            "gridlineShow": false,
+            "innerPadding": 40,
+            "preferredCategoryWidth": 16,
+            "maxMarginFactor": 40
+          }
+        ],
+        "valueAxis": [
+          {
+            "show": false,
+            "gridlineShow": false,
+            "showAxisTitle": false
+          }
+        ],
+        "labels": [
+          {
+            "show": true,
+            "fontSize": 9,
+            "color": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "labelDisplayUnits": 1
+          }
+        ],
+        "dataPoint": [
+          {
+            "borderShow": false
+          }
+        ],
+        "legend": [
+          {
+            "show": false
+          }
+        ]
+      }
+    },
+    "columnChart": {
+      "*": {
+        "categoryAxis": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "showAxisTitle": false,
+            "gridlineShow": false,
+            "innerPadding": 40,
+            "preferredCategoryWidth": 16,
+            "maxMarginFactor": 40
+          }
+        ],
+        "valueAxis": [
+          {
+            "show": false,
+            "gridlineShow": false,
+            "showAxisTitle": false
+          }
+        ],
+        "labels": [
+          {
+            "show": true,
+            "fontSize": 9,
+            "color": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "labelDisplayUnits": 1
+          }
+        ],
+        "dataPoint": [
+          {
+            "borderShow": false
+          }
+        ],
+        "legend": [
+          {
+            "show": false
+          }
+        ]
+      }
+    },
+    "clusteredBarChart": {
+      "*": {
+        "categoryAxis": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "showAxisTitle": false,
+            "gridlineShow": false,
+            "innerPadding": 40,
+            "preferredCategoryWidth": 16,
+            "maxMarginFactor": 40
+          }
+        ],
+        "valueAxis": [
+          {
+            "show": false,
+            "gridlineShow": false,
+            "showAxisTitle": false
+          }
+        ],
+        "labels": [
+          {
+            "show": true,
+            "fontSize": 9,
+            "color": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "labelDisplayUnits": 1
+          }
+        ],
+        "dataPoint": [
+          {
+            "borderShow": false
+          }
+        ],
+        "legend": [
+          {
+            "show": true,
+            "position": "Top",
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "showTitle": false
+          }
+        ]
+      }
+    },
+    "clusteredColumnChart": {
+      "*": {
+        "categoryAxis": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "showAxisTitle": false,
+            "gridlineShow": false,
+            "innerPadding": 40,
+            "preferredCategoryWidth": 16,
+            "maxMarginFactor": 40
+          }
+        ],
+        "valueAxis": [
+          {
+            "show": false,
+            "gridlineShow": false,
+            "showAxisTitle": false
+          }
+        ],
+        "labels": [
+          {
+            "show": true,
+            "fontSize": 9,
+            "color": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "labelDisplayUnits": 1
+          }
+        ],
+        "dataPoint": [
+          {
+            "borderShow": false
+          }
+        ],
+        "legend": [
+          {
+            "show": true,
+            "position": "Top",
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "showTitle": false
+          }
+        ]
+      }
+    },
+    "scatterChart": {
+      "*": {
+        "valueAxis": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#62797B"
+              }
+            },
+            "showAxisTitle": false,
+            "gridlineShow": true,
+            "gridlineStyle": "solid",
+            "gridlineColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            },
+            "gridlineThickness": 1,
+            "labelDisplayUnits": 1
+          }
+        ],
+        "categoryAxis": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#62797B"
+              }
+            },
+            "showAxisTitle": false,
+            "gridlineShow": true,
+            "gridlineStyle": "solid",
+            "gridlineColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            },
+            "gridlineThickness": 1,
+            "labelDisplayUnits": 1
+          }
+        ],
+        "legend": [
+          {
+            "show": true,
+            "position": "Top",
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "labelColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            },
+            "showTitle": false
+          }
+        ]
+      }
+    },
+    "tableEx": {
+      "*": {
+        "grid": [
+          {
+            "gridVertical": false,
+            "gridHorizontal": true,
+            "gridHorizontalColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            },
+            "gridHorizontalWeight": 1,
+            "rowPadding": 8,
+            "outlineColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            },
+            "imageHeight": 20,
+            "imageWidth": 84
+          }
+        ],
+        "columnHeaders": [
+          {
+            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "bold": false,
+            "fontColor": {
+              "solid": {
+                "color": "#62797B"
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "autoSizeColumnWidth": true,
+            "columnAdjustment": "growToFit",
+            "wordWrap": false
+          }
+        ],
+        "values": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 10,
+            "fontColorPrimary": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "backColorPrimary": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "fontColorSecondary": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "backColorSecondary": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            }
+          }
+        ],
+        "total": [
+          {
+            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 10,
+            "bold": false,
+            "fontColor": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "pivotTable": {
+      "*": {
+        "grid": [
+          {
+            "gridVertical": false,
+            "gridHorizontal": true,
+            "gridHorizontalColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            },
+            "gridHorizontalWeight": 1,
+            "rowPadding": 8,
+            "outlineColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            },
+            "imageHeight": 20,
+            "imageWidth": 84
+          }
+        ],
+        "columnHeaders": [
+          {
+            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "bold": false,
+            "fontColor": {
+              "solid": {
+                "color": "#62797B"
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "autoSizeColumnWidth": true,
+            "columnAdjustment": "growToFit",
+            "wordWrap": false
+          }
+        ],
+        "values": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 10,
+            "fontColorPrimary": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "backColorPrimary": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "fontColorSecondary": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "backColorSecondary": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            }
+          }
+        ],
+        "total": [
+          {
+            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 10,
+            "bold": false,
+            "fontColor": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            }
+          }
+        ],
+        "rowHeaders": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 10,
+            "fontColor": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "stepped": true,
+            "steppedLayoutIndentation": 16,
+            "showExpandCollapseButtons": true,
+            "expandCollapseButtonsColor": {
+              "solid": {
+                "color": "#62797B"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "decompositionTreeVisual": {
+      "*": {
+        "tree": [
+          {
+            "accentColor": {
+              "solid": {
+                "color": "#008C9E"
+              }
+            },
+            "connectorDefaultColor": {
+              "solid": {
+                "color": "#C9D7D7"
+              }
+            },
+            "density": "default",
+            "connectorType": "round"
+          }
+        ],
+        "dataBars": [
+          {
+            "positiveBarColor": {
+              "solid": {
+                "color": "#008C9E"
+              }
+            },
+            "negativeBarColor": {
+              "solid": {
+                "color": "#D9534F"
+              }
+            },
+            "dataBarBackgroundColor": {
+              "solid": {
+                "color": "#E6EEEE"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "pageNavigator": {
+      "*": {
+        "background": [
+          {
+            "show": false
+          }
+        ],
+        "border": [
+          {
+            "show": false
+          }
+        ],
+        "dropShadow": [
+          {
+            "show": false
+          }
+        ],
+        "padding": [
+          {
+            "top": 0,
+            "bottom": 0,
+            "left": 0,
+            "right": 0
+          }
+        ],
+        "title": [
+          {
+            "show": false
+          }
+        ],
+        "fill": [
+          {
+            "$id": "default",
+            "show": true,
+            "fillColor": {
+              "solid": {
+                "color": "#0B3336"
+              }
+            },
+            "transparency": 0
+          },
+          {
+            "$id": "hover",
+            "show": true,
+            "fillColor": {
+              "solid": {
+                "color": "#124245"
+              }
+            },
+            "transparency": 0
+          },
+          {
+            "$id": "selected",
+            "show": true,
+            "fillColor": {
+              "solid": {
+                "color": "#1A5558"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "text": [
+          {
+            "$id": "default",
+            "show": true,
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 10,
+            "fontColor": {
+              "solid": {
+                "color": "#A9C3C2"
+              }
+            },
+            "horizontalAlignment": "left",
+            "leftMargin": 14
+          },
+          {
+            "$id": "hover",
+            "fontColor": {
+              "solid": {
+                "color": "#EFF7F6"
+              }
+            }
+          },
+          {
+            "$id": "selected",
+            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontColor": {
+              "solid": {
+                "color": "#EFF7F6"
+              }
+            }
+          }
+        ],
+        "accentBar": [
+          {
+            "$id": "default",
+            "show": false
+          },
+          {
+            "$id": "hover",
+            "show": false
+          },
+          {
+            "$id": "selected",
+            "show": true,
+            "position": "Left",
+            "width": 3,
+            "color": {
+              "solid": {
+                "color": "#5ED3E0"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "outline": [
+          {
+            "show": false
+          },
+          {
+            "$id": "default",
+            "show": false
+          },
+          {
+            "$id": "hover",
+            "show": false
+          },
+          {
+            "$id": "selected",
+            "show": false
+          }
+        ],
+        "shape": [
+          {
+            "tileShape": "rectangleRounded",
+            "rectangleRoundedCurve": 6
+          }
+        ],
+        "layout": [
+          {
+            "orientation": 1,
+            "cellPadding": 4
+          }
+        ],
+        "pages": [
+          {
+            "showHiddenPages": false
+          }
+        ]
+      }
+    },
+    "advancedSlicerVisual": {
+      "*": {
+        "fillCustom": [
+          {
+            "$id": "default",
+            "show": true,
+            "fillColor": {
+              "solid": {
+                "color": "#124245"
+              }
+            },
+            "transparency": 0
+          },
+          {
+            "$id": "hover",
+            "show": true,
+            "fillColor": {
+              "solid": {
+                "color": "#124245"
+              }
+            },
+            "transparency": 0
+          },
+          {
+            "$id": "selection:selected",
+            "show": true,
+            "fillColor": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "background": [
+          {
+            "$id": "default",
+            "show": false
+          },
+          {
+            "$id": "hover",
+            "show": false
+          },
+          {
+            "$id": "selection:selected",
+            "show": false
+          }
+        ],
+        "value": [
+          {
+            "$id": "default",
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 10,
+            "fontColor": {
+              "solid": {
+                "color": "#A9C3C2"
+              }
+            }
+          },
+          {
+            "$id": "hover",
+            "fontColor": {
+              "solid": {
+                "color": "#EFF7F6"
+              }
+            }
+          },
+          {
+            "$id": "selection:selected",
+            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontColor": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            }
+          }
+        ],
+        "outline": [
+          {
+            "$id": "default",
+            "show": false
+          },
+          {
+            "$id": "hover",
+            "show": false
+          },
+          {
+            "$id": "selection:selected",
+            "show": false
+          }
+        ],
+        "shapeCustomRectangle": [
+          {
+            "tileShape": "rectangleRounded",
+            "rectangleRoundedCurve": 6
+          }
+        ],
+        "title": [
+          {
+            "show": true,
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "bold": false,
+            "fontColor": {
+              "solid": {
+                "color": "#7C9A99"
+              }
+            },
+            "alignment": "left"
+          }
+        ],
+        "border": [
+          {
+            "show": false
+          }
+        ],
+        "dropShadow": [
+          {
+            "show": false
+          }
+        ],
+        "layout": [
+          {
+            "rowCount": 1,
+            "cellPadding": 4
+          }
+        ]
+      }
+    },
+    "slicer": {
+      "*": {
+        "background": [
+          {
+            "show": false
+          }
+        ],
+        "border": [
+          {
+            "show": false
+          }
+        ],
+        "dropShadow": [
+          {
+            "show": false
+          }
+        ],
+        "padding": [
+          {
+            "top": 0,
+            "bottom": 0,
+            "left": 0,
+            "right": 0
+          }
+        ],
+        "title": [
+          {
+            "show": true,
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 9,
+            "bold": false,
+            "fontColor": {
+              "solid": {
+                "color": "#7C9A99"
+              }
+            },
+            "alignment": "left"
+          }
+        ],
+        "header": [
+          {
+            "show": false
+          }
+        ],
+        "items": [
+          {
+            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "textSize": 10,
+            "fontColor": {
+              "solid": {
+                "color": "#EFF7F6"
+              }
+            },
+            "background": {
+              "solid": {
+                "color": "#124245"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "actionButton": {
+      "*": {
+        "background": [
+          {
+            "show": false
+          }
+        ],
+        "border": [
+          {
+            "show": false
+          }
+        ],
+        "dropShadow": [
+          {
+            "show": false
+          }
+        ],
+        "padding": [
+          {
+            "top": 0,
+            "bottom": 0,
+            "left": 0,
+            "right": 0
+          }
+        ],
+        "title": [
+          {
+            "show": false
+          }
+        ],
+        "fill": [
+          {
+            "show": true
+          },
+          {
+            "$id": "default",
+            "fillColor": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "transparency": 0
+          },
+          {
+            "$id": "hover",
+            "fillColor": {
+              "solid": {
+                "color": "#F2F6F6"
+              }
+            },
+            "transparency": 0
+          },
+          {
+            "$id": "selected",
+            "fillColor": {
+              "solid": {
+                "color": "#F2F6F6"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "outline": [
+          {
+            "show": true
+          },
+          {
+            "$id": "default",
+            "lineColor": {
+              "solid": {
+                "color": "#DDE7E7"
+              }
+            },
+            "weight": 1
+          },
+          {
+            "$id": "hover",
+            "lineColor": {
+              "solid": {
+                "color": "#C9D7D7"
+              }
+            },
+            "weight": 1
+          },
+          {
+            "$id": "selected",
+            "lineColor": {
+              "solid": {
+                "color": "#C9D7D7"
+              }
+            },
+            "weight": 1
+          }
+        ],
+        "text": [
+          {
+            "show": true
+          },
+          {
+            "$id": "default",
+            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontSize": 10,
+            "fontColor": {
+              "solid": {
+                "color": "#3F5A5C"
+              }
+            }
+          },
+          {
+            "$id": "hover",
+            "fontColor": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            }
+          },
+          {
+            "$id": "selected",
+            "fontColor": {
+              "solid": {
+                "color": "#0F2426"
+              }
+            }
+          }
+        ],
+        "icon": [
+          {
+            "show": false
+          }
+        ],
+        "shape": [
+          {
+            "tileShape": "rectangleRounded",
+            "rectangleRoundedCurve": 16
+          }
+        ]
+      }
+    }
+  }
+}

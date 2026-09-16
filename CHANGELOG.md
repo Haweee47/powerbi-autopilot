@@ -6,11 +6,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 ## [Unreleased]
 
 ### Added
+- Four more themes, seven in all, in three groups: classic (Navy, Paper, Midnight), showcase (Aurora, Coast) and practical
+  (Ledger, Contrast). A theme is now a color palette plus a card shape (`soft`, `bold`, `flat`), so shape changes without touching
+  layouts or specs. Every series palette passes the color-vision check; Navy, Paper and Midnight render exactly as before
 - `docs/cost-per-report.md`: two reports built end to end and priced. About $0.6–4 per report on Claude Opus 5 API pricing,
   2–10 minutes from the request to every page captured in Desktop
 
 ### Changed
 - The README opens with the page-by-page GIF of the four pilots
+- `render_check.ps1 -Theme` accepts any preset in the tokens file; the `new-report` skill offers four themes at a time and names the rest
 
 ### Fixed
 - `new_report.py` listed names a measure creates inside its own DAX (`SalesV` in the sparkline) as missing measures, which left a

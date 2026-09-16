@@ -24,7 +24,7 @@ I've been working on letting an AI agent build Power BI reports without me touch
 
 - You ask for a report in one line. The agent picks one of 4 pre-built pilots (dashboard, measure table, matrix check, deep dive), swaps in your fields, generates the PBIP, runs Microsoft's PBIR validator, then opens it in Desktop and screenshots every page.
 - Formatting lives in the theme instead of every visual.json, so the agent only writes a 1–3.5K-token spec (about 6% of the generated report).
-- 3 themes, English and Korean. Japanese and Chinese are in progress, and native speakers are welcome to help.
+- 7 themes (classic, showcase, practical), English and Korean. Japanese and Chinese are in progress, and native speakers are welcome to help.
 
 The part I didn't expect: files that passed the validator still looked wrong on screen more than 25 times (doubled units, clipped KPI cards, a slicer default filter silently ignored). So the Desktop screenshot step became the core of the workflow.
 
@@ -60,7 +60,7 @@ https://github.com/Haweee47/powerbi-autopilot
 
 I'm sharing an open-source project (MIT) built on PBIP/PBIR/TMDL.
 
-It includes four pilot reports (executive dashboard, measure table, metric-check matrix, deep dive), three themes generated from one token file, and a generator that turns a small JSON spec into a PBIP. Every pilot passes `powerbi-report-author validate` with 0 errors and 0 warnings and was captured in Desktop 2.157.
+It includes four pilot reports (executive dashboard, measure table, metric-check matrix, deep dive), seven themes generated from one token file (a color palette plus a card shape), and a generator that turns a small JSON spec into a PBIP. Every pilot passes `powerbi-report-author validate` with 0 errors and 0 warnings and was captured in Desktop 2.157.
 
 A few PBIR details I learned the hard way, in case they save someone time:
 - On/off toggles (`show`) for buttons and card fills only take effect in selector-less entries.

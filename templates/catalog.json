@@ -39,9 +39,13 @@
     }
   ],
   "themes": [
-    { "id": "navy", "name": { "en": "Navy", "ko": "네이비" }, "when": { "en": "Dark navy rail, white cards. Board decks and presentations", "ko": "어두운 네이비 레일 + 흰 카드. 경영진 보고·발표" } },
-    { "id": "paper", "name": { "en": "Paper", "ko": "페이퍼" }, "when": { "en": "White rail, hairlines. Light, document-like; prints and PDFs well", "ko": "흰 레일 + 옅은 선. 문서처럼 가볍고 인쇄·PDF에 무난" } },
-    { "id": "midnight", "name": { "en": "Midnight", "ko": "미드나잇" }, "when": { "en": "Full dark. Wall screens, dim rooms, long monitoring", "ko": "전체 다크. 관제 화면·장시간 모니터링" } }
+    { "id": "navy", "group": "classic", "name": { "en": "Navy", "ko": "네이비" }, "when": { "en": "Dark navy rail, white cards. Board decks and presentations", "ko": "어두운 네이비 레일 + 흰 카드. 경영진 보고·발표" } },
+    { "id": "paper", "group": "classic", "name": { "en": "Paper", "ko": "페이퍼" }, "when": { "en": "White rail, hairlines. Light, document-like; prints and PDFs well", "ko": "흰 레일 + 옅은 선. 문서처럼 가볍고 인쇄·PDF에 무난" } },
+    { "id": "midnight", "group": "classic", "name": { "en": "Midnight", "ko": "미드나잇" }, "when": { "en": "Full dark. Wall screens, dim rooms, long monitoring", "ko": "전체 다크. 관제 화면·장시간 모니터링" } },
+    { "id": "aurora", "group": "showcase", "name": { "en": "Aurora", "ko": "오로라" }, "when": { "en": "Deep violet rail, rounder borderless cards. Launches, showcase pages, first impressions", "ko": "짙은 보라 레일 + 테두리 없는 둥근 카드. 발표·쇼케이스, 첫인상이 중요할 때" } },
+    { "id": "coast", "group": "showcase", "name": { "en": "Coast", "ko": "코스트" }, "when": { "en": "Deep teal rail, white cards. Calm and fresh; operations, retail and service reviews", "ko": "짙은 청록 레일 + 흰 카드. 차분하고 산뜻함, 운영·매장·서비스 리뷰" } },
+    { "id": "ledger", "group": "practical", "name": { "en": "Ledger", "ko": "레저" }, "when": { "en": "White page, square corners, hairlines, no shadows. Finance packs, month-end reviews, print", "ko": "흰 바탕 + 각진 모서리 + 가는 선, 그림자 없음. 재무 보고·월말 리뷰·인쇄" } },
+    { "id": "contrast", "group": "practical", "name": { "en": "Contrast", "ko": "고대비" }, "when": { "en": "Black rail, darker lines and text, colorblind-safe series. Accessibility, projectors, bright rooms", "ko": "검은 레일 + 진한 선·글자, 색각 이상 안전 색. 접근성·프로젝터·밝은 회의실" } }
   ],
   "languages": "design-system/i18n/locales.json"
 }

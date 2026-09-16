@@ -380,6 +380,38 @@ so this time one zoom settled it: a comma at 24pt Segoe UI in a 1280×720 captur
 
 **README.** The top image is now the page-by-page GIF of all four pilots instead of the tall static cover.
 
+## 2026-09-16 · Seven themes: a palette plus a card shape
+
+**Why.** Three themes that differed only in color were too few to choose from. I wanted two kinds of additions: themes that look good
+at first glance, and themes that people who read reports all day would pick for work.
+
+**A theme is now two choices.** The token file gained card shapes next to the palettes:
+`soft` (the original: 12 px corners, hairline, barely visible shadow), `bold` (16 px, the border drawn in the card color so it only
+rounds the corners, a deeper shadow) and `flat` (2 px, hairline, no shadow). Layouts, fonts and type sizes stay shared, so every spec
+renders in every theme without changes. Four new presets:
+
+| Group | Theme | Shape | For |
+|---|---|---|---|
+| Showcase | Aurora | bold | launches and first impressions: deep violet rail, rounder borderless cards |
+| Showcase | Coast | soft | operations, retail and service reviews: deep teal rail |
+| Practical | Ledger | flat | finance packs, month-end reviews, print: white page, square corners, no shadows |
+| Practical | Contrast | flat | accessibility, projectors, bright rooms: black rail, darker lines and text, Okabe–Ito series |
+
+**Series colors, checked rather than eyeballed.** Every palette went through the dataviz validator. Navy itself "fails" one check,
+the chroma floor, because its second color is gray on purpose (last year), so I held the new palettes to Navy's result: everything
+else passes. Three first drafts didn't:
+- Coast's teal sat too close to the gray: ΔE 5.6 for protan viewers and 11.4 even with normal vision. A deeper teal (#008C9E) with a
+  lighter gray fixed both (10.9 and 16.3).
+- Ledger's navy was darker than the lightness band, and its green and orange were only 7.0 apart for protan viewers.
+- Contrast had a dark yellow next to red that deutan viewers can't tell apart (ΔE 1.1); a purple took its place.
+
+**Checked in Desktop.** The dashboard in each new theme, all four pages: nothing clipped, sparklines, bars and scatter colors follow
+the palette. Navy, Paper and Midnight theme files came out byte-identical, and all 56 pilot × theme × language builds pass
+Microsoft's validator. The capture script had the old three theme names hard-coded, so it now takes any preset.
+
+The `new-report` skill can only show four options per question, so it now offers the recommended theme plus the three closest and
+names the rest.
+
 ---
 
 ## 다음 계획

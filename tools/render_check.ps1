@@ -21,7 +21,7 @@
 #>
 param(
   [ValidateSet("all", "dashboard", "table", "matrix", "deepdive")] [string]$Purpose = "all",
-  [ValidateSet("navy", "paper", "midnight")] [string]$Theme = "navy",
+  [string]$Theme = "navy",  # any preset in design-system/tokens.json (the generator rejects unknown ones)
   [string]$Lang = "en",
   [string]$Dir = "",
   [int]$TimeoutSeconds = 180

@@ -1,25 +1,42 @@
-# 테마
+# Themes
 
-`autopilot-light.json` · `autopilot-dark.json` — HTML 시안의 디자인을 Power BI 테마로 옮긴 것이다.
-직접 고치지 않는다. [디자인 토큰](../tokens.json)을 고치고 스크립트로 다시 만든다.
+`autopilot-<preset>.json`, seven presets. Don't edit them by hand: change [the design tokens](../tokens.json) and rebuild.
 
 ```bash
-python tools/build_themes.py      # 테마 2개 + design-system/tokens.css 생성, 공식 스키마 2.157로 검증
+python tools/build_themes.py      # every preset + design-system/tokens.css, checked against the official theme schema 2.157
 ```
 
-## 왜 토큰에서 생성하나
-
-색·글자·간격을 테마 JSON, HTML 시안, 문서에 따로 적으면 반드시 어긋난다.
-원본은 `tokens.json` 하나로 두고, 나머지는 거기서 만든다.
+## A preset is a palette plus a card shape
 
 ```
-tokens.json ──┬─→ autopilot-light.json / autopilot-dark.json   (Power BI)
-              └─→ tokens.css                                   (HTML 시안)
+tokens.json ── themes.<preset>.color + categorical ─┐
+            ── styles.<soft|bold|flat> ─────────────┼─→ autopilot-<preset>.json   (Power BI)
+            ── font · type · space · shadow ────────┘   tokens.css                (HTML prototypes)
 ```
 
-더 큰 이유는 토큰 절약이다.
-수집한 PBIR 리포트는 `visual.json` 용량의 67%가 서식이었고, 대부분 비주얼마다 따로 박혀 있었다.
-서식을 테마에 모으면 비주얼 파일에는 **위치·필드·제목**만 남는다.
+| Style | Corners | Border | Shadow | Used by |
+|---|---|---|---|---|
+| soft | 12 px | hairline | barely visible | Navy, Paper, Midnight, Coast |
+| bold | 16 px | card-colored (it only rounds the corners) | deeper | Aurora |
+| flat | 2 px | hairline | none | Ledger, Contrast |
+
+Layout, fonts and type sizes are shared, so a spec renders in any preset without changes, and the generated visual files stay the same size.
+
+**Adding a preset:** copy a theme block in `tokens.json`, pick a style, run the palette check below, add the preset to
+`templates/catalog.json` (with a `group`), rebuild, and capture a pilot with `tools/render_check.ps1 -Theme <preset>`.
+
+**Series colors.** The first color is the accent (this year), the second is gray on purpose (last year), and the rest were ordered so that
+neighbors stay apart for color-blind viewers. Check a palette with the dataviz validator
+(`node validate_palette.js "<hex,…>" --mode light`): every check should pass except the chroma floor on the gray.
+Contrast uses a colorblind-safe set (Okabe–Ito hues).
+
+## Why tokens
+
+Colors, type and spacing written separately into themes, HTML prototypes and docs always drift apart, so there is one source.
+The bigger reason is tokens of the other kind: in the PBIR reports I collected, 67% of `visual.json` bytes were formatting, mostly
+repeated per visual. With formatting in the theme, a visual file keeps only its position, fields and title.
+
+The notes below (Korean) record why each formatting choice was made.
 
 ## 테마에 넣은 것
 

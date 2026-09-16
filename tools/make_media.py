@@ -17,7 +17,8 @@ FONTS = Path("C:/Windows/Fonts")
 
 NAVY, INK, SOFT, ACCENT, WHITE = "#0F1A2A", "#F2F5F9", "#AEB9C7", "#6EA8FE", "#FFFFFF"
 PURPOSES = [("dashboard", "Dashboard"), ("table", "Measure table"), ("matrix", "Matrix check"), ("deepdive", "Deep dive")]
-THEMES = [("navy", "Navy"), ("paper", "Paper"), ("midnight", "Midnight")]
+THEMES = [("navy", "Navy"), ("paper", "Paper"), ("midnight", "Midnight"), ("aurora", "Aurora"),
+          ("coast", "Coast"), ("ledger", "Ledger"), ("contrast", "Contrast")]
 
 
 def font(bold: bool, size: int) -> ImageFont.FreeTypeFont:
@@ -71,7 +72,7 @@ def cover() -> Image.Image:
         y = top + (i // 2) * (c.height + 40)
         im.alpha_composite(c, (x, y))
         d.text((x + 24, y + c.height - 14), label, font=font(True, 28), fill=INK)
-    facts = ["4 pilots by purpose  ·  3 themes  ·  English default, Korean built in",
+    facts = ["4 pilots by purpose  ·  7 themes  ·  English default, Korean built in",
              "Agent writes a 1–3K-token spec  ·  0 errors on Microsoft's PBIR validator",
              "github.com/Haweee47/powerbi-autopilot"]
     for i, f in enumerate(facts):
@@ -86,14 +87,17 @@ def themes_strip() -> Image.Image | None:
     W, H = 1200, 630
     im = Image.new("RGBA", (W, H), NAVY)
     d = ImageDraw.Draw(im)
-    d.text((56, 44), "Same report, three themes", font=font(True, 40), fill=INK)
-    d.text((56, 100), "One token file → schema-valid Power BI themes", font=font(False, 24), fill=SOFT)
-    cw = 344
+    d.text((56, 36), f"Same report, {len(shots)} themes", font=font(True, 40), fill=INK)
+    d.text((56, 90), "One token file: a color palette plus a card shape, schema-valid in Power BI", font=font(False, 22), fill=SOFT)
+    cols, cw, gap = 4, 254, 20
     for i, (label, p) in enumerate(shots):
-        c = card(Image.open(p), cw, 10)
-        x = 56 - 24 + i * (cw + 28)
-        im.alpha_composite(c, (x, 170))
-        d.text((x + 24, 170 + c.height + 4), label, font=font(True, 26), fill=INK)
+        row, col = divmod(i, cols)
+        c = card(Image.open(p), cw, 8)
+        offset = (cols - 3) * (cw + gap) // 2 if row else 0  # second row of three sits centered
+        x = 56 - 24 + col * (cw + gap) + offset
+        y = 140 + row * 238
+        im.alpha_composite(c, (x, y))
+        d.text((x + 24, y + c.height - 6), label, font=font(True, 22), fill=INK)
     return im
 
 
@@ -113,7 +117,7 @@ def social_preview() -> Image.Image:
     d.text((64, 56), "powerbi-autopilot", font=font(True, 30), fill=ACCENT)
     d.text((64, 104), "One request →", font=font(True, 56), fill=INK)
     d.text((64, 172), "a finished Power BI report", font=font(True, 56), fill=INK)
-    d.text((64, 256), "AI agent · 4 pilots · 3 themes · checked in Power BI Desktop · open source", font=font(False, 24), fill=SOFT)
+    d.text((64, 256), "AI agent · 4 pilots · 7 themes · checked in Power BI Desktop · open source", font=font(False, 24), fill=SOFT)
     x = 64 - 24
     for pid in ("dashboard", "matrix", "table"):
         p = first_shot(pid)

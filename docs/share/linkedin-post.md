@@ -3,7 +3,7 @@
 첨부: `docs/share/media/`. LinkedIn은 한 게시물에 **이미지 여러 장 · 문서(PDF) 하나 · 영상 하나** 중 하나만 붙일 수 있다.
 
 - 추천: `carousel.pdf`를 문서로 올린다 (13장: 표지 → 페이지 11장 → 테마 비교). 피드에서 넘겨 보는 형식이라 체류 시간이 길다.
-- 이미지로 올릴 때: `cover.png`(4종 콜라주)를 첫 장, `themes.png`(테마 3종)를 두 번째 장. `pages.gif`는 11페이지를 넘기는 짧은 움직임.
+- 이미지로 올릴 때: `cover.png`(4종 콜라주)를 첫 장, `themes.png`(테마 7종)를 두 번째 장. `pages.gif`는 11페이지를 넘기는 짧은 움직임.
 
 ---
 
@@ -20,7 +20,7 @@ No manual clicks. No hand-editing.
 What's inside 👇
 
 📊 4 pilots by purpose: executive dashboard, measure table, matrix check, deep dive
-🎨 3 themes: Navy · Paper · Midnight
+🎨 7 themes: Navy · Paper · Midnight · Aurora · Coast · Ledger · Contrast
 🌍 English by default, Korean built in, more languages via locale files
 🪙 Low token cost: the agent writes a 1–3K-token spec, scripts generate the rest (about 6% of the output)
 🧪 0 errors on Microsoft's PBIR validator, every page checked in Desktop
@@ -45,7 +45,7 @@ Power BI 리포트를 처음부터 끝까지 AI로 만들었습니다. 손으로
 자연어 요청 한 줄이 들어가면 에이전트가 데이터 모델, 페이지, 테마, 페이지 이동까지 만들고, 파일을 검증한 뒤 Power BI Desktop에서 열어 모든 페이지를 캡처해 확인합니다. 제가 하는 일은 용도·테마·언어를 고르는 것뿐입니다.
 
 • 용도별 파일럿 4종: 경영 대시보드, 지표 테이블, 행렬 확인, 딥다이브
-• 테마 3종(네이비·페이퍼·미드나잇). 기본 영어, 한국어 내장, 다른 언어는 로케일 파일로 추가
+• 테마 7종(네이비·페이퍼·미드나잇·오로라·코스트·레저·고대비). 기본 영어, 한국어 내장, 다른 언어는 로케일 파일로 추가
 • 적은 토큰: 에이전트는 1~3K 토큰짜리 명세만 쓰고 나머지는 스크립트가 생성 (생성물의 약 6%)
 • Microsoft 공식 PBIR 검증 오류 0, 모든 페이지를 Desktop에서 렌더링해 확인한 뒤에야 완료
 • 디자인 규칙은 공개 리포트 1,800여 개와 시각화 연구에서

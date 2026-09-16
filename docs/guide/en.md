@@ -42,7 +42,7 @@ python tools/quickstart.py --all --lang ko
 | Option | Values |
 |---|---|
 | `--purpose` | `dashboard` · `table` · `matrix` · `deepdive` |
-| `--theme` | `navy` · `paper` · `midnight` |
+| `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
 
 Reports are written to `out/`, which git ignores. Collapse the Filters, Visualizations and Data panes (») to see the page at full size.

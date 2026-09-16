@@ -42,7 +42,7 @@ python tools/quickstart.py --all --lang ja
 | オプション | 値 |
 |---|---|
 | `--purpose` | `dashboard`（ダッシュボード）· `table`（指標テーブル）· `matrix`（マトリックス）· `deepdive`（深掘り分析） |
-| `--theme` | `navy` · `paper` · `midnight` |
+| `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
 
 結果は `out/` フォルダーに作られ、git の対象外です。フィルター・視覚化・データの各ウィンドウを折りたたむ（»）と、ページを大きく表示できます。

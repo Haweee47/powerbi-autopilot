@@ -42,7 +42,7 @@ python tools/quickstart.py --all --lang zh-CN
 | 选项 | 取值 |
 |---|---|
 | `--purpose` | `dashboard`（仪表板）· `table`（指标表）· `matrix`（矩阵）· `deepdive`（深入分析） |
-| `--theme` | `navy` · `paper` · `midnight` |
+| `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
 
 结果保存在 `out/` 文件夹，git 会忽略它。折叠筛选器、可视化和数据窗格（»）可以看到完整大小的页面。

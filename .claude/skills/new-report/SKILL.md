@@ -1,6 +1,6 @@
 ---
 name: new-report
-description: Start a new Power BI report in this repo from a pre-built pilot. Asks the purpose (dashboard, measure table, metric-check matrix, deep dive), the design theme (navy, paper, midnight) and the language (English by default), copies the matching pilot spec, remaps only the missing fields, then generates and validates the PBIP. Use whenever the user asks for a new report, dashboard or table.
+description: Start a new Power BI report in this repo from a pre-built pilot. Asks the purpose (dashboard, measure table, metric-check matrix, deep dive), the design theme (seven presets: navy, paper, midnight, aurora, coast, ledger, contrast) and the language (English by default), copies the matching pilot spec, remaps only the missing fields, then generates and validates the PBIP. Use whenever the user asks for a new report, dashboard or table.
 ---
 
 # New report from a pilot
@@ -15,7 +15,7 @@ Read `templates/catalog.json` for the option texts (use the user's language; Eng
 | Question | Options (label → description) |
 |---|---|
 | Purpose | Dashboard · Measure table · Metric check (matrix) · Deep dive — use `purposes[].when` |
-| Theme | Navy · Paper · Midnight — use `themes[].when` |
+| Theme | Seven presets in three groups (`themes[].group`: classic · showcase · practical). A question takes at most 4 options: offer the recommended theme first and the three closest by `themes[].when`, and name the rest in the question text so the user can type one under Other |
 | Language | English (default) · 한국어 · 日本語 · 简体中文 — from `design-system/i18n/locales.json` |
 
 If the request already answers a question, don't ask it. Put the recommended option first.

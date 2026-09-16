@@ -70,11 +70,25 @@ Step-by-step guide, including building reports by asking and using your own data
 
 Full list and how to choose: [templates/catalog.json](templates/catalog.json)
 
-## Three themes · languages
+## Seven themes · languages
 
-![Three themes](docs/share/media/themes.png)
+![Seven themes](docs/share/media/themes.png)
 
-- **Themes**: Navy · Paper · Midnight. Generated from one token file; all three pass Power BI's official theme schema (2.157).
+Every theme is a color palette plus a card shape, generated from one token file and checked against Power BI's official theme schema (2.157).
+Pick by where the report will be read:
+
+| Group | Theme | Card shape | Where it fits |
+|---|---|---|---|
+| Classic | **Navy** | soft | Board decks and presentations |
+| | **Paper** | soft | Light, document-like; prints and PDFs well |
+| | **Midnight** | soft, full dark | Wall screens, dim rooms, long monitoring |
+| Showcase | **Aurora** | bold: rounder, borderless, deeper shadow | Launches and first impressions |
+| | **Coast** | soft | Calm and fresh; operations, retail and service reviews |
+| Practical | **Ledger** | flat: square corners, hairlines, no shadow | Finance packs, month-end reviews, print |
+| | **Contrast** | flat, darker lines and text | Accessibility, projectors, bright rooms |
+
+Each series palette passes a color-vision check (adjacent series stay apart for protan, deutan and tritan viewers); the second color is gray on purpose, for last year.
+
 - **Languages**: English by default, Korean built in. UI text, field names, number units (M · K ↔ 만 · 억), takeaway sentences and even data values switch with the language.
   Add another language with one entry in [locales.json](design-system/i18n/locales.json) and one measures file.
 
@@ -137,7 +151,7 @@ An AI agent (Claude Code) creates and edits the files. I define the problem, set
 ```
 powerbi-autopilot/
 ├── templates/         Four pilots by purpose, shared measures (per language), glossary, pilot catalog
-├── design-system/     Principles, rubric, research notes, tokens → three themes, layout templates, locales, HTML prototypes
+├── design-system/     Principles, rubric, research notes, tokens → seven themes (palette × card shape), layout templates, locales, HTML prototypes
 ├── tools/             Generator (spec → PBIR), new-report starter, theme/layout builds, share images, token measurement
 ├── examples/          Shared synthetic data (Korean/English), example 03 (Modeling MCP), example 04 (first generator run)
 ├── research/          Public report collection and analysis scripts with results (originals are not redistributed)
@@ -171,7 +185,7 @@ when several people point at the same thing, the design rule changes. [How feedb
 This is a work in progress. I'll keep improving it and logging what I learn.
 
 - [x] Design tokens → themes, layout templates, spec → PBIR generator
-- [x] Four pilots · three themes · multiple languages
+- [x] Four pilots · seven themes (classic, showcase, practical) · multiple languages
 - [ ] Sparklines inside tables (SVG measures)
 - [ ] Real-data flow: Presto/Redshift query → model → pilot, including ODBC validation
 - [ ] Same request across three tools (Microsoft's official skill / a community skill / Modeling MCP), compared by tokens and rubric score

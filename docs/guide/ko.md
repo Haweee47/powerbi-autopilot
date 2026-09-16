@@ -42,7 +42,7 @@ python tools/quickstart.py --all --lang ko
 | 옵션 | 값 |
 |---|---|
 | `--purpose` | `dashboard`(대시보드) · `table`(지표 테이블) · `matrix`(행렬) · `deepdive`(딥다이브) |
-| `--theme` | `navy` · `paper` · `midnight` |
+| `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
 
 결과는 `out/` 폴더에 생기고 git은 이 폴더를 무시합니다. 필터·시각화·데이터 창을 접으면(») 페이지를 크게 볼 수 있습니다.
