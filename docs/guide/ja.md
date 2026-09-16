@@ -45,6 +45,15 @@ python tools/quickstart.py --all --lang ja
 | `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
 
+**自社のブランドカラー。** 1 色からテーマを作り、その id を `--theme` に指定します。青・ティール・紫系はデータの色にも使われ、
+赤・オレンジ・黄・緑系は左のナビゲーションと選択表示だけに使われます。レポートでは赤がすでに「目標未達」を表すためです。
+
+```bash
+python tools/brand_theme.py --id acme --accent "#0F62FE" --base navy
+python tools/build_themes.py
+python tools/quickstart.py --purpose dashboard --theme acme
+```
+
 結果は `out/` フォルダーに作られ、git の対象外です。フィルター・視覚化・データの各ウィンドウを折りたたむ（»）と、ページを大きく表示できます。
 
 ## 3. 言葉で頼んでレポートを作る（Claude Code）

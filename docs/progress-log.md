@@ -412,6 +412,18 @@ Microsoft's validator. The capture script had the old three theme names hard-cod
 The `new-report` skill can only show four options per question, so it now offers the recommended theme plus the three closest and
 names the rest.
 
+**A preset from a brand color.** Seven presets still don't include a company's own color, so `tools/brand_theme.py` makes one from a
+single hex value and a base preset. The rule that took thought is where the brand color may go. Blue, teal and violet brands (hue
+165–330°) become the data accent. Red, orange, yellow and green brands only tint the rail and the selected buttons: in these reports
+red already means "below target", and a green "up" next to a red "down" is the pair color-blind readers confuse most. Text on the
+brand color is darkened or lightened to at least 4.5:1.
+- Tried with a blue brand on Navy and a red brand on Paper, both 0 errors in the validator and checked in Desktop: the blue one
+  recolors the rail and the data, the red one only the rail and selections, and "Red = below target" still reads true.
+
+**A false pass in the capture script, again.** The red brand's first capture came out with every visual empty under a second yellow
+bar ("pending changes"), and the script still reported four pages captured. It now clicks each bar in turn and fails the report if one
+is still showing. Re-run on the Navy dashboard: all four pages 0.00% against the committed screenshots, so no new false alarm.
+
 ---
 
 ## 다음 계획

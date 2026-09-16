@@ -25,6 +25,10 @@ Layout, fonts and type sizes are shared, so a spec renders in any preset without
 **Adding a preset:** copy a theme block in `tokens.json`, pick a style, run the palette check below, add the preset to
 `templates/catalog.json` (with a `group`), rebuild, and capture a pilot with `tools/render_check.ps1 -Theme <preset>`.
 
+**From a brand color:** `tools/brand_theme.py --id <id> --accent "#RRGGBB" --base <preset>` writes the preset into the tokens and the catalog.
+Brands with a hue of 165–330° (blue, teal, violet) become the data accent; other hues only tint the rail and selections, so red keeps meaning
+"below target" and no red–green pair appears in the data. Text on the brand color is darkened or lightened to at least 4.5:1.
+
 **Series colors.** The first color is the accent (this year), the second is gray on purpose (last year), and the rest were ordered so that
 neighbors stay apart for color-blind viewers. Check a palette with the dataviz validator
 (`node validate_palette.js "<hex,…>" --mode light`): every check should pass except the chroma floor on the gray.

@@ -45,6 +45,15 @@ python tools/quickstart.py --all --lang ko
 | `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
 
+**Your brand color.** Make a preset from one color, then use its id as `--theme`. Blue, teal and violet brands also color the data;
+red, orange, yellow and green brands color only the navigation rail and selections, because red already means "below target".
+
+```bash
+python tools/brand_theme.py --id acme --accent "#0F62FE" --base navy
+python tools/build_themes.py
+python tools/quickstart.py --purpose dashboard --theme acme
+```
+
 Reports are written to `out/`, which git ignores. Collapse the Filters, Visualizations and Data panes (») to see the page at full size.
 
 ## 3. Build a report by asking (Claude Code)

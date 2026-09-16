@@ -45,6 +45,15 @@ python tools/quickstart.py --all --lang zh-CN
 | `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
 
+**公司品牌色。** 用一种颜色生成主题，再把它的 id 传给 `--theme`。蓝、青、紫色系也会用于数据颜色；
+红、橙、黄、绿色系只用于左侧导航栏和选中状态，因为报表中的红色已经表示“未达目标”。
+
+```bash
+python tools/brand_theme.py --id acme --accent "#0F62FE" --base navy
+python tools/build_themes.py
+python tools/quickstart.py --purpose dashboard --theme acme
+```
+
 结果保存在 `out/` 文件夹，git 会忽略它。折叠筛选器、可视化和数据窗格（»）可以看到完整大小的页面。
 
 ## 3. 用一句话生成报表（Claude Code）

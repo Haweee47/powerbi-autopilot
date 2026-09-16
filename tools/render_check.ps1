@@ -114,10 +114,13 @@ function Test-Report($exe, $dir) {
     return
   }
 
-  # First open has no data yet: the yellow bar's first button refreshes (class 'action-button' in every language)
+  # First open has no data yet: the yellow bar's first button refreshes (class 'action-button' in every language).
+  # Sometimes a second bar follows ("pending changes" → Apply changes), and pages captured under it are empty, so click
+  # each bar in turn and fail the report if one is still there.
   Start-Sleep -Seconds 5
-  $refresh = Find-Type $win $CT::Button | Where-Object { $_.Current.ClassName -match '^action-button' } | Select-Object -First 1
-  if ($refresh) {
+  for ($round = 0; $round -lt 3; $round++) {
+    $refresh = Find-Type $win $CT::Button | Where-Object { $_.Current.ClassName -match '^action-button' } | Select-Object -First 1
+    if (-not $refresh) { break }
     $label = $refresh.Current.Name
     Invoke-Element $refresh
     $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
@@ -125,6 +128,10 @@ function Test-Report($exe, $dir) {
       $still = Find-Type $win $CT::Button | Where-Object { $_.Current.ClassName -match '^action-button' -and $_.Current.Name -eq $label }
     } while ($still -and (Get-Date) -lt $deadline)
     Start-Sleep -Seconds 15
+  }
+  if (Find-Type $win $CT::Button | Where-Object { $_.Current.ClassName -match '^action-button' }) {
+    Write-Warning "$name still shows a refresh or apply-changes bar: its pages may be empty"
+    $script:failed += $name
   }
 
   # Report view = the top tab of the left rail; page tabs carry 'thumbnail-container'

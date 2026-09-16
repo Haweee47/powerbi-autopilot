@@ -45,6 +45,15 @@ python tools/quickstart.py --all --lang ko
 | `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
 
+**회사 브랜드 색.** 색 하나로 테마를 만들고 그 id를 `--theme`에 넣습니다. 파랑·청록·보라 계열은 데이터 색까지 바뀌고,
+빨강·주황·노랑·초록 계열은 왼쪽 레일과 선택 표시에만 쓰입니다. 리포트에서 빨강은 이미 "목표 미달"을 뜻하기 때문입니다.
+
+```bash
+python tools/brand_theme.py --id acme --accent "#0F62FE" --base navy
+python tools/build_themes.py
+python tools/quickstart.py --purpose dashboard --theme acme
+```
+
 결과는 `out/` 폴더에 생기고 git은 이 폴더를 무시합니다. 필터·시각화·데이터 창을 접으면(») 페이지를 크게 볼 수 있습니다.
 
 ## 3. 말로 요청해 리포트 만들기 (Claude Code)

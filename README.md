@@ -89,6 +89,8 @@ Pick by where the report will be read:
 
 Each series palette passes a color-vision check (adjacent series stay apart for protan, deutan and tritan viewers); the second color is gray on purpose, for last year.
 
+**Your brand color:** `python tools/brand_theme.py --id acme --accent "#0F62FE" --base navy` makes an eighth preset from one color. Blue, teal and violet brands also color the data; red, orange, yellow and green brands color only the rail and selections, because red already means "below target" ([guide](docs/guide/en.md)).
+
 - **Languages**: English by default, Korean built in. UI text, field names, number units (M · K ↔ 만 · 억), takeaway sentences and even data values switch with the language.
   Add another language with one entry in [locales.json](design-system/i18n/locales.json) and one measures file.
 

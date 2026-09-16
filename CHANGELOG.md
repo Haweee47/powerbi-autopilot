@@ -9,6 +9,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 - Four more themes, seven in all, in three groups: classic (Navy, Paper, Midnight), showcase (Aurora, Coast) and practical
   (Ledger, Contrast). A theme is now a color palette plus a card shape (`soft`, `bold`, `flat`), so shape changes without touching
   layouts or specs. Every series palette passes the color-vision check; Navy, Paper and Midnight render exactly as before
+- `tools/brand_theme.py`: a preset from one brand color. Blue, teal and violet brands also become the data accent; other hues only
+  tint the rail and selections, so red keeps meaning "below target"
 - `docs/cost-per-report.md`: two reports built end to end and priced. About $0.6–4 per report on Claude Opus 5 API pricing,
   2–10 minutes from the request to every page captured in Desktop
 
@@ -17,6 +19,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 - `render_check.ps1 -Theme` accepts any preset in the tokens file; the `new-report` skill offers four themes at a time and names the rest
 
 ### Fixed
+- `render_check.ps1` clicks a second bar ("pending changes") after the refresh and fails a report when a bar is still showing;
+  a capture under that bar came out empty but was reported as captured
 - `new_report.py` listed names a measure creates inside its own DAX (`SalesV` in the sparkline) as missing measures, which left a
   model-map blank no value could fill. It now shares the generator's rule
 

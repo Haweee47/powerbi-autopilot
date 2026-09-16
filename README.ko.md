@@ -88,6 +88,8 @@ powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                
 
 계열 색은 모두 색각 이상 검사를 통과한다(적·녹·청색맹에서도 이웃 계열이 구분된다). 두 번째 색은 작년 값을 위해 일부러 회색이다.
 
+**회사 브랜드 색:** `python tools/brand_theme.py --id acme --accent "#0F62FE" --base navy`로 색 하나에서 테마를 더 만든다. 파랑·청록·보라 계열은 데이터 색까지, 빨강·주황·노랑·초록 계열은 레일과 선택 표시에만 쓴다. 리포트에서 빨강은 이미 "목표 미달"이기 때문이다([안내서](docs/guide/ko.md)).
+
 - **언어**: 기본 영어, 한국어 내장. 화면 글자·필드 이름·숫자 단위(M·K ↔ 만·억)·결론 문장·데이터 값까지 언어별로 바뀐다.
   다른 언어는 [locales.json](design-system/i18n/locales.json) 한 줄과 측정값 파일 하나로 더한다.
 
