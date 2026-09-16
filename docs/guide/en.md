@@ -80,7 +80,7 @@ generates the PBIP and validates it. The procedure it follows is in [`.claude/sk
    doesn't have (measures used inside its DAX too) and writes a `model-map.json` with the reference definitions as hints.
    The agent fills in that map with your column names and your DAX. Worked example: [example 05](../../examples/05-own-model/README.md).
 
-Your data connection (SQL Server, files, ODBC …) is copied with the model and stays on your PC.
+Your data connection (SQL Server, ODBC, SharePoint Online, files …) is copied with the model as it is and stays on your PC; no credentials are written to the files.
 **ODBC.** Save the ODBC report as PBIP as above; the connection and SQL are copied as they are, and no password is written to the files. The first refresh asks how to sign in (Default or Custom, Windows, or Database); Desktop remembers the choice. Checked on a local ODBC driver in [example 06](../../examples/06-odbc/README.md); a live warehouse (Presto, Redshift …) hasn't been tested yet.
 
 Keep real data out of commits and issues. `out/` is ignored by git; a report you build under `examples/` is not.
