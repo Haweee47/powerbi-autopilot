@@ -49,6 +49,8 @@ empty values plus `_hints` with the reference definition, the English name, wher
 - Rewrite headline sentences (`measures` → `Headline …`) for the new subject. Keep the "item + number" pattern so no grammar depends on the value.
 - Change titles and subtitles. Keep one language unless the user wants several (`{"en": …, "ko": …}`).
 - Number units live in `templates/_shared/measures.<lang>.json`; don't hard-code units in titles.
+- A short list in a small card ("weakest stores"): keep `"top": N` next to `"sort"` so only the rows that fit are shown.
+- Keep rail text short (brand name and subtitle about 25 Latin or 12 CJK characters). The generator warns when a line may wrap.
 - Layout, colors, fonts and visual formatting: don't touch. If something truly needs a new layout, add it to `design-system/layouts/layouts.json` and run `python tools/build_layouts.py`.
 
 ## 4. Build and check

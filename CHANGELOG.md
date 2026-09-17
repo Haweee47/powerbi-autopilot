@@ -6,6 +6,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 ## [Unreleased]
 
 ### Added
+- Table specs take `"top": N`: a Top N visual filter by the table's sort measure, in the shape Desktop saves. The dashboard's
+  "weakest stores" card now shows the three weakest instead of a scrolling list, and the watch list the five weakest
+- The generator warns when rail text (report name, subtitle) is likely to wrap and be cut off
 - Example 06: example 05's dashboard on the same model read through ODBC (the Access Text driver that comes with Office).
   The report builds and validates unchanged, and totals queried through the driver match the CSVs. The Desktop capture waits for the
   one-time sign-in choice; guides in four languages describe the ODBC flow
@@ -18,6 +21,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
   2–10 minutes from the request to every page captured in Desktop
 
 ### Changed
+- A report with one visible page leaves out the page selector and moves the rail slicers up
 - The README opens with the page-by-page GIF of the four pilots
 - `render_check.ps1 -Theme` accepts any preset in the tokens file; the `new-report` skill offers four themes at a time and names the rest
 

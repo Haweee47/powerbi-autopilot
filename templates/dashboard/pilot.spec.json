@@ -44,8 +44,8 @@
                    "title": { "en": "Monthly sales", "ko": "월별 매출" }, "sub": { "en": "This year · last year · target (dashed)", "ko": "만 원 · 올해 · 작년 · 목표(점선)" } },
         "category": { "x": "카테고리.카테고리", "y": ["Target Gap Disp"], "sort": "desc", "color": "Target Gap Bar Color",
                       "title": { "en": "Sales vs target by category", "ko": "카테고리별 목표 대비" }, "sub": { "en": "Red = below target", "ko": "만 원 · 빨강은 목표 미달" } },
-        "stores": { "columns": ["매장.매장명", "Sales Disp", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"], "format": { "전년 대비 증감률": "sign" }, "totals": false,
-                    "title": { "en": "Stores with the weakest YoY", "ko": "전년 대비가 낮은 매장" }, "sub": { "en": "Right-click a row → Drill through → Store detail", "ko": "행을 오른쪽 클릭 → 드릴스루 → 매장 상세" } },
+        "stores": { "columns": ["매장.매장명", "Sales Disp", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"], "top": 3, "format": { "전년 대비 증감률": "sign" }, "totals": false,
+                    "title": { "en": "Three weakest stores (YoY)", "ko": "전년 대비 하위 3개 매장" }, "sub": { "en": "Right-click a row → Drill through → Store detail", "ko": "행을 오른쪽 클릭 → 드릴스루 → 매장 상세" } },
         "region": { "x": "매장.권역", "y": ["Sales Big"], "sort": "desc", "title": { "en": "Sales by region", "ko": "권역별 매출" } }
       }
     },
@@ -70,8 +70,8 @@
         "headline": { "measure": "Headline Stores" },
         "scatter": { "point": "매장.매장명", "x": "Sales Disp", "y": "전년 대비 증감률", "color": "YoY Bar Color", "zero": true,
                      "title": { "en": "Store size vs growth", "ko": "매장 규모와 성장률" }, "sub": { "en": "x = sales · y = YoY · right-click a dot to drill through", "ko": "가로 매출(만 원) · 세로 전년 대비 · 점을 오른쪽 클릭 → 드릴스루" } },
-        "watch": { "columns": ["매장.매장명", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"], "format": { "전년 대비 증감률": "sign" }, "totals": false,
-                   "title": { "en": "Watch list", "ko": "주의 매장" }, "sub": { "en": "Lowest YoY first", "ko": "전년 대비 낮은 순" } },
+        "watch": { "columns": ["매장.매장명", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"], "top": 5, "format": { "전년 대비 증감률": "sign" }, "totals": false,
+                   "title": { "en": "Watch list", "ko": "주의 매장" }, "sub": { "en": "Five lowest YoY", "ko": "전년 대비 하위 5개" } },
         "rank": { "columns": ["매장.매장명", "매장.권역", "매장.채널", "Sales Disp", "Sales Trend", "이익률", "AOV Disp", "전년 대비 증감률"], "sort": ["전년 대비 증감률", "asc"],
                   "format": { "Sales Disp": "bar", "전년 대비 증감률": "sign" }, "title": { "en": "All stores", "ko": "전체 매장 순위" } }
       }

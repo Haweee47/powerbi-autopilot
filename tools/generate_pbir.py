@@ -28,6 +28,7 @@ import json
 import re
 import shutil
 import sys
+import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -51,6 +52,7 @@ S_PLATFORM = f"{SCHEMA}/gitIntegration/platformProperties/2.0.0/schema.json"
 UNIT_SUFFIX = re.compile(r"\s*\((만|억)\)$")  # 용어집이 없을 때만: '매출 (만)' → '매출'
 AUTO_ROLES = ("pageNavigator", "shape")       # 명세에 없어도 레이아웃에 있으면 자동으로 놓는다 (페이지 선택기, 레일 바탕)
 BAR_FAMILY = ("barChart", "columnChart")
+RAIL_WARNED: set[str] = set()  # rail lines already reported (the rail repeats on every page)
 EACH_POINT = {"data": [{"dataViewWildcard": {"matchingOption": 1}}]}
 
 
@@ -329,6 +331,11 @@ def container(name: str, region: dict, z: int, visual: dict, title: str | None =
     v = {"$schema": S_VISUAL, "name": name,
          "position": {"x": region["x"], "y": region["y"], "z": z, "height": region["height"], "width": region["width"], "tabOrder": z},
          "visual": visual}
+    filters = visual.pop("_filters", None)  # visual-level filters sit next to "visual", not inside it
+    if filters:
+        for f in filters:  # filter names must be unique across the whole report, so mix in the visual's id
+            f["name"] = hid(name, f["name"])
+        v["filterConfig"] = {"filters": filters}
     vco = visual.setdefault("visualContainerObjects", {})
     if title:
         vco["title"] = [{"properties": {"text": lit(title)}}]
@@ -341,6 +348,36 @@ def container(name: str, region: dict, z: int, visual: dict, title: str | None =
 
 def sort_def(resolve, ref: str, direction: str) -> dict:
     return {"sort": [{"field": resolve(ref)[0], "direction": "Ascending" if direction.startswith("asc") else "Descending"}], "isDefaultSort": False}
+
+
+def top_filter(resolve, name: str, field: str, by: str, direction: str, n: int) -> dict:
+    """A Top N visual filter: keep the n rows of `field` that come first when sorted by the measure `by`.
+    Same shape Desktop saves (checked against a public PBIR report); Direction 1 = ascending (bottom n), 2 = descending."""
+    fexpr, mexpr = resolve(field)[0], resolve(by)[0]
+    ftable, fcol = fexpr["Column"]["Expression"]["SourceRef"]["Entity"], fexpr["Column"]["Property"]
+    mtable, mname = mexpr["Measure"]["Expression"]["SourceRef"]["Entity"], mexpr["Measure"]["Property"]
+    msrc = "c" if mtable == ftable else "m"
+    col = {"Column": {"Expression": {"SourceRef": {"Source": "c"}}, "Property": fcol}}
+    sub = {"Version": 2,
+           "From": [{"Name": "c", "Entity": ftable, "Type": 0}] + ([{"Name": "m", "Entity": mtable, "Type": 0}] if msrc == "m" else []),
+           "Select": [{**col, "Name": "field"}],
+           "OrderBy": [{"Direction": 1 if direction.startswith("asc") else 2,
+                        "Expression": {"Measure": {"Expression": {"SourceRef": {"Source": msrc}}, "Property": mname}}}],
+           "Top": n}
+    return {"name": name, "field": fexpr, "type": "TopN",
+            "filter": {"Version": 2,
+                       "From": [{"Name": "subquery", "Expression": {"Subquery": {"Query": sub}}, "Type": 2},
+                                {"Name": "c", "Entity": ftable, "Type": 0}],
+                       "Where": [{"Condition": {"In": {"Expressions": [col], "Table": {"SourceRef": {"Source": "subquery"}}}}}]},
+            "howCreated": "User"}
+
+
+def text_px(text: str, pt_size: float, bold: bool = False) -> float:
+    """Rough rendered width in px: full-width (Hangul, kana, Han) glyphs about 0.92 em in the UI fonts, Latin about half (Segoe UI).
+    Calibrated on Desktop captures: a 160px rail fits "Dashboard · sample data" and "경영진 대시보드 · 가상 데이터" but not
+    "Executive dashboard · sample data"."""
+    em = pt_size * 4 / 3
+    return sum(em * (0.92 if unicodedata.east_asian_width(ch) in "WF" else (0.56 if bold else 0.5)) for ch in text)
 
 
 def paragraph(text: str, font: str, size: int, fg: str) -> dict:
@@ -387,6 +424,13 @@ def build_visual(role: str, spec: dict, x: Ctx, region: dict) -> dict:
         runs = [paragraph(t(spec["text"]), f["semibold"] if strong else f["family"], size, strong_c if strong else soft_c)]
         if spec.get("sub"):
             runs.append(paragraph(t(spec["sub"]), f["family"], pt["caption"] if on_rail else pt["body"], soft_c))
+        if on_rail:  # the rail is narrow: a line that wraps pushes the next one out of its box (run B, 2026-09-16)
+            lines = [(t(spec["text"]), size, strong)] + ([(t(spec["sub"]), pt["caption"], False)] if spec.get("sub") else [])
+            for text, pts, bold in lines:
+                if text_px(text, pts, bold) > region["width"] * 1.05 and text not in RAIL_WARNED:  # 5%: the estimate is rough
+                    RAIL_WARNED.add(text)
+                    print(f"! rail text may wrap and be cut off ({region['id']}): {text!r} "
+                          f"is about {text_px(text, pts, bold):.0f}px in a {region['width']}px rail. Shorten it.")
         # 테마에서도 여백 0이지만, 공식 검증은 비주얼 파일만 보고 기본 8px로 계산해 경고한다 → 여기서도 명시
         return {"visualType": "textbox", "objects": {"general": [{"properties": {"paragraphs": runs}}]},
                 "visualContainerObjects": {"padding": zero_padding()}}
@@ -503,6 +547,12 @@ def build_visual(role: str, spec: dict, x: Ctx, region: dict) -> dict:
         if spec.get("sort"):
             q["sortDefinition"] = sort_def(x.resolve, spec["sort"][0], spec["sort"][1])
         v, objs = {"visualType": "tableEx", "query": q}, cell_formats(spec, x)
+        if spec.get("top"):  # show only the rows that fit ("the 3 weakest stores") instead of a scrolling list
+            if not spec.get("sort"):
+                x.resolve.errors.append(f"{region['id']}: 'top' needs 'sort' (the measure and direction to rank by)")
+            else:
+                first = spec["columns"][0]
+                v["_filters"] = [top_filter(x.resolve, hid(first, spec["sort"][0], "top"), first, spec["sort"][0], spec["sort"][1], int(spec["top"]))]
         if spec.get("totals") is False:  # 주의 목록처럼 합계가 의미 없는 표: 한 줄이라도 더 보이게
             objs["total"] = [{"properties": {"totals": lit(False)}}]
         else:  # 합계 줄 이름은 Desktop 표시 언어를 따라가서("합계") 리포트 언어로 고정한다
@@ -637,6 +687,7 @@ def main() -> None:
 
     # 1) 페이지·비주얼을 메모리에서 먼저 만든다 (필드 오류가 있으면 아무것도 쓰지 않는다)
     pages = []
+    single_page = sum(1 for p in spec["pages"] if not p.get("hidden")) == 1
     for page in spec["pages"]:
         lay = layouts[page["layout"]]
         page_key = page.get("id") or page["layout"]  # 같은 레이아웃을 두 번 쓰면 id로 구분
@@ -646,6 +697,13 @@ def main() -> None:
         regions = {r["id"]: r for r in lay["regions"]}
         shared = {k: v for k, v in spec.get("shared", {}).items() if k in regions}  # 레일의 이름·기준일·슬라이서: 명세에 한 번만
         wanted = {**{r["id"]: {} for r in lay["regions"] if r["role"] in AUTO_ROLES}, **shared, **page["visuals"]}
+        if single_page:  # one visible page: a page selector with one tab is noise, so drop it and lift the slicers below it
+            nav = next((r for r in lay["regions"] if r["role"] == "pageNavigator"), None)
+            if nav:
+                wanted.pop(nav["id"], None)
+                lift = nav["height"] + 24
+                regions = {k: ({**r, "y": r["y"] - lift} if r.get("zone") == "rail" and nav["y"] < r["y"] < 600 else r)
+                           for k, r in regions.items()}
         for rid in [k for k in wanted if k not in regions]:
             resolve.errors.append(f"{page['layout']}: 레이아웃에 없는 영역 {rid}")
             del wanted[rid]

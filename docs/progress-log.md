@@ -447,6 +447,30 @@ and I didn't want to push further on a sign-in step. So the Desktop capture of e
 **Not done yet.** A live warehouse (Presto, Redshift): SQL dialects differ, and the agent is told to leave SQL alone and map renamed
 columns instead. The flow and the sign-in choice are written into the guides in four languages.
 
+## 2026-09-17 · Every new theme on every pilot, and three layout fixes
+
+**All 44 pages looked at.** Yesterday the four new themes were only checked on the dashboard. Today the measure table, matrix and
+deep dive went through Desktop in each of them: 44 pages, nothing clipped, heatmaps, bars and sparklines follow each palette.
+One thing that isn't a theme issue: the rail's dropdown slicers say "모두" in an English report, because that placeholder follows
+the Desktop display language, not the report's. The batch stopped halfway when the session ended; the capture log showed 8 of 12
+reports done, so it resumed from there.
+
+**Three fixes from looking at the captures.**
+- *A short list that scrolled.* The summary's "weakest stores" card showed three rows and a scrollbar. Table specs now take
+  `"top": N`, a Top N visual filter by the table's sort measure. I didn't write the filter from memory: the first public report I
+  found saved one without a body, the second had the full shape Desktop writes, and the generator copies that. The validator then
+  flagged two filters with the same name across the report (both tables rank stores by YoY), so names now include the visual id.
+  The card shows the three weakest stores and the watch list the five weakest, without scrollbars; against the old captures the
+  pages changed 0.07% and 0.05%, the titles and the scrollbars.
+- *One page, one lonely tab.* A report with a single visible page no longer gets a page selector, and the rail slicers move up
+  into its place. Checked on yesterday's one-page cost run, before and after.
+- *Rail text that wraps.* The generator estimates the width of the report name and subtitle and warns when a line won't fit the
+  160 px rail. My first estimate flagged a Korean subtitle that fits on screen, so full-width glyphs now count 0.92 em and the
+  check allows 5%: yesterday's "Executive dashboard · sample data" (about 198 px) still warns, the Korean one no longer does.
+
+The theme comparison images of the other six themes still show the old table title; the difference is a few pixels at that size,
+so I didn't re-capture them.
+
 ---
 
 ## 다음 계획
