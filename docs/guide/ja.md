@@ -41,9 +41,10 @@ python tools/quickstart.py --all --lang ja
 
 | オプション | 値 |
 |---|---|
-| `--purpose` | `dashboard`（ダッシュボード）· `table`（指標テーブル）· `matrix`（マトリックス）· `deepdive`（深掘り分析） |
+| `--purpose` | `dashboard`（ダッシュボード）· `table`（指標テーブル）· `matrix`（マトリックス）· `deepdive`（深掘り分析）· `fulfillment`（物流センター運用） |
 | `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
+| `--frame` | `rail`（左のナビゲーション）· `top`（上部のバー、本文は全幅） |
 
 **自社のブランドカラー。** 1 色からテーマを作り、その id を `--theme` に指定します。青・ティール・紫系はデータの色にも使われ、
 赤・オレンジ・黄・緑系は左のナビゲーションと選択表示だけに使われます。レポートでは赤がすでに「目標未達」を表すためです。

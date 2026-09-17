@@ -81,6 +81,7 @@ def main() -> None:
     ap.add_argument("--purpose", required=True, choices=[p["id"] for p in cat["purposes"]])
     ap.add_argument("--theme", default="navy", choices=[t["id"] for t in cat["themes"]])
     ap.add_argument("--lang", default=loc["default"])
+    ap.add_argument("--frame", default="rail", choices=[f["id"] for f in cat["frames"]], help="page layout: left rail or top bar")
     ap.add_argument("--name", required=True)
     ap.add_argument("--model", help="target model TMDL folder (default: the pilot's reference model)")
     ap.add_argument("--out", help="folder for the new spec (default examples/<name>)")
@@ -96,6 +97,8 @@ def main() -> None:
 
     spec = keep_lang(spec, a.lang, set(loc["locales"]), loc["fallback"])
     spec.update({"name": a.name, "theme": a.theme, "lang": a.lang})
+    if a.frame != "rail":
+        spec["frame"] = a.frame
     spec["$comment"] = f"{purpose['id']} pilot → {a.name} ({a.lang}, {a.theme}). Change only what the tool listed as missing, sentences and titles."
     ref_model = (pilot_dir / spec["model"]).resolve()
     model_dir = Path(a.model).resolve() if a.model else ref_model

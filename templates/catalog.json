@@ -36,7 +36,8 @@
       "visuals": ["decompositionTreeVisual", "scatterChart", "barChart", "tableEx", "slicer (dropdown)"],
       "pilot": "deepdive/pilot.spec.json",
       "screenshots": "deepdive/screenshots"
-    }
+    },
+    { "id": "fulfillment", "domain": "operations", "name": { "en": "Fulfillment ops", "ko": "풀필먼트 운영" }, "when": { "en": "Warehouse and fulfillment-center operations: outbound first, then productivity (UPH vs standard) and its drivers, inbound and inventory", "ko": "물류·풀필먼트센터 운영: 출고 우선, 생산성(UPH·표준 대비)과 원인, 입고·재고" }, "pages": { "en": "Outbound · Lost hours · By hour · Teams · Inbound · Team detail (drillthrough)", "ko": "출고 · 손실 시간 · 시간대 · 팀 · 입고·재고 · 팀 상세(드릴스루)" }, "visuals": ["cardVisual", "lineChart", "barChart", "columnChart", "tableEx", "pivotTable", "scatterChart", "decompositionTreeVisual", "slicer (dropdown)"], "pilot": "fulfillment/pilot.spec.json", "screenshots": "fulfillment/screenshots" }
   ],
   "themes": [
     { "id": "navy", "group": "classic", "name": { "en": "Navy", "ko": "네이비" }, "when": { "en": "Dark navy rail, white cards. Board decks and presentations", "ko": "어두운 네이비 레일 + 흰 카드. 경영진 보고·발표" } },
@@ -46,6 +47,10 @@
     { "id": "coast", "group": "showcase", "name": { "en": "Coast", "ko": "코스트" }, "when": { "en": "Deep teal rail, white cards. Calm and fresh; operations, retail and service reviews", "ko": "짙은 청록 레일 + 흰 카드. 차분하고 산뜻함, 운영·매장·서비스 리뷰" } },
     { "id": "ledger", "group": "practical", "name": { "en": "Ledger", "ko": "레저" }, "when": { "en": "White page, square corners, hairlines, no shadows. Finance packs, month-end reviews, print", "ko": "흰 바탕 + 각진 모서리 + 가는 선, 그림자 없음. 재무 보고·월말 리뷰·인쇄" } },
     { "id": "contrast", "group": "practical", "name": { "en": "Contrast", "ko": "고대비" }, "when": { "en": "Black rail, darker lines and text, colorblind-safe series. Accessibility, projectors, bright rooms", "ko": "검은 레일 + 진한 선·글자, 색각 이상 안전 색. 접근성·프로젝터·밝은 회의실" } }
+  ],
+  "frames": [
+    { "id": "rail", "name": { "en": "Left rail", "ko": "왼쪽 레일" }, "when": { "en": "Navigation and filters in a dark rail on the left. App-like; the default", "ko": "왼쪽 레일에 페이지·필터. 앱 같은 기본 배치" } },
+    { "id": "top", "name": { "en": "Top bar", "ko": "상단 메뉴" }, "when": { "en": "Page tabs and filters in a bar across the top; the body gets the full width. Wide tables, wall screens", "ko": "위쪽 막대에 페이지 탭·필터, 본문은 전체 폭. 넓은 표·관제 화면" } }
   ],
   "languages": "design-system/i18n/locales.json"
 }

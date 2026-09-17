@@ -304,6 +304,7 @@ class Ctx:
 
     def __init__(self, resolve: FieldResolver, t: Lang, glossary: dict, tokens: dict, palette: dict, ui: dict):
         self.resolve, self.t, self.glossary, self.tokens, self.c, self.ui = resolve, t, glossary, tokens, palette, ui
+        self.visible_pages = 0
 
     def label(self, ref: str) -> str | None:
         """화면 이름: 용어집 → (없으면) 단위 꼬리 떼기 → 없음."""
@@ -380,6 +381,31 @@ def text_px(text: str, pt_size: float, bold: bool = False) -> float:
     return sum(em * (0.92 if unicodedata.east_asian_width(ch) in "WF" else (0.56 if bold else 0.5)) for ch in text)
 
 
+SLICER_ROLES = ("advancedSlicerVisual", "dropdownSlicer")
+
+
+def pack_bar(regions: list[dict], used: set[str], canvas_w: int = 1280, margin: int = 24, gap: int = 16, unit: int = 8) -> tuple[dict, int]:
+    """Top bar: right-align only the slicers this page uses (and their labels); return their boxes and the width left for tabs."""
+    by_id = {r["id"]: r for r in regions}
+    labels = {r["labelFor"]: r for r in regions if r.get("labelFor")}
+    slicers = sorted((r for r in regions if r.get("bar") and r["role"] in SLICER_ROLES and r["id"] in used), key=lambda r: r["x"])
+    boxes, x = {}, canvas_w - margin
+    for r in reversed(slicers):
+        x -= r["width"]
+        boxes[r["id"]] = {**r, "x": x}
+        if r["id"] in labels:
+            lab = labels[r["id"]]
+            x -= lab["width"] + unit
+            boxes[lab["id"]] = {**lab, "x": x}
+        x -= gap
+    nav = next((r for r in regions if r.get("bar") and r["role"] == "pageNavigator"), None)
+    nav_w = (x - nav["x"]) // unit * unit if nav else 0
+    for r in regions:  # a label whose dropdown isn't used goes away with it
+        if r.get("labelFor") and r["labelFor"] not in used:
+            boxes[r["id"]] = None
+    return boxes, nav_w
+
+
 def paragraph(text: str, font: str, size: int, fg: str) -> dict:
     return {"textRuns": [{"value": text, "textStyle": {"fontFamily": font, "fontSize": f"{size}pt", "color": fg}}], "horizontalTextAlignment": "left"}
 
@@ -452,6 +478,13 @@ def build_visual(role: str, spec: dict, x: Ctx, region: dict) -> dict:
                                                       "horizontalAlignment": lit("left" if head else "right")}, "selector": {"id": "default"}}]},
                 "visualContainerObjects": {**hide("background", "border", "dropShadow", "title"), "padding": zero_padding()}}
     if role == "pageNavigator":
+        if region.get("bar"):  # top-bar frame: tabs side by side, the selected one underlined
+            return {"visualType": "pageNavigator", "objects": {
+                # grid layout, one row: tabs share the width equally (horizontal orientation sizes them to their text)
+                "layout": [{"properties": {"orientation": lit(2), "rowCount": lit_int(1), "columnCount": lit_int(max(x.visible_pages, 1))}}],
+                "accentBar": [{"properties": {"position": lit("Bottom")}, "selector": {"id": "selected"}}],
+                "text": [{"properties": {"horizontalAlignment": lit("center"), "leftMargin": lit_int(0),
+                                         "fontSize": lit(x.tokens["type"]["pt"]["caption"])}, "selector": {"id": "default"}}]}}
         return {"visualType": "pageNavigator"}
     if role == "actionButton":
         # 켜고 끄기(show)는 선택자 없는 항목에, 글자 내용은 상태(default) 항목에 — 공개 PBIR의 뒤로 버튼과 같은 형식
@@ -478,12 +511,14 @@ def build_visual(role: str, spec: dict, x: Ctx, region: dict) -> dict:
             objs["selection"] = [{"properties": {"singleSelect": lit(True)}}]
         v["objects"] = objs
         # 레일 위에서는 바탕을 비우고 바깥 여백을 없앤다. 테마의 background·padding은 버튼 상태 서식과 이름이 겹쳐 여기서 지정
-        v["visualContainerObjects"] = {**hide("background", "border", "dropShadow"), "padding": zero_padding()}
+        v["visualContainerObjects"] = {**hide("background", "border", "dropShadow", *(("title",) if region.get("bar") else ())),
+                                       "padding": zero_padding()}
         return v
     if role == "dropdownSlicer":  # 값이 많은 필드용 드롭다운 (레일 색은 테마 slicer 서식)
         return {"visualType": "slicer", "query": {"queryState": {"Values": {"projections": [x.proj(spec["field"])]}}},
                 "objects": {"data": [{"properties": {"mode": lit("Dropdown")}}], "header": [{"properties": {"show": lit(False)}}]},
-                "visualContainerObjects": {**hide("background", "border", "dropShadow"), "padding": zero_padding()}}
+                "visualContainerObjects": {**hide("background", "border", "dropShadow", *(("title",) if region.get("bar") else ())),
+                                           "padding": zero_padding()}}
     if role == "cardVisual":
         p = x.proj(spec["measure"], spec.get("label"))
         # 지표 이름은 카드 안 라벨이 아니라 컨테이너 제목으로 둔다. 비교 문구가 있으면 카드 안쪽 배치가 라벨 줄을 눌러
@@ -573,6 +608,8 @@ def build_visual(role: str, spec: dict, x: Ctx, region: dict) -> dict:
         objs = cell_formats(spec, x)
         # 합계 이름을 리포트 언어로 (행렬은 total에 이름 속성이 없고 subTotals에 있다)
         objs["subTotals"] = [{"properties": {"rowSubtotalsLabel": lit(x.ui["total"]), "columnSubtotalsLabel": lit(x.ui["total"])}}]
+        if spec.get("columnTotals") is False:  # many columns (hours of the day): the total column pushes the last hours out of view
+            objs["subTotals"][0]["properties"]["columnSubtotals"] = lit(False)
         v["objects"] = objs
         if expand and len(rows) > 1:  # 모든 행 수준을 펼친 채로 연다 (Desktop의 "모두 확장"과 같은 저장 형식)
             v["expansionStates"] = [{"roles": ["Rows"], "levels": [{"queryRefs": [x.resolve(r)[1]], "isCollapsed": False, "isPinned": True}
@@ -608,6 +645,7 @@ def main() -> None:
     ap.add_argument("--theme")
     ap.add_argument("--local-data", action="store_true")
     ap.add_argument("--out")
+    ap.add_argument("--frame", help="rail (left navigation rail, default) or top (a bar across the top)")
     args = ap.parse_args()
     spec_path = Path(args.spec).resolve()
     spec = load_json(spec_path)
@@ -615,7 +653,11 @@ def main() -> None:
     out = Path(args.out).resolve() if args.out else base
     name = spec["name"]
     tmdl = (base / spec["model"]).resolve()
-    layouts = {p["id"]: p for p in load_json(LAYOUTS)["pages"]}
+    frame = args.frame or spec.get("frame", "rail")
+    resolved = load_json(LAYOUTS)
+    if frame not in resolved.get("frames", {}):
+        sys.exit(f"frame not found: {frame} (available: {', '.join(resolved.get('frames', {}))})")
+    layouts = {p["id"]: p for p in resolved["frames"][frame]}
     tokens, loc = load_json(TOKENS), load_json(LOCALES)
     lang_code = args.lang or spec.get("lang") or loc["default"]
     theme_id = args.theme or spec.get("theme", "navy")
@@ -687,7 +729,15 @@ def main() -> None:
 
     # 1) 페이지·비주얼을 메모리에서 먼저 만든다 (필드 오류가 있으면 아무것도 쓰지 않는다)
     pages = []
-    single_page = sum(1 for p in spec["pages"] if not p.get("hidden")) == 1
+    x.visible_pages = sum(1 for p in spec["pages"] if not p.get("hidden"))
+    single_page = x.visible_pages == 1
+
+    def used_slicers(page: dict) -> set[str]:
+        ids = {r["id"] for r in layouts[page["layout"]]["regions"]}
+        return {k for k in list(spec.get("shared", {})) + list(page["visuals"]) if k in ids}
+
+    # top bar: tabs keep one width across the report (the narrowest page decides), so they don't jump between pages
+    bar_nav_w = min((pack_bar(layouts[p["layout"]]["regions"], used_slicers(p))[1] for p in spec["pages"]), default=0)         if frame == "top" else 0
     for page in spec["pages"]:
         lay = layouts[page["layout"]]
         page_key = page.get("id") or page["layout"]  # 같은 레이아웃을 두 번 쓰면 id로 구분
@@ -697,13 +747,30 @@ def main() -> None:
         regions = {r["id"]: r for r in lay["regions"]}
         shared = {k: v for k, v in spec.get("shared", {}).items() if k in regions}  # 레일의 이름·기준일·슬라이서: 명세에 한 번만
         wanted = {**{r["id"]: {} for r in lay["regions"] if r["role"] in AUTO_ROLES}, **shared, **page["visuals"]}
+        if frame == "top" and "asof" in spec.get("shared", {}) and "brand" in wanted:  # no rail foot: the date goes under the name
+            wanted["brand"] = {**wanted["brand"], "sub": spec["shared"]["asof"]["text"]}
+        if frame == "top":
+            boxes, _ = pack_bar(lay["regions"], used_slicers(page))
+            regions = {k: boxes.get(k, r) for k, r in regions.items() if boxes.get(k, r) is not None}
+            regions = {k: ({**r, "width": bar_nav_w} if r.get("bar") and r["role"] == "pageNavigator" else r) for k, r in regions.items()}
+        elif x.visible_pages > 4:  # rail: a taller page selector, and the slicers under it move down
+            nav = next((r for r in lay["regions"] if r["role"] == "pageNavigator"), None)
+            if nav:
+                grow = -(-34 * x.visible_pages // 8) * 8 - nav["height"]
+                regions = {k: ({**r, "height": r["height"] + grow} if r is nav or r["id"] == nav["id"] else
+                               {**r, "y": r["y"] + grow} if r.get("zone") == "rail" and nav["y"] < r["y"] < 600 else r)
+                           for k, r in regions.items()}
         if single_page:  # one visible page: a page selector with one tab is noise, so drop it and lift the slicers below it
             nav = next((r for r in lay["regions"] if r["role"] == "pageNavigator"), None)
             if nav:
                 wanted.pop(nav["id"], None)
                 lift = nav["height"] + 24
-                regions = {k: ({**r, "y": r["y"] - lift} if r.get("zone") == "rail" and nav["y"] < r["y"] < 600 else r)
+                regions = {k: ({**r, "y": r["y"] - lift} if frame == "rail" and r.get("zone") == "rail" and nav["y"] < r["y"] < 600 else r)
                            for k, r in regions.items()}
+        for r in regions.values():  # top bar: the name next to a dropdown slicer
+            if r.get("labelFor") in wanted and "field" in wanted[r["labelFor"]]:
+                slicer = wanted[r["labelFor"]]
+                wanted[r["id"]] = {"text": t(slicer.get("title")) or x.label(slicer["field"])}
         for rid in [k for k in wanted if k not in regions]:
             resolve.errors.append(f"{page['layout']}: 레이아웃에 없는 영역 {rid}")
             del wanted[rid]
@@ -718,6 +785,8 @@ def main() -> None:
             title = t(vs.get("title"))
             if role in ("advancedSlicerVisual", "dropdownSlicer") and not title:
                 title = x.label(vs["field"])  # 슬라이서 제목 기본값 = 용어집 이름
+            if r.get("bar") and role in ("advancedSlicerVisual", "dropdownSlicer"):
+                title = None  # the top bar has no room for a title: buttons speak for themselves, dropdowns get a label
             sub = t(vs.get("sub")) if role != "textbox" else None
             visuals[vid] = container(vid, r, i * 1000, build_visual(role, vs, x, r), title, sub)
         pj = {"$schema": S_PAGE, "name": pid, "displayName": t(page.get("name")) or lay["name"], "displayOption": "FitToPage",
@@ -806,7 +875,7 @@ def main() -> None:
     rep_bytes = sum(f.stat().st_size for f in rep.rglob("*") if f.is_file() and f.suffix == ".json" and "StaticResources" not in f.parts)
     spec_bytes = spec_path.stat().st_size
     avg = sum(f.stat().st_size for f in vfiles) / len(vfiles)
-    print(f"생성: {out.name}/{name}.pbip · 언어 {lang_code} · 테마 {theme_id} · 페이지 {len(pages)} · 비주얼 {len(vfiles)} · 표시용 측정값 {len(extra)}{data_note}")
+    print(f"생성: {out.name}/{name}.pbip · 언어 {lang_code} · 테마 {theme_id} · 배치 {frame} · 페이지 {len(pages)} · 비주얼 {len(vfiles)} · 표시용 측정값 {len(extra)}{data_note}")
     print(f"  명세(에이전트가 쓰는 것)   {spec_bytes / 1024:6.1f}KB  ≈ {spec_bytes // 3:>6,} 토큰")
     print(f"  생성된 리포트 JSON          {rep_bytes / 1024:6.1f}KB  ≈ {rep_bytes // 3:>6,} 토큰 (테마 제외)")
     print(f"  visual.json 평균            {avg / 1024:6.2f}KB  (수집한 PBIR 평균 6.5KB의 {avg / 6656:.0%})")

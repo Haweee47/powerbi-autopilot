@@ -1,0 +1,46 @@
+/// Warehouse processes with their engineered standard (units per direct hour). Counts Toward Flow marks the one process whose units are the flow's volume (pick for outbound, receive for inbound).
+table Processes
+
+	column 'Process ID'
+		dataType: string
+		summarizeBy: none
+		isHidden
+		sourceColumn: Process ID
+
+	column Process
+		dataType: string
+		summarizeBy: none
+		sortByColumn: 'Process Order'
+		sourceColumn: Process
+
+	column Flow
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Flow
+
+	column 'Standard UPH'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Standard UPH
+
+	column 'Counts Toward Flow'
+		dataType: boolean
+		summarizeBy: none
+		isHidden
+		sourceColumn: Counts Toward Flow
+
+	column 'Process Order'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Process Order
+
+	partition Processes = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\Processes.csv"), [Delimiter = ",", Columns = 6, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Process ID", type text}, {"Process", type text}, {"Flow", type text}, {"Standard UPH", Int64.Type}, {"Counts Toward Flow", type logical}, {"Process Order", Int64.Type}}, "en-US")
+				in
+				    Typed

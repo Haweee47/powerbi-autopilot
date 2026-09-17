@@ -41,9 +41,10 @@ python tools/quickstart.py --all --lang ko
 
 | 옵션 | 값 |
 |---|---|
-| `--purpose` | `dashboard`(대시보드) · `table`(지표 테이블) · `matrix`(행렬) · `deepdive`(딥다이브) |
+| `--purpose` | `dashboard`(대시보드) · `table`(지표 테이블) · `matrix`(행렬) · `deepdive`(딥다이브) · `fulfillment`(풀필먼트 운영) |
 | `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
+| `--frame` | `rail`(왼쪽 레일) · `top`(상단 메뉴, 본문 전체 폭) |
 
 **회사 브랜드 색.** 색 하나로 테마를 만들고 그 id를 `--theme`에 넣습니다. 파랑·청록·보라 계열은 데이터 색까지 바뀌고,
 빨강·주황·노랑·초록 계열은 왼쪽 레일과 선택 표시에만 쓰입니다. 리포트에서 빨강은 이미 "목표 미달"을 뜻하기 때문입니다.

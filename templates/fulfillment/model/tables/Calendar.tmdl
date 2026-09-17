@@ -1,0 +1,54 @@
+table Calendar
+	dataCategory: Time
+
+	column Date
+		isUnique
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+	column Year
+		formatString: 0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year]
+
+	column 'Month No'
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month No]
+
+	column Month
+		summarizeBy: none
+		sortByColumn: 'Month No'
+		isNameInferred
+		sourceColumn: [Month]
+
+	column Quarter
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter]
+
+	column 'Week Start'
+		formatString: mm-dd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Week Start]
+
+	column 'Weekday No'
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Weekday No]
+
+	column Weekday
+		summarizeBy: none
+		sortByColumn: 'Weekday No'
+		isNameInferred
+		sourceColumn: [Weekday]
+
+	partition Calendar = calculated
+		mode: import
+		source = ADDCOLUMNS ( CALENDAR ( DATE ( 2026, 1, 1 ), DATE ( 2026, 8, 31 ) ), "Year", YEAR ( [Date] ), "Month No", MONTH ( [Date] ), "Month", FORMAT ( [Date], "MMM", "en-US" ), "Quarter", "Q" & QUARTER ( [Date] ), "Week Start", [Date] - WEEKDAY ( [Date], 3 ), "Weekday No", WEEKDAY ( [Date], 2 ), "Weekday", FORMAT ( [Date], "ddd", "en-US" ) )

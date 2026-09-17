@@ -8,15 +8,16 @@ description: Start a new Power BI report in this repo from a pre-built pilot. As
 The point is token economy: a finished pilot already encodes layout, theme, formatting and page flow.
 You only choose it and change what differs. Never rebuild a report from scratch when a pilot fits.
 
-## 1. Ask once (single AskUserQuestion call, three questions)
+## 1. Ask once (single AskUserQuestion call, up to four questions)
 
 Read `templates/catalog.json` for the option texts (use the user's language; English if unknown).
 
 | Question | Options (label → description) |
 |---|---|
-| Purpose | Dashboard · Measure table · Metric check (matrix) · Deep dive — use `purposes[].when` |
+| Purpose | Dashboard · Measure table · Metric check (matrix) · Deep dive · Fulfillment ops — use `purposes[].when`. Five options: offer the recommended one and the three closest. Warehouse, logistics or fulfillment-center requests → Fulfillment ops (its own model and data) |
 | Theme | Seven presets in three groups (`themes[].group`: classic · showcase · practical). A question takes at most 4 options: offer the recommended theme first and the three closest by `themes[].when`, and name the rest in the question text so the user can type one under Other |
 | Language | English (default) · 한국어 · 日本語 · 简体中文 — from `design-system/i18n/locales.json` |
+| Layout | Left rail (default) · Top bar — `frames[].when`. Suggest the top bar for wide tables and wall screens |
 
 If the user names a brand color, make a preset first: `python tools/brand_theme.py --id <id> --accent "#RRGGBB" --base <closest preset>`,
 then `python tools/build_themes.py`, and use that id as the theme.
@@ -26,7 +27,7 @@ If the request already answers a question, don't ask it. Put the recommended opt
 ## 2. Copy the pilot (zero reading)
 
 ```bash
-python tools/new_report.py --purpose <id> --theme <id> --lang <code> --name <Name> [--model <TMDL folder>]
+python tools/new_report.py --purpose <id> --theme <id> --lang <code> [--frame top] --name <Name> [--model <TMDL folder>]
 ```
 
 Read only what it prints: the new spec path, a one-screen model summary, and the list of pilot fields missing in the target model.

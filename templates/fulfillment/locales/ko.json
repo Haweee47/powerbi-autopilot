@@ -1,0 +1,35 @@
+{
+  "$comment": "Korean data values for the fulfillment pilot. The CSVs stay in English; these replacements run on the copied TMDL when the report is built in Korean. Values that measures compare against (Processes[Flow]) are not renamed.",
+  "tmdl": [
+    {
+      "file": "tables/Processes.tmdl",
+      "find": "\"en-US\")\n\t\t\t\tin\n\t\t\t\t    Typed",
+      "replace": "\"en-US\"),\n\t\t\t\t    Named = Table.TransformColumns(Typed, {{\"Process\", each Record.FieldOrDefault([Pick = \"피킹\", Pack = \"패킹\", #\"Sort & ship\" = \"분류·출고\", Receive = \"입고 검수\", Putaway = \"적치\", #\"Cycle count\" = \"재고 실사\"], _, _)}})\n\t\t\t\tin\n\t\t\t\t    Named"
+    },
+    {
+      "file": "tables/Zones.tmdl",
+      "find": "\"en-US\")\n\t\t\t\tin\n\t\t\t\t    Typed",
+      "replace": "\"en-US\"),\n\t\t\t\t    Named = Table.TransformColumns(Typed, {{\"Zone\", each Record.FieldOrDefault([#\"Zone A\" = \"A 구역\", #\"Zone B\" = \"B 구역\", #\"Zone C\" = \"C 구역\", Dock = \"도크\"], _, _)}})\n\t\t\t\tin\n\t\t\t\t    Named"
+    },
+    {
+      "file": "tables/Teams.tmdl",
+      "find": "\"en-US\")\n\t\t\t\tin\n\t\t\t\t    Typed",
+      "replace": "\"en-US\"),\n\t\t\t\t    Named = Table.TransformColumns(Typed, {{\"Shift\", each Record.FieldOrDefault([Day = \"주간\", Night = \"야간\"], _, _)}})\n\t\t\t\tin\n\t\t\t\t    Named"
+    },
+    {
+      "file": "tables/Orders.tmdl",
+      "find": "\"en-US\")\n\t\t\t\tin\n\t\t\t\t    Typed",
+      "replace": "\"en-US\"),\n\t\t\t\t    Named = Table.TransformColumns(Typed, {{\"Carrier\", each Record.FieldOrDefault([#\"Parcel A\" = \"택배사 A\", #\"Parcel B\" = \"택배사 B\", #\"Own fleet\" = \"자체 배송\"], _, _)}})\n\t\t\t\tin\n\t\t\t\t    Named"
+    },
+    {
+      "file": "tables/Loss Types.tmdl",
+      "find": "{ \"Below standard\", 1 }, { \"Indirect work\", 2 }, { \"Idle\", 3 }",
+      "replace": "{ \"표준 미달 작업\", 1 }, { \"간접 작업\", 2 }, { \"대기\", 3 }"
+    },
+    {
+      "file": "tables/Metrics.tmdl",
+      "find": "\"Below standard\", [Hours Below Standard], \"Indirect work\", [Indirect Hours], \"Idle\", [Idle Hours]",
+      "replace": "\"표준 미달 작업\", [Hours Below Standard], \"간접 작업\", [Indirect Hours], \"대기\", [Idle Hours]"
+    }
+  ]
+}

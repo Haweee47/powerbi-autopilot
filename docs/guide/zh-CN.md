@@ -41,9 +41,10 @@ python tools/quickstart.py --all --lang zh-CN
 
 | 选项 | 取值 |
 |---|---|
-| `--purpose` | `dashboard`（仪表板）· `table`（指标表）· `matrix`（矩阵）· `deepdive`（深入分析） |
+| `--purpose` | `dashboard`（仪表板）· `table`（指标表）· `matrix`（矩阵）· `deepdive`（深入分析）· `fulfillment`（履约中心运营） |
 | `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
+| `--frame` | `rail`（左侧导航栏）· `top`（顶部菜单栏，正文全宽） |
 
 **公司品牌色。** 用一种颜色生成主题，再把它的 id 传给 `--theme`。蓝、青、紫色系也会用于数据颜色；
 红、橙、黄、绿色系只用于左侧导航栏和选中状态，因为报表中的红色已经表示“未达目标”。

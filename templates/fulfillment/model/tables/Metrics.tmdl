@@ -1,0 +1,236 @@
+/// Measure-only table: every metric lives here.
+table Metrics
+
+	/// Units handled by the process in context.
+	measure Units = SUM ( Labor[Units] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Hours spent on the work itself.
+	measure 'Direct Hours' = SUM ( Labor[Direct Hours] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Paid hours on training, meetings, cleaning and other support work.
+	measure 'Indirect Hours' = SUM ( Labor[Indirect Hours] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Paid hours with no work to do (volume below capacity, system downtime).
+	measure 'Idle Hours' = SUM ( Labor[Idle Hours] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// All paid hours.
+	measure 'Paid Hours' = [Direct Hours] + [Indirect Hours] + [Idle Hours]
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Hours the work should take at the engineered standard: units / standard UPH.
+	measure 'Standard Hours' = SUM ( Labor[Standard Hours] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Each flow's volume counted once: pick units for outbound, receive units for inbound, counted units for inventory.
+	measure 'Flow Units' = CALCULATE ( [Units], KEEPFILTERS ( Processes[Counts Toward Flow] = TRUE () ) )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Units of the one process in context, or each flow's volume when several processes are in context.
+	measure 'Handled Units' = IF ( COUNTROWS ( VALUES ( Teams[Process ID] ) ) = 1, [Units], [Flow Units] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Units per paid hour (also called HTP).
+	measure UPH = DIVIDE ( [Handled Units], [Paid Hours] )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// Units per direct hour.
+	measure 'Direct UPH' = DIVIDE ( [Handled Units], [Direct Hours] )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// The standard rate at the planned 85% direct time: the UPH the plan expects.
+	measure 'Target UPH' = DIVIDE ( [Handled Units], [Standard Hours] ) * 0.85
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// UPH above (+) or below (-) the plan.
+	measure 'UPH vs Target' = DIVIDE ( [UPH], [Target UPH] ) - 1
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 2. Productivity
+
+	/// Performance to standard: standard hours earned per direct hour worked.
+	measure '% of Standard' = DIVIDE ( [Standard Hours], [Direct Hours] )
+		formatString: 0.0%
+		displayFolder: 2. Productivity
+
+	/// Paid hours the standard did not need: below-standard work + indirect work + idle time.
+	measure 'Hours Lost' = [Paid Hours] - [Standard Hours]
+		formatString: #,0
+		displayFolder: 2. Productivity
+
+	/// Direct hours beyond what the standard needed.
+	measure 'Hours Below Standard' = [Direct Hours] - [Standard Hours]
+		formatString: #,0
+		displayFolder: 2. Productivity
+
+	/// Hours Lost split by cause (use with Loss Types).
+	measure 'Hours by Loss Type' = SWITCH ( SELECTEDVALUE ( 'Loss Types'[Loss Type] ), "Below standard", [Hours Below Standard], "Indirect work", [Indirect Hours], "Idle", [Idle Hours] )
+		formatString: #,0
+		displayFolder: 2. Productivity
+
+	/// Share of paid hours spent on direct work.
+	measure 'Direct Share' = DIVIDE ( [Direct Hours], [Paid Hours] )
+		formatString: 0.0%
+		displayFolder: 2. Productivity
+
+	/// Share of paid hours with no work.
+	measure 'Idle Share' = DIVIDE ( [Idle Hours], [Paid Hours] )
+		formatString: 0.0%
+		displayFolder: 2. Productivity
+
+	/// Share of paid hours on support work.
+	measure 'Indirect Share' = DIVIDE ( [Indirect Hours], [Paid Hours] )
+		formatString: 0.0%
+		displayFolder: 2. Productivity
+
+	/// Share of paid hours worked by people in their first 30 days.
+	measure 'New Hire Share' = DIVIDE ( SUMX ( Labor, Labor[New Hire Share] * ( Labor[Direct Hours] + Labor[Indirect Hours] + Labor[Idle Hours] ) ), [Paid Hours] )
+		formatString: 0%
+		displayFolder: 2. Productivity
+
+	/// Units shipped per outbound paid hour (pick, pack, ship).
+	measure 'Outbound UPH' = CALCULATE ( [UPH], Processes[Flow] = "Outbound" )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// The outbound plan rate.
+	measure 'Outbound Target UPH' = CALCULATE ( [Target UPH], Processes[Flow] = "Outbound" )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// Units received per inbound paid hour (receive, putaway).
+	measure 'Inbound UPH' = CALCULATE ( [UPH], Processes[Flow] = "Inbound" )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// The inbound plan rate.
+	measure 'Inbound Target UPH' = CALCULATE ( [Target UPH], Processes[Flow] = "Inbound" )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// Orders shipped.
+	measure 'Orders Shipped' = SUM ( Orders[Orders] )
+		formatString: #,0
+		displayFolder: 3. Outbound
+
+	/// Units shipped.
+	measure 'Units Shipped' = SUM ( Orders[Units] )
+		formatString: #,0
+		displayFolder: 3. Outbound
+
+	/// Orders shipped by their cut-off / orders due (including carried backlog).
+	measure 'On-time Ship %' = DIVIDE ( SUM ( Orders[Shipped On Time] ), SUM ( Orders[Orders Due] ) )
+		formatString: 0.0%
+		displayFolder: 3. Outbound
+
+	/// Plan: 98% of orders out by cut-off.
+	measure 'On-time Ship Target' = 0.98
+		formatString: 0%
+		displayFolder: 3. Outbound
+
+	/// Orders due that did not leave by their cut-off.
+	measure 'Missed Cut-off' = SUM ( Orders[Orders Due] ) - SUM ( Orders[Shipped On Time] )
+		formatString: #,0
+		displayFolder: 3. Outbound
+
+	/// Average units in an order.
+	measure 'Units per Order' = DIVIDE ( [Units Shipped], [Orders Shipped] )
+		formatString: 0.00
+		displayFolder: 3. Outbound
+
+	/// Hours from order release to ship.
+	measure 'Order Cycle Hours' = DIVIDE ( SUM ( Orders[Cycle Hours] ), [Orders Shipped] )
+		formatString: 0.0
+		displayFolder: 3. Outbound
+
+	/// Orders picked without an error.
+	measure 'Pick Accuracy' = 1 - DIVIDE ( SUM ( Orders[Pick Errors] ), [Orders Shipped] )
+		formatString: 0.00%
+		displayFolder: 3. Outbound
+
+	/// Deliveries received.
+	measure Receipts = COUNTROWS ( Receipts )
+		formatString: #,0
+		displayFolder: 4. Inbound and inventory
+
+	/// Units received.
+	measure 'Units Received' = SUM ( Receipts[Units] )
+		formatString: #,0
+		displayFolder: 4. Inbound and inventory
+
+	/// Hours from arrival to putaway.
+	measure 'Dock-to-Stock Hours' = AVERAGE ( Receipts[Dock To Stock Hours] )
+		formatString: 0.0
+		displayFolder: 4. Inbound and inventory
+
+	/// Plan: stocked within 4 hours.
+	measure 'Dock-to-Stock Target' = 4
+		formatString: 0.0
+		displayFolder: 4. Inbound and inventory
+
+	/// Deliveries that arrived in their slot.
+	measure 'On-time Receipts %' = AVERAGE ( Receipts[Arrived On Time] )
+		formatString: 0.0%
+		displayFolder: 4. Inbound and inventory
+
+	/// Deliveries received without damage.
+	measure 'Damage-free %' = AVERAGE ( Receipts[Damage Free] )
+		formatString: 0.0%
+		displayFolder: 4. Inbound and inventory
+
+	/// Deliveries with correct paperwork.
+	measure 'Documents Correct %' = AVERAGE ( Receipts[Documents Correct] )
+		formatString: 0.0%
+		displayFolder: 4. Inbound and inventory
+
+	/// Counted locations whose quantity matched the system.
+	measure 'Inventory Accuracy' = DIVIDE ( SUM ( Counts[Locations Accurate] ), SUM ( Counts[Locations Counted] ) )
+		formatString: 0.00%
+		displayFolder: 4. Inbound and inventory
+
+	/// Occupied share of storage locations (day-weighted).
+	measure 'Capacity Used' = DIVIDE ( SUM ( Counts[Locations Used] ), SUM ( Counts[Locations Total] ) )
+		formatString: 0.0%
+		displayFolder: 4. Inbound and inventory
+
+	/// Orders delivered by the promised date.
+	measure 'On-time Delivery %' = DIVIDE ( SUM ( Orders[Delivered On Time] ), [Orders Shipped] )
+		formatString: 0.0%
+		displayFolder: 5. Delivery
+
+	/// Orders delivered on the first attempt.
+	measure 'First-attempt %' = DIVIDE ( SUM ( Orders[First Attempt Delivered] ), [Orders Shipped] )
+		formatString: 0.0%
+		displayFolder: 5. Delivery
+
+	/// Hours from ship to delivery.
+	measure 'Delivery Hours' = DIVIDE ( SUM ( Orders[Delivery Hours] ), [Orders Shipped] )
+		formatString: 0.0
+		displayFolder: 5. Delivery
+
+	/// The last day in the data.
+	measure 'Last Data Date' = CALCULATE ( MAX ( Labor[Date] ), REMOVEFILTERS () )
+		formatString: yyyy-mm-dd
+		displayFolder: 6. Info
+
+	column _
+		isHidden
+		isNameInferred
+		sourceColumn: [_]
+
+	partition Metrics = calculated
+		mode: import
+		source = ROW ( "_", BLANK () )

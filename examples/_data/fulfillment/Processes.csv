@@ -1,0 +1,7 @@
+Process ID,Process,Flow,Standard UPH,Counts Toward Flow,Process Order
+PCK,Pick,Outbound,120,TRUE,1
+PAK,Pack,Outbound,150,FALSE,2
+SHP,Sort & ship,Outbound,420,FALSE,3
+RCV,Receive,Inbound,190,TRUE,4
+PUT,Putaway,Inbound,130,FALSE,5
+CNT,Cycle count,Inventory,360,TRUE,6

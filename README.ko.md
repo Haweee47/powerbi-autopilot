@@ -57,7 +57,7 @@ powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                
 > Power BI Desktop **2.157 이상**이 필요하다. 이전 버전에서는 글자 몇 곳이 잘린다([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1)).
 > Microsoft Store 판은 스스로 업데이트되고, `quickstart`는 Store 판이 있으면 그걸로 연다.
 
-## 용도별 파일럿 4종
+## 용도별 파일럿
 
 | 대시보드 — 경영 요약 | 지표 테이블 — 측정값 입력 매트릭스 |
 |---|---|
@@ -66,6 +66,16 @@ powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                
 | **지표 확인 — 행렬** | **딥다이브 — 분석** |
 | ![행렬](templates/matrix/screenshots/heatmap.png) | ![딥다이브](templates/deepdive/screenshots/decomposition.png) |
 | 계층 행 × 월 히트맵, 권역 > 매장 성적표 (펼친 채로 열림) | 요인 분해 트리 · 할인과 이익 산점도 · 원천 행 |
+
+### 업무 파일럿: 풀필먼트센터 운영
+
+![풀필먼트 파일럿의 출고 페이지](templates/fulfillment/screenshots/outbound.png)
+
+물류·풀필먼트 분석가를 위한 파일럿이다. **출고가 먼저**(출고 수량, 계획 대비 출고 UPH, 정시 출고율, 마감 미준수)이고,
+이어서 **손실 시간**(표준이 필요로 하지 않은 유급 시간을 표준 미달 작업·간접 작업·대기로 나누고 공정 → 교대 → 구역 → 팀으로 분해),
+**시간대별 생산성**, **팀과 원인**(신규 인력 비율과 표준 대비), **입고·재고**(입고~적치 시간, 파손, 실사 정확도)다.
+전용 모델과 시드 고정 가상 데이터가 있고, 개념과 공식은 [design-system/domains/fulfillment.md](design-system/domains/fulfillment.md)(영어)에 있다.
+`python tools/quickstart.py --purpose fulfillment --lang ko`
 
 전체 목록과 선택 기준: [templates/catalog.json](templates/catalog.json)
 
@@ -87,6 +97,8 @@ powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                
 | | **고대비** | flat, 진한 선·글자 | 접근성·프로젝터·밝은 회의실 |
 
 계열 색은 모두 색각 이상 검사를 통과한다(적·녹·청색맹에서도 이웃 계열이 구분된다). 두 번째 색은 작년 값을 위해 일부러 회색이다.
+
+**배치 두 가지:** 모든 파일럿 페이지를 왼쪽 레일형(기본) 또는 위쪽 막대에 페이지·필터를 두고 본문을 전체 폭으로 쓰는 상단 메뉴형(`--frame top`)으로 만들 수 있다.
 
 **회사 브랜드 색:** `python tools/brand_theme.py --id acme --accent "#0F62FE" --base navy`로 색 하나에서 테마를 더 만든다. 파랑·청록·보라 계열은 데이터 색까지, 빨강·주황·노랑·초록 계열은 레일과 선택 표시에만 쓴다. 리포트에서 빨강은 이미 "목표 미달"이기 때문이다([안내서](docs/guide/ko.md)).
 
@@ -153,7 +165,7 @@ AI 에이전트(Claude Code)가 파일을 만들고 고친다. 나는 문제를 
 
 ```
 powerbi-autopilot/
-├── templates/         용도별 파일럿 4종, 공용 측정값(언어별)·용어집, 선택 카탈로그
+├── templates/         용도별 파일럿 4종과 풀필먼트 운영 파일럿(전용 모델), 공용 측정값·용어집, 선택 카탈로그
 ├── design-system/     원칙·채점표·연구 정리, 토큰 → 테마 7종(색 × 카드 모양), 레이아웃 템플릿, 언어 등록부, HTML 시안
 ├── tools/             생성기(명세 → PBIR), 새 리포트 시작, 테마·레이아웃 빌드, 공유 이미지, 토큰 측정
 ├── examples/          공용 가상 데이터(한·영), 예제 03(Modeling MCP), 예제 04(생성기 첫 버전)
@@ -188,7 +200,7 @@ python tools/generate_pbir.py templates/dashboard/pilot.spec.json --lang ko --th
 계속 개선하면서 배운 것을 기록한다.
 
 - [x] 디자인 토큰 → 테마, 레이아웃 템플릿, 명세 → PBIR 생성기
-- [x] 용도별 파일럿 4종 · 테마 7종(기본·쇼케이스·실무) · 다국어
+- [x] 용도별 파일럿 4종 · 풀필먼트 운영 파일럿 · 테마 7종 · 배치 2종 · 다국어
 - [ ] 표 안의 미니 추이선(SVG 측정값)
 - [ ] Presto·Redshift 쿼리 → 모델 → 파일럿으로 이어지는 실데이터 흐름 (ODBC 검증 포함)
 - [ ] 같은 요청문으로 도구 3종 비교(Microsoft 공식 스킬 / 커뮤니티 스킬 / Modeling MCP), 토큰과 채점표 점수로

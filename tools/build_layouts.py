@@ -45,6 +45,66 @@ def resolve(spec: dict) -> dict:
     return out
 
 
+SLICERS = ("advancedSlicerVisual", "dropdownSlicer")
+
+
+def to_top(page: dict, res: dict, top: dict) -> dict:
+    """The same page in the top-bar frame. Rail regions move into the bar, grid regions get the wider columns,
+    the first body row starts 8px lower (and is 8px shorter), and every later row keeps its rail position and height."""
+    cv, g, rb, tb = res["canvas"], res["grid"], res["bands"], top["bands"]
+    unit, gut = g["unit"], g["gutter"]
+    col_w = (cv["width"] - top["left"] - g["margin"] - (g["columns"] - 1) * gut) // g["columns"]
+    bar_h, pad = top["bar"]["h"], top["bar"]["inner"]
+    inner_h = bar_h - 2 * pad
+    rail = [r for r in page["regions"] if r.get("zone") == "rail"]
+    placed, labels, x = {}, [], cv["width"] - g["margin"]
+    for r in sorted((r for r in rail if r["role"] in SLICERS), key=lambda r: r["y"], reverse=True):
+        w = top["slicerWidth"].get(r["id"], top["slicerWidth"]["default"])
+        x -= w
+        # the validator wants a dropdown slicer at least 48px tall (selector 32 + padding), so it takes the bar's full height
+        placed[r["id"]] = (x, 0, w, bar_h) if r["role"] == "dropdownSlicer" else (x, pad, w, inner_h)
+        if r["role"] == "dropdownSlicer":  # a dropdown shows only its value ("All"), so it gets a name on its left
+            x -= top["labelWidth"]
+            labels.append({"id": f"{r['id']}_label", "role": "textbox", "zone": "rail", "bar": True, "labelFor": r["id"],
+                           "label": "slicer name", "x": x, "y": pad, "width": top["labelWidth"] - unit, "height": inner_h - unit})
+        x -= gut
+    nav_x = top["brand"]["x"] + top["brand"]["w"] + 3 * unit
+    nav_w = (x - nav_x) // unit * unit
+    first_row = min(r["y"] for r in page["regions"] if r.get("zone") != "rail" and r["y"] >= rb["body"]["y"])
+    regions = []
+    for r in page["regions"]:
+        r = dict(r)
+        if r.get("zone") == "rail":
+            if r["id"] == "asof":
+                continue  # the generator puts the as-of date under the report name
+            if r["id"] in placed:
+                box = placed[r["id"]]
+            elif r["role"] == "shape":
+                box = (0, 0, cv["width"], bar_h)
+            elif r["id"] == "brand":
+                box = (top["brand"]["x"], pad, top["brand"]["w"], bar_h - pad)
+            elif r["role"] == "pageNavigator":
+                box = (nav_x, pad, nav_w, top["nav"]["h"])
+            else:
+                sys.exit(f"{page['id']}: no place in the top bar for rail region {r['id']}")
+            r.update(bar=True)
+        else:
+            bx = top["left"] + (r["col"] - 1) * (col_w + gut)
+            bw = r["span"] * col_w + (r["span"] - 1) * gut
+            if r["y"] == rb["title"]["y"]:
+                by, bh = tb["title"]["y"], tb["title"]["h"]
+            elif r["y"] == rb["headline"]["y"]:
+                by, bh = tb["headline"]["y"], tb["headline"]["h"]
+            elif r["y"] == first_row:
+                by, bh = r["y"] + tb["firstRow"], r["height"] - tb["firstRow"]
+            else:
+                by, bh = r["y"], r["height"]
+            box = (bx, by, bw, bh)
+        r.update(x=box[0], y=box[1], width=box[2], height=box[3])
+        regions.append(r)
+    return {**page, "frame": "top", "regions": regions + labels}
+
+
 def check(page: dict, cv: dict, unit: int, body_y: int) -> list[str]:
     problems, rs = [], page["regions"]
     for r in rs:
@@ -94,14 +154,18 @@ def main() -> None:
     spec = json.load(open(SRC, encoding="utf-8"))
     res = resolve(spec)
     total_problems = 0
-    for page in res["pages"]:
-        problems = check(page, res["canvas"], res["grid"]["unit"], res["bands"]["body"]["y"])
-        total_problems += len(problems)
-        status = "통과" if not problems else "문제 " + str(len(problems))
-        print(f"[{page['id']}] 영역 {len(page['regions'])}개 · {status}")
-        for p in problems:
-            print("   -", p)
-        (OUT / f"{page['id']}.svg").write_text(svg(page, res["canvas"]), encoding="utf-8")
+    res["frames"] = {"rail": res["pages"], "top": [to_top(p, res, spec["top"]) for p in res["pages"]]}
+    for frame, pages in res["frames"].items():
+        body_y = res["bands"]["body"]["y"]
+        for page in pages:
+            problems = check(page, res["canvas"], res["grid"]["unit"], body_y)
+            total_problems += len(problems)
+            status = "통과" if not problems else "문제 " + str(len(problems))
+            print(f"[{frame}/{page['id']}] 영역 {len(page['regions'])}개 · {status}")
+            for p in problems:
+                print("   -", p)
+            suffix = "" if frame == "rail" else f".{frame}"
+            (OUT / f"{page['id']}{suffix}.svg").write_text(svg(page, res["canvas"]), encoding="utf-8")
     json.dump(res, open(OUT / "layouts.resolved.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"열 폭 {res['grid']['colWidth']}px · 문제 {total_problems}건 · 결과: layouts.resolved.json, *.svg")
     sys.exit(1 if total_problems else 0)

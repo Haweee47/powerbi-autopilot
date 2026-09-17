@@ -9,6 +9,16 @@
     "headline": { "y": 64, "h": 32 },
     "body": { "y": 112, "bottom": 696 }
   },
+  "top": {
+    "$comment": "Top-bar frame, built from each rail page. A 48px bar holds the report name and as-of date, page tabs and slicers (dropdowns get a small label). Title and headline sit under it; the first body row gives up 8px and every other row keeps its rail height, so charts that fit in the rail still fit.",
+    "left": 24,
+    "bar": { "h": 48, "inner": 8 },
+    "brand": { "x": 24, "w": 176 },
+    "nav": { "h": 32 },
+    "slicerWidth": { "slicer_period": 152, "slicer_channel": 136, "default": 104 },
+    "labelWidth": 64,
+    "bands": { "title": { "y": 56, "h": 32 }, "headline": { "y": 88, "h": 24 }, "firstRow": 8 }
+  },
   "shared": [
     { "id": "rail", "role": "shape", "zone": "rail", "full": true, "layer": "background", "y": 0, "h": 720, "label": "내비 레일 (바탕)" },
     { "id": "brand", "role": "textbox", "zone": "rail", "y": 24, "h": 48, "label": "리포트 이름" },

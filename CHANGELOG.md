@@ -6,6 +6,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 ## [Unreleased]
 
 ### Added
+- A domain pilot for fulfillment-center operations (`--purpose fulfillment`), with its own model (11 tables, 45 measures) and seeded
+  sample data: outbound, lost hours vs standard, productivity by hour, teams and their drivers, inbound and inventory, and a team
+  drill-through, in English and Korean (data values too). Concepts and formulas: `design-system/domains/fulfillment.md`
+- Matrix specs take `"columnTotals": false`; the top-bar layout packs only the slicers a page uses and keeps tab widths equal
+  across the report; the rail's page selector grows for more than four pages
+- A second layout for every page: `--frame top` puts the report name, page tabs and slicers in a bar across the top and gives
+  the body the full width (columns 72 → 88 px). Built from the same layout templates, so specs don't change
 - Table specs take `"top": N`: a Top N visual filter by the table's sort measure, in the shape Desktop saves. The dashboard's
   "weakest stores" card now shows the three weakest instead of a scrolling list, and the watch list the five weakest
 - The generator warns when rail text (report name, subtitle) is likely to wrap and be cut off

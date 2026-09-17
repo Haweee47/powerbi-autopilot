@@ -1,0 +1,49 @@
+/// Cycle counts and location use by storage zone and day.
+table Counts
+
+	column Date
+		dataType: dateTime
+		summarizeBy: none
+		formatString: yyyy-mm-dd
+		isHidden
+		sourceColumn: Date
+
+	column 'Zone ID'
+		dataType: string
+		summarizeBy: none
+		isHidden
+		sourceColumn: Zone ID
+
+	column 'Locations Counted'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Locations Counted
+
+	column 'Locations Accurate'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Locations Accurate
+
+	column 'Locations Total'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Locations Total
+
+	column 'Locations Used'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Locations Used
+
+	partition Counts = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\Counts.csv"), [Delimiter = ",", Columns = 6, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Date", type date}, {"Zone ID", type text}, {"Locations Counted", Int64.Type}, {"Locations Accurate", Int64.Type}, {"Locations Total", Int64.Type}, {"Locations Used", Int64.Type}}, "en-US")
+				in
+				    Typed

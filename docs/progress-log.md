@@ -471,6 +471,37 @@ reports done, so it resumed from there.
 The theme comparison images of the other six themes still show the old table title; the difference is a few pixels at that size,
 so I didn't re-capture them.
 
+## 2026-09-17 · A second layout, and a pilot for fulfillment operations
+
+**A second layout.** Seven themes still shared one composition. `--frame top` builds every page with the report name, page tabs
+and slicers in a bar across the top and gives the body the rail's width (columns 72 → 88 px). It is computed from the same layout
+templates, so no spec changes.
+- The first version scaled the body into the shorter space, and the summary page's bar charts started to scroll (five categories
+  no longer fit in 200 px). The second keeps every body row at its rail height and takes 8 px from the first row only; the bar
+  is 48 px, the title 32 and the headline 24.
+- Horizontal tabs sized themselves to their text and cut "Discount vs margin"; a one-row grid shares the width. Dropdowns show only
+  "All", so they get a small label; the validator wants a dropdown at least 48 px tall, so it takes the bar's full height.
+- A page packs only the slicers it uses, and tabs keep one width across the report so they don't jump between pages.
+
+**A pilot for fulfillment centers.** The people I build reports for work in fulfillment operations: outbound first, inbound and
+inventory second, delivery third, and productivity (UPH, also called HTP) across all of it. The retail pilots don't speak that
+language, so I built a domain pilot from public concepts (WERC's DC measures, labor-management practice) and synthetic data:
+- **Data**: 16 teams by hour for January–August 2026, orders by cut-off and carrier, 13,926 inbound deliveries, daily cycle counts.
+  Performance is zone × tenure × hour of day, with planted events: a quiet February, an August promotion with backlog, a night
+  outage, a rebuilt night pick team with 60% new hires, late arrivals that wait for putaway, a supplier with more damage.
+- **The productivity spine**: UPH on paid hours; % of standard = standard hours / direct hours; hours lost = paid − standard,
+  split into slow work, support work and waiting, and decomposed by flow → process → shift → zone → team.
+- **Pages** in priority order: Outbound, Lost hours, By hour, Teams, Inbound, plus a team drill-through. Bars show gaps to
+  standard or target, because 91% and 97% bars look alike.
+- **Checked**: every headline and KPI in the Q3 view matched the values the generator prints (outbound UPH 41.2, on-time ship
+  85.2%, 43,859 hours lost, dock-to-stock 4.4 h, zone C accuracy 97.69%, lowest team PUT-C-N 71.2%). English, Korean and the
+  top-bar layout in Ledger, all captured in Desktop. In Korean the data values follow too (processes, zones, shifts, carriers,
+  loss types), except the flow names the measures compare against.
+- **Fixed on the way**: the hour heatmap had 21 columns and scrolled in the rail layout, so matrix specs can drop the total column;
+  a team-detail bar of "% of standard by hour" was a wall of red bars of similar length, so it now shows the gap as columns.
+
+Concepts, formulas and page choices: [design-system/domains/fulfillment.md](../design-system/domains/fulfillment.md).
+
 ---
 
 ## 다음 계획

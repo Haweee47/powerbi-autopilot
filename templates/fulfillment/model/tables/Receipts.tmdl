@@ -1,0 +1,81 @@
+/// Inbound receipts (one row per delivery at the dock) with arrival and dock-to-stock time.
+table Receipts
+
+	column 'Receipt ID'
+		dataType: string
+		summarizeBy: none
+		isHidden
+		sourceColumn: Receipt ID
+
+	column Date
+		dataType: dateTime
+		summarizeBy: none
+		formatString: yyyy-mm-dd
+		isHidden
+		sourceColumn: Date
+
+	column 'Supplier ID'
+		dataType: string
+		summarizeBy: none
+		isHidden
+		sourceColumn: Supplier ID
+
+	column Supplier
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Supplier
+
+	column 'Arrival Hour'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Arrival Hour
+
+	column Units
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Units
+
+	column 'Arrived On Time'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Arrived On Time
+
+	column 'Damage Free'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Damage Free
+
+	column 'Documents Correct'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Documents Correct
+
+	column 'Dock To Stock Hours'
+		dataType: double
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Dock To Stock Hours
+
+	column 'Arrival Band' = SWITCH ( TRUE (), Receipts[Arrival Hour] < 12, "< 12:00", Receipts[Arrival Hour] < 16, "12:00-16:00", "≥ 16:00" )
+		dataType: string
+		summarizeBy: none
+		sortByColumn: 'Arrival Band Order'
+
+	column 'Arrival Band Order' = IF ( Receipts[Arrival Hour] < 12, 1, IF ( Receipts[Arrival Hour] < 16, 2, 3 ) )
+		dataType: int64
+		isHidden
+		summarizeBy: none
+
+	partition Receipts = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\Receipts.csv"), [Delimiter = ",", Columns = 10, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Receipt ID", type text}, {"Date", type date}, {"Supplier ID", type text}, {"Supplier", type text}, {"Arrival Hour", Int64.Type}, {"Units", Int64.Type}, {"Arrived On Time", Int64.Type}, {"Damage Free", Int64.Type}, {"Documents Correct", Int64.Type}, {"Dock To Stock Hours", type number}}, "en-US")
+				in
+				    Typed

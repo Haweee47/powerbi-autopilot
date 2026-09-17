@@ -1,0 +1,24 @@
+/// Fulfillment center sample (January to August 2026): labor by team-hour, outbound orders, inbound receipts,
+/// cycle counts. Synthetic data from examples/_data/fulfillment/generate.py.
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+ref table Processes
+ref table Zones
+ref table Teams
+ref table Labor
+ref table Orders
+ref table Receipts
+ref table Counts
+ref table Calendar
+ref table Hours
+ref table 'Loss Types'
+ref table Metrics

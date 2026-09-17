@@ -1,0 +1,45 @@
+/// Crews: each works one process in one zone on one shift.
+table Teams
+
+	column 'Team ID'
+		dataType: string
+		summarizeBy: none
+		isHidden
+		sourceColumn: Team ID
+
+	column Team
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Team
+
+	column 'Process ID'
+		dataType: string
+		summarizeBy: none
+		isHidden
+		sourceColumn: Process ID
+
+	column 'Zone ID'
+		dataType: string
+		summarizeBy: none
+		isHidden
+		sourceColumn: Zone ID
+
+	column Shift
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Shift
+
+	column Headcount
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: Headcount
+
+	partition Teams = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\Teams.csv"), [Delimiter = ",", Columns = 6, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Team ID", type text}, {"Team", type text}, {"Process ID", type text}, {"Zone ID", type text}, {"Shift", type text}, {"Headcount", Int64.Type}}, "en-US")
+				in
+				    Typed

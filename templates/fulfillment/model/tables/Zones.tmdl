@@ -1,0 +1,27 @@
+table Zones
+
+	column 'Zone ID'
+		dataType: string
+		summarizeBy: none
+		isHidden
+		sourceColumn: Zone ID
+
+	column Zone
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Zone
+
+	column Kind
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Kind
+
+	partition Zones = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\Zones.csv"), [Delimiter = ",", Columns = 3, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Zone ID", type text}, {"Zone", type text}, {"Kind", type text}}, "en-US")
+				in
+				    Typed

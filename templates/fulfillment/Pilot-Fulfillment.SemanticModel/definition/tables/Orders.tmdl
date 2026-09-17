@@ -1,0 +1,89 @@
+/// Outbound orders by day, cut-off and carrier: shipped, due, on time, and what happened in delivery.
+table Orders
+
+	column Date
+		dataType: dateTime
+		summarizeBy: none
+		formatString: yyyy-mm-dd
+		isHidden
+		sourceColumn: Date
+
+	column Cutoff
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Cutoff
+
+	column Carrier
+		dataType: string
+		summarizeBy: none
+		sourceColumn: Carrier
+
+	column Orders
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Orders
+
+	column 'Orders Due'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Orders Due
+
+	column Units
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Units
+
+	column Lines
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Lines
+
+	column 'Shipped On Time'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Shipped On Time
+
+	column 'Cycle Hours'
+		dataType: double
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Cycle Hours
+
+	column 'Pick Errors'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Pick Errors
+
+	column 'Delivered On Time'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Delivered On Time
+
+	column 'First Attempt Delivered'
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: First Attempt Delivered
+
+	column 'Delivery Hours'
+		dataType: double
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Delivery Hours
+
+	partition Orders = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\Orders.csv"), [Delimiter = ",", Columns = 13, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Date", type date}, {"Cutoff", type text}, {"Carrier", type text}, {"Orders", Int64.Type}, {"Orders Due", Int64.Type}, {"Units", Int64.Type}, {"Lines", Int64.Type}, {"Shipped On Time", Int64.Type}, {"Cycle Hours", type number}, {"Pick Errors", Int64.Type}, {"Delivered On Time", Int64.Type}, {"First Attempt Delivered", Int64.Type}, {"Delivery Hours", type number}}, "en-US")
+				in
+				    Typed

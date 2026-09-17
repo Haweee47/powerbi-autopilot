@@ -20,9 +20,10 @@
   so the mouse isn't moved. Only the Desktop windows this script opens are closed.
 #>
 param(
-  [ValidateSet("all", "dashboard", "table", "matrix", "deepdive")] [string]$Purpose = "all",
+  [ValidateSet("all", "dashboard", "table", "matrix", "deepdive", "fulfillment")] [string]$Purpose = "all",
   [string]$Theme = "navy",  # any preset in design-system/tokens.json (the generator rejects unknown ones)
   [string]$Lang = "en",
+  [ValidateSet("rail", "top")] [string]$Frame = "rail",
   [string]$Dir = "",
   [int]$TimeoutSeconds = 180
 )
@@ -174,11 +175,12 @@ try {
   if ($Dir) {
     Test-Report $exe (Resolve-Path $Dir).Path
   } else {
-    $qs = @("tools\quickstart.py", "--theme", $Theme, "--lang", $Lang)
+    $qs = @("tools\quickstart.py", "--theme", $Theme, "--lang", $Lang, "--frame", $Frame)
     $qs += if ($Purpose -eq "all") { @("--all") } else { @("--purpose", $Purpose) }
     & $py @qs | Select-Object -First 1
-    $purposes = if ($Purpose -eq "all") { @("dashboard", "table", "matrix", "deepdive") } else { @($Purpose) }
-    foreach ($p in $purposes) { Test-Report $exe (Join-Path $repo "out\$p-$Theme-$Lang") }
+    $purposes = if ($Purpose -eq "all") { @("dashboard", "table", "matrix", "deepdive", "fulfillment") } else { @($Purpose) }
+    $suffix = if ($Frame -eq "rail") { "" } else { "-$Frame" }
+    foreach ($p in $purposes) { Test-Report $exe (Join-Path $repo "out\$p-$Theme-$Lang$suffix") }
   }
   & $py tools\render_report.py $outRoot
   $reportExit = $LASTEXITCODE

@@ -25,7 +25,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "out" / "check"
 ENV = {**os.environ, "PYTHONIOENCODING": "utf-8"}
-PILOTS = ["dashboard", "table", "matrix", "deepdive"]
+PILOTS = ["dashboard", "table", "matrix", "deepdive", "fulfillment"]
 LANGS = ["en", "ko"]
 
 
@@ -65,12 +65,14 @@ def validate(validator: str, report: Path) -> tuple[int | str, int | str]:
 
 def build_all(validator: str | None, themes: list[str]) -> tuple[list[str], list[tuple]]:
     problems, rows = [], []
-    for theme in themes:
+    # every theme in the rail layout, and the top-bar layout in the first theme (layout and theme are independent)
+    combos = [(theme, "rail") for theme in themes] + [(themes[0], "top")]
+    for theme, frame in combos:
         for lang in LANGS:
             for p in PILOTS:
-                dest = OUT / f"{p}-{theme}-{lang}"
+                dest = OUT / (f"{p}-{theme}-{lang}" + ("" if frame == "rail" else f"-{frame}"))
                 r = run([sys.executable, "tools/generate_pbir.py", f"templates/{p}/pilot.spec.json",
-                         "--lang", lang, "--theme", theme, "--out", str(dest)])
+                         "--lang", lang, "--theme", theme, "--frame", frame, "--out", str(dest)])
                 if r.returncode:
                     problems.append(f"{p}-{theme}-{lang}: generator failed\n{r.stdout[-1000:]}{r.stderr[-1000:]}")
                     rows.append((p, theme, lang, "gen failed", ""))

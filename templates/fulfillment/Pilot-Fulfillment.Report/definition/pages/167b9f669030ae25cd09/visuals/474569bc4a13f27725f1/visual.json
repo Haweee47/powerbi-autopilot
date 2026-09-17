@@ -1,0 +1,93 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "474569bc4a13f27725f1",
+  "position": {
+    "x": 744,
+    "y": 480,
+    "z": 12000,
+    "height": 216,
+    "width": 512,
+    "tabOrder": 12000
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Loss Types"
+                    }
+                  },
+                  "Property": "Loss Type"
+                }
+              },
+              "queryRef": "Loss Types.Loss Type",
+              "nativeQueryRef": "Loss Type",
+              "displayName": "Loss type",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "Hours by Loss Type"
+                }
+              },
+              "queryRef": "Metrics.Hours by Loss Type",
+              "nativeQueryRef": "Hours by Loss Type",
+              "displayName": "Hours"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Why the hours were lost'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Slow work · support work · waiting'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

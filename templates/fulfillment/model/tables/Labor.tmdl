@@ -1,0 +1,67 @@
+/// Team-hours: units handled and hours split into direct, indirect and idle time. Standard Hours = units / standard UPH.
+table Labor
+
+	column Date
+		dataType: dateTime
+		summarizeBy: none
+		formatString: yyyy-mm-dd
+		isHidden
+		sourceColumn: Date
+
+	column Hour
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Hour
+
+	column 'Team ID'
+		dataType: string
+		summarizeBy: none
+		isHidden
+		sourceColumn: Team ID
+
+	column Units
+		dataType: int64
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Units
+
+	column 'Direct Hours'
+		dataType: double
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Direct Hours
+
+	column 'Indirect Hours'
+		dataType: double
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Indirect Hours
+
+	column 'Idle Hours'
+		dataType: double
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Idle Hours
+
+	column 'Standard Hours'
+		dataType: double
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Standard Hours
+
+	column 'New Hire Share'
+		dataType: double
+		summarizeBy: sum
+		isHidden
+		sourceColumn: New Hire Share
+
+	partition Labor = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\Labor.csv"), [Delimiter = ",", Columns = 9, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Date", type date}, {"Hour", Int64.Type}, {"Team ID", type text}, {"Units", Int64.Type}, {"Direct Hours", type number}, {"Indirect Hours", type number}, {"Idle Hours", type number}, {"Standard Hours", type number}, {"New Hire Share", type number}}, "en-US")
+				in
+				    Typed

@@ -1,0 +1,28 @@
+table Hours
+
+	column Hour
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Hour]
+
+	column 'Hour Label'
+		summarizeBy: none
+		sortByColumn: 'Hour Order'
+		isNameInferred
+		sourceColumn: [Hour Label]
+
+	column Shift
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Shift]
+
+	column 'Hour Order'
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Hour Order]
+
+	partition Hours = calculated
+		mode: import
+		source = DATATABLE ( "Hour", INTEGER, "Hour Label", STRING, "Shift", STRING, "Hour Order", INTEGER, { { 8, "08:00", "Day", 1 }, { 9, "09:00", "Day", 2 }, { 10, "10:00", "Day", 3 }, { 11, "11:00", "Day", 4 }, { 12, "12:00", "Day", 5 }, { 13, "13:00", "Day", 6 }, { 14, "14:00", "Day", 7 }, { 15, "15:00", "Day", 8 }, { 16, "16:00", "Day", 9 }, { 17, "17:00", "Day", 10 }, { 20, "20:00", "Night", 11 }, { 21, "21:00", "Night", 12 }, { 22, "22:00", "Night", 13 }, { 23, "23:00", "Night", 14 }, { 0, "00:00", "Night", 15 }, { 1, "01:00", "Night", 16 }, { 2, "02:00", "Night", 17 }, { 3, "03:00", "Night", 18 }, { 4, "04:00", "Night", 19 }, { 5, "05:00", "Night", 20 } } )

@@ -58,7 +58,7 @@ Step-by-step guide, including building reports by asking and using your own data
 > Needs Power BI Desktop **2.157 or newer**. Older versions cut off a few labels ([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1));
 > the Microsoft Store version keeps itself up to date, and `quickstart` opens it when it's installed.
 
-## Four pilots by purpose
+## Pilots by purpose
 
 | Dashboard: executive summary | Measure table: measure input matrix |
 |---|---|
@@ -67,6 +67,16 @@ Step-by-step guide, including building reports by asking and using your own data
 | **Matrix check** | **Deep dive** |
 | ![Matrix](templates/matrix/screenshots/heatmap.png) | ![Deep dive](templates/deepdive/screenshots/decomposition.png) |
 | Hierarchical rows × month heatmap, region › store scorecard (opens expanded) | Decomposition tree · discount vs. margin scatter · source rows |
+
+### Domain pilot: fulfillment center operations
+
+![Fulfillment pilot, outbound page](templates/fulfillment/screenshots/outbound.png)
+
+For warehouse and fulfillment analysts: **outbound first** (units shipped, outbound UPH vs plan, on-time ship, missed cut-offs),
+then **lost hours** (paid hours the engineered standard didn't need, split into slow work, support work and waiting, by process → shift → zone → team),
+**productivity by hour**, **teams and their drivers** (new-hire share vs % of standard), and **inbound and inventory** (dock-to-stock, damage, count accuracy).
+It has its own model and seeded sample data; concepts and formulas are in [design-system/domains/fulfillment.md](design-system/domains/fulfillment.md).
+`python tools/quickstart.py --purpose fulfillment`
 
 Full list and how to choose: [templates/catalog.json](templates/catalog.json)
 
@@ -88,6 +98,8 @@ Pick by where the report will be read:
 | | **Contrast** | flat, darker lines and text | Accessibility, projectors, bright rooms |
 
 Each series palette passes a color-vision check (adjacent series stay apart for protan, deutan and tritan viewers); the second color is gray on purpose, for last year.
+
+**Two layouts:** every pilot page comes with navigation in a left rail (default) or in a bar across the top with a full-width body (`--frame top`).
 
 **Your brand color:** `python tools/brand_theme.py --id acme --accent "#0F62FE" --base navy` makes an eighth preset from one color. Blue, teal and violet brands also color the data; red, orange, yellow and green brands color only the rail and selections, because red already means "below target" ([guide](docs/guide/en.md)).
 
@@ -154,7 +166,7 @@ An AI agent (Claude Code) creates and edits the files. I define the problem, set
 
 ```
 powerbi-autopilot/
-├── templates/         Four pilots by purpose, shared measures (per language), glossary, pilot catalog
+├── templates/         Four pilots by purpose and a fulfillment-operations pilot (own model), shared measures, glossary, catalog
 ├── design-system/     Principles, rubric, research notes, tokens → seven themes (palette × card shape), layout templates, locales, HTML prototypes
 ├── tools/             Generator (spec → PBIR), new-report starter, theme/layout builds, share images, token measurement
 ├── examples/          Shared synthetic data (Korean/English), example 03 (Modeling MCP), example 04 (first generator run)
@@ -189,7 +201,7 @@ when several people point at the same thing, the design rule changes. [How feedb
 This is a work in progress. I'll keep improving it and logging what I learn.
 
 - [x] Design tokens → themes, layout templates, spec → PBIR generator
-- [x] Four pilots · seven themes (classic, showcase, practical) · multiple languages
+- [x] Four pilots · a fulfillment-operations pilot · seven themes · two layouts · multiple languages
 - [ ] Sparklines inside tables (SVG measures)
 - [ ] Real-data flow: Presto/Redshift query → model → pilot, including ODBC validation
 - [ ] Same request across three tools (Microsoft's official skill / a community skill / Modeling MCP), compared by tokens and rubric score

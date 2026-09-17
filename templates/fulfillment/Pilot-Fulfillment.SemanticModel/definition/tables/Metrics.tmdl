@@ -1,0 +1,407 @@
+/// Measure-only table: every metric lives here.
+table Metrics
+
+	/// Units handled by the process in context.
+	measure Units = SUM ( Labor[Units] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Hours spent on the work itself.
+	measure 'Direct Hours' = SUM ( Labor[Direct Hours] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Paid hours on training, meetings, cleaning and other support work.
+	measure 'Indirect Hours' = SUM ( Labor[Indirect Hours] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Paid hours with no work to do (volume below capacity, system downtime).
+	measure 'Idle Hours' = SUM ( Labor[Idle Hours] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// All paid hours.
+	measure 'Paid Hours' = [Direct Hours] + [Indirect Hours] + [Idle Hours]
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Hours the work should take at the engineered standard: units / standard UPH.
+	measure 'Standard Hours' = SUM ( Labor[Standard Hours] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Each flow's volume counted once: pick units for outbound, receive units for inbound, counted units for inventory.
+	measure 'Flow Units' = CALCULATE ( [Units], KEEPFILTERS ( Processes[Counts Toward Flow] = TRUE () ) )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Units of the one process in context, or each flow's volume when several processes are in context.
+	measure 'Handled Units' = IF ( COUNTROWS ( VALUES ( Teams[Process ID] ) ) = 1, [Units], [Flow Units] )
+		formatString: #,0
+		displayFolder: 1. Labor
+
+	/// Units per paid hour (also called HTP).
+	measure UPH = DIVIDE ( [Handled Units], [Paid Hours] )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// Units per direct hour.
+	measure 'Direct UPH' = DIVIDE ( [Handled Units], [Direct Hours] )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// The standard rate at the planned 85% direct time: the UPH the plan expects.
+	measure 'Target UPH' = DIVIDE ( [Handled Units], [Standard Hours] ) * 0.85
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// UPH above (+) or below (-) the plan.
+	measure 'UPH vs Target' = DIVIDE ( [UPH], [Target UPH] ) - 1
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 2. Productivity
+
+	/// Performance to standard: standard hours earned per direct hour worked.
+	measure '% of Standard' = DIVIDE ( [Standard Hours], [Direct Hours] )
+		formatString: 0.0%
+		displayFolder: 2. Productivity
+
+	/// Paid hours the standard did not need: below-standard work + indirect work + idle time.
+	measure 'Hours Lost' = [Paid Hours] - [Standard Hours]
+		formatString: #,0
+		displayFolder: 2. Productivity
+
+	/// Direct hours beyond what the standard needed.
+	measure 'Hours Below Standard' = [Direct Hours] - [Standard Hours]
+		formatString: #,0
+		displayFolder: 2. Productivity
+
+	/// Hours Lost split by cause (use with Loss Types).
+	measure 'Hours by Loss Type' = SWITCH ( SELECTEDVALUE ( 'Loss Types'[Loss Type] ), "Below standard", [Hours Below Standard], "Indirect work", [Indirect Hours], "Idle", [Idle Hours] )
+		formatString: #,0
+		displayFolder: 2. Productivity
+
+	/// Share of paid hours spent on direct work.
+	measure 'Direct Share' = DIVIDE ( [Direct Hours], [Paid Hours] )
+		formatString: 0.0%
+		displayFolder: 2. Productivity
+
+	/// Share of paid hours with no work.
+	measure 'Idle Share' = DIVIDE ( [Idle Hours], [Paid Hours] )
+		formatString: 0.0%
+		displayFolder: 2. Productivity
+
+	/// Share of paid hours on support work.
+	measure 'Indirect Share' = DIVIDE ( [Indirect Hours], [Paid Hours] )
+		formatString: 0.0%
+		displayFolder: 2. Productivity
+
+	/// Share of paid hours worked by people in their first 30 days.
+	measure 'New Hire Share' = DIVIDE ( SUMX ( Labor, Labor[New Hire Share] * ( Labor[Direct Hours] + Labor[Indirect Hours] + Labor[Idle Hours] ) ), [Paid Hours] )
+		formatString: 0%
+		displayFolder: 2. Productivity
+
+	/// Units shipped per outbound paid hour (pick, pack, ship).
+	measure 'Outbound UPH' = CALCULATE ( [UPH], Processes[Flow] = "Outbound" )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// The outbound plan rate.
+	measure 'Outbound Target UPH' = CALCULATE ( [Target UPH], Processes[Flow] = "Outbound" )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// Units received per inbound paid hour (receive, putaway).
+	measure 'Inbound UPH' = CALCULATE ( [UPH], Processes[Flow] = "Inbound" )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// The inbound plan rate.
+	measure 'Inbound Target UPH' = CALCULATE ( [Target UPH], Processes[Flow] = "Inbound" )
+		formatString: #,0.0
+		displayFolder: 2. Productivity
+
+	/// Orders shipped.
+	measure 'Orders Shipped' = SUM ( Orders[Orders] )
+		formatString: #,0
+		displayFolder: 3. Outbound
+
+	/// Units shipped.
+	measure 'Units Shipped' = SUM ( Orders[Units] )
+		formatString: #,0
+		displayFolder: 3. Outbound
+
+	/// Orders shipped by their cut-off / orders due (including carried backlog).
+	measure 'On-time Ship %' = DIVIDE ( SUM ( Orders[Shipped On Time] ), SUM ( Orders[Orders Due] ) )
+		formatString: 0.0%
+		displayFolder: 3. Outbound
+
+	/// Plan: 98% of orders out by cut-off.
+	measure 'On-time Ship Target' = 0.98
+		formatString: 0%
+		displayFolder: 3. Outbound
+
+	/// Orders due that did not leave by their cut-off.
+	measure 'Missed Cut-off' = SUM ( Orders[Orders Due] ) - SUM ( Orders[Shipped On Time] )
+		formatString: #,0
+		displayFolder: 3. Outbound
+
+	/// Average units in an order.
+	measure 'Units per Order' = DIVIDE ( [Units Shipped], [Orders Shipped] )
+		formatString: 0.00
+		displayFolder: 3. Outbound
+
+	/// Hours from order release to ship.
+	measure 'Order Cycle Hours' = DIVIDE ( SUM ( Orders[Cycle Hours] ), [Orders Shipped] )
+		formatString: 0.0
+		displayFolder: 3. Outbound
+
+	/// Orders picked without an error.
+	measure 'Pick Accuracy' = 1 - DIVIDE ( SUM ( Orders[Pick Errors] ), [Orders Shipped] )
+		formatString: 0.00%
+		displayFolder: 3. Outbound
+
+	/// Deliveries received.
+	measure Receipts = COUNTROWS ( Receipts )
+		formatString: #,0
+		displayFolder: 4. Inbound and inventory
+
+	/// Units received.
+	measure 'Units Received' = SUM ( Receipts[Units] )
+		formatString: #,0
+		displayFolder: 4. Inbound and inventory
+
+	/// Hours from arrival to putaway.
+	measure 'Dock-to-Stock Hours' = AVERAGE ( Receipts[Dock To Stock Hours] )
+		formatString: 0.0
+		displayFolder: 4. Inbound and inventory
+
+	/// Plan: stocked within 4 hours.
+	measure 'Dock-to-Stock Target' = 4
+		formatString: 0.0
+		displayFolder: 4. Inbound and inventory
+
+	/// Deliveries that arrived in their slot.
+	measure 'On-time Receipts %' = AVERAGE ( Receipts[Arrived On Time] )
+		formatString: 0.0%
+		displayFolder: 4. Inbound and inventory
+
+	/// Deliveries received without damage.
+	measure 'Damage-free %' = AVERAGE ( Receipts[Damage Free] )
+		formatString: 0.0%
+		displayFolder: 4. Inbound and inventory
+
+	/// Deliveries with correct paperwork.
+	measure 'Documents Correct %' = AVERAGE ( Receipts[Documents Correct] )
+		formatString: 0.0%
+		displayFolder: 4. Inbound and inventory
+
+	/// Counted locations whose quantity matched the system.
+	measure 'Inventory Accuracy' = DIVIDE ( SUM ( Counts[Locations Accurate] ), SUM ( Counts[Locations Counted] ) )
+		formatString: 0.00%
+		displayFolder: 4. Inbound and inventory
+
+	/// Occupied share of storage locations (day-weighted).
+	measure 'Capacity Used' = DIVIDE ( SUM ( Counts[Locations Used] ), SUM ( Counts[Locations Total] ) )
+		formatString: 0.0%
+		displayFolder: 4. Inbound and inventory
+
+	/// Orders delivered by the promised date.
+	measure 'On-time Delivery %' = DIVIDE ( SUM ( Orders[Delivered On Time] ), [Orders Shipped] )
+		formatString: 0.0%
+		displayFolder: 5. Delivery
+
+	/// Orders delivered on the first attempt.
+	measure 'First-attempt %' = DIVIDE ( SUM ( Orders[First Attempt Delivered] ), [Orders Shipped] )
+		formatString: 0.0%
+		displayFolder: 5. Delivery
+
+	/// Hours from ship to delivery.
+	measure 'Delivery Hours' = DIVIDE ( SUM ( Orders[Delivery Hours] ), [Orders Shipped] )
+		formatString: 0.0
+		displayFolder: 5. Delivery
+
+	/// The last day in the data.
+	measure 'Last Data Date' = CALCULATE ( MAX ( Labor[Date] ), REMOVEFILTERS () )
+		formatString: yyyy-mm-dd
+		displayFolder: 6. Info
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Context Label' = VAR d0 = CALCULATE ( MIN ( Labor[Date] ) ) VAR d1 = CALCULATE ( MAX ( Labor[Date] ) ) RETURN FORMAT ( d0, "mmm d", "en-US" ) & " – " & FORMAT ( d1, "mmm d", "en-US" ) & "  ·  " & IF ( ISFILTERED ( Teams[Shift] ), SELECTEDVALUE ( Teams[Shift], "Some" ) & " shift", "All shifts" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Neutral Color' = "#667085"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Standard Line' = 1
+		formatString: 0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Std Gap' = VAR g = [% of Standard] RETURN IF ( NOT ISBLANK ( g ), g - 1 )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Std Shortfall' = VAR g = [% of Standard] RETURN IF ( NOT ISBLANK ( g ), 1 - g )
+		formatString: ▼0.0%;▲0.0%;0.0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Outbound Std Gap' = CALCULATE ( [Std Gap], KEEPFILTERS ( Processes[Flow] = "Outbound" ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Outbound Shortfall' = CALCULATE ( [Std Shortfall], KEEPFILTERS ( Processes[Flow] = "Outbound" ) )
+		formatString: ▼0.0%;▲0.0%;0.0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Perf Bar Color' = IF ( [% of Standard] < 1, "#E34948", "#2A78D6" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure '% of Std Heat' = [% of Standard]
+		formatString: 0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Units Shipped Disp' = VAR v = [Units Shipped] RETURN DIVIDE ( v, IF ( v >= 1E6, 1E6, IF ( v >= 1E4, 1E3, 1 ) ) )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = VAR v = [Units Shipped] RETURN IF ( v >= 1E6, "#,0.00""M""", IF ( v >= 1E4, "#,0.0""K""", "#,0" ) )
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Units Received Disp' = VAR v = [Units Received] RETURN DIVIDE ( v, IF ( v >= 1E6, 1E6, IF ( v >= 1E4, 1E3, 1 ) ) )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = VAR v = [Units Received] RETURN IF ( v >= 1E6, "#,0.00""M""", IF ( v >= 1E4, "#,0.0""K""", "#,0" ) )
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Orders Text' = VAR o = [Orders Shipped] RETURN IF ( o >= 1E6, FORMAT ( o / 1E6, "0.00" ) & "M", FORMAT ( o, "#,0" ) ) & " orders  ·  " & FORMAT ( [Units per Order], "0.00" ) & " per order"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Outbound UPH Text' = "Plan " & FORMAT ( [Outbound Target UPH], "#,0.0" ) & "  " & FORMAT ( DIVIDE ( [Outbound UPH], [Outbound Target UPH] ) - 1, "▲0.0%;▼0.0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Outbound UPH Color' = IF ( [Outbound UPH] < [Outbound Target UPH], "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'On-time Text' = "Plan 98%  " & FORMAT ( ( [On-time Ship %] - [On-time Ship Target] ) * 100, "▲0.0;▼0.0" ) & "pt"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'On-time Color' = IF ( [On-time Ship %] < [On-time Ship Target], "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Cycle Text' = "Order cycle " & FORMAT ( [Order Cycle Hours], "0.0" ) & "h"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'First-attempt Gap' = VAR v = [First-attempt %] RETURN IF ( NOT ISBLANK ( v ), v - 0.95 )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'First-attempt Color' = IF ( [First-attempt %] < 0.95, "#E34948", "#2A78D6" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Receipts Text' = FORMAT ( [Receipts], "#,0" ) & " deliveries  ·  damage-free " & FORMAT ( [Damage-free %], "0.0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Inbound UPH Text' = "Plan " & FORMAT ( [Inbound Target UPH], "#,0.0" ) & "  " & FORMAT ( DIVIDE ( [Inbound UPH], [Inbound Target UPH] ) - 1, "▲0.0%;▼0.0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Inbound UPH Color' = IF ( [Inbound UPH] < [Inbound Target UPH], "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'D2S Text' = "Plan 4.0h  " & FORMAT ( [Dock-to-Stock Hours] - [Dock-to-Stock Target], "▲0.0;▼0.0" ) & "h"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'D2S Color' = IF ( [Dock-to-Stock Hours] > [Dock-to-Stock Target], "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'D2S Bar Color' = IF ( [Dock-to-Stock Hours] > [Dock-to-Stock Target], "#E34948", "#2A78D6" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Capacity Text' = "Capacity used " & FORMAT ( [Capacity Used], "0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Accuracy Gap' = VAR v = [Inventory Accuracy] RETURN IF ( NOT ISBLANK ( v ), v - 0.99 )
+		formatString: +0.00%;-0.00%;0.00%
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Accuracy Bar Color' = IF ( [Inventory Accuracy] < 0.99, "#E34948", "#2A78D6" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'UPH Text' = "Plan " & FORMAT ( [Target UPH], "#,0.0" ) & "  " & FORMAT ( DIVIDE ( [UPH], [Target UPH] ) - 1, "▲0.0%;▼0.0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'UPH Color' = IF ( [UPH] < [Target UPH], "#C0392B", "#1C5CAB" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Direct Text' = "Direct time " & FORMAT ( [Direct Share], "0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Indirect Text' = "Indirect work " & FORMAT ( [Indirect Share], "0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Crew Text' = "Crew of " & SUM ( Teams[Headcount] )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'UPH Trend' = VAR _t = FILTER ( ADDCOLUMNS ( VALUES ( Calendar[Week Start] ), "UphV", [UPH] ), NOT ISBLANK ( [UphV] ) ) VAR _w0 = MINX ( _t, Calendar[Week Start] ) VAR _w1 = MAXX ( _t, Calendar[Week Start] ) VAR _span = MAX ( INT ( _w1 - _w0 ), 1 ) VAR _lo = MINX ( _t, [UphV] ) VAR _hi = MAXX ( _t, [UphV] ) VAR _rng = IF ( _hi = _lo, 1, _hi - _lo ) VAR _pts = CONCATENATEX ( _t, FORMAT ( 3 + INT ( Calendar[Week Start] - _w0 ) * 94 / _span, "0.0", "en-US" ) & "," & FORMAT ( 21 - ( [UphV] - _lo ) * 18 / _rng, "0.0", "en-US" ), " ", Calendar[Week Start], ASC ) VAR _end = MAXX ( FILTER ( _t, Calendar[Week Start] = _w1 ), [UphV] ) VAR _dot = SUBSTITUTE ( IF ( [% of Standard] < 1, "#E34948", "#2A78D6" ), "#", "%23" ) VAR _stroke = SUBSTITUTE ( "#667085", "#", "%23" ) RETURN IF ( COUNTROWS ( _t ) > 1, "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='24' viewBox='0 0 100 24'><polyline fill='none' stroke='" & _stroke & "' stroke-width='1.4' stroke-linejoin='round' stroke-linecap='round' points='" & _pts & "'/><circle cx='97' cy='" & FORMAT ( 21 - ( _end - _lo ) * 18 / _rng, "0.0", "en-US" ) & "' r='2.4' fill='" & _dot & "'/></svg>" )
+		displayFolder: 9. 리포트 표시용
+		dataCategory: ImageUrl
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Outbound' = VAR t = FILTER ( VALUES ( Teams[Team] ), NOT ISBLANK ( [Outbound Std Gap] ) ) VAR lo = TOPN ( 1, t, [Outbound Std Gap], ASC ) RETURN "Outbound UPH " & FORMAT ( [Outbound UPH], "#,0.0" ) & " (plan " & FORMAT ( [Outbound Target UPH], "#,0.0" ) & ")  ·  on-time ship " & FORMAT ( [On-time Ship %], "0.0%" ) & "  ·  furthest below standard: " & CONCATENATEX ( lo, Teams[Team], ", " ) & " " & FORMAT ( MINX ( lo, [% of Standard] ), "0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Loss' = VAR lost = [Hours Lost] VAR t = FILTER ( VALUES ( Processes[Process] ), NOT ISBLANK ( [Hours Lost] ) ) VAR top1 = TOPN ( 1, t, [Hours Lost], DESC ) RETURN FORMAT ( lost, "#,0" ) & " hours lost vs standard  ·  idle " & FORMAT ( DIVIDE ( [Idle Hours], lost ), "0%" ) & ", indirect " & FORMAT ( DIVIDE ( [Indirect Hours], lost ), "0%" ) & ", slow work " & FORMAT ( DIVIDE ( [Hours Below Standard], lost ), "0%" ) & "  ·  most in " & CONCATENATEX ( top1, Processes[Process], ", " )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Hours' = VAR t = FILTER ( CROSSJOIN ( VALUES ( Processes[Process] ), VALUES ( Hours[Hour Label] ) ), NOT ISBLANK ( [% of Standard] ) ) VAR lo = TOPN ( 1, t, [% of Standard], ASC ) VAR hi = TOPN ( 1, t, [% of Standard], DESC ) RETURN "Slowest: " & CONCATENATEX ( lo, Processes[Process] & " at " & Hours[Hour Label], ", " ) & " " & FORMAT ( MINX ( lo, [% of Standard] ), "0%" ) & " of standard  ·  fastest: " & CONCATENATEX ( hi, Processes[Process] & " at " & Hours[Hour Label], ", " ) & " " & FORMAT ( MAXX ( hi, [% of Standard] ), "0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Teams' = VAR t = FILTER ( VALUES ( Teams[Team] ), NOT ISBLANK ( [% of Standard] ) ) VAR newt = FILTER ( t, [New Hire Share] >= 0.2 ) RETURN "Below standard: " & COUNTROWS ( FILTER ( t, [% of Standard] < 1 ) ) & " of " & COUNTROWS ( t ) & " teams  ·  teams with 20%+ new hires work at " & FORMAT ( CALCULATE ( [% of Standard], newt ), "0%" ) & " of standard, the rest at " & FORMAT ( CALCULATE ( [% of Standard], EXCEPT ( t, newt ) ), "0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Inbound' = VAR late = CALCULATE ( [Dock-to-Stock Hours], Receipts[Arrival Band] = "≥ 16:00" ) VAR z = FILTER ( VALUES ( Zones[Zone] ), NOT ISBLANK ( [Inventory Accuracy] ) ) VAR lo = TOPN ( 1, z, [Inventory Accuracy], ASC ) RETURN "Dock-to-stock " & FORMAT ( [Dock-to-Stock Hours], "0.0" ) & "h, " & FORMAT ( late, "0.0" ) & "h for arrivals after 16:00  ·  inventory accuracy " & FORMAT ( [Inventory Accuracy], "0.0%" ) & ", lowest " & CONCATENATEX ( lo, Zones[Zone], ", " ) & " " & FORMAT ( MINX ( lo, [Inventory Accuracy] ), "0.0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Team Detail' = VAR h = FILTER ( VALUES ( Hours[Hour Label] ), NOT ISBLANK ( [% of Standard] ) ) VAR lo = TOPN ( 1, h, [% of Standard], ASC ) RETURN SELECTEDVALUE ( Teams[Team], "All teams" ) & "  ·  " & FORMAT ( [% of Standard], "0%" ) & " of standard  ·  slowest hour " & CONCATENATEX ( lo, Hours[Hour Label], ", " ) & " " & FORMAT ( MINX ( lo, [% of Standard] ), "0%" )
+		displayFolder: 9. 리포트 표시용
+
+	column _
+		isHidden
+		isNameInferred
+		sourceColumn: [_]
+
+	partition Metrics = calculated
+		mode: import
+		source = ROW ( "_", BLANK () )

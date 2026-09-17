@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Pilot-Fulfillment"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "29875a4aaf56d8ffd313ad7b0c2b8ac4"
+  }
+}

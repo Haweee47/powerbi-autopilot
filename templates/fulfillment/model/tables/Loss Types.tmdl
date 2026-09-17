@@ -1,0 +1,17 @@
+table 'Loss Types'
+
+	column 'Loss Type'
+		summarizeBy: none
+		sortByColumn: 'Loss Order'
+		isNameInferred
+		sourceColumn: [Loss Type]
+
+	column 'Loss Order'
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Loss Order]
+
+	partition 'Loss Types' = calculated
+		mode: import
+		source = DATATABLE ( "Loss Type", STRING, "Loss Order", INTEGER, { { "Below standard", 1 }, { "Indirect work", 2 }, { "Idle", 3 } } )

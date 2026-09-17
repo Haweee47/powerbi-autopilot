@@ -45,13 +45,17 @@ def ensure_data() -> None:
         if not any(lang_dir.glob("*.csv")):
             print(f"  sample data missing in {lang_dir.relative_to(ROOT)} - generating it")
             subprocess.run([sys.executable, str(DATA / "generate.py"), *extra], check=True)
+    ops = ROOT / "examples" / "_data" / "fulfillment"
+    if not any(ops.glob("*.csv")):
+        print(f"  sample data missing in {ops.relative_to(ROOT)} - generating it")
+        subprocess.run([sys.executable, str(ops / "generate.py")], check=True)
 
 
-def build(purpose: dict, theme: str, lang: str) -> Path | None:
+def build(purpose: dict, theme: str, lang: str, frame: str = "rail") -> Path | None:
     spec = ROOT / "templates" / purpose["pilot"]
-    dest = OUT / f"{purpose['id']}-{theme}-{lang}"
+    dest = OUT / (f"{purpose['id']}-{theme}-{lang}" + ("" if frame == "rail" else f"-{frame}"))
     cmd = [sys.executable, str(ROOT / "tools" / "generate_pbir.py"), str(spec),
-           "--lang", lang, "--theme", theme, "--local-data", "--out", str(dest)]
+           "--lang", lang, "--theme", theme, "--frame", frame, "--local-data", "--out", str(dest)]
     r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace",
                        env={**os.environ, "PYTHONIOENCODING": "utf-8"})
     if r.returncode != 0:
@@ -101,16 +105,17 @@ def main() -> None:
     ap.add_argument("--purpose", default="dashboard", choices=list(purposes))
     ap.add_argument("--theme", default="navy", choices=[t["id"] for t in cat["themes"]])
     ap.add_argument("--lang", default=loc["default"], choices=list(loc["locales"]))
+    ap.add_argument("--frame", default="rail", choices=[f["id"] for f in cat["frames"]], help="page layout: left rail or top bar")
     ap.add_argument("--all", action="store_true", help="build all four pilots")
     ap.add_argument("--open", action="store_true", help="open the result in Power BI Desktop (Windows)")
     a = ap.parse_args()
 
     ensure_data()
     chosen = list(purposes.values()) if a.all else [purposes[a.purpose]]
-    print(f"Building {len(chosen)} report(s) · theme {a.theme} · language {loc['locales'][a.lang]['name']}")
+    print(f"Building {len(chosen)} report(s) · theme {a.theme} · layout {a.frame} · language {loc['locales'][a.lang]['name']}")
     built = []
     for p in chosen:
-        pbip = build(p, a.theme, a.lang)
+        pbip = build(p, a.theme, a.lang, a.frame)
         if pbip:
             pages = p["pages"].get(a.lang) or p["pages"]["en"]
             print(f"  OK  {p['name']['en']:<22} {pbip.relative_to(ROOT)}\n      pages: {pages}")

@@ -1,0 +1,36 @@
+relationship Labor_Calendar
+	fromColumn: Labor.Date
+	toColumn: Calendar.Date
+
+relationship Labor_Hours
+	fromColumn: Labor.Hour
+	toColumn: Hours.Hour
+
+relationship Labor_Teams
+	fromColumn: Labor.'Team ID'
+	toColumn: Teams.'Team ID'
+
+relationship Teams_Processes
+	fromColumn: Teams.'Process ID'
+	toColumn: Processes.'Process ID'
+
+relationship Teams_Zones
+	fromColumn: Teams.'Zone ID'
+	toColumn: Zones.'Zone ID'
+
+relationship Orders_Calendar
+	fromColumn: Orders.Date
+	toColumn: Calendar.Date
+
+relationship Receipts_Calendar
+	fromColumn: Receipts.Date
+	toColumn: Calendar.Date
+
+relationship Counts_Calendar
+	fromColumn: Counts.Date
+	toColumn: Calendar.Date
+
+relationship Counts_Zones
+	fromColumn: Counts.'Zone ID'
+	toColumn: Zones.'Zone ID'
+

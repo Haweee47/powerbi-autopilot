@@ -1,0 +1,48 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "a9bce91254304ffdc205",
+  "displayName": "Team detail",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "visibility": "HiddenInViewMode",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f091a526bcab1a85de74",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Teams"
+              }
+            },
+            "Property": "Team"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "a14c346ab3f13aa3f94c",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "8a66f23effa2f239e1cf",
+        "boundFilter": "f091a526bcab1a85de74",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Teams"
+              }
+            },
+            "Property": "Team"
+          }
+        }
+      }
+    ]
+  }
+}

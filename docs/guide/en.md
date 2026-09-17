@@ -41,9 +41,10 @@ python tools/quickstart.py --all --lang ko
 
 | Option | Values |
 |---|---|
-| `--purpose` | `dashboard` · `table` · `matrix` · `deepdive` |
+| `--purpose` | `dashboard` · `table` · `matrix` · `deepdive` · `fulfillment` |
 | `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
+| `--frame` | `rail` (navigation on the left) · `top` (a bar across the top, full-width body) |
 
 **Your brand color.** Make a preset from one color, then use its id as `--theme`. Blue, teal and violet brands also color the data;
 red, orange, yellow and green brands color only the navigation rail and selections, because red already means "below target".

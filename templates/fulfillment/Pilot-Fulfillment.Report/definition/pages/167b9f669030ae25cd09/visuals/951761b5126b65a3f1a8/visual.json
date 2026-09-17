@@ -1,0 +1,282 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "951761b5126b65a3f1a8",
+  "position": {
+    "x": 216,
+    "y": 112,
+    "z": 7000,
+    "height": 352,
+    "width": 1040,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "decompositionTreeVisual",
+    "query": {
+      "queryState": {
+        "Analyze": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
+                  "Property": "Hours Lost"
+                }
+              },
+              "queryRef": "Metrics.Hours Lost",
+              "nativeQueryRef": "Hours Lost",
+              "displayName": "Hours lost"
+            }
+          ]
+        },
+        "ExplainBy": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Processes"
+                    }
+                  },
+                  "Property": "Flow"
+                }
+              },
+              "queryRef": "Processes.Flow",
+              "nativeQueryRef": "Flow",
+              "displayName": "Flow",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Processes"
+                    }
+                  },
+                  "Property": "Process"
+                }
+              },
+              "queryRef": "Processes.Process",
+              "nativeQueryRef": "Process",
+              "displayName": "Process",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Teams"
+                    }
+                  },
+                  "Property": "Shift"
+                }
+              },
+              "queryRef": "Teams.Shift",
+              "nativeQueryRef": "Shift",
+              "displayName": "Shift",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Zones"
+                    }
+                  },
+                  "Property": "Zone"
+                }
+              },
+              "queryRef": "Zones.Zone",
+              "nativeQueryRef": "Zone",
+              "displayName": "Zone",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Teams"
+                    }
+                  },
+                  "Property": "Team"
+                }
+              },
+              "queryRef": "Teams.Team",
+              "nativeQueryRef": "Team",
+              "displayName": "Team",
+              "active": true
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Metrics"
+                  }
+                },
+                "Property": "Hours Lost"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "ExplainBy"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "Processes.Flow"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Processes"
+                    }
+                  },
+                  "Property": "Flow"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Processes.Process"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Processes"
+                    }
+                  },
+                  "Property": "Process"
+                }
+              }
+            ],
+            "isPinned": false
+          },
+          {
+            "queryRefs": [
+              "Teams.Shift"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Teams"
+                    }
+                  },
+                  "Property": "Shift"
+                }
+              }
+            ],
+            "isPinned": false
+          },
+          {
+            "queryRefs": [
+              "Zones.Zone"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Zones"
+                    }
+                  },
+                  "Property": "Zone"
+                }
+              }
+            ],
+            "isPinned": false
+          },
+          {
+            "queryRefs": [
+              "Teams.Team"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Teams"
+                    }
+                  },
+                  "Property": "Team"
+                }
+              }
+            ],
+            "isPinned": false
+          }
+        ],
+        "root": {
+          "isToggled": true
+        }
+      }
+    ],
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Hours lost vs standard'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Paid hours the standard did not need · click + to split further'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
