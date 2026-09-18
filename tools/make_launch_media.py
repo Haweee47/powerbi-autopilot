@@ -1,0 +1,254 @@
+"""Launch media: a short demo loop (request typed in, pages coming out) and square slides for a feed post.
+
+Input: Desktop captures. English pages come from templates/<purpose>/screenshots/ (committed); Korean pages come from
+out/render/ful-ko/ if a capture run left them there (tools/render_check.ps1 -Dir out/ful-ko), otherwise the Korean demo is skipped.
+Output: docs/share/media/demo-ko.gif, demo-en.gif, slide-ko-1..4.png
+
+Usage: python tools/make_launch_media.py
+"""
+from pathlib import Path
+
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
+
+ROOT = Path(__file__).resolve().parents[1]
+T = ROOT / "templates"
+OUT = ROOT / "docs" / "share" / "media"
+KO_PAGES = ROOT / "out" / "render" / "ful-ko"
+FONTS = Path("C:/Windows/Fonts")
+
+NAVY, PANEL, EDGE = "#0F1A2A", "#16202E", "#2A3A4F"
+INK, SOFT, DIM = "#F2F5F9", "#AEB9C7", "#7C8798"
+ACCENT, GOOD = "#6EA8FE", "#52D19B"
+W, H = 1200, 675  # 16:9, the size a feed plays at
+
+
+def font(kind: str, size: int) -> ImageFont.FreeTypeFont:
+    """kind: body | bold | mono. Malgun Gothic carries both Korean and ASCII, so one family covers both demos."""
+    names = {"body": ["malgun.ttf"], "bold": ["malgunbd.ttf", "malgun.ttf"], "mono": ["consola.ttf", "malgun.ttf"]}[kind]
+    for n in names:
+        if (FONTS / n).exists():
+            return ImageFont.truetype(str(FONTS / n), size)
+    return ImageFont.load_default()
+
+
+def card(img: Image.Image, w: int, radius: int = 12) -> Image.Image:
+    """A screenshot as a rounded card with a soft shadow (same treatment as make_media.py)."""
+    h = round(img.height * w / img.width)
+    shot = img.convert("RGB").resize((w, h), Image.LANCZOS)
+    mask = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, w - 1, h - 1), radius, fill=255)
+    pad = 20
+    out = Image.new("RGBA", (w + pad * 2, h + pad * 2), (0, 0, 0, 0))
+    shadow = Image.new("RGBA", out.size, (0, 0, 0, 0))
+    ImageDraw.Draw(shadow).rounded_rectangle((pad, pad + 6, pad + w, pad + h + 6), radius, fill=(0, 0, 0, 120))
+    out = Image.alpha_composite(out, shadow.filter(ImageFilter.GaussianBlur(10)))
+    out.paste(shot, (pad, pad), mask)
+    return out
+
+
+def wrap(draw: ImageDraw.ImageDraw, text: str, f: ImageFont.FreeTypeFont, width: int) -> list[str]:
+    lines, line = [], ""
+    for word in text.split(" "):
+        probe = f"{line} {word}".strip()
+        if draw.textlength(probe, font=f) > width and line:
+            lines.append(line)
+            line = word
+        else:
+            line = probe
+    return lines + [line] if line else lines
+
+
+def prompt_frame(text: str, caret: bool, steps: list[str], title: str, mono_ok: bool) -> Image.Image:
+    """The request being typed into the agent, with the steps it runs ticking off underneath."""
+    im = Image.new("RGB", (W, H), NAVY)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle((80, 96, W - 80, H - 96), 16, fill=PANEL, outline=EDGE, width=2)
+    for i, c in enumerate(("#F2645A", "#F5BF4F", "#52D19B")):
+        d.ellipse((112 + i * 26, 128, 124 + i * 26, 140), fill=c)
+    d.text((204, 124), title, font=font("body", 20), fill=DIM)
+    d.line((80, 164, W - 80, 164), fill=EDGE, width=2)
+
+    # Consolas has no Hangul, so a Korean request is typed in the body face instead
+    mono, body = (font("mono", 27) if mono_ok else font("body", 26)), font("body", 24)
+    d.text((116, 200), ">", font=font("mono", 27), fill=ACCENT)  # ASCII only: these faces have no prompt-arrow glyph
+    y = 200
+    for line in wrap(d, text, mono, W - 260):
+        d.text((152, y), line, font=mono, fill=INK)
+        y += 40
+    if caret:
+        last = wrap(d, text, mono, W - 260)[-1] if text else ""
+        cx = 152 + d.textlength(last, font=mono)
+        d.rectangle((cx + 3, y - 38, cx + 15, y - 8), fill=ACCENT)
+
+    y = max(y + 36, 320)
+    for s in steps:
+        d.line((122, y + 16, 130, y + 25), fill=GOOD, width=3)  # a drawn tick, for the same reason
+        d.line((130, y + 25, 144, y + 7), fill=GOOD, width=3)
+        d.text((156, y), s, font=body, fill=SOFT)
+        y += 46
+    return im
+
+
+def page_frame(img: Image.Image, caption: str, index: int, total: int) -> Image.Image:
+    """One generated page, with a counter so the run reads as a sequence."""
+    im = Image.new("RGB", (W, H), NAVY)
+    d = ImageDraw.Draw(im)
+    c = card(img, 1040)
+    im.paste(c, ((W - c.width) // 2, 78), c)
+    d.text((100, 30), caption, font=font("bold", 30), fill=INK)
+    counter = f"{index}/{total}"
+    d.text((W - 100 - d.textlength(counter, font=font("bold", 26)), 36), counter, font=font("bold", 26), fill=ACCENT)
+    return im
+
+
+def end_frame(lines: list[str]) -> Image.Image:
+    im = Image.new("RGB", (W, H), NAVY)
+    d = ImageDraw.Draw(im)
+    d.text((100, 232), "powerbi-autopilot", font=font("bold", 58), fill=INK)
+    d.text((100, 312), lines[0], font=font("body", 28), fill=SOFT)
+    d.text((100, 372), lines[1], font=font("body", 28), fill=SOFT)
+    d.text((100, 452), "github.com/Haweee47/powerbi-autopilot", font=font("bold", 30), fill=ACCENT)
+    return im
+
+
+DEMOS = {
+    "ko": {
+        "title": "Claude Code · powerbi-autopilot",
+        "prompt": "풀필먼트센터 운영 리포트 만들어줘. 출고가 1순위, 생산성(UPH)이랑 그 원인까지 보이게.",
+        "steps": ["명세 작성 · 8.9K 토큰", "PBIR 생성 · 7페이지 · 비주얼 96개",
+                  "Microsoft 공식 검증 · 오류 0 · 경고 0", "Power BI Desktop에서 전 페이지 캡처"],
+        "end": ["한 줄 요청 → 완성된 Power BI 리포트", "오픈소스 MIT · 가상 데이터"],
+    },
+    "en": {
+        "title": "Claude Code · powerbi-autopilot",
+        "prompt": "Build a fulfillment operations report: outbound first, then productivity (UPH) and what moves it.",
+        "steps": ["Spec written · 8.9K tokens", "PBIR generated · 7 pages · 96 visuals",
+                  "Microsoft PBIR validator · 0 errors, 0 warnings", "Every page captured in Power BI Desktop"],
+        "end": ["One request → a finished Power BI report", "Open source (MIT) · sample data"],
+    },
+}
+# English pages: the committed captures that carry no Korean from the capture machine's Desktop language
+EN_PAGES = [("dashboard/summary", "Dashboard · Sales performance"), ("dashboard/categories", "Dashboard · Categories"),
+            ("dashboard/stores", "Dashboard · Stores"), ("dashboard/store_detail", "Dashboard · Store detail (drill-through)"),
+            ("fulfillment/teams", "Fulfillment · Teams and their drivers")]
+
+
+def ko_pages() -> list[tuple[Path, str]]:
+    if not KO_PAGES.exists():
+        return []
+    return [(p, f"풀필먼트 · {p.stem.split('-', 1)[1].replace('_', ' ')}") for p in sorted(KO_PAGES.glob("*.png"))]
+
+
+def demo(lang: str) -> tuple[list[Image.Image], list[int]] | None:
+    d = DEMOS[lang]
+    pages = ko_pages() if lang == "ko" else [(T / f"{a}.png".replace("/", "/screenshots/", 1), b) for a, b in EN_PAGES]
+    pages = [(p, c) for p, c in pages if p.exists()]
+    if not pages:
+        return None
+    frames, times = [], []
+    text = d["prompt"]
+    cuts = [0, 12, 24, 36, len(text) // 2, int(len(text) * 0.72), len(text)]  # typing in chunks keeps the file small
+    for i, n in enumerate(cuts):
+        frames.append(prompt_frame(text[:n], True, [], d["title"], text.isascii()))
+        times.append(700 if i == 0 else 170)
+    frames.append(prompt_frame(text, False, [], d["title"], text.isascii()))
+    times.append(500)
+    for i in range(1, len(d["steps"]) + 1):
+        frames.append(prompt_frame(text, False, d["steps"][:i], d["title"], text.isascii()))
+        times.append(620 if i < len(d["steps"]) else 900)
+    for i, (p, caption) in enumerate(pages, 1):
+        frames.append(page_frame(Image.open(p), caption, i, len(pages)))
+        times.append(1150)
+    frames.append(end_frame(d["end"]))
+    times.append(2400)
+    return frames, times
+
+
+def slide(body) -> Image.Image:
+    """A 1200×1200 square slide: title band on navy, content drawn by `body(draw, image)`."""
+    im = Image.new("RGB", (1200, 1200), NAVY)
+    body(ImageDraw.Draw(im), im)
+    return im
+
+
+def ko_slides() -> list[Image.Image]:
+    pages = {p.stem.split("-", 1)[1]: p for p in sorted(KO_PAGES.glob("*.png"))} if KO_PAGES.exists() else {}
+    themes = [T / "_themes" / f"{t}.png" for t in ("navy", "aurora", "coast", "ledger", "contrast", "paper", "midnight")]
+    slides = []
+
+    def hero(d, im):
+        d.text((80, 104), "요청 한 줄로", font=font("bold", 62), fill=INK)
+        d.text((80, 186), "완성된 Power BI 리포트", font=font("bold", 62), fill=INK)
+        d.text((80, 286), "데이터 모델 → 디자인 → 검증까지. Desktop에서 손으로 만지지 않는다.", font=font("body", 26), fill=SOFT)
+        src = pages.get("출고") or (T / "fulfillment" / "screenshots" / "outbound.png")
+        c = card(Image.open(src), 1000)
+        im.paste(c, (80 - 20, 380), c)
+        for i, t in enumerate(["풀필먼트센터 운영 파일럿 · 7페이지 · 비주얼 96개",
+                               "모든 이름과 숫자는 가상 데이터", "github.com/Haweee47/powerbi-autopilot"]):
+            d.text((80, 990 + i * 52), t, font=font("bold" if i == 2 else "body", 26), fill=ACCENT if i == 2 else SOFT)
+    slides.append(slide(hero))
+
+    def travel(d, im):
+        d.text((80, 96), "생산성의 원인까지", font=font("bold", 56), fill=INK)
+        d.text((80, 176), "유닛당 이동 거리(DPU)", font=font("bold", 56), fill=ACCENT)
+        d.text((80, 268), "점 하나가 하루. 단일 수량 주문이 많은 날일수록 유닛당 더 걷는다.", font=font("body", 26), fill=SOFT)
+        src = pages.get("이동") or (T / "fulfillment" / "screenshots" / "travel.png")
+        c = card(Image.open(src), 1000)
+        im.paste(c, (80 - 20, 380), c)
+        for i, t in enumerate(["출고 · 손실 시간 · 시간대 · 팀 · 이동 · 입고재고 · 팀 상세",
+                               "WERC 물류센터 지표와 인력 관리 실무 개념으로 구성"]):
+            d.text((80, 990 + i * 52), t, font=font("body", 26), fill=SOFT)
+    slides.append(slide(travel))
+
+    def theme_grid(d, im):
+        d.text((80, 96), "같은 리포트, 테마 7종", font=font("bold", 56), fill=INK)
+        d.text((80, 178), "색 팔레트 × 카드 모양. 서식은 비주얼이 아니라 테마에 있다.", font=font("body", 26), fill=SOFT)
+        x0, y0, cw, gap = 60, 280, 340, 16
+        for i, p in enumerate(themes):
+            if not p.exists():
+                continue
+            c = card(Image.open(p), cw, 8)
+            centre = (3 - len(themes) % 3) * (cw + gap) // 2 if i // 3 == len(themes) // 3 else 0  # last row sits centred
+            im.paste(c, (x0 + (i % 3) * (cw + gap) + centre, y0 + (i // 3) * 210), c)
+        d.text((80, 940), "기본 · 쇼케이스 · 실무 세 묶음, 색각 이상 검사를 통과한 계열 색", font=font("body", 26), fill=SOFT)
+        d.text((80, 992), "브랜드 색 하나로 새 테마를 만드는 도구도 함께", font=font("body", 26), fill=SOFT)
+        d.text((80, 1094), "github.com/Haweee47/powerbi-autopilot", font=font("bold", 30), fill=ACCENT)
+    slides.append(slide(theme_grid))
+
+    def numbers(d, im):
+        d.text((80, 104), "숫자로", font=font("bold", 62), fill=INK)
+        rows = [("$0.6~4", "리포트 하나당 API 비용 (약 800~5,500원)"), ("2~10분", "요청부터 전 페이지 캡처까지"),
+                ("0", "Microsoft 공식 PBIR 검증 오류 · 80개 빌드"), ("6%", "에이전트가 쓰는 양 (나머지는 스크립트)"),
+                ("1,800+", "디자인 규칙의 근거가 된 공개 리포트")]
+        y = 250
+        for big, small in rows:
+            d.text((80, y), big, font=font("bold", 64), fill=ACCENT)
+            d.text((420, y + 22), small, font=font("body", 27), fill=SOFT)
+            y += 160
+        d.text((80, 1094), "github.com/Haweee47/powerbi-autopilot", font=font("bold", 30), fill=INK)
+    slides.append(slide(numbers))
+    return slides
+
+
+def main() -> None:
+    OUT.mkdir(parents=True, exist_ok=True)
+    made = []
+    for lang in ("ko", "en"):
+        got = demo(lang)
+        if not got:
+            print(f"skipped demo-{lang}.gif: no captures for it")
+            continue
+        frames, times = got
+        pal = [f.quantize(colors=160, method=Image.MEDIANCUT) for f in frames]
+        path = OUT / f"demo-{lang}.gif"
+        pal[0].save(path, save_all=True, append_images=pal[1:], duration=times, loop=0, optimize=True)
+        made.append(f"{path.name} ({len(frames)} frames, {path.stat().st_size / 1e6:.1f} MB)")
+    for i, s in enumerate(ko_slides(), 1):
+        s.save(OUT / f"slide-ko-{i}.png", optimize=True)
+        made.append(f"slide-ko-{i}.png")
+    for m in made:
+        print("made:", m)
+
+
+if __name__ == "__main__":
+    main()
