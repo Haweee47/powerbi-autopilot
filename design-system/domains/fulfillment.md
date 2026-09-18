@@ -52,7 +52,8 @@ The inputs an analyst checks when UPH drops, and where the pilot shows them:
 | Zone / item size | bulky items mean more travel and handling | Lost hours (tree), By hour, Teams |
 | Shift and hour of day | start-up hour, late-night fatigue | By hour, Team detail |
 | Tenure (share of hours by people in their first 30 days) | learning curve | Teams (scatter) |
-| Process mix and order profile (units per order) | multi-unit orders raise pick UPH | Outbound |
+| Order type and profile (single-unit, multi-unit, bulk; units per order) | a single-unit order walks a full pick path for one unit | Outbound, Travel |
+| Travel per unit (DPU, metres walked per unit handled) | the biggest pick driver after the standard itself: zone layout, slotting, order mix | Travel, Teams |
 | Backlog and overtime | late cut-offs, longer cycle times | Outbound |
 
 ## Other measures
@@ -61,6 +62,8 @@ The operational list follows WERC's DC Measures survey (customer, inbound, outbo
 
 | Area | Measure | Formula |
 |---|---|---|
+| Productivity | DPU (distance per unit) | metres walked / units handled by the work that walks (picking, putaway, counting) |
+| | Single-unit share | orders with one unit / orders shipped |
 | Outbound | On-time ship | orders shipped by cut-off / orders due (including carried backlog) |
 | | Missed cut-off | orders due − orders shipped on time |
 | | Order cycle hours | hours from order release to ship, per order |
@@ -80,7 +83,8 @@ The pilot reuses the layout templates of the retail pilots; only the model, meas
 | Outbound (summary) | Are we shipping on time, at plan speed? | units shipped, outbound UPH vs plan, on-time ship, missed cut-offs; UPH by day with the plan; pick/pack/ship vs standard; three weakest teams; first delivery attempt by carrier |
 | Lost hours (tree) | Where do the paid hours go? | hours lost split by flow → process → shift → zone → team; % of standard by week; lost hours by cause |
 | By hour (matrix) | When does the work slow down? | process × hour heatmap of % of standard |
-| Teams (scatter + tables) | Which teams are behind, and is it new hires? | new-hire share vs % of standard; five weakest; every team with a weekly UPH sparkline |
+| Teams (scatter + tables) | Which teams are behind, and is it new hires? | new-hire share vs % of standard; five weakest; every team with a weekly UPH sparkline, DPU, idle and new-hire share |
+| Travel (scatter) | Why do we walk this far per unit? | one dot per day: share of single-unit orders vs metres walked per picked unit; metres per unit by zone; filter by order type |
 | Inbound and inventory (summary) | Is stock getting to the shelf and staying accurate? | units received, inbound UPH, dock-to-stock, inventory accuracy; dock-to-stock by arrival time; suppliers with the most damage; accuracy by zone |
 | Team detail (drill-through) | What happened in this team? | UPH vs plan, % of standard, idle and indirect share, crew; UPH by week; % of standard by hour |
 
@@ -95,7 +99,10 @@ Design choices specific to operations:
 Map your tables to the measures above with `new_report.py --purpose fulfillment --model <your TMDL>`
 ([model map](../../examples/05-own-model/README.md)). Things that differ between sites:
 - **Standards**: engineered standards per process (and sometimes per item size or zone); the pilot has one per process.
-- **Paid vs direct hours**: some sites compute UPH on direct hours only. Use `Direct UPH` then, and keep the lost-hours split.
+- **Paid vs direct hours**: the pilot computes UPH on paid hours (waiting and support work count against it). Sites that measure on
+  direct hours only can use `Direct UPH` and keep the lost-hours split.
+- **Travel**: DPU needs distance per task from the WMS or the pick-path calculation. Without it, keep the order mix and zone as the
+  proxies for travel.
 - **Night shift dates**: the pilot dates a night shift by its start; sites that split at midnight need the same rule in the model.
 - **Volume**: count each flow once (pick or ship, not both).
 

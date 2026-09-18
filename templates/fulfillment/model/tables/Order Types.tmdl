@@ -1,0 +1,17 @@
+table 'Order Types'
+
+	column 'Order Type'
+		summarizeBy: none
+		sortByColumn: 'Order Type Order'
+		isNameInferred
+		sourceColumn: [Order Type]
+
+	column 'Order Type Order'
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Order Type Order]
+
+	partition 'Order Types' = calculated
+		mode: import
+		source = DATATABLE ( "Order Type", STRING, "Order Type Order", INTEGER, { { "Single unit", 1 }, { "Multi unit", 2 }, { "Bulk", 3 } } )

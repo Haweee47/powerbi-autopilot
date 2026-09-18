@@ -504,6 +504,37 @@ Concepts, formulas and page choices: [design-system/domains/fulfillment.md](../d
 
 ---
 
+## 2026-09-18 · Order type and travel per unit (DPU)
+
+The fulfillment pilot measured productivity but not the driver that moves picking most after the standard itself: how far people
+walk. Two additions, both asked for by the analyst the pilot is built for - order type and travel distance.
+
+- **Data**: orders are now split by type (single unit, multi unit, bulk), and every labor row carries the metres walked by the work
+  that walks (picking, putaway, counting). Distance per unit follows the zone (A 9.5 m, B 14, C 26) and the order mix, because a
+  single-unit order walks a full pick path for one unit. The August promotion shifts the mix to multi-unit and bulk, so DPU falls
+  that week - a second cluster in the scatter.
+- **Model** (12 tables, 51 measures): Travel Distance, DPU, Pick DPU, DPU Target (13.5 m), Single-unit Share, Order Mix, and an
+  Order Types table.
+- **A seventh page, Travel**: one dot per day - share of single-unit orders against metres walked per picked unit, sized by orders
+  shipped, red above the plan - metres per unit by zone, and order type as a dropdown. The team table gained a DPU column.
+- **DPU counts only the work that walks.** The first version divided by every unit handled, so pack and ship teams read 0.0 and the
+  team total read 6.1 m/unit. The denominator is now the units whose rows carry distance: pack and ship are blank, the dock drops
+  out of the zone bars, and the total reads 15.2.
+- **Two locale bugs the validator cannot see.** In the Korean build the Order Types table was translated but `Orders[Order Type]`
+  was not, so the relationship matched nothing and the page came up empty; and `Pick DPU` filtered `Processes[Process] = "Pick"`,
+  which is translated too. Measures now compare against the key (`Process ID = "PCK"`) and the Korean patch translates both sides
+  of the relationship. The rule the flow names already followed: a measure never compares against a value that gets translated.
+  Korean also says 집품 for picking everywhere now, instead of 피킹 in the data and 집품 in the sentences.
+- **Checked in Desktop**: pick DPU 14.7 m/unit, single-unit orders 50%, zone A 9.5 / B 13.9 / C 25.9 - the values the generator
+  prints. English, Korean and the top-bar layout, all seven pages each.
+- **Also fixed**: the top-bar layout gave the headline 24 px, less than the text needs - every headline with a descender was
+  clipped ("per unit", "single-unit"). The headline now has the rail's 32 px, taken from the gap under the bar rather than from the
+  body: the first attempt took it from the first body row, and the KPI cards lost their third line.
+- **Still open**: the captures are taken on a Korean Desktop, so date axes read "2026년 7월" and a dropdown's "All" reads "모두"
+  even in the English builds. That is Desktop's display language, not the report - the model's culture is already `en-US`.
+
+---
+
 ## 다음 계획
 
 | 순서 | 할 일 | 목표 |

@@ -19,6 +19,8 @@
     "Outbound Std Gap": { "expr": "CALCULATE ( [Std Gap], KEEPFILTERS ( Processes[Flow] = \"Outbound\" ) )", "format": "+0.0%;-0.0%;0.0%" },
     "Outbound Shortfall": { "expr": "CALCULATE ( [Std Shortfall], KEEPFILTERS ( Processes[Flow] = \"Outbound\" ) )", "format": "▼0.0%;▲0.0%;0.0%" },
     "Perf Bar Color": "IF ( [% of Standard] < 1, \"@neg\", \"@pos\" )",
+    "DPU Color": "IF ( [Pick DPU] > [DPU Target], \"@neg\", \"@pos\" )",
+    "DPU Bar Color": "IF ( [DPU] > [DPU Target], \"@neg\", \"@pos\" )",
     "% of Std Heat": { "expr": "[% of Standard]", "format": "0%" },
     "Units Shipped Disp": {
       "expr": { "en": "VAR v = [Units Shipped] RETURN DIVIDE ( v, IF ( v >= 1E6, 1E6, IF ( v >= 1E4, 1E3, 1 ) ) )", "ko": "VAR v = [Units Shipped] RETURN DIVIDE ( v, IF ( v >= 1E4, 1E4, 1 ) )" },
@@ -104,6 +106,10 @@
       "en": "VAR late = CALCULATE ( [Dock-to-Stock Hours], Receipts[Arrival Band] = \"≥ 16:00\" ) VAR z = FILTER ( VALUES ( Zones[Zone] ), NOT ISBLANK ( [Inventory Accuracy] ) ) VAR lo = TOPN ( 1, z, [Inventory Accuracy], ASC ) RETURN \"Dock-to-stock \" & FORMAT ( [Dock-to-Stock Hours], \"0.0\" ) & \"h, \" & FORMAT ( late, \"0.0\" ) & \"h for arrivals after 16:00  ·  inventory accuracy \" & FORMAT ( [Inventory Accuracy], \"0.0%\" ) & \", lowest \" & CONCATENATEX ( lo, Zones[Zone], \", \" ) & \" \" & FORMAT ( MINX ( lo, [Inventory Accuracy] ), \"0.0%\" )",
       "ko": "VAR late = CALCULATE ( [Dock-to-Stock Hours], Receipts[Arrival Band] = \"≥ 16:00\" ) VAR z = FILTER ( VALUES ( Zones[Zone] ), NOT ISBLANK ( [Inventory Accuracy] ) ) VAR lo = TOPN ( 1, z, [Inventory Accuracy], ASC ) RETURN \"입고~적치 \" & FORMAT ( [Dock-to-Stock Hours], \"0.0\" ) & \"시간, 16시 이후 도착분은 \" & FORMAT ( late, \"0.0\" ) & \"시간  ·  재고 정확도 \" & FORMAT ( [Inventory Accuracy], \"0.0%\" ) & \", 가장 낮은 구역 \" & CONCATENATEX ( lo, Zones[Zone], \", \" ) & \" \" & FORMAT ( MINX ( lo, [Inventory Accuracy] ), \"0.0%\" )"
     },
+    "Headline Travel": {
+      "en": "VAR z = FILTER ( VALUES ( Zones[Zone] ), NOT ISBLANK ( [DPU] ) ) VAR hi = TOPN ( 1, z, [DPU], DESC ) RETURN \"Pick travel \" & FORMAT ( [Pick DPU], \"0.0\" ) & \" m per unit (plan \" & FORMAT ( [DPU Target], \"0.0\" ) & \")  ·  single-unit orders \" & FORMAT ( [Single-unit Share], \"0%\" ) & \" of orders  ·  farthest zone: \" & CONCATENATEX ( hi, Zones[Zone], \", \" ) & \" \" & FORMAT ( MAXX ( hi, [DPU] ), \"0.0\" ) & \" m\"",
+      "ko": "VAR z = FILTER ( VALUES ( Zones[Zone] ), NOT ISBLANK ( [DPU] ) ) VAR hi = TOPN ( 1, z, [DPU], DESC ) RETURN \"집품 이동 \" & FORMAT ( [Pick DPU], \"0.0\" ) & \"m/유닛 (목표 \" & FORMAT ( [DPU Target], \"0.0\" ) & \")  ·  단일 수량 주문 \" & FORMAT ( [Single-unit Share], \"0%\" ) & \"  ·  가장 먼 구역 \" & CONCATENATEX ( hi, Zones[Zone], \", \" ) & \" \" & FORMAT ( MAXX ( hi, [DPU] ), \"0.0\" ) & \"m\""
+    },
     "Headline Team Detail": {
       "en": "VAR h = FILTER ( VALUES ( Hours[Hour Label] ), NOT ISBLANK ( [% of Standard] ) ) VAR lo = TOPN ( 1, h, [% of Standard], ASC ) RETURN SELECTEDVALUE ( Teams[Team], \"All teams\" ) & \"  ·  \" & FORMAT ( [% of Standard], \"0%\" ) & \" of standard  ·  slowest hour \" & CONCATENATEX ( lo, Hours[Hour Label], \", \" ) & \" \" & FORMAT ( MINX ( lo, [% of Standard] ), \"0%\" )",
       "ko": "VAR h = FILTER ( VALUES ( Hours[Hour Label] ), NOT ISBLANK ( [% of Standard] ) ) VAR lo = TOPN ( 1, h, [% of Standard], ASC ) RETURN SELECTEDVALUE ( Teams[Team], \"전체 팀\" ) & \"  ·  표준의 \" & FORMAT ( [% of Standard], \"0%\" ) & \"  ·  가장 느린 시간대 \" & CONCATENATEX ( lo, Hours[Hour Label], \", \" ) & \" \" & FORMAT ( MINX ( lo, [% of Standard] ), \"0%\" )"
@@ -178,9 +184,24 @@
                      "title": { "en": "New hires vs performance", "ko": "신규 인력 비율과 표준 대비" }, "sub": { "en": "Dot = team · x = share of hours by people in their first 30 days · red = below standard", "ko": "점 = 팀 · 가로 = 입사 30일 이내 인력의 시간 비율 · 빨강은 표준 미달" } },
         "watch": { "columns": ["Teams.Team", "Std Shortfall"], "sort": ["Std Shortfall", "desc"], "top": 5, "totals": false,
                    "title": { "en": "Furthest below standard", "ko": "표준 미달 순" }, "sub": { "en": "Five lowest teams", "ko": "하위 5개 팀" } },
-        "rank": { "columns": ["Teams.Team", "Processes.Process", "Zones.Zone", "Teams.Shift", "UPH", "UPH Trend", "% of Standard", "Idle Share", "New Hire Share"],
+        "rank": { "columns": ["Teams.Team", "Processes.Process", "Zones.Zone", "Teams.Shift", "UPH", "UPH Trend", "% of Standard", "DPU", "Idle Share", "New Hire Share"],
                   "sort": ["% of Standard", "asc"], "format": { "% of Standard": "bar", "Idle Share": "heat" },
                   "title": { "en": "All teams", "ko": "전체 팀" }, "sub": { "en": "Right-click a team → Drill through → Team detail · trend = weekly UPH", "ko": "팀을 오른쪽 클릭 → 드릴스루 → 팀 상세 · 추이 = 주별 UPH" } }
+      }
+    },
+    {
+      "layout": "deep_scatter",
+      "id": "travel",
+      "name": { "en": "Travel", "ko": "이동" },
+      "visuals": {
+        "title": { "text": { "en": "Travel per unit", "ko": "유닛당 이동 거리" } },
+        "headline": { "measure": "Headline Travel" },
+        "slicer_a": { "field": "Order Types.Order Type" },
+        "scatter": { "point": "Calendar.Date", "x": "Single-unit Share", "y": "Pick DPU", "size": "Orders Shipped", "color": "DPU Color",
+                     "title": { "en": "Order mix vs metres walked per unit", "ko": "주문 구성과 유닛당 이동 거리" },
+                     "sub": { "en": "One dot = one day · x = share of single-unit orders · red = above the 13.5 m plan", "ko": "점 하나 = 하루 · 가로 = 단일 수량 주문 비중 · 빨강은 목표 13.5m 초과" } },
+        "side": { "x": "Zones.Zone", "y": ["DPU"], "sort": "desc", "color": "DPU Bar Color",
+                  "title": { "en": "Metres per unit by zone", "ko": "구역별 유닛당 이동 거리" }, "sub": { "en": "Picking, putaway and counting", "ko": "집품·적치·재고 실사" } }
       }
     },
     {

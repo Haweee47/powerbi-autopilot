@@ -128,6 +128,21 @@
                       "Entity": "Metrics"
                     }
                   },
+                  "Property": "DPU"
+                }
+              },
+              "queryRef": "Metrics.DPU",
+              "nativeQueryRef": "DPU",
+              "displayName": "DPU (m/unit)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metrics"
+                    }
+                  },
                   "Property": "Idle Share"
                 }
               },

@@ -50,7 +50,7 @@ SLICERS = ("advancedSlicerVisual", "dropdownSlicer")
 
 def to_top(page: dict, res: dict, top: dict) -> dict:
     """The same page in the top-bar frame. Rail regions move into the bar, grid regions get the wider columns,
-    the first body row starts 8px lower (and is 8px shorter), and every later row keeps its rail position and height."""
+    the first body row starts 8px lower but keeps its rail height, and every later row keeps its rail position and height."""
     cv, g, rb, tb = res["canvas"], res["grid"], res["bands"], top["bands"]
     unit, gut = g["unit"], g["gutter"]
     col_w = (cv["width"] - top["left"] - g["margin"] - (g["columns"] - 1) * gut) // g["columns"]
@@ -96,7 +96,10 @@ def to_top(page: dict, res: dict, top: dict) -> dict:
             elif r["y"] == rb["headline"]["y"]:
                 by, bh = tb["headline"]["y"], tb["headline"]["h"]
             elif r["y"] == first_row:
-                by, bh = r["y"] + tb["firstRow"], r["height"] - tb["firstRow"]
+                # the first row starts lower but keeps its rail height where it can (a card that loses 8px clips its
+                # third line); the 8px come out of the gutter below it, or out of the row when nothing follows
+                by = r["y"] + tb["firstRow"]
+                bh = min(r["height"], rb["body"]["bottom"] - by)
             else:
                 by, bh = r["y"], r["height"]
             box = (bx, by, bw, bh)

@@ -101,6 +101,26 @@ table Metrics
 		formatString: 0%
 		displayFolder: 2. Productivity
 
+	/// Metres walked on the floor (picking, putaway, counting).
+	measure 'Travel Distance' = SUM ( Labor[Travel Distance] )
+		formatString: #,0
+		displayFolder: 2. Productivity
+
+	/// Distance per unit: metres walked for each unit handled, over the work that walks (picking, putaway, counting). Zone layout and the order mix move it.
+	measure DPU = DIVIDE ( [Travel Distance], CALCULATE ( [Units], KEEPFILTERS ( Labor[Travel Distance] > 0 ) ) )
+		formatString: 0.0
+		displayFolder: 2. Productivity
+
+	/// Metres walked per picked unit.
+	measure 'Pick DPU' = CALCULATE ( [DPU], Processes[Process ID] = "PCK" )
+		formatString: 0.0
+		displayFolder: 2. Productivity
+
+	/// Plan: 13.5 metres per picked unit.
+	measure 'DPU Target' = 13.5
+		formatString: 0.0
+		displayFolder: 2. Productivity
+
 	/// Units shipped per outbound paid hour (pick, pack, ship).
 	measure 'Outbound UPH' = CALCULATE ( [UPH], Processes[Flow] = "Outbound" )
 		formatString: #,0.0
@@ -154,6 +174,16 @@ table Metrics
 	/// Hours from order release to ship.
 	measure 'Order Cycle Hours' = DIVIDE ( SUM ( Orders[Cycle Hours] ), [Orders Shipped] )
 		formatString: 0.0
+		displayFolder: 3. Outbound
+
+	/// Share of the orders in view that are of this type.
+	measure 'Order Mix' = DIVIDE ( [Orders Shipped], CALCULATE ( [Orders Shipped], ALLSELECTED ( 'Order Types' ) ) )
+		formatString: 0.0%
+		displayFolder: 3. Outbound
+
+	/// Orders with one unit: they walk the most per unit.
+	measure 'Single-unit Share' = DIVIDE ( CALCULATE ( [Orders Shipped], 'Order Types'[Order Type] = "Single unit" ), CALCULATE ( [Orders Shipped], REMOVEFILTERS ( 'Order Types' ) ) )
+		formatString: 0%
 		displayFolder: 3. Outbound
 
 	/// Orders picked without an error.
@@ -261,6 +291,14 @@ table Metrics
 
 	/// 리포트 표시용 (명세에서 생성)
 	measure 'Perf Bar Color' = IF ( [% of Standard] < 1, "#E34948", "#2A78D6" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'DPU Color' = IF ( [Pick DPU] > [DPU Target], "#E34948", "#2A78D6" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'DPU Bar Color' = IF ( [DPU] > [DPU Target], "#E34948", "#2A78D6" )
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
@@ -391,6 +429,10 @@ table Metrics
 
 	/// 리포트 표시용 (명세에서 생성)
 	measure 'Headline Inbound' = VAR late = CALCULATE ( [Dock-to-Stock Hours], Receipts[Arrival Band] = "≥ 16:00" ) VAR z = FILTER ( VALUES ( Zones[Zone] ), NOT ISBLANK ( [Inventory Accuracy] ) ) VAR lo = TOPN ( 1, z, [Inventory Accuracy], ASC ) RETURN "Dock-to-stock " & FORMAT ( [Dock-to-Stock Hours], "0.0" ) & "h, " & FORMAT ( late, "0.0" ) & "h for arrivals after 16:00  ·  inventory accuracy " & FORMAT ( [Inventory Accuracy], "0.0%" ) & ", lowest " & CONCATENATEX ( lo, Zones[Zone], ", " ) & " " & FORMAT ( MINX ( lo, [Inventory Accuracy] ), "0.0%" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Travel' = VAR z = FILTER ( VALUES ( Zones[Zone] ), NOT ISBLANK ( [DPU] ) ) VAR hi = TOPN ( 1, z, [DPU], DESC ) RETURN "Pick travel " & FORMAT ( [Pick DPU], "0.0" ) & " m per unit (plan " & FORMAT ( [DPU Target], "0.0" ) & ")  ·  single-unit orders " & FORMAT ( [Single-unit Share], "0%" ) & " of orders  ·  farthest zone: " & CONCATENATEX ( hi, Zones[Zone], ", " ) & " " & FORMAT ( MAXX ( hi, [DPU] ), "0.0" ) & " m"
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)

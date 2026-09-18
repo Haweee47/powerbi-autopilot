@@ -56,12 +56,18 @@ table Labor
 		isHidden
 		sourceColumn: New Hire Share
 
+	column 'Travel Distance'
+		dataType: double
+		summarizeBy: sum
+		isHidden
+		sourceColumn: Travel Distance
+
 	partition Labor = m
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(File.Contents(DataFolder & "\Labor.csv"), [Delimiter = ",", Columns = 9, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Source = Csv.Document(File.Contents(DataFolder & "\Labor.csv"), [Delimiter = ",", Columns = 10, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
-				    Typed = Table.TransformColumnTypes(Promoted, {{"Date", type date}, {"Hour", Int64.Type}, {"Team ID", type text}, {"Units", Int64.Type}, {"Direct Hours", type number}, {"Indirect Hours", type number}, {"Idle Hours", type number}, {"Standard Hours", type number}, {"New Hire Share", type number}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Date", type date}, {"Hour", Int64.Type}, {"Team ID", type text}, {"Units", Int64.Type}, {"Direct Hours", type number}, {"Indirect Hours", type number}, {"Idle Hours", type number}, {"Standard Hours", type number}, {"New Hire Share", type number}, {"Travel Distance", type number}}, "en-US")
 				in
 				    Typed

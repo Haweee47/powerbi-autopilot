@@ -20,5 +20,6 @@ ref table Receipts
 ref table Counts
 ref table Calendar
 ref table Hours
+ref table 'Order Types'
 ref table 'Loss Types'
 ref table Metrics

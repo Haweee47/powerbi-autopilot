@@ -3,24 +3,24 @@
 <rect x="0" y="0" width="1280" height="48" fill="#0F1A2A"/>
 <rect x="24" y="8" width="176" height="40" rx="8" fill="#E4E8ED" stroke="#3A4B63" stroke-width="1"/>
 <text x="34" y="28" font-size="11" font-weight="600" fill="#F2F5F9">리포트 이름</text>
-<rect x="224" y="8" width="528" height="32" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<rect x="224" y="8" width="520" height="32" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
 <text x="234" y="28" font-size="11" font-weight="600" fill="#F2F5F9">페이지 (세로)</text>
-<rect x="768" y="8" width="152" height="32" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
-<text x="778" y="28" font-size="11" font-weight="600" fill="#F2F5F9">기간</text>
-<rect x="936" y="8" width="136" height="32" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
-<text x="946" y="28" font-size="11" font-weight="600" fill="#F2F5F9">채널</text>
-<rect x="24" y="56" width="816" height="32" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
-<text x="34" y="76" font-size="11" font-weight="600" fill="#14202B">페이지 제목</text>
-<rect x="856" y="56" width="400" height="32" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
-<text x="866" y="76" font-size="11" font-weight="600" fill="#14202B">지금 보는 범위 (측정값)</text>
-<rect x="24" y="88" width="1232" height="24" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
-<text x="34" y="108" font-size="11" font-weight="600" fill="#14202B">결론 한 줄 (측정값)</text>
+<rect x="760" y="8" width="152" height="32" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<text x="770" y="28" font-size="11" font-weight="600" fill="#F2F5F9">기간</text>
+<rect x="928" y="8" width="136" height="32" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<text x="938" y="28" font-size="11" font-weight="600" fill="#F2F5F9">채널</text>
+<rect x="24" y="48" width="816" height="32" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="68" font-size="11" font-weight="600" fill="#14202B">페이지 제목</text>
+<rect x="856" y="48" width="400" height="32" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="866" y="68" font-size="11" font-weight="600" fill="#14202B">지금 보는 범위 (측정값)</text>
+<rect x="24" y="80" width="1232" height="32" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="100" font-size="11" font-weight="600" fill="#14202B">결론 한 줄 (측정값)</text>
 <rect x="1152" y="0" width="104" height="48" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
 <text x="1162" y="20" font-size="11" font-weight="600" fill="#F2F5F9">추가 필터 (드롭다운)</text>
 <rect x="24" y="120" width="1232" height="576" rx="8" fill="#E8EEF6" stroke="#8E99A6" stroke-width="1"/>
 <text x="34" y="140" font-size="13" font-weight="600" fill="#14202B">행 = 항목, 열 = 측정값 (막대·색 척도·부호 색)</text>
 <text x="34" y="158" font-size="11" fill="#4A5563">tableEx · 24,120 · 1232×576</text>
-<rect x="1088" y="8" width="56" height="24" rx="8" fill="#E4E8ED" stroke="#3A4B63" stroke-width="1"/>
-<text x="1098" y="28" font-size="11" font-weight="600" fill="#F2F5F9">slicer name</text>
+<rect x="1080" y="8" width="64" height="24" rx="8" fill="#E4E8ED" stroke="#3A4B63" stroke-width="1"/>
+<text x="1090" y="28" font-size="11" font-weight="600" fill="#F2F5F9">slicer name</text>
 <text x="1256" y="714" font-size="11" text-anchor="end" fill="#5A6471">성과표 · 지표 테이블 — 항목마다 지표가 어떻게 다른가</text>
 </svg>

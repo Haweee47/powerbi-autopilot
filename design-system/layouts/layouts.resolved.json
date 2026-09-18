@@ -2899,7 +2899,7 @@
       "span": 8,
       "label": "페이지 제목",
       "x": 24,
-      "y": 56,
+      "y": 48,
       "width": 816,
       "height": 32
      },
@@ -2910,7 +2910,7 @@
       "span": 4,
       "label": "지금 보는 범위 (측정값)",
       "x": 856,
-      "y": 56,
+      "y": 48,
       "width": 400,
       "height": 32
      },
@@ -2921,9 +2921,9 @@
       "span": 12,
       "label": "결론 한 줄 (측정값)",
       "x": 24,
-      "y": 88,
+      "y": 80,
       "width": 1232,
-      "height": 24
+      "height": 32
      },
      {
       "id": "kpi_sales",
@@ -2935,7 +2935,7 @@
       "label": "매출",
       "x": 24,
       "width": 296,
-      "height": 104
+      "height": 112
      },
      {
       "id": "kpi_profit",
@@ -2947,7 +2947,7 @@
       "label": "이익",
       "x": 336,
       "width": 296,
-      "height": 104
+      "height": 112
      },
      {
       "id": "kpi_target",
@@ -2959,7 +2959,7 @@
       "label": "목표 달성률",
       "x": 648,
       "width": 296,
-      "height": 104
+      "height": 112
      },
      {
       "id": "kpi_aov",
@@ -2971,7 +2971,7 @@
       "label": "객단가",
       "x": 960,
       "width": 296,
-      "height": 104
+      "height": 112
      },
      {
       "id": "trend",
@@ -3099,7 +3099,7 @@
       "span": 8,
       "label": "페이지 제목",
       "x": 24,
-      "y": 56,
+      "y": 48,
       "width": 816,
       "height": 32
      },
@@ -3110,7 +3110,7 @@
       "span": 4,
       "label": "지금 보는 범위 (측정값)",
       "x": 856,
-      "y": 56,
+      "y": 48,
       "width": 400,
       "height": 32
      },
@@ -3121,9 +3121,9 @@
       "span": 12,
       "label": "결론 한 줄 (측정값)",
       "x": 24,
-      "y": 88,
+      "y": 80,
       "width": 1232,
-      "height": 24
+      "height": 32
      },
      {
       "id": "multiples",
@@ -3135,7 +3135,7 @@
       "label": "카테고리별 월 추이 (작은 여러 차트, 축 공통)",
       "x": 24,
       "width": 1232,
-      "height": 240
+      "height": 248
      },
      {
       "id": "table",
@@ -3239,7 +3239,7 @@
       "span": 8,
       "label": "페이지 제목",
       "x": 24,
-      "y": 56,
+      "y": 48,
       "width": 816,
       "height": 32
      },
@@ -3250,7 +3250,7 @@
       "span": 4,
       "label": "지금 보는 범위 (측정값)",
       "x": 856,
-      "y": 56,
+      "y": 48,
       "width": 400,
       "height": 32
      },
@@ -3261,9 +3261,9 @@
       "span": 12,
       "label": "결론 한 줄 (측정값)",
       "x": 24,
-      "y": 88,
+      "y": 80,
       "width": 1232,
-      "height": 24
+      "height": 32
      },
      {
       "id": "scatter",
@@ -3275,7 +3275,7 @@
       "label": "규모 × 성장률 → 드릴스루",
       "x": 24,
       "width": 816,
-      "height": 288
+      "height": 296
      },
      {
       "id": "watch",
@@ -3287,7 +3287,7 @@
       "label": "주의 매장",
       "x": 856,
       "width": 400,
-      "height": 288
+      "height": 296
      },
      {
       "id": "rank",
@@ -3367,7 +3367,7 @@
       "span": 8,
       "label": "페이지 제목",
       "x": 24,
-      "y": 56,
+      "y": 48,
       "width": 816,
       "height": 32
      },
@@ -3378,7 +3378,7 @@
       "span": 2,
       "label": "← 뒤로",
       "x": 1064,
-      "y": 56,
+      "y": 48,
       "width": 192,
       "height": 32
      },
@@ -3389,9 +3389,9 @@
       "span": 12,
       "label": "매장 이름 + 결론 한 줄 (측정값)",
       "x": 24,
-      "y": 88,
+      "y": 80,
       "width": 1232,
-      "height": 24
+      "height": 32
      },
      {
       "id": "kpi_sales",
@@ -3403,7 +3403,7 @@
       "label": "매출",
       "x": 24,
       "width": 296,
-      "height": 104
+      "height": 112
      },
      {
       "id": "kpi_margin",
@@ -3415,7 +3415,7 @@
       "label": "이익률",
       "x": 336,
       "width": 296,
-      "height": 104
+      "height": 112
      },
      {
       "id": "kpi_orders",
@@ -3427,7 +3427,7 @@
       "label": "주문",
       "x": 648,
       "width": 296,
-      "height": 104
+      "height": 112
      },
      {
       "id": "kpi_aov",
@@ -3439,7 +3439,7 @@
       "label": "객단가",
       "x": 960,
       "width": 296,
-      "height": 104
+      "height": 112
      },
      {
       "id": "trend",
@@ -3508,7 +3508,7 @@
       "h": 136,
       "label": "페이지 (세로)",
       "x": 224,
-      "width": 528,
+      "width": 520,
       "height": 32,
       "bar": true
      },
@@ -3519,7 +3519,7 @@
       "y": 8,
       "h": 72,
       "label": "기간",
-      "x": 768,
+      "x": 760,
       "width": 152,
       "height": 32,
       "bar": true
@@ -3531,7 +3531,7 @@
       "y": 8,
       "h": 72,
       "label": "채널",
-      "x": 936,
+      "x": 928,
       "width": 136,
       "height": 32,
       "bar": true
@@ -3543,7 +3543,7 @@
       "span": 8,
       "label": "페이지 제목",
       "x": 24,
-      "y": 56,
+      "y": 48,
       "width": 816,
       "height": 32
      },
@@ -3554,7 +3554,7 @@
       "span": 4,
       "label": "지금 보는 범위 (측정값)",
       "x": 856,
-      "y": 56,
+      "y": 48,
       "width": 400,
       "height": 32
      },
@@ -3565,9 +3565,9 @@
       "span": 12,
       "label": "결론 한 줄 (측정값)",
       "x": 24,
-      "y": 88,
+      "y": 80,
       "width": 1232,
-      "height": 24
+      "height": 32
      },
      {
       "id": "slicer_a",
@@ -3600,9 +3600,9 @@
       "bar": true,
       "labelFor": "slicer_a",
       "label": "slicer name",
-      "x": 1088,
+      "x": 1080,
       "y": 8,
-      "width": 56,
+      "width": 64,
       "height": 24
      }
     ],
@@ -3648,7 +3648,7 @@
       "h": 136,
       "label": "페이지 (세로)",
       "x": 224,
-      "width": 528,
+      "width": 520,
       "height": 32,
       "bar": true
      },
@@ -3659,7 +3659,7 @@
       "y": 8,
       "h": 72,
       "label": "기간",
-      "x": 768,
+      "x": 760,
       "width": 152,
       "height": 32,
       "bar": true
@@ -3671,7 +3671,7 @@
       "y": 8,
       "h": 72,
       "label": "채널",
-      "x": 936,
+      "x": 928,
       "width": 136,
       "height": 32,
       "bar": true
@@ -3683,7 +3683,7 @@
       "span": 8,
       "label": "페이지 제목",
       "x": 24,
-      "y": 56,
+      "y": 48,
       "width": 816,
       "height": 32
      },
@@ -3694,7 +3694,7 @@
       "span": 4,
       "label": "지금 보는 범위 (측정값)",
       "x": 856,
-      "y": 56,
+      "y": 48,
       "width": 400,
       "height": 32
      },
@@ -3705,9 +3705,9 @@
       "span": 12,
       "label": "결론 한 줄 (측정값)",
       "x": 24,
-      "y": 88,
+      "y": 80,
       "width": 1232,
-      "height": 24
+      "height": 32
      },
      {
       "id": "slicer_a",
@@ -3740,9 +3740,9 @@
       "bar": true,
       "labelFor": "slicer_a",
       "label": "slicer name",
-      "x": 1088,
+      "x": 1080,
       "y": 8,
-      "width": 56,
+      "width": 64,
       "height": 24
      }
     ],
@@ -3788,7 +3788,7 @@
       "h": 136,
       "label": "페이지 (세로)",
       "x": 224,
-      "width": 344,
+      "width": 328,
       "height": 32,
       "bar": true
      },
@@ -3799,7 +3799,7 @@
       "y": 8,
       "h": 72,
       "label": "기간",
-      "x": 584,
+      "x": 568,
       "width": 152,
       "height": 32,
       "bar": true
@@ -3811,7 +3811,7 @@
       "y": 8,
       "h": 72,
       "label": "채널",
-      "x": 752,
+      "x": 736,
       "width": 136,
       "height": 32,
       "bar": true
@@ -3823,7 +3823,7 @@
       "span": 8,
       "label": "페이지 제목",
       "x": 24,
-      "y": 56,
+      "y": 48,
       "width": 816,
       "height": 32
      },
@@ -3834,7 +3834,7 @@
       "span": 4,
       "label": "지금 보는 범위 (측정값)",
       "x": 856,
-      "y": 56,
+      "y": 48,
       "width": 400,
       "height": 32
      },
@@ -3845,9 +3845,9 @@
       "span": 12,
       "label": "결론 한 줄 (측정값)",
       "x": 24,
-      "y": 88,
+      "y": 80,
       "width": 1232,
-      "height": 24
+      "height": 32
      },
      {
       "id": "slicer_a",
@@ -3856,7 +3856,7 @@
       "y": 0,
       "h": 64,
       "label": "추가 필터 1",
-      "x": 968,
+      "x": 960,
       "width": 104,
       "height": 48,
       "bar": true
@@ -3883,7 +3883,7 @@
       "label": "요인 분해 트리",
       "x": 24,
       "width": 1232,
-      "height": 344
+      "height": 352
      },
      {
       "id": "trend",
@@ -3916,9 +3916,9 @@
       "bar": true,
       "labelFor": "slicer_b",
       "label": "slicer name",
-      "x": 1088,
+      "x": 1080,
       "y": 8,
-      "width": 56,
+      "width": 64,
       "height": 24
      },
      {
@@ -3928,9 +3928,9 @@
       "bar": true,
       "labelFor": "slicer_a",
       "label": "slicer name",
-      "x": 904,
+      "x": 888,
       "y": 8,
-      "width": 56,
+      "width": 64,
       "height": 24
      }
     ],
@@ -3976,7 +3976,7 @@
       "h": 136,
       "label": "페이지 (세로)",
       "x": 224,
-      "width": 344,
+      "width": 328,
       "height": 32,
       "bar": true
      },
@@ -3987,7 +3987,7 @@
       "y": 8,
       "h": 72,
       "label": "기간",
-      "x": 584,
+      "x": 568,
       "width": 152,
       "height": 32,
       "bar": true
@@ -3999,7 +3999,7 @@
       "y": 8,
       "h": 72,
       "label": "채널",
-      "x": 752,
+      "x": 736,
       "width": 136,
       "height": 32,
       "bar": true
@@ -4011,7 +4011,7 @@
       "span": 8,
       "label": "페이지 제목",
       "x": 24,
-      "y": 56,
+      "y": 48,
       "width": 816,
       "height": 32
      },
@@ -4022,7 +4022,7 @@
       "span": 4,
       "label": "지금 보는 범위 (측정값)",
       "x": 856,
-      "y": 56,
+      "y": 48,
       "width": 400,
       "height": 32
      },
@@ -4033,9 +4033,9 @@
       "span": 12,
       "label": "결론 한 줄 (측정값)",
       "x": 24,
-      "y": 88,
+      "y": 80,
       "width": 1232,
-      "height": 24
+      "height": 32
      },
      {
       "id": "slicer_a",
@@ -4044,7 +4044,7 @@
       "y": 0,
       "h": 64,
       "label": "추가 필터 1",
-      "x": 968,
+      "x": 960,
       "width": 104,
       "height": 48,
       "bar": true
@@ -4092,9 +4092,9 @@
       "bar": true,
       "labelFor": "slicer_b",
       "label": "slicer name",
-      "x": 1088,
+      "x": 1080,
       "y": 8,
-      "width": 56,
+      "width": 64,
       "height": 24
      },
      {
@@ -4104,9 +4104,9 @@
       "bar": true,
       "labelFor": "slicer_a",
       "label": "slicer name",
-      "x": 904,
+      "x": 888,
       "y": 8,
-      "width": 56,
+      "width": 64,
       "height": 24
      }
     ],
@@ -4152,7 +4152,7 @@
       "h": 136,
       "label": "페이지 (세로)",
       "x": 224,
-      "width": 344,
+      "width": 328,
       "height": 32,
       "bar": true
      },
@@ -4163,7 +4163,7 @@
       "y": 8,
       "h": 72,
       "label": "기간",
-      "x": 584,
+      "x": 568,
       "width": 152,
       "height": 32,
       "bar": true
@@ -4175,7 +4175,7 @@
       "y": 8,
       "h": 72,
       "label": "채널",
-      "x": 752,
+      "x": 736,
       "width": 136,
       "height": 32,
       "bar": true
@@ -4187,7 +4187,7 @@
       "span": 8,
       "label": "페이지 제목",
       "x": 24,
-      "y": 56,
+      "y": 48,
       "width": 816,
       "height": 32
      },
@@ -4198,7 +4198,7 @@
       "span": 4,
       "label": "지금 보는 범위 (측정값)",
       "x": 856,
-      "y": 56,
+      "y": 48,
       "width": 400,
       "height": 32
      },
@@ -4209,9 +4209,9 @@
       "span": 12,
       "label": "결론 한 줄 (측정값)",
       "x": 24,
-      "y": 88,
+      "y": 80,
       "width": 1232,
-      "height": 24
+      "height": 32
      },
      {
       "id": "slicer_a",
@@ -4220,7 +4220,7 @@
       "y": 0,
       "h": 64,
       "label": "추가 필터 1",
-      "x": 968,
+      "x": 960,
       "width": 104,
       "height": 48,
       "bar": true
@@ -4256,9 +4256,9 @@
       "bar": true,
       "labelFor": "slicer_b",
       "label": "slicer name",
-      "x": 1088,
+      "x": 1080,
       "y": 8,
-      "width": 56,
+      "width": 64,
       "height": 24
      },
      {
@@ -4268,9 +4268,9 @@
       "bar": true,
       "labelFor": "slicer_a",
       "label": "slicer name",
-      "x": 904,
+      "x": 888,
       "y": 8,
-      "width": 56,
+      "width": 64,
       "height": 24
      }
     ],

@@ -34,3 +34,7 @@ relationship Counts_Zones
 	fromColumn: Counts.'Zone ID'
 	toColumn: Zones.'Zone ID'
 
+relationship Orders_OrderTypes
+	fromColumn: Orders.'Order Type'
+	toColumn: 'Order Types'.'Order Type'
+

@@ -73,7 +73,8 @@ powerbi-report-author validate examples/StoreKPI/StoreKPI.Report                
 
 물류·풀필먼트 분석가를 위한 파일럿이다. **출고가 먼저**(출고 수량, 계획 대비 출고 UPH, 정시 출고율, 마감 미준수)이고,
 이어서 **손실 시간**(표준이 필요로 하지 않은 유급 시간을 표준 미달 작업·간접 작업·대기로 나누고 공정 → 교대 → 구역 → 팀으로 분해),
-**시간대별 생산성**, **팀과 원인**(신규 인력 비율과 표준 대비), **입고·재고**(입고~적치 시간, 파손, 실사 정확도)다.
+**시간대별 생산성**, **팀과 원인**(신규 인력 비율과 표준 대비), **유닛당 이동 거리**(DPU, 단일 수량 주문 비중과 함께 보고 주문 유형으로 거른다),
+**입고·재고**(입고~적치 시간, 파손, 실사 정확도)다.
 전용 모델과 시드 고정 가상 데이터가 있고, 개념과 공식은 [design-system/domains/fulfillment.md](design-system/domains/fulfillment.md)(영어)에 있다.
 `python tools/quickstart.py --purpose fulfillment --lang ko`
 

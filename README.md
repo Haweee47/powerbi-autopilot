@@ -74,7 +74,9 @@ Step-by-step guide, including building reports by asking and using your own data
 
 For warehouse and fulfillment analysts: **outbound first** (units shipped, outbound UPH vs plan, on-time ship, missed cut-offs),
 then **lost hours** (paid hours the engineered standard didn't need, split into slow work, support work and waiting, by process → shift → zone → team),
-**productivity by hour**, **teams and their drivers** (new-hire share vs % of standard), and **inbound and inventory** (dock-to-stock, damage, count accuracy).
+**productivity by hour**, **teams and their drivers** (new-hire share vs % of standard), **travel per unit**
+(DPU: metres walked per unit, against the share of single-unit orders, filtered by order type), and **inbound and inventory**
+(dock-to-stock, damage, count accuracy).
 It has its own model and seeded sample data; concepts and formulas are in [design-system/domains/fulfillment.md](design-system/domains/fulfillment.md).
 `python tools/quickstart.py --purpose fulfillment`
 

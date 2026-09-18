@@ -24,6 +24,8 @@ Planted story
 - Receipts that arrive after 16:00 wait for the night putaway team: dock-to-stock is roughly twice as long.
   Supplier "Harbor Home" arrives damage-free less often than the others.
 - Zone C counts are less accurate. Carrier "Parcel B" succeeds on the first delivery attempt less often.
+- Travel: metres walked per unit (DPU) follow the zone (A 9.5 m, B 14 m, C 26 m) and the order mix - a day with more
+  single-unit orders walks more per unit. The promotion shifts the mix to multi-unit and bulk orders, so DPU drops.
 """
 import csv
 import datetime as dt
@@ -78,6 +80,9 @@ SUPPLIERS = [("SUP01", "Alder Foods", 1.0), ("SUP02", "Brightline Beauty", 0.8),
              ("SUP07", "Granite Tools", 0.5), ("SUP08", "Harbor Home", 1.0), ("SUP09", "Iris Kids", 0.6),
              ("SUP10", "Juniper Kitchen", 0.8)]
 CARRIERS = [("Parcel A", 0.45, 0.955), ("Parcel B", 0.35, 0.905), ("Own fleet", 0.20, 0.975)]  # share, first-attempt rate
+# order type: share of orders, units per order, travel per unit factor (single-unit orders walk the most per unit)
+ORDER_TYPES = [("Single unit", 0.52, 1.0, 1.22), ("Multi unit", 0.38, 2.3, 0.88), ("Bulk", 0.10, 6.4, 0.62)]
+DPU_BASE = {"A": 9.5, "B": 14.0, "C": 26.0, "D": 0.0}  # metres walked per unit, by zone (picking, putaway, counting)
 CUTOFFS = [("12:00", 0.30), ("18:00", 0.45), ("23:00", 0.25)]
 PROMO = (dt.date(2026, 8, 8), dt.date(2026, 8, 15))
 OUTAGE = (dt.date(2026, 5, 12), {1, 2, 3})
@@ -127,6 +132,13 @@ def main() -> None:
         team_by_proc[t[1]].append(t)
     rid = 0
     for d in days():
+        # ---- the day's order mix: a promotion pulls orders towards multi-unit and bulk
+        shift_mix = (-0.12, 0.07, 0.05) if PROMO[0] <= d <= PROMO[1] else (0.0, 0.0, 0.0)
+        shares = [max(0.02, t[1] + m + rng.uniform(-0.02, 0.02)) for t, m in zip(ORDER_TYPES, shift_mix)]
+        shares = [x / sum(shares) for x in shares]
+        upo = sum(sh * t[2] for sh, t in zip(shares, ORDER_TYPES))
+        base_travel = sum(t[1] * t[3] for t in ORDER_TYPES)
+        travel_factor = sum(sh * t[3] for sh, t in zip(shares, ORDER_TYPES)) / base_travel
         # ---- outbound demand and what gets shipped
         demand = outbound_volume(d) + backlog
         overtime = 1.0 if backlog > 4000 else 0.0  # an extra hour per person on backlog days
@@ -174,28 +186,30 @@ def main() -> None:
                     direct = units / (STD[proc] * perf)
                     idle = paid - indirect - direct
                     done += units
+                    dpu = DPU_BASE[zone] * (travel_factor if proc == "PCK" else 1.0) * rng.uniform(0.97, 1.03) if proc in TRAVEL else 0.0
                     labor.append((d.isoformat(), h, tid, round(units), round(direct, 3), round(indirect, 3), round(idle, 3),
-                                  round(units / STD[proc], 3), round(new_share, 3)))
+                                  round(units / STD[proc], 3), round(new_share, 3), round(units * dpu)))
             shipped_by_proc[proc] = done
         shipped = min(shipped_by_proc["PCK"], shipped_by_proc["PAK"], shipped_by_proc["SHP"])
         backlog = max(0.0, demand - shipped)
         # ---- orders by cutoff and carrier
-        upo = 1.62 + (0.25 if PROMO[0] <= d <= PROMO[1] else 0.0) + rng.uniform(-0.05, 0.05)
         late_share = min(0.35, backlog / max(demand, 1) * 1.6) + 0.012
+        n_total = shipped / upo
         for cutoff, cshare in CUTOFFS:
             for carrier, kshare, first_rate in CARRIERS:
-                units = shipped * cshare * kshare
-                n = max(1, round(units / upo))
-                due = round(n + backlog / upo * cshare * kshare)
-                on_time = round(n * (1 - late_share * (1.3 if cutoff == "12:00" else 1.0)))
-                lines = round(n * (1.28 + 0.1 * (upo - 1.62)))
-                cycle = n * rng.uniform(5.0, 6.4) * (1.4 if backlog > 4000 else 1.0)
-                errors = sum(1 for _ in range(n) if rng.random() < 0.0011)
-                delivered_on_time = round(n * min(0.99, (0.965 if carrier != "Parcel B" else 0.935) - late_share * 0.5))
-                first = round(n * first_rate * rng.uniform(0.985, 1.01))
-                orders.append((d.isoformat(), cutoff, carrier, n, due, round(units), lines, on_time, round(cycle, 1),
-                               errors, delivered_on_time, min(first, n), round(n * rng.uniform(26, 34) *
-                                                                                (1.15 if carrier == "Parcel B" else 1.0), 1)))
+                for (otype, _, t_upo, _), oshare in zip(ORDER_TYPES, shares):
+                    n = max(1, round(n_total * cshare * kshare * oshare))
+                    units = n * t_upo
+                    due = round(n + backlog / upo * cshare * kshare * oshare)
+                    on_time = round(n * (1 - late_share * (1.3 if cutoff == "12:00" else 1.0)))
+                    lines = round(n * (1.0 + 0.28 * min(t_upo, 4)))
+                    cycle = n * rng.uniform(5.0, 6.4) * (1.4 if backlog > 4000 else 1.0)
+                    errors = sum(1 for _ in range(n) if rng.random() < 0.0011)
+                    delivered_on_time = round(n * min(0.99, (0.965 if carrier != "Parcel B" else 0.935) - late_share * 0.5))
+                    first = round(n * first_rate * rng.uniform(0.985, 1.01))
+                    orders.append((d.isoformat(), cutoff, carrier, otype, n, due, round(units), lines, on_time, round(cycle, 1),
+                                   errors, delivered_on_time, min(first, n), round(n * rng.uniform(26, 34) *
+                                                                                  (1.15 if carrier == "Parcel B" else 1.0), 1)))
         # ---- cycle counts by storage zone
         for zid, zname, _, _ in ZONES[:3]:
             counted = rng.randint(380, 460)
@@ -218,8 +232,8 @@ def main() -> None:
     write("Teams.csv", ["Team ID", "Team", "Process ID", "Zone ID", "Shift", "Headcount"],
           [(t[0], t[0], t[1], t[2], t[3], t[4]) for t in TEAMS])
     write("Labor.csv", ["Date", "Hour", "Team ID", "Units", "Direct Hours", "Indirect Hours", "Idle Hours", "Standard Hours",
-                        "New Hire Share"], labor)
-    write("Orders.csv", ["Date", "Cutoff", "Carrier", "Orders", "Orders Due", "Units", "Lines", "Shipped On Time",
+                        "New Hire Share", "Travel Distance"], labor)
+    write("Orders.csv", ["Date", "Cutoff", "Carrier", "Order Type", "Orders", "Orders Due", "Units", "Lines", "Shipped On Time",
                          "Cycle Hours", "Pick Errors", "Delivered On Time", "First Attempt Delivered", "Delivery Hours"], orders)
     write("Receipts.csv", ["Receipt ID", "Date", "Supplier ID", "Supplier", "Arrival Hour", "Units", "Arrived On Time",
                            "Damage Free", "Documents Correct", "Dock To Stock Hours"], receipts)
@@ -228,6 +242,7 @@ def main() -> None:
     # ---- expected values for checking a report: Q3 (July and August 2026, the default view), all shifts
     aug = lambda r: r[0][:7] in ("2026-07", "2026-08")
     proc_of = {t[0]: t[1] for t in TEAMS}
+    team_zone = {t[0]: t[2] for t in TEAMS}
     L = [r for r in labor if aug(r)]
     paid = lambda rows: sum(r[4] + r[5] + r[6] for r in rows)
     out_rows = [r for r in L if proc_of[r[2]] in ("PCK", "PAK", "SHP")]
@@ -239,8 +254,14 @@ def main() -> None:
     print("Q3 2026 (July-August), all shifts")
     print(f"  outbound units (pick) {pick_units:,.0f} · outbound UPH {pick_units / paid(out_rows):.1f} "
           f"· % of standard {sum(r[7] for r in out_rows) / sum(r[4] for r in out_rows):.1%}")
-    print(f"  units shipped {sum(r[5] for r in O):,} · on-time ship {sum(r[7] for r in O) / sum(r[4] for r in O):.1%} "
-          f"· missed cut-off {sum(r[4] - r[7] for r in O):,} · orders {sum(r[3] for r in O):,} · units per order {sum(r[5] for r in O) / sum(r[3] for r in O):.2f}")
+    print(f"  units shipped {sum(r[6] for r in O):,} · on-time ship {sum(r[8] for r in O) / sum(r[5] for r in O):.1%} "
+          f"· missed cut-off {sum(r[5] - r[8] for r in O):,} · orders {sum(r[4] for r in O):,} · units per order {sum(r[6] for r in O) / sum(r[4] for r in O):.2f}")
+    pick = [r for r in L if proc_of[r[2]] == "PCK"]
+    dpu = lambda rows: sum(r[9] for r in rows) / sum(r[3] for r in rows)
+    walks = [r for r in L if proc_of[r[2]] in TRAVEL]  # the report's DPU covers every process that walks
+    print(f"  single-unit orders {sum(r[4] for r in O if r[3] == 'Single unit') / sum(r[4] for r in O):.0%} "
+          f"· pick DPU {dpu(pick):.1f} m/unit · DPU by zone " +
+          " · ".join(f"{z} {dpu([r for r in walks if team_zone[r[2]] == z]):.1f}" for z in "ABC"))
     lost = sum(r[4] + r[5] + r[6] - r[7] for r in L)
     print(f"  hours lost vs standard {lost:,.0f} (indirect {sum(r[5] for r in L) / lost:.0%}, idle {sum(r[6] for r in L) / lost:.0%})")
     by_team = defaultdict(lambda: [0.0, 0.0])
@@ -253,8 +274,8 @@ def main() -> None:
           f"· damage-free {sum(r[7] for r in R) / len(R):.1%}")
     print(f"  inventory accuracy {sum(r[3] for r in C) / sum(r[2] for r in C):.2%} "
           f"· zone C {sum(r[3] for r in C if r[1] == 'C') / sum(r[2] for r in C if r[1] == 'C'):.2%}")
-    print(f"  on-time delivery {sum(r[10] for r in O) / sum(r[3] for r in O):.1%} · first attempt "
-          + ", ".join(f"{c} {sum(r[11] for r in O if r[2] == c) / sum(r[3] for r in O if r[2] == c):.1%}" for c, _, _ in CARRIERS))
+    print(f"  on-time delivery {sum(r[11] for r in O) / sum(r[4] for r in O):.1%} · first attempt "
+          + ", ".join(f"{c} {sum(r[12] for r in O if r[2] == c) / sum(r[4] for r in O if r[2] == c):.1%}" for c, _, _ in CARRIERS))
 
 
 if __name__ == "__main__":

@@ -1,10 +1,10 @@
 {
-  "$comment": "Korean data values for the fulfillment pilot. The CSVs stay in English; these replacements run on the copied TMDL when the report is built in Korean. Values that measures compare against (Processes[Flow]) are not renamed.",
+  "$comment": "Korean data values for the fulfillment pilot. The CSVs stay in English; these replacements run on the copied TMDL when the report is built in Korean. Values that measures compare against are not renamed (Processes[Flow], Processes[Process ID]); where a renamed value is compared or joined, both sides are patched together - Orders[Order Type] with the Order Types table and the measure.",
   "tmdl": [
     {
       "file": "tables/Processes.tmdl",
       "find": "\"en-US\")\n\t\t\t\tin\n\t\t\t\t    Typed",
-      "replace": "\"en-US\"),\n\t\t\t\t    Named = Table.TransformColumns(Typed, {{\"Process\", each Record.FieldOrDefault([Pick = \"피킹\", Pack = \"패킹\", #\"Sort & ship\" = \"분류·출고\", Receive = \"입고 검수\", Putaway = \"적치\", #\"Cycle count\" = \"재고 실사\"], _, _)}})\n\t\t\t\tin\n\t\t\t\t    Named"
+      "replace": "\"en-US\"),\n\t\t\t\t    Named = Table.TransformColumns(Typed, {{\"Process\", each Record.FieldOrDefault([Pick = \"집품\", Pack = \"패킹\", #\"Sort & ship\" = \"분류·출고\", Receive = \"입고 검수\", Putaway = \"적치\", #\"Cycle count\" = \"재고 실사\"], _, _)}})\n\t\t\t\tin\n\t\t\t\t    Named"
     },
     {
       "file": "tables/Zones.tmdl",
@@ -19,7 +19,7 @@
     {
       "file": "tables/Orders.tmdl",
       "find": "\"en-US\")\n\t\t\t\tin\n\t\t\t\t    Typed",
-      "replace": "\"en-US\"),\n\t\t\t\t    Named = Table.TransformColumns(Typed, {{\"Carrier\", each Record.FieldOrDefault([#\"Parcel A\" = \"택배사 A\", #\"Parcel B\" = \"택배사 B\", #\"Own fleet\" = \"자체 배송\"], _, _)}})\n\t\t\t\tin\n\t\t\t\t    Named"
+      "replace": "\"en-US\"),\n\t\t\t\t    Named = Table.TransformColumns(Typed, {{\"Carrier\", each Record.FieldOrDefault([#\"Parcel A\" = \"택배사 A\", #\"Parcel B\" = \"택배사 B\", #\"Own fleet\" = \"자체 배송\"], _, _)}, {\"Order Type\", each Record.FieldOrDefault([#\"Single unit\" = \"단일 수량\", #\"Multi unit\" = \"복수 수량\", Bulk = \"벌크\"], _, _)}})\n\t\t\t\tin\n\t\t\t\t    Named"
     },
     {
       "file": "tables/Loss Types.tmdl",
@@ -30,6 +30,16 @@
       "file": "tables/Metrics.tmdl",
       "find": "\"Below standard\", [Hours Below Standard], \"Indirect work\", [Indirect Hours], \"Idle\", [Idle Hours]",
       "replace": "\"표준 미달 작업\", [Hours Below Standard], \"간접 작업\", [Indirect Hours], \"대기\", [Idle Hours]"
+    },
+    {
+      "file": "tables/Order Types.tmdl",
+      "find": "{ \"Single unit\", 1 }, { \"Multi unit\", 2 }, { \"Bulk\", 3 }",
+      "replace": "{ \"단일 수량\", 1 }, { \"복수 수량\", 2 }, { \"벌크\", 3 }"
+    },
+    {
+      "file": "tables/Metrics.tmdl",
+      "find": "'Order Types'[Order Type] = \"Single unit\"",
+      "replace": "'Order Types'[Order Type] = \"단일 수량\""
     }
   ]
 }

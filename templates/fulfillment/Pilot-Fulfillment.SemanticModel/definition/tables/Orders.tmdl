@@ -18,6 +18,12 @@ table Orders
 		summarizeBy: none
 		sourceColumn: Carrier
 
+	column 'Order Type'
+		dataType: string
+		summarizeBy: none
+		isHidden
+		sourceColumn: Order Type
+
 	column Orders
 		dataType: int64
 		summarizeBy: sum
@@ -82,8 +88,8 @@ table Orders
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(File.Contents(DataFolder & "\Orders.csv"), [Delimiter = ",", Columns = 13, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Source = Csv.Document(File.Contents(DataFolder & "\Orders.csv"), [Delimiter = ",", Columns = 14, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
-				    Typed = Table.TransformColumnTypes(Promoted, {{"Date", type date}, {"Cutoff", type text}, {"Carrier", type text}, {"Orders", Int64.Type}, {"Orders Due", Int64.Type}, {"Units", Int64.Type}, {"Lines", Int64.Type}, {"Shipped On Time", Int64.Type}, {"Cycle Hours", type number}, {"Pick Errors", Int64.Type}, {"Delivered On Time", Int64.Type}, {"First Attempt Delivered", Int64.Type}, {"Delivery Hours", type number}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Promoted, {{"Date", type date}, {"Cutoff", type text}, {"Carrier", type text}, {"Order Type", type text}, {"Orders", Int64.Type}, {"Orders Due", Int64.Type}, {"Units", Int64.Type}, {"Lines", Int64.Type}, {"Shipped On Time", Int64.Type}, {"Cycle Hours", type number}, {"Pick Errors", Int64.Type}, {"Delivered On Time", Int64.Type}, {"First Attempt Delivered", Int64.Type}, {"Delivery Hours", type number}}, "en-US")
 				in
 				    Typed
