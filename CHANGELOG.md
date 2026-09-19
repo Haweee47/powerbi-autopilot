@@ -6,6 +6,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 ## [Unreleased]
 
 ### Added
+- Launch media in `tools/make_launch_media.py`: a demo loop (the request typed in, the pages coming out) as both GIF and
+  H.264 MP4, plus square slides. The request in it is a full one - audience, first-priority flow, how the headline measure is
+  defined, the axes to break the cause down by, filters, default period, theme - because that is what a good request looks like
 - `tools/new_model.py`: build the semantic model from the data itself - a folder of CSVs, an Excel workbook, or a database over
   ODBC (with `--connector sqlserver|mysql|postgres|redshift|oracle` to write that connector's M instead). Types come from the
   source, key relationships and a calendar are inferred, and one SUM measure per numeric column gives the pilots something to map.

@@ -2,7 +2,10 @@
 
 Input: Desktop captures. English pages come from templates/<purpose>/screenshots/ (committed); Korean pages come from
 out/render/ful-ko/ if a capture run left them there (tools/render_check.ps1 -Dir out/ful-ko), otherwise the Korean demo is skipped.
-Output: docs/share/media/demo-ko.gif, demo-en.gif, slide-ko-1..4.png
+Output: docs/share/media/demo-ko.gif, demo-en.gif (and .mp4 beside them), slide-ko-1..4.png
+
+The GIF plays anywhere; the MP4 is what a feed prefers. MP4 needs `pip install imageio imageio-ffmpeg`; without it the
+GIF is still written and the MP4 is skipped with a note.
 
 Usage: python tools/make_launch_media.py
 """
@@ -239,6 +242,27 @@ def ko_slides() -> list[Image.Image]:
     return slides
 
 
+FPS = 25  # a feed wants a real frame rate, so each still is repeated for as long as it should be on screen
+
+
+def write_mp4(frames: list[Image.Image], times: list[int], path: Path) -> str:
+    """The same still frames as H.264, which autoplays in a feed where a GIF may not."""
+    try:
+        import imageio.v2 as imageio
+        import numpy as np
+    except ImportError:
+        return f"{path.name} skipped (pip install imageio imageio-ffmpeg)"
+    even = [f.resize((f.width // 2 * 2, f.height // 2 * 2)) for f in frames]  # H.264 wants even dimensions
+    with imageio.get_writer(path, fps=FPS, codec="libx264", quality=8,
+                            macro_block_size=None, pixelformat="yuv420p") as w:
+        for frame, ms in zip(even, times):
+            arr = np.asarray(frame.convert("RGB"))
+            for _ in range(max(1, round(ms / 1000 * FPS))):
+                w.append_data(arr)
+    seconds = sum(times) / 1000
+    return f"{path.name} ({seconds:.0f}s, {path.stat().st_size / 1e6:.1f} MB)"
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     made = []
@@ -252,6 +276,8 @@ def main() -> None:
         path = OUT / f"demo-{lang}.gif"
         pal[0].save(path, save_all=True, append_images=pal[1:], duration=times, loop=0, optimize=True)
         made.append(f"{path.name} ({len(frames)} frames, {path.stat().st_size / 1e6:.1f} MB)")
+        mp4 = write_mp4(frames, times, OUT / f"demo-{lang}.mp4")
+        made.append(mp4)
     for i, s in enumerate(ko_slides(), 1):
         s.save(OUT / f"slide-ko-{i}.png", optimize=True)
         made.append(f"slide-ko-{i}.png")

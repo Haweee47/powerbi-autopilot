@@ -13,7 +13,7 @@
 | 2 | **국내 Power BI·데이터 분석 커뮤니티** (본인이 이미 속한 오픈채팅·디스코드·페이스북 그룹) | 짧은 버전 + 링크 | 피드백 밀도가 가장 높다. 모르는 커뮤니티에 새로 가입해 홍보부터 하지 않는다 |
 | 3 | **GitHub Discussions → Show and tell** | 영어 글 + `demo-en.gif` | 저장소에 들어온 사람이 읽을 고정 글. 이후 모든 링크의 착지점 |
 | 4 | **LinkedIn (영어)** | 같은 영상 + 영어 글 | 1과 같은 날 올리지 않는다. 2~3일 뒤 |
-| 5 | (선택) **X** | 짧은 글 + `demo-en.gif` | 비용이 거의 없다 |
+| 5 | (선택) **X** | 짧은 글 + `demo-en.mp4` | 비용이 거의 없다 |
 
 **하루에 한 곳.** 올린 뒤 몇 시간 안에 댓글에 답하는 것이 글 자체보다 중요하다. 링크는 저장소 하나만 건다.
 
@@ -21,15 +21,17 @@
 
 | 파일 | 쓰는 곳 |
 |---|---|
-| `demo-ko.gif` · `demo-en.gif` | 요청을 입력하면 페이지가 나오는 20초 루프 (1200×675) |
+| `demo-ko.mp4` · `demo-en.mp4` | **LinkedIn·X에는 이걸 올린다.** 요청을 입력하면 페이지가 나오는 15~17초 영상 (1200×674, H.264) |
+| `demo-ko.gif` · `demo-en.gif` | 같은 내용의 GIF. 영상 업로드가 안 되는 곳(일부 커뮤니티·이슈·README)에 쓴다 |
 | `slide-ko-1..4.png` | LinkedIn 이미지 여러 장으로 올릴 때 (1200×1200): 표지 · DPU 페이지 · 테마 7종 · 숫자 |
 | `carousel.pdf` | LinkedIn 문서(슬라이드)로 올릴 때 |
 
-LinkedIn은 한 게시물에 **영상 하나 / 이미지 여러 장 / 문서 하나** 중 하나만 붙는다. 1차는 **영상(GIF) 한 장**을 권한다. 움직이는 결과물이 가장 빨리 이해된다.
+LinkedIn은 한 게시물에 **영상 하나 / 이미지 여러 장 / 문서 하나** 중 하나만 붙는다. 1차는 **영상(`demo-ko.mp4`)**을 권한다.
+움직이는 결과물이 가장 빨리 이해되고, 같은 내용이라도 GIF보다 영상 쪽이 피드에서 더 멀리 간다.
 
 ---
 
-## 1. LinkedIn (한국어) — `demo-ko.gif` 첨부
+## 1. LinkedIn (한국어) — `demo-ko.mp4` 첨부
 
 🤖 필요한 리포트를 말로 적어 주면 Power BI 리포트가 끝까지 나옵니다. Desktop에서 클릭한 곳은 없습니다.
 
@@ -136,7 +138,7 @@ https://github.com/Haweee47/powerbi-autopilot
 
 ---
 
-## 4. LinkedIn (영어) — 2~3일 뒤, 같은 영상
+## 4. LinkedIn (영어) — 2~3일 뒤, `demo-en.mp4` 첨부
 
 One line of plain language in, a finished Power BI report out. No clicks in Desktop.
 
