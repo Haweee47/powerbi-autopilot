@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "MsDashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9f2e6b41-7c35-4d18-9a52-6b0d3c8e1f47"
+  }
+}
