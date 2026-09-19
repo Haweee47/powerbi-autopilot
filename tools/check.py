@@ -51,6 +51,24 @@ def regenerate() -> list[str]:
     return problems
 
 
+def model_smoke() -> list[str]:
+    """new_model.py on the sample CSVs: the tables, the key relationships and the calendar have to come out every time.
+    Only the CSV source runs here - Excel and ODBC need a workbook and a driver, so they are checked by hand (example 07)."""
+    dest = OUT / "_model"
+    r = run([sys.executable, "tools/new_model.py", "--name", "Check", "--out", str(dest),
+             "--csv", "examples/_data/outdoor-shop"])
+    if r.returncode:
+        return ["new_model.py failed:" + r.stdout[-800:] + r.stderr[-800:]]
+    want = {"Orders", "Stores", "Products", "Budget", "Calendar", "Metrics"}
+    have = {p.stem for p in (dest / "tables").glob("*.tmdl")}
+    rels = (dest / "relationships.tmdl").read_text(encoding="utf-8")
+    problems = [f"new_model.py: missing tables {sorted(want - have)}"] if want - have else []
+    for key in ("Stores.'Store ID'", "Products.'Product ID'", "Calendar.Date"):
+        if key not in rels:
+            problems.append(f"new_model.py: no relationship to {key}")
+    return problems
+
+
 def validate(validator: str, report: Path) -> tuple[int | str, int | str]:
     r = run([validator, "validate", str(report)])
     for line in reversed(r.stdout.splitlines()):
@@ -100,6 +118,8 @@ def main() -> None:
 
     print("1. Regenerate committed files")
     problems = regenerate()
+    print("1b. Build a model from sample CSVs (tools/new_model.py)")
+    problems += model_smoke()
     print(f"2-3. Build and validate {len(PILOTS)} pilots × {len(themes)} themes × {len(LANGS)} languages")
     more, rows = build_all(validator, themes)
     problems += more

@@ -83,6 +83,18 @@ claude
 데이터 연결(SQL Server, ODBC, SharePoint Online, 파일 등)은 모델과 함께 그대로 복사되고 내 PC에만 있습니다. 자격 증명은 파일에 쓰지 않습니다.
 **ODBC.** ODBC 리포트도 위와 같이 PBIP로 저장하면 됩니다. 연결 문자열과 SQL은 그대로 복사되고, 비밀번호는 파일에 들어가지 않습니다. 처음 새로 고칠 때 로그인 방식(기본 또는 사용자 지정, Windows, 데이터베이스)을 한 번 고르면 Desktop이 기억합니다. 로컬 ODBC 드라이버로 확인한 과정은 [예제 06](../../examples/06-odbc/README.md)에 있습니다. 실제 데이터 웨어하우스(Presto, Redshift 등) 연결은 아직 시험하지 못했습니다.
 
+**아직 Power BI 모델이 없다면** 데이터에서 모델부터 만들면 됩니다. 그다음은 위와 같습니다.
+
+```bash
+python tools/new_model.py --name Sales --out out/sales-model --csv C:\data\sales        # CSV 폴더
+python tools/new_model.py --name Sales --out out/sales-model --excel C:\data\sales.xlsx  # 시트마다 테이블 하나
+python tools/new_model.py --name Sales --out out/sales-model --odbc "<연결 문자열>" --table dbo.Orders --table dbo.Stores
+```
+
+열 이름과 표본 행을 읽어 타입은 원본에서 가져오고, 키 관계를 찾고, 달력을 넣고, 숫자 열마다 합계 측정값을 하나씩 씁니다.
+추론한 내용은 전부 화면에 출력되고 TMDL로 남아 그대로 고칠 수 있습니다. 세 경로를 모두 돌린 예제: [예제 07](../../examples/07-own-data/README.md).
+연결 문자열에 비밀번호를 넣지 마세요. DSN이나 통합 인증을 쓰면 됩니다.
+
 실데이터는 커밋이나 이슈에 올리지 마세요. `out/`은 git이 무시하지만 `examples/` 아래에 만든 리포트는 추적됩니다.
 
 ## 언어

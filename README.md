@@ -126,6 +126,7 @@ The Desktop capture there waits for the one-time sign-in choice, and a live ware
 | Generator | Spec → PBIP. All four pilots and the Korean example pass Microsoft's validator (`powerbi-report-author validate`) with **0 errors · 0 warnings** |
 | Render check | A loop that opens each generated file in Desktop and captures every page. It caught and fixed **25+ issues** that passed the validator but looked wrong on screen |
 | Your own model | The dashboard pilot on a differently shaped English model: `new_report.py` lists every column and measure the pilot needs, inside its DAX too, and writes a model map the agent fills. Numbers checked against the CSVs ([example 05](examples/05-own-model/README.md)) |
+| Your own data, no model yet | `new_model.py` builds the semantic model from a **CSV folder, an Excel workbook or a database over ODBC**: types from the source, key relationships and a calendar inferred, starter measures written. The same pilot and the same model map then run on all three ([example 07](examples/07-own-data/README.md)) |
 | ODBC source | The same model read through a local ODBC driver: builds and validates unchanged, totals through the driver match. Desktop capture waits for the one-time sign-in choice ([example 06](examples/06-odbc/README.md)) |
 
 ## How tokens were cut

@@ -83,6 +83,18 @@ claude
 数据连接（SQL Server、ODBC、SharePoint Online、文件等）会随模型原样复制，只保存在你的电脑上。凭据不会写入文件。
 **ODBC。** ODBC 报表同样按上面的方法另存为 PBIP。连接字符串和 SQL 会原样复制，密码不会写入文件。第一次刷新时选择一次登录方式（默认或自定义、Windows、数据库），Desktop 会记住。在本地 ODBC 驱动上的验证见 [示例 06](../../examples/06-odbc/README.md)；真实数据仓库（Presto、Redshift 等）还没有测试。
 
+**还没有 Power BI 模型？** 可以直接从数据生成模型，之后步骤同上。
+
+```bash
+python tools/new_model.py --name Sales --out out/sales-model --csv C:\data\sales        # CSV 文件夹
+python tools/new_model.py --name Sales --out out/sales-model --excel C:\data\sales.xlsx  # 每个工作表一张表
+python tools/new_model.py --name Sales --out out/sales-model --odbc "<连接字符串>" --table dbo.Orders --table dbo.Stores
+```
+
+它读取列名和样本行，类型取自数据源本身，推断键关系，加入日历表，并为每个数值列写一个 SUM 度量值。
+推断结果全部打印出来，并写成可编辑的 TMDL。三种数据源的完整示例：[example 07](../../examples/07-own-data/README.md)。
+连接字符串中请勿写入密码（使用 DSN 或集成身份验证）。
+
 不要把真实数据提交到仓库或贴到 Issue 里。`out/` 会被 git 忽略，但放在 `examples/` 下的报表会被跟踪。
 
 ## 语言

@@ -58,34 +58,33 @@ def wrap(draw: ImageDraw.ImageDraw, text: str, f: ImageFont.FreeTypeFont, width:
     return lines + [line] if line else lines
 
 
-def prompt_frame(text: str, caret: bool, steps: list[str], title: str, mono_ok: bool) -> Image.Image:
-    """The request being typed into the agent, with the steps it runs ticking off underneath."""
+def prompt_frame(lines: list[str], shown: int, caret: bool, steps: list[str], title: str, mono_ok: bool) -> Image.Image:
+    """The request being typed into the agent, line by line, with the steps it runs ticking off underneath."""
     im = Image.new("RGB", (W, H), NAVY)
     d = ImageDraw.Draw(im)
-    d.rounded_rectangle((80, 96, W - 80, H - 96), 16, fill=PANEL, outline=EDGE, width=2)
+    d.rounded_rectangle((80, 72, W - 80, H - 48), 16, fill=PANEL, outline=EDGE, width=2)
     for i, c in enumerate(("#F2645A", "#F5BF4F", "#52D19B")):
-        d.ellipse((112 + i * 26, 128, 124 + i * 26, 140), fill=c)
-    d.text((204, 124), title, font=font("body", 20), fill=DIM)
-    d.line((80, 164, W - 80, 164), fill=EDGE, width=2)
+        d.ellipse((112 + i * 26, 104, 124 + i * 26, 116), fill=c)
+    d.text((204, 100), title, font=font("body", 20), fill=DIM)
+    d.line((80, 140, W - 80, 140), fill=EDGE, width=2)
 
     # Consolas has no Hangul, so a Korean request is typed in the body face instead
-    mono, body = (font("mono", 27) if mono_ok else font("body", 26)), font("body", 24)
-    d.text((116, 200), ">", font=font("mono", 27), fill=ACCENT)  # ASCII only: these faces have no prompt-arrow glyph
-    y = 200
-    for line in wrap(d, text, mono, W - 260):
-        d.text((152, y), line, font=mono, fill=INK)
-        y += 40
+    mono, body = (font("mono", 23) if mono_ok else font("body", 22)), font("body", 22)
+    d.text((116, 172), ">", font=font("mono", 23), fill=ACCENT)  # ASCII only: these faces have no prompt-arrow glyph
+    y = 172
+    for line in lines[:shown]:
+        d.text((152, y), line, font=mono, fill=INK if not line.startswith("-") else SOFT)
+        y += 34
     if caret:
-        last = wrap(d, text, mono, W - 260)[-1] if text else ""
-        cx = 152 + d.textlength(last, font=mono)
-        d.rectangle((cx + 3, y - 38, cx + 15, y - 8), fill=ACCENT)
+        last = lines[shown - 1] if shown else ""
+        d.rectangle((155 + d.textlength(last, font=mono), y - 32, 167 + d.textlength(last, font=mono), y - 8), fill=ACCENT)
 
-    y = max(y + 36, 320)
+    y = max(y + 30, 410)
     for s in steps:
-        d.line((122, y + 16, 130, y + 25), fill=GOOD, width=3)  # a drawn tick, for the same reason
-        d.line((130, y + 25, 144, y + 7), fill=GOOD, width=3)
+        d.line((122, y + 14, 130, y + 23), fill=GOOD, width=3)  # a drawn tick, for the same reason
+        d.line((130, y + 23, 144, y + 5), fill=GOOD, width=3)
         d.text((156, y), s, font=body, fill=SOFT)
-        y += 46
+        y += 44
     return im
 
 
@@ -114,14 +113,24 @@ def end_frame(lines: list[str]) -> Image.Image:
 DEMOS = {
     "ko": {
         "title": "Claude Code · powerbi-autopilot",
-        "prompt": "풀필먼트센터 운영 리포트 만들어줘. 출고가 1순위, 생산성(UPH)이랑 그 원인까지 보이게.",
+        "prompt": ["풀필먼트센터 운영 리포트 만들어줘.",
+                   "- 보는 사람은 센터장과 현장 슈퍼바이저, 매일 아침 회의에서 본다",
+                   "- 1순위는 출고. 생산성(UPH)은 유급시간 기준, 표준 대비 %도 같이",
+                   "- UPH가 떨어진 원인까지: 손실시간을 대기·간접·표준미달로 나눠서",
+                   "- 시간대별·팀별로 보고, 집품 이동거리(DPU)는 주문유형으로 걸러서",
+                   "- 입고·재고는 뒤 페이지, 기본 기간은 분기, 테마는 실무용으로 차분하게"],
         "steps": ["명세 작성 · 8.9K 토큰", "PBIR 생성 · 7페이지 · 비주얼 96개",
                   "Microsoft 공식 검증 · 오류 0 · 경고 0", "Power BI Desktop에서 전 페이지 캡처"],
         "end": ["한 줄 요청 → 완성된 Power BI 리포트", "오픈소스 MIT · 가상 데이터"],
     },
     "en": {
         "title": "Claude Code · powerbi-autopilot",
-        "prompt": "Build a fulfillment operations report: outbound first, then productivity (UPH) and what moves it.",
+        "prompt": ["Build a fulfillment operations report.",
+                   "- Read every morning by the site manager and shift supervisors",
+                   "- Outbound first. UPH on paid hours, with % of the engineered standard",
+                   "- Show why UPH drops: lost hours as idle, indirect, below standard",
+                   "- By hour and by team; travel per unit (DPU) filtered by order type",
+                   "- Inbound and inventory last, default period a quarter, a calm theme"],
         "steps": ["Spec written · 8.9K tokens", "PBIR generated · 7 pages · 96 visuals",
                   "Microsoft PBIR validator · 0 errors, 0 warnings", "Every page captured in Power BI Desktop"],
         "end": ["One request → a finished Power BI report", "Open source (MIT) · sample data"],
@@ -146,19 +155,19 @@ def demo(lang: str) -> tuple[list[Image.Image], list[int]] | None:
     if not pages:
         return None
     frames, times = [], []
-    text = d["prompt"]
-    cuts = [0, 12, 24, 36, len(text) // 2, int(len(text) * 0.72), len(text)]  # typing in chunks keeps the file small
-    for i, n in enumerate(cuts):
-        frames.append(prompt_frame(text[:n], True, [], d["title"], text.isascii()))
-        times.append(700 if i == 0 else 170)
-    frames.append(prompt_frame(text, False, [], d["title"], text.isascii()))
-    times.append(500)
+    lines = d["prompt"]
+    ascii_only = all(line.isascii() for line in lines)
+    for n in range(1, len(lines) + 1):  # a line at a time: a real request is written in points, not one sentence
+        frames.append(prompt_frame(lines, n, True, [], d["title"], ascii_only))
+        times.append(900 if n == 1 else 520)
+    frames.append(prompt_frame(lines, len(lines), False, [], d["title"], ascii_only))
+    times.append(600)
     for i in range(1, len(d["steps"]) + 1):
-        frames.append(prompt_frame(text, False, d["steps"][:i], d["title"], text.isascii()))
-        times.append(620 if i < len(d["steps"]) else 900)
+        frames.append(prompt_frame(lines, len(lines), False, d["steps"][:i], d["title"], ascii_only))
+        times.append(600 if i < len(d["steps"]) else 1000)
     for i, (p, caption) in enumerate(pages, 1):
         frames.append(page_frame(Image.open(p), caption, i, len(pages)))
-        times.append(1150)
+        times.append(1050)
     frames.append(end_frame(d["end"]))
     times.append(2400)
     return frames, times

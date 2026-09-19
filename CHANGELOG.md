@@ -6,6 +6,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 ## [Unreleased]
 
 ### Added
+- `tools/new_model.py`: build the semantic model from the data itself - a folder of CSVs, an Excel workbook, or a database over
+  ODBC (with `--connector sqlserver|mysql|postgres|redshift|oracle` to write that connector's M instead). Types come from the
+  source, key relationships and a calendar are inferred, and one SUM measure per numeric column gives the pilots something to map.
+  Everything inferred is printed and written as plain TMDL. Example 07 runs the same pilot and the same model map on all three
+  sources; the CSV and Excel paths were checked in Desktop against the source files
 - A domain pilot for fulfillment-center operations (`--purpose fulfillment`), with its own model (12 tables, 51 measures) and seeded
   sample data: outbound, lost hours vs standard, productivity by hour, teams and their drivers, travel per unit, inbound and
   inventory, and a team drill-through, in English and Korean (data values too). Productivity is measured on paid hours, and travel

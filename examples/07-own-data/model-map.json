@@ -1,0 +1,96 @@
+{
+  "$comment": "Model map for example 07: the pilot's fields and measures expressed in a model that tools/new_model.py built from the outdoor-shop data. The same map fits the CSV, Excel and ODBC versions of that model.",
+  "measureTable": "Metrics",
+  "columns": {
+    "날짜.연도": "Calendar.Year",
+    "날짜.월": "Calendar.Month",
+    "날짜.월번호": "Calendar.Month No",
+    "매장.권역": "Stores.Region",
+    "매장.매장명": "Stores.Store",
+    "매장.채널": "Stores.Channel",
+    "카테고리.카테고리": "Products.Category",
+    "판매.주문일자": "Orders.Order Date"
+  },
+  "measures": {
+    "객단가": {
+      "expr": "DIVIDE ( [매출], [주문건수] )",
+      "format": "#,0"
+    },
+    "매출": {
+      "expr": "[Total Net Sales]",
+      "format": "#,0"
+    },
+    "매출 구성비": {
+      "expr": "DIVIDE ( [매출], CALCULATE ( [매출], ALLSELECTED () ) )",
+      "format": "0.0%"
+    },
+    "목표 달성률": {
+      "expr": "DIVIDE ( [매출], [목표매출] )",
+      "format": "0.0%"
+    },
+    "목표 대비 차이": {
+      "expr": "IF ( NOT ISBLANK ( [목표매출] ), [매출] - [목표매출] )",
+      "format": "+#,0;-#,0;0"
+    },
+    "목표매출": {
+      "expr": "VAR lastDay = CALCULATE ( MAX ( Orders[Order Date] ), REMOVEFILTERS () ) RETURN IF ( ISFILTERED ( Products[Product] ) || ISFILTERED ( Products[Subcategory] ) || ISCROSSFILTERED ( Stores ), BLANK (), CALCULATE ( [Total Amount], TREATAS ( VALUES ( Products[Category] ), Budget[Category] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
+      "format": "#,0"
+    },
+    "이익": {
+      "expr": "[Total Net Sales] - [Total COGS]",
+      "format": "#,0"
+    },
+    "이익 증감률": {
+      "expr": "IF ( NOT ISBLANK ( [이익] ), DIVIDE ( [이익] - [전년 이익], [전년 이익] ) )",
+      "format": "+0.0%;-0.0%;0.0%"
+    },
+    "이익률": {
+      "expr": "DIVIDE ( [이익], [매출] )",
+      "format": "0.0%"
+    },
+    "전년 대비 증감률": {
+      "expr": "IF ( NOT ISBLANK ( [매출] ), DIVIDE ( [매출] - [전년 매출], [전년 매출] ) )",
+      "format": "+0.0%;-0.0%;0.0%"
+    },
+    "전년 매출": {
+      "expr": "VAR lastDay = CALCULATE ( MAX ( Orders[Order Date] ), REMOVEFILTERS () ) RETURN CALCULATE ( [매출], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
+      "format": "#,0"
+    },
+    "전년 이익": {
+      "expr": "VAR lastDay = CALCULATE ( MAX ( Orders[Order Date] ), REMOVEFILTERS () ) RETURN CALCULATE ( [이익], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
+      "format": "#,0"
+    },
+    "주문건수": {
+      "expr": "[Orders Rows]",
+      "format": "#,0"
+    },
+    "Orders PY": {
+      "expr": "VAR lastDay = CALCULATE ( MAX ( Orders[Order Date] ), REMOVEFILTERS () ) RETURN CALCULATE ( [주문건수], CALCULATETABLE ( SAMEPERIODLASTYEAR ( Calendar[Date] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )"
+    }
+  },
+  "_hints": {
+    "날짜.날짜": "the date key; instead of mapping it you can map the measure 'Orders PY' · used in DAX of Orders PY",
+    "날짜.실적기간": "boolean · flag for dates up to the last data date; instead of mapping it you can map the measure 'Orders PY' · used in DAX of Orders PY",
+    "날짜.연도": "Year · used in visuals and DAX of Context Label",
+    "날짜.월": "Month · used in visuals",
+    "날짜.월번호": "Month · used in visuals and DAX of Sales Trend",
+    "매장.권역": "Region · string · used in visuals",
+    "매장.매장명": "Store · string · used in visuals and DAX of Headline Store Detail, Headline Stores",
+    "매장.채널": "Channel · string · used in visuals and DAX of Context Label",
+    "카테고리.카테고리": "Category · used in visuals and DAX of Headline Category, Headline Store Detail, Headline Summary",
+    "판매.주문일자": "Order date · dateTime · used in DAX of Context Label",
+    "객단가": "AOV · reference: DIVIDE ( [매출], [주문건수] ) · used in DAX of AOV Disp, AOV YoY %",
+    "매출": "Sales · reference: SUM ( '판매'[매출액] ) · used in DAX of Sales Big, Sales Disp, Sales Trend, Unit Scale",
+    "매출 구성비": "Mix · reference: DIVIDE ( [매출], CALCULATE ( [매출], ALLSELECTED () ) ) · used in visuals",
+    "목표 달성률": "Attainment · reference: DIVIDE ( [매출], [목표매출] ) · used in visuals and DAX of Headline Summary",
+    "목표 대비 차이": "vs target · reference: IF ( NOT ISBLANK ( [목표매출] ), [매출] - [목표매출] ) · used in DAX of Headline Summary, Target Gap Bar Color, Target Gap Color, Target Gap Disp …",
+    "목표매출": "Target · RULE: limit the target to dates up to the last data date; a full-year budget otherwise halves attainment · reference: IF ( ISFILTERED ( '제품' ) || ISCROSSFILTERED ( '매장' ), BLANK (), SUM ( '목표'[목표매출액] ) ) · used in DAX of Target Disp",
+    "이익": "Profit · reference: [매출] - [원가] · used in DAX of Profit Big, Profit Disp",
+    "이익 증감률": "Profit YoY · reference: IF ( NOT ISBLANK ( [이익] ), DIVIDE ( [이익] - [전년 이익], [전년 이익] ) ) · used in DAX of Profit YoY Color, Profit YoY Text",
+    "이익률": "Margin · reference: DIVIDE ( [이익], [매출] ) · used in visuals and DAX of Margin YoY pp",
+    "전년 대비 증감률": "YoY · reference: IF ( NOT ISBLANK ( [매출] ), DIVIDE ( [매출] - [전년 매출], [전년 매출] ) ) · used in visuals and DAX of Headline Category, Headline Store Detail, Headline Stores, Headline Summary …",
+    "전년 매출": "Sales LY · RULE: compare only through the last data date, so a partial year meets the same months last year · reference: CALCULATE ( [매출], CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () ) ) · used in DAX of AOV YoY %, Margin YoY pp, Sales PY Disp",
+    "전년 이익": "Profit LY · RULE: compare only through the last data date, so a partial year meets the same months last year · reference: CALCULATE ( [이익], CALCULATETABLE ( SAMEPERIODLASTYEAR ( '날짜'[날짜] ), '날짜'[실적기간] = TRUE () ) ) · used in DAX of Margin YoY pp",
+    "주문건수": "Orders · reference: COUNTROWS ( '판매' ) · used in DAX of Orders Disp, Orders PY, Orders YoY %"
+  }
+}

@@ -129,7 +129,7 @@ powerbi-autopilot/
 │   └── literature.md          # 논문·자료 → 디자인 규칙
 ├── templates/                 # 용도별 파일럿 4종 + 공용 측정값(언어별)·용어집 + catalog.json
 ├── research/                  # 공개 리포트 수집·분석 스크립트와 결과
-├── tools/                     # 생성기, new_report, 테마·레이아웃 빌드, 공유 이미지, 토큰 측정
+├── tools/                     # 생성기, new_model(CSV·엑셀·ODBC → 모델), new_report, 테마·레이아웃 빌드, 공유 이미지, 토큰 측정
 ├── .claude/skills/new-report/ # 새 리포트: 용도·테마·언어를 묻고 파일럿으로 시작
 ├── .claude/skills/triage-feedback/ # GitHub 이슈 분류 → feedback-log → 결정·수정
 ├── .github/                   # 이슈 양식 4종, PR 양식, workflows/check.yml (CI = tools/check.py)
@@ -199,5 +199,6 @@ powerbi-autopilot/
 - [ ] 일본어·중국어 완성 (명세 글자, measures.ja/zh-CN.json, 데이터 값) — 기여 대기 #2 #3
 - [x] 검사 도구 저장소화: `tools/check.py`(CI와 같음) · `tools/render_check.ps1`(Desktop 캡처·비교) · GitHub Actions (2026-09-14)
 - [x] 다른 모델로 "내 데이터" 흐름 끝까지 → 예제 05 (모델 대응표, 영어 금액 단위 자동, 2026-09-15)
+- [x] 모델이 없는 데이터에서 시작: CSV 폴더·엑셀·ODBC → 시맨틱 모델 (`tools/new_model.py`, 예제 07). CSV·엑셀은 Desktop 확인, 실제 DB 서버 새로 고침은 계정 필요 (2026-09-19)
 - [x] 한국어 금액 단위도 데이터 크기에 맞게 (만·억 자동, 2026-09-15). 나머지 파일럿 3종도 내 모델로 (`--reuse-map`), 요인 분해 트리 값 순 정렬
 - [ ] 새 세션에서 실제 토큰 측정, 에이전트가 visual.json을 직접 쓰는 방식과 비교 (예제 01·02)

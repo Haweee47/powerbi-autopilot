@@ -535,6 +535,30 @@ walk. Two additions, both asked for by the analyst the pilot is built for - orde
 
 ---
 
+## 2026-09-19 · Your own data: CSV, Excel, or a database
+
+Until today the answer to "can I use my data?" was "if it is already a Power BI model, yes". That is the wrong half of the
+question for anyone being taught this workflow: their data is usually a folder of exports, a workbook, or a table in a warehouse.
+
+- **`tools/new_model.py`** takes one of three sources and writes a semantic model: `--csv` a folder, `--excel` a workbook
+  (a table per sheet), `--odbc` a connection with `--table`/`--query`. It reads column names and a sample of rows, takes the
+  types from the source, infers the key relationships, adds a calendar over the dates it found and writes one SUM measure per
+  numeric column. Everything it inferred is printed, and the output is plain TMDL to edit.
+- **The same report, three ways in.** The dashboard pilot ran on all three models of the same outdoor-shop data. The model map
+  was filled once (23 blanks, about 1.7K tokens) and reused for the other two with `--reuse-map`: 0 blanks. All three validate
+  with 0 errors and 0 warnings.
+- **Checked in Desktop**: the CSV and Excel models render and their numbers match the source files exactly - sales 634.3K,
+  profit 308.1K, attainment 95.6%, AOV 185.4, Camping furthest behind.
+- **Fixed on the way**: the ODBC path typed every date as text, because it guessed from how the values were printed and this
+  machine prints dates in Korean. Now the driver is asked what each column *is* (`GetFieldType`), and sniffing is only the
+  fallback. The lesson generalizes: where the source states a type, the source wins.
+- **Limits, written down**: native connectors (SQL Server, MySQL, PostgreSQL, Redshift, Oracle) are generated with columns
+  profiled over ODBC, but no refresh against those servers has been tried here. A local MySQL server was running, but it needs
+  credentials I do not have, so the honest answer stays "generated and schema-checked, not refreshed".
+- CI now builds a model from the sample CSVs on every push and checks the tables, the key relationships and the calendar.
+
+---
+
 ## 다음 계획
 
 | 순서 | 할 일 | 목표 |

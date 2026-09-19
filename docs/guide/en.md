@@ -84,6 +84,18 @@ generates the PBIP and validates it. The procedure it follows is in [`.claude/sk
 Your data connection (SQL Server, ODBC, SharePoint Online, files …) is copied with the model as it is and stays on your PC; no credentials are written to the files.
 **ODBC.** Save the ODBC report as PBIP as above; the connection and SQL are copied as they are, and no password is written to the files. The first refresh asks how to sign in (Default or Custom, Windows, or Database); Desktop remembers the choice. Checked on a local ODBC driver in [example 06](../../examples/06-odbc/README.md); a live warehouse (Presto, Redshift …) hasn't been tested yet.
 
+**No Power BI model yet?** Build one from the data itself, then follow the steps above:
+
+```bash
+python tools/new_model.py --name Sales --out out/sales-model --csv C:\data\sales      # a folder of CSV files
+python tools/new_model.py --name Sales --out out/sales-model --excel C:\data\sales.xlsx  # one table per sheet
+python tools/new_model.py --name Sales --out out/sales-model --odbc "<connection string>" --table dbo.Orders --table dbo.Stores
+```
+
+It reads the columns and a sample of rows, takes the types from the source, finds the key relationships, adds a calendar and writes
+one SUM measure per numeric column. Everything it inferred is printed and written as TMDL you can edit. Worked example, all three
+sources: [example 07](../../examples/07-own-data/README.md). Put no password in the connection string - use a DSN or integrated security.
+
 Keep real data out of commits and issues. `out/` is ignored by git; a report you build under `examples/` is not.
 
 ## Languages

@@ -31,10 +31,15 @@ LinkedIn은 한 게시물에 **영상 하나 / 이미지 여러 장 / 문서 하
 
 ## 1. LinkedIn (한국어) — `demo-ko.gif` 첨부
 
-🤖 자연어 한 줄로 Power BI 리포트를 끝까지 만들었습니다. Desktop에서 클릭한 곳은 없습니다.
+🤖 필요한 리포트를 말로 적어 주면 Power BI 리포트가 끝까지 나옵니다. Desktop에서 클릭한 곳은 없습니다.
 
-💬 입력한 요청
-"풀필먼트센터 운영 리포트 만들어줘. 출고가 1순위, 생산성(UPH)이랑 그 원인까지 보이게."
+💬 입력한 요청 (짧게 써도 되고, 자세히 쓰면 더 정확해집니다)
+"풀필먼트센터 운영 리포트 만들어줘.
+ - 보는 사람은 센터장과 현장 슈퍼바이저, 매일 아침 회의에서 본다
+ - 1순위는 출고. 생산성(UPH)은 유급시간 기준, 표준 대비 %도 같이
+ - UPH가 떨어진 원인까지: 손실시간을 대기·간접·표준미달로 나눠서
+ - 시간대별·팀별로 보고, 집품 이동거리(DPU)는 주문유형으로 걸러서
+ - 입고·재고는 뒤 페이지, 기본 기간은 분기, 테마는 실무용으로 차분하게"
 
 ⚙️ 나온 결과
 • 7페이지 · 비주얼 96개
@@ -57,11 +62,24 @@ LinkedIn은 한 게시물에 **영상 하나 / 이미지 여러 장 / 문서 하
 • 용도별 파일럿 5종: 대시보드 · 지표 테이블 · 행렬 확인 · 딥다이브 · 풀필먼트센터 운영
 • 테마 7종 + 브랜드 색 하나로 새 테마를 만드는 도구
 • 배치 2종(왼쪽 레일 · 상단 메뉴), 한국어 내장
-• 내 시맨틱 모델에도 적용 — 쓰던 리포트를 PBIP로 저장하면 연결과 SQL은 그대로 두고 필드만 대응표로 잇습니다
 
-🙋 두 가지가 궁금합니다
+✍️ 요청은 이렇게 적으면 됩니다
+한 줄만 써도 만들어집니다. 다만 **구체적일수록 고쳐 쓸 일이 줄어듭니다.**
+• 짧게: "매장별 매출 대시보드 만들어줘"
+• 보통: "매장별 매출 대시보드. 전년 대비랑 목표 달성률 같이 보이게, 하위 매장 3곳은 따로"
+• 자세히: 위 요청처럼 — 보는 사람 / 1순위 지표 / 지표 정의(유급시간 기준 등) / 원인 분해 축 / 필터 / 기본 기간 / 테마
+무엇을 넣을지 모르겠다면 "누가, 언제, 무엇을 결정하려고 보는지" 한 줄만 더 적어도 결과가 달라집니다.
+
+🔌 데이터 연결
+CSV 폴더, 엑셀 파일, ODBC로 붙는 DB에서 시맨틱 모델을 만들어 줍니다. 이미 Power BI로 보고 있는 데이터라면 그 리포트를 PBIP로 저장하면 연결과 SQL을 그대로 물려받습니다.
+다만 **실제 데이터 웨어하우스(Presto·Redshift·Snowflake 등) 연결은 아직 테스트하지 못했습니다.** 회사 계정이 필요해서요.
+CSV·엑셀은 Desktop에서 숫자까지 대조해 확인했고, ODBC는 로컬 드라이버까지만 확인했습니다.
+👉 **실무에서 웨어하우스에 붙여 쓸 수 있는 분이 계시면 꼭 피드백 부탁드립니다.** 어디서 막히는지가 지금 가장 궁금한 부분입니다.
+
+🙋 세 가지가 궁금합니다
 1️⃣ 이 화면, 실무에서 그대로 쓰시겠습니까? 어디가 제일 걸리나요?
 2️⃣ 어떤 용도의 파일럿이 더 필요할까요?
+3️⃣ 실제 DB(웨어하우스)에 붙여 보신다면, 되는지 안 되는지 알려주세요.
 
 🔗 오픈소스(MIT), quickstart.cmd 더블클릭으로 실행됩니다
 github.com/Haweee47/powerbi-autopilot
@@ -74,11 +92,16 @@ github.com/Haweee47/powerbi-autopilot
 
 ## 2. 국내 커뮤니티 (짧은 버전)
 
-Power BI 리포트를 자연어 한 줄로 끝까지 만드는 워크플로를 오픈소스로 공개했습니다(MIT).
+필요한 리포트를 말로 적으면 Power BI 리포트를 끝까지 만들어 주는 워크플로를 오픈소스로 공개했습니다(MIT).
 
 요청 한 줄 → 데이터 모델 → 페이지·테마 → 공식 PBIR 검증 → Desktop에서 전 페이지 캡처까지 한 번에 돕니다. 리포트 하나에 2~10분, API 비용 약 $0.6~4로 실측했습니다. 용도별 파일럿 5종(대시보드·지표 테이블·행렬·딥다이브·풀필먼트 운영), 테마 7종, 한국어 내장입니다.
 
-**디자인 의견을 듣고 싶어서 올립니다.** 실무에서 그대로 쓰기 어려운 부분이 있으면 그게 제일 듣고 싶은 이야기입니다. 이슈 양식에 1~5점 평가란이 있습니다.
+요청은 한 줄로도 되고, "보는 사람 / 1순위 지표 / 지표 정의 / 원인 분해 축 / 필터 / 기본 기간 / 테마"까지 적으면 그대로 반영됩니다. 구체적일수록 고쳐 쓸 일이 줄어듭니다.
+
+데이터는 CSV 폴더·엑셀·ODBC DB에서 모델을 만들어 주고, 이미 Power BI로 보고 있다면 PBIP로 저장해 연결을 그대로 씁니다.
+다만 **실제 웨어하우스(Presto·Redshift·Snowflake) 연결은 아직 테스트를 못 했습니다**(회사 계정 필요). 실무에서 붙여 보실 수 있는 분이 있으면 피드백 부탁드립니다.
+
+**디자인 의견도 듣고 싶습니다.** 실무에서 그대로 쓰기 어려운 부분이 있으면 그게 제일 듣고 싶은 이야기입니다. 이슈 양식에 1~5점 평가란이 있습니다.
 
 github.com/Haweee47/powerbi-autopilot (전부 가상 데이터, Windows + Desktop 2.157+)
 
@@ -101,11 +124,13 @@ The thing I keep relearning: a file that passes validation can still be wrong on
 **What I'd like feedback on**
 1. Would you put these pages in front of your stakeholders as they are? What breaks first?
 2. Which purpose is missing from the pilots?
-3. If you run Power BI on a real warehouse (Presto, Redshift, Snowflake): the generator copies your M expressions and never touches credentials, but I've only tested through a local ODBC driver. I'd like to hear how it goes.
+3. **If you run Power BI on a real warehouse (Presto, Redshift, Snowflake), please try it and tell me where it breaks.** `new_model.py` builds a model from a CSV folder, an Excel workbook or a database over ODBC, and an existing .pbip keeps your own connection and SQL untouched - no credentials are ever written. But a live warehouse is exactly the case I cannot test myself, so that gap stays open until someone with an account tries it.
 
 Design feedback has its own issue form with a 1–5 rating against the published rubric — that rating is the data I use to decide what to change.
 
-Limits, up front: Windows only (Desktop), 2.157+, Japanese and Chinese UI strings are partial, all sample data is synthetic.
+**Writing the request**: one line is enough to get a report, but the more you say the less you redo. The request above names the audience, the first-priority flow, how the headline measure is defined, the axes to break the cause down by, the filters, the default period and the theme - and all of it lands in the output.
+
+Limits, up front: Windows only (Desktop), 2.157+, Japanese and Chinese UI strings are partial, all sample data is synthetic, and no live warehouse has been tested yet.
 
 https://github.com/Haweee47/powerbi-autopilot
 
@@ -115,17 +140,26 @@ https://github.com/Haweee47/powerbi-autopilot
 
 One line of plain language in, a finished Power BI report out. No clicks in Desktop.
 
-> "Build a fulfillment operations report: outbound first, then productivity (UPH) and what moves it."
+> "Build a fulfillment operations report.
+>  - Read every morning by the site manager and shift supervisors
+>  - Outbound first. UPH on paid hours, with % of the engineered standard
+>  - Show why UPH drops: lost hours as idle, indirect, below standard
+>  - By hour and by team; travel per unit (DPU) filtered by order type
+>  - Inbound and inventory last, default period a quarter, a calm theme"
 
-That request produces 7 pages and 96 visuals. The agent writes only a spec (8.9K tokens); scripts generate the rest. Microsoft's PBIR validator runs, then Power BI Desktop opens the report and every page is captured and checked. **2–10 minutes and about $0.60–4 per report — measured, not estimated.**
+One line works too, but the more specific the request, the less there is to redo afterwards. That request produces 7 pages and 96 visuals. The agent writes only a spec (8.9K tokens); scripts generate the rest. Microsoft's PBIR validator runs, then Power BI Desktop opens the report and every page is captured and checked. **2–10 minutes and about $0.60–4 per report — measured, not estimated.**
 
 Why I built it: at a previous job I shipped an LLM workflow that wrote Power BI reports from existing PBIP files. It worked, but it burned tokens and the output looked like everything else. Across 1,800+ public reports, 67% of visual.json bytes are formatting, repeated in every visual. Move formatting into the theme and the agent's share of the output drops to about 6%.
 
 The lesson that stuck: **a file that passes the validator can still be wrong on screen.** 25+ times — doubled units, clipped KPI cards, an ignored slicer default. So "open it in Desktop and look at every page" became the core of the workflow, not an afterthought.
 
-Two questions for the Power BI people here:
+On data: it builds the semantic model from a CSV folder, an Excel workbook or a database over ODBC, and if your data is already in Power BI it inherits your connection and SQL from the .pbip. **A live warehouse (Presto, Redshift, Snowflake) is the one thing I have not been able to test** - I don't have an account for one. CSV and Excel are checked in Desktop down to the numbers; ODBC only through a local driver.
+**If you can point this at a real warehouse at work, I'd really like to hear where it breaks.**
+
+Three questions for the Power BI people here:
 1. Would you show these pages to stakeholders as they are? What breaks first?
 2. Which report purpose is missing?
+3. If you try it on a real database, does it hold up?
 
 Open source (MIT), double-click to run: github.com/Haweee47/powerbi-autopilot
 All sample data is synthetic. Windows + Power BI Desktop 2.157+; Japanese and Chinese are still partial.

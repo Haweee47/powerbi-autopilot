@@ -83,6 +83,18 @@ claude
 データ接続（SQL Server、ODBC、SharePoint Online、ファイルなど）はモデルと一緒にそのままコピーされ、あなたの PC の中だけにあります。資格情報はファイルに書かれません。
 **ODBC。** ODBC のレポートも上と同じく PBIP で保存します。接続文字列と SQL はそのままコピーされ、パスワードはファイルに書かれません。最初の更新でサインイン方法（既定またはカスタム、Windows、データベース）を一度選ぶと、Desktop が記憶します。ローカルの ODBC ドライバーでの確認は [例 06](../../examples/06-odbc/README.md) にあります。実際のデータウェアハウス（Presto、Redshift など）はまだ試していません。
 
+**Power BI モデルがまだない場合**、データからモデルを作れます。その後は上と同じ手順です。
+
+```bash
+python tools/new_model.py --name Sales --out out/sales-model --csv C:\data\sales        # CSV フォルダー
+python tools/new_model.py --name Sales --out out/sales-model --excel C:\data\sales.xlsx  # シートごとに 1 テーブル
+python tools/new_model.py --name Sales --out out/sales-model --odbc "<接続文字列>" --table dbo.Orders --table dbo.Stores
+```
+
+列名とサンプル行を読み、型はソースから取り、キーのリレーションシップを見つけ、カレンダーを追加し、数値列ごとに SUM メジャーを書きます。
+推論した内容はすべて表示され、編集できる TMDL として残ります。3 つのソースを試した例: [example 07](../../examples/07-own-data/README.md)。
+接続文字列にパスワードを入れないでください（DSN または統合認証を使用）。
+
 実データはコミットや Issue に載せないでください。`out/` は git の対象外ですが、`examples/` の下に作ったレポートは追跡されます。
 
 ## 言語
