@@ -54,9 +54,10 @@ Desktop capture of the Excel-built model against values computed from the source
 ## Limits
 
 - **Verified in Desktop**: the CSV and Excel paths, end to end, with the numbers above.
-- **ODBC**: the model builds, validates and refreshes through a local driver (the Access Text driver that ships with Office).
-  A real warehouse (Presto, Redshift, Snowflake) still needs someone with an account to try it — the first refresh also asks
-  once how to sign in ([example 06](../06-odbc/README.md)).
+- **ODBC**: the model builds and validates, and the driver returns the same columns and rows when the query is run directly.
+  The Desktop capture did **not** finish: the first refresh asks how to sign in (Default or Custom, Windows, Database) and waits
+  for a person to choose, the same wall as [example 06](../06-odbc/README.md). So the ODBC path is verified up to the refresh,
+  not through it. A real warehouse (Presto, Redshift, Snowflake) needs someone with an account to try at all.
 - **Native connectors** (`--connector sqlserver|mysql|postgres|redshift|oracle`) write the M for that connector while the
   columns still come from an ODBC profile. Generated and schema-checked here, not refreshed against those servers.
 - The starter measures are a starting point, not a model design. Name and shape them for your business before shipping.

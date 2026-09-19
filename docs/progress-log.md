@@ -548,7 +548,8 @@ question for anyone being taught this workflow: their data is usually a folder o
   was filled once (23 blanks, about 1.7K tokens) and reused for the other two with `--reuse-map`: 0 blanks. All three validate
   with 0 errors and 0 warnings.
 - **Checked in Desktop**: the CSV and Excel models render and their numbers match the source files exactly - sales 634.3K,
-  profit 308.1K, attainment 95.6%, AOV 185.4, Camping furthest behind.
+  profit 308.1K, attainment 95.6%, AOV 185.4, Camping furthest behind. The ODBC model stopped where example 06 stopped: the
+  first refresh asks how to sign in and waits for a click, so that path is verified up to the refresh and not through it.
 - **Fixed on the way**: the ODBC path typed every date as text, because it guessed from how the values were printed and this
   machine prints dates in Korean. Now the driver is asked what each column *is* (`GetFieldType`), and sniffing is only the
   fallback. The lesson generalizes: where the source states a type, the source wins.
