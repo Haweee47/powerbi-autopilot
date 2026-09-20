@@ -53,8 +53,12 @@ LinkedIn은 한 게시물에 **영상 하나 / 이미지 여러 장 / 문서 하
 ⏱️ 리포트 하나에 2~10분, 약 $0.6~4 (800~5,500원)
 추정이 아니라 리포트 두 개를 처음부터 끝까지 만들어 잰 값입니다.
 
-🔍 왜 만들었나
-이전 직장에서 PBIP와 LLM으로 리포트를 만드는 방식을 팀에 배포한 적이 있습니다. 동작은 했지만 두 가지가 발목을 잡았습니다. 토큰이 너무 많이 들었고, 결과물이 예쁘지 않았습니다.
+🔍 왜 만들었나 — 첫 번째 이유는 시간입니다
+DA·BA가 궁극적으로 해야 하는 일은 데이터를 분석해 비즈니스 임팩트를 만드는 것입니다.
+그런데 실무에서는 **대시보드를 '만드는' 일 자체에 시간이 너무 많이 들어갑니다.** 비주얼을 하나씩 놓고, 서식을 맞추고, 깨진 페이지를 고치다 보면 하루 이틀이 그냥 갑니다. 정작 분석에 쓸 시간은 남지 않습니다.
+그 시간을 분석 쪽으로 돌려주고 싶어서 만들었습니다. 제작을 자동화하면, 분석가는 "무엇을 그릴까"가 아니라 "이 숫자가 무슨 뜻인가"에 시간을 쓸 수 있습니다.
+
+두 번째는 지난 시도에서 배운 것입니다. 이전 직장에서 PBIP와 LLM으로 리포트를 만드는 방식을 팀에 배포한 적이 있습니다. 방향은 맞았지만 두 가지가 발목을 잡았습니다. 토큰이 너무 많이 들었고, 결과물이 예쁘지 않았습니다.
 공개 리포트 1,800여 개를 뜯어 보니 visual.json 용량의 67%가 서식이었고, 그게 비주얼마다 반복되고 있었습니다. 서식을 테마로 옮기니 에이전트가 쓰는 양이 생성물의 6%가 됐습니다.
 
 ⚠️ 가장 많이 배운 지점
@@ -95,6 +99,7 @@ github.com/Haweee47/powerbi-autopilot
 
 ## 2. 국내 커뮤니티 (짧은 버전)
 
+분석에 써야 할 시간을 대시보드 만드는 데 다 쓰는 게 아까워서 만들었습니다.
 **자연어 요청 한 문단으로 Power BI 리포트를 끝까지 만드는** 워크플로를 오픈소스로 공개했습니다(MIT). 마우스로 만든 곳은 한 군데도 없습니다.
 
 요청 한 줄 → 데이터 모델 → 페이지·테마 → 공식 PBIR 검증 → Desktop에서 전 페이지 캡처까지 한 번에 돕니다. 리포트 하나에 2~10분, API 비용 약 $0.6~4로 실측했습니다. 용도별 파일럿 5종(경영 대시보드·지표 테이블·행렬·딥다이브·물류 운영), 테마 7종, 한국어 내장입니다.
@@ -114,7 +119,7 @@ github.com/Haweee47/powerbi-autopilot (전부 가상 데이터, Windows + Deskto
 
 **Title:** I wrote a paragraph; the agent built the whole Power BI report and checked it in Desktop — how does the design hold up?
 
-I've been building an agent workflow that takes a one-line request and produces a finished PBIP: semantic model, pages, theme, navigation, then Microsoft's PBIR validator, then a Desktop pass that screenshots every page.
+Analysts are paid for analysis, and then spend their day building the dashboard instead. That is the problem I set out to remove: an agent workflow that takes a request in plain language and produces a finished PBIP - semantic model, pages, theme, navigation - then runs Microsoft's PBIR validator and a Desktop pass that screenshots every page to check it.
 
 What's in it today:
 - **5 pilots**: executive dashboard, measure table, metric-check matrix, deep dive, and one domain pilot for warehouse operations
@@ -153,7 +158,9 @@ I wrote one paragraph in plain language. The agent did the rest - the data model
 
 One line works too, but the more specific the request, the less there is to redo afterwards. That request produces 4 pages and 55 visuals. The agent writes only a spec (3.1K tokens); scripts generate the rest. Microsoft's PBIR validator runs, then Power BI Desktop opens the report and every page is captured and checked. **2–10 minutes and about $0.60–4 per report — measured, not estimated.**
 
-Why I built it: at a previous job I shipped an LLM workflow that wrote Power BI reports from existing PBIP files. It worked, but it burned tokens and the output looked like everything else. Across 1,800+ public reports, 67% of visual.json bytes are formatting, repeated in every visual. Move formatting into the theme and the agent's share of the output drops to about 6%.
+Why I built it, first reason: time. What a data or business analyst is ultimately paid for is analysis that moves the business. In practice, **building the dashboard eats the day** - placing visuals, matching formatting, fixing the page that broke. I wanted that time back for the analysis.
+
+Second reason, learned the hard way: at a previous job I shipped an LLM workflow that wrote Power BI reports from existing PBIP files. The direction was right, but it burned tokens and the output looked like everything else. Across 1,800+ public reports, 67% of visual.json bytes are formatting, repeated in every visual. Move formatting into the theme and the agent's share of the output drops to about 6%.
 
 The lesson that stuck: **a file that passes the validator can still be wrong on screen.** 25+ times — doubled units, clipped KPI cards, an ignored slicer default. So "open it in Desktop and look at every page" became the core of the workflow, not an afterthought.
 
