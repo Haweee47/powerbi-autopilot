@@ -33,8 +33,8 @@ LinkedIn은 한 게시물에 **영상 하나 / 이미지 여러 장 / 문서 하
 
 ## 1. LinkedIn (한국어) — `demo-ko.mp4` 첨부
 
-🤖 이 대시보드 4페이지, **마우스로 만든 곳이 한 군데도 없습니다.**
-자연어로 요청 한 문단을 적었을 뿐입니다. 데이터 모델부터 페이지·테마·검증, 그리고 Power BI Desktop을 열어 전 페이지를 캡처해 확인하는 것까지 전부 에이전트가 했습니다.
+🤖 총 4페이지의 Power BI, **직접 조작한 곳은 단 한 곳도 없습니다.**
+클로드에 요청 한 문단을 적었을 뿐입니다. 데이터 모델부터 페이지·테마·검증, 그리고 Power BI Desktop을 열어 전 페이지를 캡처해 확인하는 것까지 전부 에이전트가 했습니다.
 
 💬 입력한 요청 (짧게 써도 되고, 자세히 쓰면 더 정확해집니다)
 "매장별 매출 대시보드 만들어줘.
@@ -70,6 +70,15 @@ DA·BA가 궁극적으로 해야 하는 일은 데이터를 분석해 비즈니�
 • 테마 7종 + 브랜드 색 하나로 새 테마를 만드는 도구
 • 배치 2종(왼쪽 레일 · 상단 메뉴), 한국어 내장
 
+🚀 코딩 몰라도 5분이면 열어 봅니다
+개발 지식은 필요 없습니다. 클로드 없이도 완성된 리포트부터 열어 볼 수 있습니다.
+1️⃣ 준비물은 두 개 — Power BI Desktop(2.157 이상, 무료)과 Python (설치할 때 'Add python.exe to PATH' 체크만 해 주세요)
+2️⃣ GitHub에서 초록색 **Code → Download ZIP**, 압축 풀기
+3️⃣ 폴더 안의 **quickstart.cmd 더블클릭** → 가상 데이터로 만든 대시보드가 Power BI Desktop에서 열립니다
+4️⃣ 처음 열 때 노란 줄이 보이면 **'지금 새로 고침' → '변경 내용 적용'** 두 번만 눌러 주세요
+
+여기까지가 AI 없이 보는 방법입니다. 내 요청으로 새로 만들고 싶다면, 그 폴더에서 클로드 코드를 열고 위 요청처럼 적으면 됩니다. 파일럿·테마·언어는 물어봐 주니 몰라도 괜찮습니다.
+
 ✍️ 요청은 이렇게 적으면 됩니다
 한 줄만 써도 만들어집니다. 다만 **구체적일수록 고쳐 쓸 일이 줄어듭니다.**
 • 짧게: "매장별 매출 대시보드 만들어줘"
@@ -83,15 +92,15 @@ CSV 폴더, 엑셀 파일, ODBC로 붙는 DB에서 시맨틱 모델을 만들어
 CSV·엑셀은 Desktop에서 숫자까지 대조해 확인했고, ODBC는 로컬 드라이버까지만 확인했습니다.
 👉 **실무에서 웨어하우스에 붙여 쓸 수 있는 분이 계시면 꼭 피드백 부탁드립니다.** 어디서 막히는지가 지금 가장 궁금한 부분입니다.
 
-🙋 세 가지가 궁금합니다
+🙋 아직 완성한 것이 아닙니다. 계속 개선이 필요하고, 그래서 여러분의 도움이 필요합니다.
 1️⃣ 이 화면, 실무에서 그대로 쓰시겠습니까? 어디가 제일 걸리나요?
 2️⃣ 어떤 용도의 파일럿이 더 필요할까요?
-3️⃣ 실제 DB(웨어하우스)에 붙여 보신다면, 되는지 안 되는지 알려주세요.
+3️⃣ 그 밖의 개선 포인트는 무엇이 있을까요? 솔직하게 말씀해 주시면 감사하겠습니다.
 
 🔗 오픈소스(MIT), quickstart.cmd 더블클릭으로 실행됩니다
 github.com/Haweee47/powerbi-autopilot
 
-모든 이름과 숫자는 가상 데이터입니다. Windows + Power BI Desktop 2.157 이상이 필요하고, 일본어·중국어 화면 글자는 아직 진행 중입니다.
+모든 이름과 숫자는 가상 데이터입니다. Windows + Power BI Desktop 2.157 이상이 필요합니다.
 
 #PowerBI #데이터분석 #BI #오픈소스 #ClaudeCode
 
@@ -110,6 +119,8 @@ github.com/Haweee47/powerbi-autopilot
 다만 **실제 웨어하우스(Presto·Redshift·Snowflake) 연결은 아직 테스트를 못 했습니다**(회사 계정 필요). 실무에서 붙여 보실 수 있는 분이 있으면 피드백 부탁드립니다.
 
 **디자인 의견도 듣고 싶습니다.** 실무에서 그대로 쓰기 어려운 부분이 있으면 그게 제일 듣고 싶은 이야기입니다. 이슈 양식에 1~5점 평가란이 있습니다.
+
+시작은 쉽습니다. Code → Download ZIP → 폴더의 `quickstart.cmd` 더블클릭이면 가상 데이터로 만든 대시보드가 Power BI Desktop에서 열립니다(준비물은 Power BI Desktop과 Python뿐). 내 요청으로 새로 만들 때만 클로드 코드를 씁니다.
 
 github.com/Haweee47/powerbi-autopilot (전부 가상 데이터, Windows + Desktop 2.157+)
 
@@ -172,8 +183,11 @@ Three questions for the Power BI people here:
 2. Which report purpose is missing?
 3. If you try it on a real database, does it hold up?
 
-Open source (MIT), double-click to run: github.com/Haweee47/powerbi-autopilot
-All sample data is synthetic. Windows + Power BI Desktop 2.157+; Japanese and Chinese are still partial.
+🚀 You do not need to be a developer to see it
+Download the ZIP from GitHub, double-click `quickstart.cmd`, and a dashboard built on the bundled sample data opens in Power BI Desktop. Two prerequisites, both free: Power BI Desktop 2.157+ and Python. Claude Code only comes in when you want a report of your own.
+
+Open source (MIT): github.com/Haweee47/powerbi-autopilot
+All sample data is synthetic. Windows only; Japanese and Chinese are still partial.
 
 #PowerBI #DataVisualization #PBIP #AI #MicrosoftFabric
 
