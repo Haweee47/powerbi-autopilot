@@ -33,7 +33,8 @@ LinkedIn은 한 게시물에 **영상 하나 / 이미지 여러 장 / 문서 하
 
 ## 1. LinkedIn (한국어) — `demo-ko.mp4` 첨부
 
-🤖 필요한 리포트를 말로 적어 주면 Power BI 리포트가 끝까지 나옵니다. Desktop에서 클릭한 곳은 없습니다.
+🤖 이 대시보드 4페이지, **마우스로 만든 곳이 한 군데도 없습니다.**
+자연어로 요청 한 문단을 적었을 뿐입니다. 데이터 모델부터 페이지·테마·검증, 그리고 Power BI Desktop을 열어 전 페이지를 캡처해 확인하는 것까지 전부 에이전트가 했습니다.
 
 💬 입력한 요청 (짧게 써도 되고, 자세히 쓰면 더 정확해집니다)
 "매장별 매출 대시보드 만들어줘.
@@ -94,7 +95,7 @@ github.com/Haweee47/powerbi-autopilot
 
 ## 2. 국내 커뮤니티 (짧은 버전)
 
-필요한 리포트를 말로 적으면 Power BI 리포트를 끝까지 만들어 주는 워크플로를 오픈소스로 공개했습니다(MIT).
+**자연어 요청 한 문단으로 Power BI 리포트를 끝까지 만드는** 워크플로를 오픈소스로 공개했습니다(MIT). 마우스로 만든 곳은 한 군데도 없습니다.
 
 요청 한 줄 → 데이터 모델 → 페이지·테마 → 공식 PBIR 검증 → Desktop에서 전 페이지 캡처까지 한 번에 돕니다. 리포트 하나에 2~10분, API 비용 약 $0.6~4로 실측했습니다. 용도별 파일럿 5종(경영 대시보드·지표 테이블·행렬·딥다이브·물류 운영), 테마 7종, 한국어 내장입니다.
 
@@ -111,7 +112,7 @@ github.com/Haweee47/powerbi-autopilot (전부 가상 데이터, Windows + Deskto
 
 ## 3. GitHub Discussions → Show and tell (영어) — `demo-en.gif` 첨부
 
-**Title:** One request in, a checked Power BI report out — and I'd like your eyes on the design
+**Title:** I wrote a paragraph; the agent built the whole Power BI report and checked it in Desktop — how does the design hold up?
 
 I've been building an agent workflow that takes a one-line request and produces a finished PBIP: semantic model, pages, theme, navigation, then Microsoft's PBIR validator, then a Desktop pass that screenshots every page.
 
@@ -140,7 +141,8 @@ https://github.com/Haweee47/powerbi-autopilot
 
 ## 4. LinkedIn (영어) — 2~3일 뒤, `demo-en.mp4` 첨부
 
-One line of plain language in, a finished Power BI report out. No clicks in Desktop.
+**Nothing on these four pages was made with a mouse.**
+I wrote one paragraph in plain language. The agent did the rest - the data model, the pages, the theme, the validation, and opening Power BI Desktop to screenshot every page and check it.
 
 > "Build a store sales dashboard.
 >  - Read every Monday by the sales lead and the store managers
@@ -172,7 +174,9 @@ All sample data is synthetic. Windows + Power BI Desktop 2.157+; Japanese and Ch
 
 ## 5. X (선택)
 
-One request → a finished Power BI report: model, pages, theme, Microsoft's PBIR validator, then a Desktop pass that screenshots every page.
+Nothing in this Power BI report was made with a mouse.
+
+One paragraph of plain language in → model, pages, theme, Microsoft's PBIR validator, and a Desktop pass that screenshots every page to check it.
 
 ~$0.6–4 and 2–10 min per report, measured. 5 pilots, 7 themes, MIT.
 

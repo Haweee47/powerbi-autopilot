@@ -124,7 +124,7 @@ DEMOS = {
                    "- 테마는 실무용으로 차분하게, 한국어로"],
         "steps": ["명세 작성 · 3.1K 토큰", "PBIR 생성 · 4페이지 · 비주얼 55개",
                   "Microsoft 공식 검증 · 오류 0 · 경고 0", "Power BI Desktop에서 전 페이지 캡처"],
-        "end": ["한 줄 요청 → 완성된 Power BI 리포트", "오픈소스 MIT · 가상 데이터"],
+        "end": ["자연어 요청 하나로, 마우스 없이", "오픈소스 MIT · 가상 데이터"],
     },
     "en": {
         "title": "Claude Code · powerbi-autopilot",
@@ -136,7 +136,7 @@ DEMOS = {
                    "- Default period this year, and a calm, practical theme"],
         "steps": ["Spec written · 3.1K tokens", "PBIR generated · 4 pages · 55 visuals",
                   "Microsoft PBIR validator · 0 errors, 0 warnings", "Every page captured in Power BI Desktop"],
-        "end": ["One request → a finished Power BI report", "Open source (MIT) · sample data"],
+        "end": ["One paragraph in. No mouse anywhere.", "Open source (MIT) · sample data"],
     },
 }
 # English pages: the committed captures that carry no Korean from the capture machine's Desktop language
@@ -188,9 +188,9 @@ def ko_slides() -> list[Image.Image]:
     slides = []
 
     def hero(d, im):
-        d.text((80, 104), "요청 한 줄로", font=font("bold", 62), fill=INK)
-        d.text((80, 186), "완성된 Power BI 리포트", font=font("bold", 62), fill=INK)
-        d.text((80, 286), "데이터 모델 → 디자인 → 검증까지. Desktop에서 손으로 만지지 않는다.", font=font("body", 26), fill=SOFT)
+        d.text((80, 104), "마우스로 만든 곳이", font=font("bold", 62), fill=INK)
+        d.text((80, 186), "한 군데도 없습니다", font=font("bold", 62), fill=ACCENT)
+        d.text((80, 286), "자연어 요청 한 문단 → 데이터 모델 · 페이지 · 테마 · 검증 · Desktop 캡처까지.", font=font("body", 26), fill=SOFT)
         src = pages.get("요약") or (T / "dashboard" / "screenshots" / "summary.png")
         c = card(Image.open(src), 1000)
         im.paste(c, (80 - 20, 380), c)
