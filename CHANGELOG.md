@@ -6,6 +6,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 ## [Unreleased]
 
 ### Added
+- Examples 01 and 02: the same page, on the same model, finished with Microsoft's `powerbi-report-cli` and with data-goblin's
+  `pbir` CLI, measured against this repo. Instruction cost with one instrument (`claude plugin details`), bytes the agent writes,
+  validator result, Desktop capture and a rubric score where one could fairly be given
 - Launch media in `tools/make_launch_media.py`: a demo loop (the request typed in, the pages coming out) as both GIF and
   H.264 MP4, plus square slides. The request in it is a full one - audience, first-priority flow, how the headline measure is
   defined, the axes to break the cause down by, filters, default period, theme - because that is what a good request looks like

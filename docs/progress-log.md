@@ -560,6 +560,31 @@ question for anyone being taught this workflow: their data is usually a folder o
 
 ---
 
+## 2026-09-20 · Measured against the public toolkits (examples 01 and 02)
+
+The repo has claimed fewer tokens and a better-looking page since day one, with nothing to compare against. Both public
+Claude Code plugins for Power BI were installed and asked for the same page, on the same model, to the same finish line.
+
+- **Instruction cost, one instrument** (`claude plugin details`): this repo ~1.7k tokens on invoke and ~26 always-on;
+  Microsoft's `powerbi-report-cli` ~4.4k (+14.7k for its model skill) over ~89 KB of reference files it routes you through;
+  data-goblin's four authoring skills ~32.6k together.
+- **Microsoft's CLI has no create command** - `catalog`, `formatting`, `expr`, `theme`, `validate`, `preview-*` - so the agent
+  writes every `visual.json`. 13.7 KB for 8 visuals, about 94 KB at the size this repo generates, against a 5.1 KB model map.
+  Their own authoring reference recommends a deterministic generator when repetition is the constraint; that is this repo.
+- **data-goblin's `pbir` is a real generator**, and a good one: 7 short commands, role names checked, well-formed JSON, about
+  600 bytes of commands for the page. Its blocker is elsewhere - `pbir new report` needs a Fabric sign-in and a published
+  semantic model, so there is no local-only path into it.
+- **Both public runs produced validator-clean pages with visible defects.** The hand-authored one: auto-units ("3백만"),
+  clipped card labels, three years summed with no period filter, alphabetical bars, no takeaway sentence. The `pbir` one:
+  two of seven visuals simply did not render, while `pbir validate --fields --qa` and Microsoft's validator both passed.
+- **Four hypotheses tested and ruled out** for that render failure (missing `active`, the CLI's `sortDefinition`/`z: 0`,
+  capture timing, visual size). The same JSON renders alone on a page, so it is acceptable to Desktop; the cause was not found
+  and the example says so. Two further bisects produced reports that would not open at all.
+- **Scoring bias, stated in the example**: this repo wrote the rubric and built the pilots against it, so 40/40 measures
+  "we did what we set out to do". The defect lists are the part that stands without us.
+
+---
+
 ## 다음 계획
 
 | 순서 | 할 일 | 목표 |
