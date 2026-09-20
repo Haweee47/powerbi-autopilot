@@ -16,7 +16,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 T = ROOT / "templates"
 OUT = ROOT / "docs" / "share" / "media"
-KO_PAGES = ROOT / "out" / "render" / "ful-ko"
+KO_PAGES = ROOT / "out" / "render" / "dashboard-navy-ko"  # the Korean build of the dashboard pilot
 FONTS = Path("C:/Windows/Fonts")
 
 NAVY, PANEL, EDGE = "#0F1A2A", "#16202E", "#2A3A4F"
@@ -116,39 +116,38 @@ def end_frame(lines: list[str]) -> Image.Image:
 DEMOS = {
     "ko": {
         "title": "Claude Code · powerbi-autopilot",
-        "prompt": ["풀필먼트센터 운영 리포트 만들어줘.",
-                   "- 보는 사람은 센터장과 현장 슈퍼바이저, 매일 아침 회의에서 본다",
-                   "- 1순위는 출고. 생산성(UPH)은 유급시간 기준, 표준 대비 %도 같이",
-                   "- UPH가 떨어진 원인까지: 손실시간을 대기·간접·표준미달로 나눠서",
-                   "- 시간대별·팀별로 보고, 집품 이동거리(DPU)는 주문유형으로 걸러서",
-                   "- 입고·재고는 뒤 페이지, 기본 기간은 분기, 테마는 실무용으로 차분하게"],
-        "steps": ["명세 작성 · 8.9K 토큰", "PBIR 생성 · 7페이지 · 비주얼 96개",
+        "prompt": ["매장별 매출 대시보드 만들어줘.",
+                   "- 보는 사람은 영업 팀장과 매장 담당자, 매주 월요일 회의에서 본다",
+                   "- 1순위는 매출. 전년 대비와 목표 달성률을 나란히, 금액은 억·만 단위로",
+                   "- 부진한 곳이 바로 보이게: 카테고리별 목표 대비, 하위 매장 3곳은 따로",
+                   "- 매장을 누르면 상세 페이지로 넘어가게, 기간은 올해가 기본",
+                   "- 테마는 실무용으로 차분하게, 한국어로"],
+        "steps": ["명세 작성 · 3.1K 토큰", "PBIR 생성 · 4페이지 · 비주얼 55개",
                   "Microsoft 공식 검증 · 오류 0 · 경고 0", "Power BI Desktop에서 전 페이지 캡처"],
         "end": ["한 줄 요청 → 완성된 Power BI 리포트", "오픈소스 MIT · 가상 데이터"],
     },
     "en": {
         "title": "Claude Code · powerbi-autopilot",
-        "prompt": ["Build a fulfillment operations report.",
-                   "- Read every morning by the site manager and shift supervisors",
-                   "- Outbound first. UPH on paid hours, with % of the engineered standard",
-                   "- Show why UPH drops: lost hours as idle, indirect, below standard",
-                   "- By hour and by team; travel per unit (DPU) filtered by order type",
-                   "- Inbound and inventory last, default period a quarter, a calm theme"],
-        "steps": ["Spec written · 8.9K tokens", "PBIR generated · 7 pages · 96 visuals",
+        "prompt": ["Build a store sales dashboard.",
+                   "- Read every Monday by the sales lead and the store managers",
+                   "- Sales first, with year-on-year and target attainment beside it",
+                   "- Make the gap obvious: vs target by category, three weakest stores apart",
+                   "- Click a store to drill through to its detail page",
+                   "- Default period this year, and a calm, practical theme"],
+        "steps": ["Spec written · 3.1K tokens", "PBIR generated · 4 pages · 55 visuals",
                   "Microsoft PBIR validator · 0 errors, 0 warnings", "Every page captured in Power BI Desktop"],
         "end": ["One request → a finished Power BI report", "Open source (MIT) · sample data"],
     },
 }
 # English pages: the committed captures that carry no Korean from the capture machine's Desktop language
-EN_PAGES = [("dashboard/summary", "Dashboard · Sales performance"), ("dashboard/categories", "Dashboard · Categories"),
-            ("dashboard/stores", "Dashboard · Stores"), ("dashboard/store_detail", "Dashboard · Store detail (drill-through)"),
-            ("fulfillment/teams", "Fulfillment · Teams and their drivers")]
+EN_PAGES = [("dashboard/summary", "Sales performance"), ("dashboard/categories", "Categories"),
+            ("dashboard/stores", "Stores"), ("dashboard/store_detail", "Store detail (drill-through)")]
 
 
 def ko_pages() -> list[tuple[Path, str]]:
     if not KO_PAGES.exists():
         return []
-    return [(p, f"풀필먼트 · {p.stem.split('-', 1)[1].replace('_', ' ')}") for p in sorted(KO_PAGES.glob("*.png"))]
+    return [(p, p.stem.split("-", 1)[1].replace("_", " ")) for p in sorted(KO_PAGES.glob("*.png"))]
 
 
 def demo(lang: str) -> tuple[list[Image.Image], list[int]] | None:
@@ -192,25 +191,25 @@ def ko_slides() -> list[Image.Image]:
         d.text((80, 104), "요청 한 줄로", font=font("bold", 62), fill=INK)
         d.text((80, 186), "완성된 Power BI 리포트", font=font("bold", 62), fill=INK)
         d.text((80, 286), "데이터 모델 → 디자인 → 검증까지. Desktop에서 손으로 만지지 않는다.", font=font("body", 26), fill=SOFT)
-        src = pages.get("출고") or (T / "fulfillment" / "screenshots" / "outbound.png")
+        src = pages.get("요약") or (T / "dashboard" / "screenshots" / "summary.png")
         c = card(Image.open(src), 1000)
         im.paste(c, (80 - 20, 380), c)
-        for i, t in enumerate(["풀필먼트센터 운영 파일럿 · 7페이지 · 비주얼 96개",
+        for i, t in enumerate(["대시보드 파일럿 · 4페이지 · 비주얼 55개",
                                "모든 이름과 숫자는 가상 데이터", "github.com/Haweee47/powerbi-autopilot"]):
             d.text((80, 990 + i * 52), t, font=font("bold" if i == 2 else "body", 26), fill=ACCENT if i == 2 else SOFT)
     slides.append(slide(hero))
 
-    def travel(d, im):
-        d.text((80, 96), "생산성의 원인까지", font=font("bold", 56), fill=INK)
-        d.text((80, 176), "유닛당 이동 거리(DPU)", font=font("bold", 56), fill=ACCENT)
-        d.text((80, 268), "점 하나가 하루. 단일 수량 주문이 많은 날일수록 유닛당 더 걷는다.", font=font("body", 26), fill=SOFT)
-        src = pages.get("이동") or (T / "fulfillment" / "screenshots" / "travel.png")
+    def detail(d, im):
+        d.text((80, 96), "숫자에서 끝나지 않고", font=font("bold", 56), fill=INK)
+        d.text((80, 176), "원인까지 한 페이지 더", font=font("bold", 56), fill=ACCENT)
+        d.text((80, 268), "표에서 매장을 누르면 그 매장만 보는 상세 페이지로 넘어간다.", font=font("body", 26), fill=SOFT)
+        src = pages.get("매장_상세") or (T / "dashboard" / "screenshots" / "store_detail.png")
         c = card(Image.open(src), 1000)
         im.paste(c, (80 - 20, 380), c)
-        for i, t in enumerate(["출고 · 손실 시간 · 시간대 · 팀 · 이동 · 입고재고 · 팀 상세",
-                               "WERC 물류센터 지표와 인력 관리 실무 개념으로 구성"]):
+        for i, t in enumerate(["요약 · 카테고리 · 매장 · 매장 상세(드릴스루)",
+                               "용도별 파일럿 5종 중 하나. 지표 테이블·행렬·딥다이브·물류 운영도 같은 방식"]):
             d.text((80, 990 + i * 52), t, font=font("body", 26), fill=SOFT)
-    slides.append(slide(travel))
+    slides.append(slide(detail))
 
     def theme_grid(d, im):
         d.text((80, 96), "같은 리포트, 테마 7종", font=font("bold", 56), fill=INK)

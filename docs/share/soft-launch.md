@@ -36,16 +36,16 @@ LinkedIn은 한 게시물에 **영상 하나 / 이미지 여러 장 / 문서 하
 🤖 필요한 리포트를 말로 적어 주면 Power BI 리포트가 끝까지 나옵니다. Desktop에서 클릭한 곳은 없습니다.
 
 💬 입력한 요청 (짧게 써도 되고, 자세히 쓰면 더 정확해집니다)
-"풀필먼트센터 운영 리포트 만들어줘.
- - 보는 사람은 센터장과 현장 슈퍼바이저, 매일 아침 회의에서 본다
- - 1순위는 출고. 생산성(UPH)은 유급시간 기준, 표준 대비 %도 같이
- - UPH가 떨어진 원인까지: 손실시간을 대기·간접·표준미달로 나눠서
- - 시간대별·팀별로 보고, 집품 이동거리(DPU)는 주문유형으로 걸러서
- - 입고·재고는 뒤 페이지, 기본 기간은 분기, 테마는 실무용으로 차분하게"
+"매장별 매출 대시보드 만들어줘.
+ - 보는 사람은 영업 팀장과 매장 담당자, 매주 월요일 회의에서 본다
+ - 1순위는 매출. 전년 대비와 목표 달성률을 나란히, 금액은 억·만 단위로
+ - 부진한 곳이 바로 보이게: 카테고리별 목표 대비, 하위 매장 3곳은 따로
+ - 매장을 누르면 상세 페이지로 넘어가게, 기간은 올해가 기본
+ - 테마는 실무용으로 차분하게, 한국어로"
 
 ⚙️ 나온 결과
-• 7페이지 · 비주얼 96개
-• 에이전트가 직접 쓴 건 명세 8.9K 토큰뿐, 나머지는 스크립트가 생성
+• 4페이지 · 비주얼 55개
+• 에이전트가 직접 쓴 건 명세 3.1K 토큰뿐, 나머지는 스크립트가 생성
 • Microsoft 공식 PBIR 검증 오류 0 · 경고 0
 • Power BI Desktop에서 전 페이지를 캡처해 눈으로 확인하는 것까지 한 번의 실행
 
@@ -61,7 +61,7 @@ LinkedIn은 한 게시물에 **영상 하나 / 이미지 여러 장 / 문서 하
 그래서 "Desktop에서 캡처해 눈으로 본다"가 이 워크플로의 핵심이 됐습니다.
 
 📊 지금 들어 있는 것
-• 용도별 파일럿 5종: 대시보드 · 지표 테이블 · 행렬 확인 · 딥다이브 · 풀필먼트센터 운영
+• 용도별 파일럿 5종: 경영 대시보드 · 지표 테이블 · 행렬 확인 · 딥다이브 · 물류 운영
 • 테마 7종 + 브랜드 색 하나로 새 테마를 만드는 도구
 • 배치 2종(왼쪽 레일 · 상단 메뉴), 한국어 내장
 
@@ -69,7 +69,7 @@ LinkedIn은 한 게시물에 **영상 하나 / 이미지 여러 장 / 문서 하
 한 줄만 써도 만들어집니다. 다만 **구체적일수록 고쳐 쓸 일이 줄어듭니다.**
 • 짧게: "매장별 매출 대시보드 만들어줘"
 • 보통: "매장별 매출 대시보드. 전년 대비랑 목표 달성률 같이 보이게, 하위 매장 3곳은 따로"
-• 자세히: 위 요청처럼 — 보는 사람 / 1순위 지표 / 지표 정의(유급시간 기준 등) / 원인 분해 축 / 필터 / 기본 기간 / 테마
+• 자세히: 위 요청처럼 — 보는 사람 / 1순위 지표 / 지표 정의(기준·단위) / 쪼개서 볼 축 / 이동(드릴스루) / 기본 기간 / 테마
 무엇을 넣을지 모르겠다면 "누가, 언제, 무엇을 결정하려고 보는지" 한 줄만 더 적어도 결과가 달라집니다.
 
 🔌 데이터 연결
@@ -88,7 +88,7 @@ github.com/Haweee47/powerbi-autopilot
 
 모든 이름과 숫자는 가상 데이터입니다. Windows + Power BI Desktop 2.157 이상이 필요하고, 일본어·중국어 화면 글자는 아직 진행 중입니다.
 
-#PowerBI #데이터분석 #BI #오픈소스 #물류 #ClaudeCode
+#PowerBI #데이터분석 #BI #오픈소스 #ClaudeCode
 
 ---
 
@@ -96,7 +96,7 @@ github.com/Haweee47/powerbi-autopilot
 
 필요한 리포트를 말로 적으면 Power BI 리포트를 끝까지 만들어 주는 워크플로를 오픈소스로 공개했습니다(MIT).
 
-요청 한 줄 → 데이터 모델 → 페이지·테마 → 공식 PBIR 검증 → Desktop에서 전 페이지 캡처까지 한 번에 돕니다. 리포트 하나에 2~10분, API 비용 약 $0.6~4로 실측했습니다. 용도별 파일럿 5종(대시보드·지표 테이블·행렬·딥다이브·풀필먼트 운영), 테마 7종, 한국어 내장입니다.
+요청 한 줄 → 데이터 모델 → 페이지·테마 → 공식 PBIR 검증 → Desktop에서 전 페이지 캡처까지 한 번에 돕니다. 리포트 하나에 2~10분, API 비용 약 $0.6~4로 실측했습니다. 용도별 파일럿 5종(경영 대시보드·지표 테이블·행렬·딥다이브·물류 운영), 테마 7종, 한국어 내장입니다.
 
 요청은 한 줄로도 되고, "보는 사람 / 1순위 지표 / 지표 정의 / 원인 분해 축 / 필터 / 기본 기간 / 테마"까지 적으면 그대로 반영됩니다. 구체적일수록 고쳐 쓸 일이 줄어듭니다.
 
@@ -116,7 +116,7 @@ github.com/Haweee47/powerbi-autopilot (전부 가상 데이터, Windows + Deskto
 I've been building an agent workflow that takes a one-line request and produces a finished PBIP: semantic model, pages, theme, navigation, then Microsoft's PBIR validator, then a Desktop pass that screenshots every page.
 
 What's in it today:
-- **5 pilots**: executive dashboard, measure table, metric-check matrix, deep dive, and a fulfillment-operations pilot (outbound → lost hours vs standard → productivity by hour → teams → travel per unit → inbound and inventory)
+- **5 pilots**: executive dashboard, measure table, metric-check matrix, deep dive, and one domain pilot for warehouse operations
 - **7 themes** (a color palette plus a card shape) and two frames: a left rail or a top bar
 - **Low token cost**: the agent writes a 1–9K-token spec; scripts generate the rest, about 6% of the output
 - **Measured**: about $0.6–4 and 2–10 minutes per report ([how](https://github.com/Haweee47/powerbi-autopilot/blob/main/docs/cost-per-report.md)); 80 build combinations pass the validator with 0 errors and 0 warnings
@@ -142,14 +142,14 @@ https://github.com/Haweee47/powerbi-autopilot
 
 One line of plain language in, a finished Power BI report out. No clicks in Desktop.
 
-> "Build a fulfillment operations report.
->  - Read every morning by the site manager and shift supervisors
->  - Outbound first. UPH on paid hours, with % of the engineered standard
->  - Show why UPH drops: lost hours as idle, indirect, below standard
->  - By hour and by team; travel per unit (DPU) filtered by order type
->  - Inbound and inventory last, default period a quarter, a calm theme"
+> "Build a store sales dashboard.
+>  - Read every Monday by the sales lead and the store managers
+>  - Sales first, with year-on-year and target attainment beside it
+>  - Make the gap obvious: vs target by category, three weakest stores apart
+>  - Click a store to drill through to its detail page
+>  - Default period this year, and a calm, practical theme"
 
-One line works too, but the more specific the request, the less there is to redo afterwards. That request produces 7 pages and 96 visuals. The agent writes only a spec (8.9K tokens); scripts generate the rest. Microsoft's PBIR validator runs, then Power BI Desktop opens the report and every page is captured and checked. **2–10 minutes and about $0.60–4 per report — measured, not estimated.**
+One line works too, but the more specific the request, the less there is to redo afterwards. That request produces 4 pages and 55 visuals. The agent writes only a spec (3.1K tokens); scripts generate the rest. Microsoft's PBIR validator runs, then Power BI Desktop opens the report and every page is captured and checked. **2–10 minutes and about $0.60–4 per report — measured, not estimated.**
 
 Why I built it: at a previous job I shipped an LLM workflow that wrote Power BI reports from existing PBIP files. It worked, but it burned tokens and the output looked like everything else. Across 1,800+ public reports, 67% of visual.json bytes are formatting, repeated in every visual. Move formatting into the theme and the agent's share of the output drops to about 6%.
 
