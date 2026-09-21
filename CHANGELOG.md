@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-09-21
+
+Start from the data you have - a CSV folder, a workbook, or a database - and, for the first time, numbers against the two
+public Power BI toolkits instead of a claim.
+
 ### Added
 - Examples 01 and 02: the same page, on the same model, finished with Microsoft's `powerbi-report-cli` and with data-goblin's
   `pbir` CLI, measured against this repo. Instruction cost with one instrument (`claude plugin details`), bytes the agent writes,
@@ -127,7 +132,8 @@ First public release. Requires **Power BI Desktop 2.157 or newer**: every pilot 
   table columns narrow, slicer buttons truncated. `quickstart` now opens the Microsoft Store version when it's installed and warns
   when only an older Desktop is found; the guides state the minimum version. ([#1](https://github.com/Haweee47/powerbi-autopilot/issues/1))
 
-[Unreleased]: https://github.com/Haweee47/powerbi-autopilot/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/Haweee47/powerbi-autopilot/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/Haweee47/powerbi-autopilot/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/Haweee47/powerbi-autopilot/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Haweee47/powerbi-autopilot/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Haweee47/powerbi-autopilot/releases/tag/v0.1.0
