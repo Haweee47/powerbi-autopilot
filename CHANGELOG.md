@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+### Fixed
+- A report rendered differently depending on the reader's Power BI Desktop language: charts bound to a date column printed
+  their axis in that language ("2026년 7월" on an English report). Weekly charts now use a digits-only label column sorted by
+  the date behind it, and daily charts keep the date axis with its labels hidden - 60+ labels never fit anyway, and the period
+  is already in the page header. Checked in Desktop in both languages
+
 ## [0.4.0] - 2026-09-21
 
 Start from the data you have - a CSV folder, a workbook, or a database - and, for the first time, numbers against the two

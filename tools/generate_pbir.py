@@ -555,6 +555,10 @@ def build_visual(role: str, spec: dict, x: Ctx, region: dict) -> dict:
             objs["lineStyles"] = styles
         if spec.get("continuous"):  # 숫자 축(연속): 좁은 칸에서도 가로 스크롤이 생기지 않는다 (작은 여러 차트에서 확인)
             objs["categoryAxis"] = [{"properties": {"axisType": lit("Scalar"), "start": lit(1)}}]  # 월 번호 축이 0부터 그려졌다
+        if spec.get("xLabels") is False:
+            # A daily line over a quarter: 60+ labels never fit, and a date axis prints them in the reader's Desktop
+            # language. Hide them - the period is in the page header, and the subtitle says what one point is.
+            objs["categoryAxis"] = [{"properties": {"show": lit(False)}}]
         if spec.get("grid"):  # 작은 여러 차트 배치 [행, 열] — 기본 자동 배치는 2열로 쌓여 스크롤이 생겼다
             objs["smallMultiplesLayout"] = [{"properties": {"layoutType": lit("custom"), "rowCount": lit_int(spec["grid"][0]),
                                                             "columnCount": lit_int(spec["grid"][1])}}]

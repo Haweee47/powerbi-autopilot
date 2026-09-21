@@ -23,11 +23,11 @@
                       "Entity": "Calendar"
                     }
                   },
-                  "Property": "Week Start"
+                  "Property": "Week Label"
                 }
               },
-              "queryRef": "Calendar.Week Start",
-              "nativeQueryRef": "Week Start",
+              "queryRef": "Calendar.Week Label",
+              "nativeQueryRef": "Week Label",
               "displayName": "Week",
               "active": true
             }

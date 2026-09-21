@@ -92,6 +92,8 @@ Design choices specific to operations:
 - **Gaps, not levels.** Bars show "vs standard" and "vs target" (diverging, red below) because 91% and 97% bars look the same.
 - **One headline per page names the worst item** (team, hour, zone, supplier), the one a shift lead acts on first.
 - **Plans are dashed lines** on every trend (target UPH, 4-hour dock-to-stock, 100% of standard).
+- **Axis labels never depend on the reader's Desktop language.** Weekly charts use a `MM-dd` label column sorted by its
+  date; daily charts keep the date axis and hide the labels, since 60+ of them never fit and the period is in the header.
 - **Shift is a page-wide filter**, quarter the period filter; zones and processes are dropdowns where they matter.
 
 ## Using it with your own warehouse data

@@ -49,6 +49,30 @@ table Calendar
 		isNameInferred
 		sourceColumn: [Weekday]
 
+	column 'Day Label'
+		summarizeBy: none
+		sortByColumn: 'Day Order'
+		isNameInferred
+		sourceColumn: [Day Label]
+
+	column 'Day Order'
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day Order]
+
+	column 'Week Label'
+		summarizeBy: none
+		sortByColumn: 'Week Order'
+		isNameInferred
+		sourceColumn: [Week Label]
+
+	column 'Week Order'
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Week Order]
+
 	partition Calendar = calculated
 		mode: import
-		source = ADDCOLUMNS ( CALENDAR ( DATE ( 2026, 1, 1 ), DATE ( 2026, 8, 31 ) ), "Year", YEAR ( [Date] ), "Month No", MONTH ( [Date] ), "Month", FORMAT ( [Date], "MMM", "en-US" ), "Quarter", "Q" & QUARTER ( [Date] ), "Week Start", [Date] - WEEKDAY ( [Date], 3 ), "Weekday No", WEEKDAY ( [Date], 2 ), "Weekday", FORMAT ( [Date], "ddd", "en-US" ) )
+		source = ADDCOLUMNS ( CALENDAR ( DATE ( 2026, 1, 1 ), DATE ( 2026, 8, 31 ) ), "Year", YEAR ( [Date] ), "Month No", MONTH ( [Date] ), "Month", FORMAT ( [Date], "MMM", "en-US" ), "Quarter", "Q" & QUARTER ( [Date] ), "Week Start", [Date] - WEEKDAY ( [Date], 3 ), "Weekday No", WEEKDAY ( [Date], 2 ), "Weekday", FORMAT ( [Date], "ddd", "en-US" ), "Day Label", FORMAT ( [Date], "MM-dd" ), "Day Order", YEAR ( [Date] ) * 10000 + MONTH ( [Date] ) * 100 + DAY ( [Date] ), "Week Label", FORMAT ( [Date] - WEEKDAY ( [Date], 3 ), "MM-dd" ), "Week Order", YEAR ( [Date] - WEEKDAY ( [Date], 3 ) ) * 10000 + MONTH ( [Date] - WEEKDAY ( [Date], 3 ) ) * 100 + DAY ( [Date] - WEEKDAY ( [Date], 3 ) ) )

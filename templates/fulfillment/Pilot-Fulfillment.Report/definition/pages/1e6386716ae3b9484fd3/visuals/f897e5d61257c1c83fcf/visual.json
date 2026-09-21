@@ -126,6 +126,19 @@
             "metadata": "Metrics.Dock-to-Stock Target"
           }
         }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -155,7 +168,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Hours from arrival to putaway · plan 4h (dashed)'"
+                  "Value": "'Hours from arrival to putaway · plan 4h (dashed) · one point per day'"
                 }
               }
             }

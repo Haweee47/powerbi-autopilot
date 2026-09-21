@@ -13,22 +13,52 @@
       "ko": "VAR d0 = CALCULATE ( MIN ( Labor[Date] ) ) VAR d1 = CALCULATE ( MAX ( Labor[Date] ) ) RETURN FORMAT ( d0, \"m.d\" ) & \" – \" & FORMAT ( d1, \"m.d\" ) & \"  ·  \" & IF ( ISFILTERED ( Teams[Shift] ), SELECTEDVALUE ( Teams[Shift], \"\" ) & \" 교대\", \"전체 교대\" )"
     },
     "Neutral Color": "\"@ink3\"",
-    "Standard Line": { "expr": "1", "format": "0%" },
-    "Std Gap": { "expr": "VAR g = [% of Standard] RETURN IF ( NOT ISBLANK ( g ), g - 1 )", "format": "+0.0%;-0.0%;0.0%" },
-    "Std Shortfall": { "expr": "VAR g = [% of Standard] RETURN IF ( NOT ISBLANK ( g ), 1 - g )", "format": "▼0.0%;▲0.0%;0.0%" },
-    "Outbound Std Gap": { "expr": "CALCULATE ( [Std Gap], KEEPFILTERS ( Processes[Flow] = \"Outbound\" ) )", "format": "+0.0%;-0.0%;0.0%" },
-    "Outbound Shortfall": { "expr": "CALCULATE ( [Std Shortfall], KEEPFILTERS ( Processes[Flow] = \"Outbound\" ) )", "format": "▼0.0%;▲0.0%;0.0%" },
+    "Standard Line": {
+      "expr": "1",
+      "format": "0%"
+    },
+    "Std Gap": {
+      "expr": "VAR g = [% of Standard] RETURN IF ( NOT ISBLANK ( g ), g - 1 )",
+      "format": "+0.0%;-0.0%;0.0%"
+    },
+    "Std Shortfall": {
+      "expr": "VAR g = [% of Standard] RETURN IF ( NOT ISBLANK ( g ), 1 - g )",
+      "format": "▼0.0%;▲0.0%;0.0%"
+    },
+    "Outbound Std Gap": {
+      "expr": "CALCULATE ( [Std Gap], KEEPFILTERS ( Processes[Flow] = \"Outbound\" ) )",
+      "format": "+0.0%;-0.0%;0.0%"
+    },
+    "Outbound Shortfall": {
+      "expr": "CALCULATE ( [Std Shortfall], KEEPFILTERS ( Processes[Flow] = \"Outbound\" ) )",
+      "format": "▼0.0%;▲0.0%;0.0%"
+    },
     "Perf Bar Color": "IF ( [% of Standard] < 1, \"@neg\", \"@pos\" )",
     "DPU Color": "IF ( [Pick DPU] > [DPU Target], \"@neg\", \"@pos\" )",
     "DPU Bar Color": "IF ( [DPU] > [DPU Target], \"@neg\", \"@pos\" )",
-    "% of Std Heat": { "expr": "[% of Standard]", "format": "0%" },
+    "% of Std Heat": {
+      "expr": "[% of Standard]",
+      "format": "0%"
+    },
     "Units Shipped Disp": {
-      "expr": { "en": "VAR v = [Units Shipped] RETURN DIVIDE ( v, IF ( v >= 1E6, 1E6, IF ( v >= 1E4, 1E3, 1 ) ) )", "ko": "VAR v = [Units Shipped] RETURN DIVIDE ( v, IF ( v >= 1E4, 1E4, 1 ) )" },
-      "formatExpr": { "en": "VAR v = [Units Shipped] RETURN IF ( v >= 1E6, \"#,0.00\"\"M\"\"\", IF ( v >= 1E4, \"#,0.0\"\"K\"\"\", \"#,0\" ) )", "ko": "IF ( [Units Shipped] >= 1E4, \"#,0\"\"만\"\"\", \"#,0\" )" }
+      "expr": {
+        "en": "VAR v = [Units Shipped] RETURN DIVIDE ( v, IF ( v >= 1E6, 1E6, IF ( v >= 1E4, 1E3, 1 ) ) )",
+        "ko": "VAR v = [Units Shipped] RETURN DIVIDE ( v, IF ( v >= 1E4, 1E4, 1 ) )"
+      },
+      "formatExpr": {
+        "en": "VAR v = [Units Shipped] RETURN IF ( v >= 1E6, \"#,0.00\"\"M\"\"\", IF ( v >= 1E4, \"#,0.0\"\"K\"\"\", \"#,0\" ) )",
+        "ko": "IF ( [Units Shipped] >= 1E4, \"#,0\"\"만\"\"\", \"#,0\" )"
+      }
     },
     "Units Received Disp": {
-      "expr": { "en": "VAR v = [Units Received] RETURN DIVIDE ( v, IF ( v >= 1E6, 1E6, IF ( v >= 1E4, 1E3, 1 ) ) )", "ko": "VAR v = [Units Received] RETURN DIVIDE ( v, IF ( v >= 1E4, 1E4, 1 ) )" },
-      "formatExpr": { "en": "VAR v = [Units Received] RETURN IF ( v >= 1E6, \"#,0.00\"\"M\"\"\", IF ( v >= 1E4, \"#,0.0\"\"K\"\"\", \"#,0\" ) )", "ko": "IF ( [Units Received] >= 1E4, \"#,0\"\"만\"\"\", \"#,0\" )" }
+      "expr": {
+        "en": "VAR v = [Units Received] RETURN DIVIDE ( v, IF ( v >= 1E6, 1E6, IF ( v >= 1E4, 1E3, 1 ) ) )",
+        "ko": "VAR v = [Units Received] RETURN DIVIDE ( v, IF ( v >= 1E4, 1E4, 1 ) )"
+      },
+      "formatExpr": {
+        "en": "VAR v = [Units Received] RETURN IF ( v >= 1E6, \"#,0.00\"\"M\"\"\", IF ( v >= 1E4, \"#,0.0\"\"K\"\"\", \"#,0\" ) )",
+        "ko": "IF ( [Units Received] >= 1E4, \"#,0\"\"만\"\"\", \"#,0\" )"
+      }
     },
     "Orders Text": {
       "en": "VAR o = [Orders Shipped] RETURN IF ( o >= 1E6, FORMAT ( o / 1E6, \"0.00\" ) & \"M\", FORMAT ( o, \"#,0\" ) ) & \" orders  ·  \" & FORMAT ( [Units per Order], \"0.00\" ) & \" per order\"",
@@ -48,7 +78,10 @@
       "en": "\"Order cycle \" & FORMAT ( [Order Cycle Hours], \"0.0\" ) & \"h\"",
       "ko": "\"주문 처리 \" & FORMAT ( [Order Cycle Hours], \"0.0\" ) & \"시간\""
     },
-    "First-attempt Gap": { "expr": "VAR v = [First-attempt %] RETURN IF ( NOT ISBLANK ( v ), v - 0.95 )", "format": "+0.0%;-0.0%;0.0%" },
+    "First-attempt Gap": {
+      "expr": "VAR v = [First-attempt %] RETURN IF ( NOT ISBLANK ( v ), v - 0.95 )",
+      "format": "+0.0%;-0.0%;0.0%"
+    },
     "First-attempt Color": "IF ( [First-attempt %] < 0.95, \"@neg\", \"@pos\" )",
     "Receipts Text": {
       "en": "FORMAT ( [Receipts], \"#,0\" ) & \" deliveries  ·  damage-free \" & FORMAT ( [Damage-free %], \"0.0%\" )",
@@ -69,15 +102,24 @@
       "en": "\"Capacity used \" & FORMAT ( [Capacity Used], \"0%\" )",
       "ko": "\"공간 사용률 \" & FORMAT ( [Capacity Used], \"0%\" )"
     },
-    "Accuracy Gap": { "expr": "VAR v = [Inventory Accuracy] RETURN IF ( NOT ISBLANK ( v ), v - 0.99 )", "format": "+0.00%;-0.00%;0.00%" },
+    "Accuracy Gap": {
+      "expr": "VAR v = [Inventory Accuracy] RETURN IF ( NOT ISBLANK ( v ), v - 0.99 )",
+      "format": "+0.00%;-0.00%;0.00%"
+    },
     "Accuracy Bar Color": "IF ( [Inventory Accuracy] < 0.99, \"@neg\", \"@pos\" )",
     "UPH Text": {
       "en": "\"Plan \" & FORMAT ( [Target UPH], \"#,0.0\" ) & \"  \" & FORMAT ( DIVIDE ( [UPH], [Target UPH] ) - 1, \"▲0.0%;▼0.0%\" )",
       "ko": "\"계획 \" & FORMAT ( [Target UPH], \"#,0.0\" ) & \"  \" & FORMAT ( DIVIDE ( [UPH], [Target UPH] ) - 1, \"▲0.0%;▼0.0%\" )"
     },
     "UPH Color": "IF ( [UPH] < [Target UPH], \"@negInk\", \"@posInk\" )",
-    "Direct Text": { "en": "\"Direct time \" & FORMAT ( [Direct Share], \"0%\" )", "ko": "\"직접 작업 \" & FORMAT ( [Direct Share], \"0%\" )" },
-    "Indirect Text": { "en": "\"Indirect work \" & FORMAT ( [Indirect Share], \"0%\" )", "ko": "\"간접 작업 \" & FORMAT ( [Indirect Share], \"0%\" )" },
+    "Direct Text": {
+      "en": "\"Direct time \" & FORMAT ( [Direct Share], \"0%\" )",
+      "ko": "\"직접 작업 \" & FORMAT ( [Direct Share], \"0%\" )"
+    },
+    "Indirect Text": {
+      "en": "\"Indirect work \" & FORMAT ( [Indirect Share], \"0%\" )",
+      "ko": "\"간접 작업 \" & FORMAT ( [Indirect Share], \"0%\" )"
+    },
     "Crew Text": {
       "en": "\"Crew of \" & SUM ( Teams[Headcount] )",
       "ko": "\"인원 \" & SUM ( Teams[Headcount] ) & \"명\""
@@ -116,133 +158,590 @@
     }
   },
   "shared": {
-    "brand": { "text": { "en": "Fulfillment", "ko": "풀필먼트센터" }, "sub": { "en": "Center ops · sample data", "ko": "운영 · 가상 데이터" } },
-    "asof": { "text": { "en": "Data as of 2026-08-31", "ko": "데이터 기준일 2026.08.31" } },
-    "slicer_period": { "field": "Calendar.Quarter", "default": "Q3", "single": true, "title": { "en": "Quarter", "ko": "분기" } },
-    "slicer_channel": { "field": "Teams.Shift", "title": { "en": "Shift", "ko": "교대" } },
-    "context": { "measure": "Context Label" }
+    "brand": {
+      "text": {
+        "en": "Fulfillment",
+        "ko": "풀필먼트센터"
+      },
+      "sub": {
+        "en": "Center ops · sample data",
+        "ko": "운영 · 가상 데이터"
+      }
+    },
+    "asof": {
+      "text": {
+        "en": "Data as of 2026-08-31",
+        "ko": "데이터 기준일 2026.08.31"
+      }
+    },
+    "slicer_period": {
+      "field": "Calendar.Quarter",
+      "default": "Q3",
+      "single": true,
+      "title": {
+        "en": "Quarter",
+        "ko": "분기"
+      }
+    },
+    "slicer_channel": {
+      "field": "Teams.Shift",
+      "title": {
+        "en": "Shift",
+        "ko": "교대"
+      }
+    },
+    "context": {
+      "measure": "Context Label"
+    }
   },
   "pages": [
     {
       "layout": "summary",
       "id": "outbound",
-      "name": { "en": "Outbound", "ko": "출고" },
+      "name": {
+        "en": "Outbound",
+        "ko": "출고"
+      },
       "visuals": {
-        "title": { "text": { "en": "Outbound", "ko": "출고" } },
-        "headline": { "measure": "Headline Outbound" },
-        "kpi_sales": { "measure": "Units Shipped Disp", "ref": "Orders Text", "ref_color": "Neutral Color" },
-        "kpi_profit": { "measure": "Outbound UPH", "ref": "Outbound UPH Text", "ref_color": "Outbound UPH Color" },
-        "kpi_target": { "measure": "On-time Ship %", "ref": "On-time Text", "ref_color": "On-time Color" },
-        "kpi_aov": { "measure": "Missed Cut-off", "ref": "Cycle Text", "ref_color": "Neutral Color" },
-        "trend": { "x": "Calendar.Date", "y": ["Outbound UPH", "Outbound Target UPH"], "target": "Outbound Target UPH",
-                   "title": { "en": "Outbound UPH by day", "ko": "일별 출고 UPH" }, "sub": { "en": "Units per paid hour · plan (dashed)", "ko": "유급 시간당 처리 수량 · 계획(점선)" } },
-        "category": { "x": "Processes.Process", "y": ["Outbound Std Gap"], "color": "Perf Bar Color",
-                      "title": { "en": "Pick, pack, ship vs standard", "ko": "공정별 표준 대비" }, "sub": { "en": "Red = below the engineered standard", "ko": "빨강은 표준 미달" } },
-        "stores": { "columns": ["Teams.Team", "Outbound UPH", "Outbound Shortfall"], "sort": ["Outbound Shortfall", "desc"], "top": 3, "totals": false,
-                    "title": { "en": "Three teams furthest below standard", "ko": "표준 대비 하위 3개 팀" }, "sub": { "en": "Right-click a row → Drill through → Team detail", "ko": "행을 오른쪽 클릭 → 드릴스루 → 팀 상세" } },
-        "region": { "x": "Orders.Carrier", "y": ["First-attempt Gap"], "color": "First-attempt Color", "sort": "asc",
-                    "title": { "en": "First delivery attempt by carrier", "ko": "택배사별 첫 방문 배송" }, "sub": { "en": "vs 95% target · red = below", "ko": "목표 95% 대비 · 빨강은 미달" } }
+        "title": {
+          "text": {
+            "en": "Outbound",
+            "ko": "출고"
+          }
+        },
+        "headline": {
+          "measure": "Headline Outbound"
+        },
+        "kpi_sales": {
+          "measure": "Units Shipped Disp",
+          "ref": "Orders Text",
+          "ref_color": "Neutral Color"
+        },
+        "kpi_profit": {
+          "measure": "Outbound UPH",
+          "ref": "Outbound UPH Text",
+          "ref_color": "Outbound UPH Color"
+        },
+        "kpi_target": {
+          "measure": "On-time Ship %",
+          "ref": "On-time Text",
+          "ref_color": "On-time Color"
+        },
+        "kpi_aov": {
+          "measure": "Missed Cut-off",
+          "ref": "Cycle Text",
+          "ref_color": "Neutral Color"
+        },
+        "trend": {
+          "x": "Calendar.Date",
+          "y": [
+            "Outbound UPH",
+            "Outbound Target UPH"
+          ],
+          "target": "Outbound Target UPH",
+          "title": {
+            "en": "Outbound UPH by day",
+            "ko": "일별 출고 UPH"
+          },
+          "sub": {
+            "en": "Units per paid hour · plan (dashed) · one point per day",
+            "ko": "유급 시간당 처리 수량 · 계획(점선) · 한 점이 하루"
+          },
+          "xLabels": false
+        },
+        "category": {
+          "x": "Processes.Process",
+          "y": [
+            "Outbound Std Gap"
+          ],
+          "color": "Perf Bar Color",
+          "title": {
+            "en": "Pick, pack, ship vs standard",
+            "ko": "공정별 표준 대비"
+          },
+          "sub": {
+            "en": "Red = below the engineered standard",
+            "ko": "빨강은 표준 미달"
+          }
+        },
+        "stores": {
+          "columns": [
+            "Teams.Team",
+            "Outbound UPH",
+            "Outbound Shortfall"
+          ],
+          "sort": [
+            "Outbound Shortfall",
+            "desc"
+          ],
+          "top": 3,
+          "totals": false,
+          "title": {
+            "en": "Three teams furthest below standard",
+            "ko": "표준 대비 하위 3개 팀"
+          },
+          "sub": {
+            "en": "Right-click a row → Drill through → Team detail",
+            "ko": "행을 오른쪽 클릭 → 드릴스루 → 팀 상세"
+          }
+        },
+        "region": {
+          "x": "Orders.Carrier",
+          "y": [
+            "First-attempt Gap"
+          ],
+          "color": "First-attempt Color",
+          "sort": "asc",
+          "title": {
+            "en": "First delivery attempt by carrier",
+            "ko": "택배사별 첫 방문 배송"
+          },
+          "sub": {
+            "en": "vs 95% target · red = below",
+            "ko": "목표 95% 대비 · 빨강은 미달"
+          }
+        }
       }
     },
     {
       "layout": "deep_tree",
       "id": "loss",
-      "name": { "en": "Lost hours", "ko": "손실 시간" },
+      "name": {
+        "en": "Lost hours",
+        "ko": "손실 시간"
+      },
       "visuals": {
-        "title": { "text": { "en": "Where the hours go", "ko": "손실 시간은 어디서 생기나" } },
-        "headline": { "measure": "Headline Loss" },
-        "slicer_a": { "field": "Zones.Zone" },
-        "tree": { "measure": "Hours Lost", "by": ["Processes.Flow", "Processes.Process", "Teams.Shift", "Zones.Zone", "Teams.Team"],
-                  "title": { "en": "Hours lost vs standard", "ko": "표준 대비 손실 시간" }, "sub": { "en": "Paid hours the standard did not need · click + to split further", "ko": "표준이 필요로 하지 않은 유급 시간 · +를 눌러 더 나누기" } },
-        "trend": { "x": "Calendar.Week Start", "y": ["% of Standard", "Standard Line"], "target": "Standard Line",
-                   "title": { "en": "% of standard by week", "ko": "주별 표준 대비" }, "sub": { "en": "Standard hours earned per direct hour · 100% (dashed)", "ko": "직접 작업 시간당 표준 시간 · 100%(점선)" } },
-        "mix": { "x": "Loss Types.Loss Type", "y": ["Hours by Loss Type"],
-                 "title": { "en": "Why the hours were lost", "ko": "손실 원인" }, "sub": { "en": "Slow work · support work · waiting", "ko": "표준 미달 작업 · 간접 작업 · 대기" } }
+        "title": {
+          "text": {
+            "en": "Where the hours go",
+            "ko": "손실 시간은 어디서 생기나"
+          }
+        },
+        "headline": {
+          "measure": "Headline Loss"
+        },
+        "slicer_a": {
+          "field": "Zones.Zone"
+        },
+        "tree": {
+          "measure": "Hours Lost",
+          "by": [
+            "Processes.Flow",
+            "Processes.Process",
+            "Teams.Shift",
+            "Zones.Zone",
+            "Teams.Team"
+          ],
+          "title": {
+            "en": "Hours lost vs standard",
+            "ko": "표준 대비 손실 시간"
+          },
+          "sub": {
+            "en": "Paid hours the standard did not need · click + to split further",
+            "ko": "표준이 필요로 하지 않은 유급 시간 · +를 눌러 더 나누기"
+          }
+        },
+        "trend": {
+          "x": "Calendar.Week Label",
+          "y": [
+            "% of Standard",
+            "Standard Line"
+          ],
+          "target": "Standard Line",
+          "title": {
+            "en": "% of standard by week",
+            "ko": "주별 표준 대비"
+          },
+          "sub": {
+            "en": "Standard hours earned per direct hour · 100% (dashed)",
+            "ko": "직접 작업 시간당 표준 시간 · 100%(점선)"
+          }
+        },
+        "mix": {
+          "x": "Loss Types.Loss Type",
+          "y": [
+            "Hours by Loss Type"
+          ],
+          "title": {
+            "en": "Why the hours were lost",
+            "ko": "손실 원인"
+          },
+          "sub": {
+            "en": "Slow work · support work · waiting",
+            "ko": "표준 미달 작업 · 간접 작업 · 대기"
+          }
+        }
       }
     },
     {
       "layout": "matrix_main",
       "id": "hours",
-      "name": { "en": "By hour", "ko": "시간대" },
+      "name": {
+        "en": "By hour",
+        "ko": "시간대"
+      },
       "visuals": {
-        "title": { "text": { "en": "Productivity by hour", "ko": "시간대별 생산성" } },
-        "headline": { "measure": "Headline Hours" },
-        "slicer_a": { "field": "Zones.Zone" },
-        "matrix": { "rows": ["Processes.Flow", "Processes.Process"], "columns": ["Hours.Hour Label"], "values": ["% of Std Heat"], "format": { "% of Std Heat": "heat" }, "expand": true, "columnTotals": false,
-                    "title": { "en": "Process × hour, % of standard", "ko": "공정 × 시간대, 표준 대비" },
-                    "sub": { "en": "Darker = closer to or above standard · day shift 08-17, night shift 20-05", "ko": "진할수록 표준에 가깝거나 넘음 · 주간 08-17시, 야간 20-05시" } }
+        "title": {
+          "text": {
+            "en": "Productivity by hour",
+            "ko": "시간대별 생산성"
+          }
+        },
+        "headline": {
+          "measure": "Headline Hours"
+        },
+        "slicer_a": {
+          "field": "Zones.Zone"
+        },
+        "matrix": {
+          "rows": [
+            "Processes.Flow",
+            "Processes.Process"
+          ],
+          "columns": [
+            "Hours.Hour Label"
+          ],
+          "values": [
+            "% of Std Heat"
+          ],
+          "format": {
+            "% of Std Heat": "heat"
+          },
+          "expand": true,
+          "columnTotals": false,
+          "title": {
+            "en": "Process × hour, % of standard",
+            "ko": "공정 × 시간대, 표준 대비"
+          },
+          "sub": {
+            "en": "Darker = closer to or above standard · day shift 08-17, night shift 20-05",
+            "ko": "진할수록 표준에 가깝거나 넘음 · 주간 08-17시, 야간 20-05시"
+          }
+        }
       }
     },
     {
       "layout": "stores",
       "id": "teams",
-      "name": { "en": "Teams", "ko": "팀" },
+      "name": {
+        "en": "Teams",
+        "ko": "팀"
+      },
       "visuals": {
-        "title": { "text": { "en": "Teams and their drivers", "ko": "팀별 생산성과 원인" } },
-        "headline": { "measure": "Headline Teams" },
-        "scatter": { "point": "Teams.Team", "x": "New Hire Share", "y": "% of Standard", "color": "Perf Bar Color",
-                     "title": { "en": "New hires vs performance", "ko": "신규 인력 비율과 표준 대비" }, "sub": { "en": "Dot = team · x = share of hours by people in their first 30 days · red = below standard", "ko": "점 = 팀 · 가로 = 입사 30일 이내 인력의 시간 비율 · 빨강은 표준 미달" } },
-        "watch": { "columns": ["Teams.Team", "Std Shortfall"], "sort": ["Std Shortfall", "desc"], "top": 5, "totals": false,
-                   "title": { "en": "Furthest below standard", "ko": "표준 미달 순" }, "sub": { "en": "Five lowest teams", "ko": "하위 5개 팀" } },
-        "rank": { "columns": ["Teams.Team", "Processes.Process", "Zones.Zone", "Teams.Shift", "UPH", "UPH Trend", "% of Standard", "DPU", "Idle Share", "New Hire Share"],
-                  "sort": ["% of Standard", "asc"], "format": { "% of Standard": "bar", "Idle Share": "heat" },
-                  "title": { "en": "All teams", "ko": "전체 팀" }, "sub": { "en": "Right-click a team → Drill through → Team detail · trend = weekly UPH", "ko": "팀을 오른쪽 클릭 → 드릴스루 → 팀 상세 · 추이 = 주별 UPH" } }
+        "title": {
+          "text": {
+            "en": "Teams and their drivers",
+            "ko": "팀별 생산성과 원인"
+          }
+        },
+        "headline": {
+          "measure": "Headline Teams"
+        },
+        "scatter": {
+          "point": "Teams.Team",
+          "x": "New Hire Share",
+          "y": "% of Standard",
+          "color": "Perf Bar Color",
+          "title": {
+            "en": "New hires vs performance",
+            "ko": "신규 인력 비율과 표준 대비"
+          },
+          "sub": {
+            "en": "Dot = team · x = share of hours by people in their first 30 days · red = below standard",
+            "ko": "점 = 팀 · 가로 = 입사 30일 이내 인력의 시간 비율 · 빨강은 표준 미달"
+          }
+        },
+        "watch": {
+          "columns": [
+            "Teams.Team",
+            "Std Shortfall"
+          ],
+          "sort": [
+            "Std Shortfall",
+            "desc"
+          ],
+          "top": 5,
+          "totals": false,
+          "title": {
+            "en": "Furthest below standard",
+            "ko": "표준 미달 순"
+          },
+          "sub": {
+            "en": "Five lowest teams",
+            "ko": "하위 5개 팀"
+          }
+        },
+        "rank": {
+          "columns": [
+            "Teams.Team",
+            "Processes.Process",
+            "Zones.Zone",
+            "Teams.Shift",
+            "UPH",
+            "UPH Trend",
+            "% of Standard",
+            "DPU",
+            "Idle Share",
+            "New Hire Share"
+          ],
+          "sort": [
+            "% of Standard",
+            "asc"
+          ],
+          "format": {
+            "% of Standard": "bar",
+            "Idle Share": "heat"
+          },
+          "title": {
+            "en": "All teams",
+            "ko": "전체 팀"
+          },
+          "sub": {
+            "en": "Right-click a team → Drill through → Team detail · trend = weekly UPH",
+            "ko": "팀을 오른쪽 클릭 → 드릴스루 → 팀 상세 · 추이 = 주별 UPH"
+          }
+        }
       }
     },
     {
       "layout": "deep_scatter",
       "id": "travel",
-      "name": { "en": "Travel", "ko": "이동" },
+      "name": {
+        "en": "Travel",
+        "ko": "이동"
+      },
       "visuals": {
-        "title": { "text": { "en": "Travel per unit", "ko": "유닛당 이동 거리" } },
-        "headline": { "measure": "Headline Travel" },
-        "slicer_a": { "field": "Order Types.Order Type" },
-        "scatter": { "point": "Calendar.Date", "x": "Single-unit Share", "y": "Pick DPU", "size": "Orders Shipped", "color": "DPU Color",
-                     "title": { "en": "Order mix vs metres walked per unit", "ko": "주문 구성과 유닛당 이동 거리" },
-                     "sub": { "en": "One dot = one day · x = share of single-unit orders · red = above the 13.5 m plan", "ko": "점 하나 = 하루 · 가로 = 단일 수량 주문 비중 · 빨강은 목표 13.5m 초과" } },
-        "side": { "x": "Zones.Zone", "y": ["DPU"], "sort": "desc", "color": "DPU Bar Color",
-                  "title": { "en": "Metres per unit by zone", "ko": "구역별 유닛당 이동 거리" }, "sub": { "en": "Picking, putaway and counting", "ko": "집품·적치·재고 실사" } }
+        "title": {
+          "text": {
+            "en": "Travel per unit",
+            "ko": "유닛당 이동 거리"
+          }
+        },
+        "headline": {
+          "measure": "Headline Travel"
+        },
+        "slicer_a": {
+          "field": "Order Types.Order Type"
+        },
+        "scatter": {
+          "point": "Calendar.Day Label",
+          "x": "Single-unit Share",
+          "y": "Pick DPU",
+          "size": "Orders Shipped",
+          "color": "DPU Color",
+          "title": {
+            "en": "Order mix vs metres walked per unit",
+            "ko": "주문 구성과 유닛당 이동 거리"
+          },
+          "sub": {
+            "en": "One dot = one day · x = share of single-unit orders · red = above the 13.5 m plan",
+            "ko": "점 하나 = 하루 · 가로 = 단일 수량 주문 비중 · 빨강은 목표 13.5m 초과"
+          }
+        },
+        "side": {
+          "x": "Zones.Zone",
+          "y": [
+            "DPU"
+          ],
+          "sort": "desc",
+          "color": "DPU Bar Color",
+          "title": {
+            "en": "Metres per unit by zone",
+            "ko": "구역별 유닛당 이동 거리"
+          },
+          "sub": {
+            "en": "Picking, putaway and counting",
+            "ko": "집품·적치·재고 실사"
+          }
+        }
       }
     },
     {
       "layout": "summary",
       "id": "inbound",
-      "name": { "en": "Inbound", "ko": "입고·재고" },
+      "name": {
+        "en": "Inbound",
+        "ko": "입고·재고"
+      },
       "visuals": {
-        "title": { "text": { "en": "Inbound and inventory", "ko": "입고와 재고" } },
-        "headline": { "measure": "Headline Inbound" },
-        "kpi_sales": { "measure": "Units Received Disp", "ref": "Receipts Text", "ref_color": "Neutral Color" },
-        "kpi_profit": { "measure": "Inbound UPH", "ref": "Inbound UPH Text", "ref_color": "Inbound UPH Color" },
-        "kpi_target": { "measure": "Dock-to-Stock Hours", "ref": "D2S Text", "ref_color": "D2S Color" },
-        "kpi_aov": { "measure": "Inventory Accuracy", "ref": "Capacity Text", "ref_color": "Neutral Color" },
-        "trend": { "x": "Calendar.Date", "y": ["Dock-to-Stock Hours", "Dock-to-Stock Target"], "target": "Dock-to-Stock Target",
-                   "title": { "en": "Dock-to-stock by day", "ko": "일별 입고~적치 시간" }, "sub": { "en": "Hours from arrival to putaway · plan 4h (dashed)", "ko": "도착부터 적치까지 시간 · 목표 4시간(점선)" } },
-        "category": { "x": "Receipts.Arrival Band", "y": ["Dock-to-Stock Hours"], "color": "D2S Bar Color",
-                      "title": { "en": "Dock-to-stock by arrival time", "ko": "도착 시간대별 입고~적치" }, "sub": { "en": "Hours · red = over the 4h plan", "ko": "시간 · 빨강은 목표 4시간 초과" } },
-        "stores": { "columns": ["Receipts.Supplier", "Units Received", "Damage-free %"], "sort": ["Damage-free %", "asc"], "top": 3, "totals": false,
-                    "title": { "en": "Suppliers with the most damage", "ko": "파손이 잦은 공급사" }, "sub": { "en": "Lowest damage-free share first", "ko": "무손상 비율 낮은 순" } },
-        "region": { "x": "Zones.Zone", "y": ["Accuracy Gap"], "color": "Accuracy Bar Color", "sort": "asc",
-                    "title": { "en": "Inventory accuracy by zone", "ko": "구역별 재고 정확도" }, "sub": { "en": "vs 99% target · red = below", "ko": "목표 99% 대비 · 빨강은 미달" } }
+        "title": {
+          "text": {
+            "en": "Inbound and inventory",
+            "ko": "입고와 재고"
+          }
+        },
+        "headline": {
+          "measure": "Headline Inbound"
+        },
+        "kpi_sales": {
+          "measure": "Units Received Disp",
+          "ref": "Receipts Text",
+          "ref_color": "Neutral Color"
+        },
+        "kpi_profit": {
+          "measure": "Inbound UPH",
+          "ref": "Inbound UPH Text",
+          "ref_color": "Inbound UPH Color"
+        },
+        "kpi_target": {
+          "measure": "Dock-to-Stock Hours",
+          "ref": "D2S Text",
+          "ref_color": "D2S Color"
+        },
+        "kpi_aov": {
+          "measure": "Inventory Accuracy",
+          "ref": "Capacity Text",
+          "ref_color": "Neutral Color"
+        },
+        "trend": {
+          "x": "Calendar.Date",
+          "y": [
+            "Dock-to-Stock Hours",
+            "Dock-to-Stock Target"
+          ],
+          "target": "Dock-to-Stock Target",
+          "title": {
+            "en": "Dock-to-stock by day",
+            "ko": "일별 입고~적치 시간"
+          },
+          "sub": {
+            "en": "Hours from arrival to putaway · plan 4h (dashed) · one point per day",
+            "ko": "도착부터 적치까지 시간 · 목표 4시간(점선) · 한 점이 하루"
+          },
+          "xLabels": false
+        },
+        "category": {
+          "x": "Receipts.Arrival Band",
+          "y": [
+            "Dock-to-Stock Hours"
+          ],
+          "color": "D2S Bar Color",
+          "title": {
+            "en": "Dock-to-stock by arrival time",
+            "ko": "도착 시간대별 입고~적치"
+          },
+          "sub": {
+            "en": "Hours · red = over the 4h plan",
+            "ko": "시간 · 빨강은 목표 4시간 초과"
+          }
+        },
+        "stores": {
+          "columns": [
+            "Receipts.Supplier",
+            "Units Received",
+            "Damage-free %"
+          ],
+          "sort": [
+            "Damage-free %",
+            "asc"
+          ],
+          "top": 3,
+          "totals": false,
+          "title": {
+            "en": "Suppliers with the most damage",
+            "ko": "파손이 잦은 공급사"
+          },
+          "sub": {
+            "en": "Lowest damage-free share first",
+            "ko": "무손상 비율 낮은 순"
+          }
+        },
+        "region": {
+          "x": "Zones.Zone",
+          "y": [
+            "Accuracy Gap"
+          ],
+          "color": "Accuracy Bar Color",
+          "sort": "asc",
+          "title": {
+            "en": "Inventory accuracy by zone",
+            "ko": "구역별 재고 정확도"
+          },
+          "sub": {
+            "en": "vs 99% target · red = below",
+            "ko": "목표 99% 대비 · 빨강은 미달"
+          }
+        }
       }
     },
     {
       "layout": "store_detail",
       "id": "team_detail",
-      "name": { "en": "Team detail", "ko": "팀 상세" },
+      "name": {
+        "en": "Team detail",
+        "ko": "팀 상세"
+      },
       "hidden": true,
       "drillthrough": "Teams.Team",
       "visuals": {
-        "title": { "text": { "en": "Team detail", "ko": "팀 상세" } },
-        "back": { "action": "Back", "text": { "en": "← Back", "ko": "← 돌아가기" } },
-        "headline": { "measure": "Headline Team Detail" },
-        "kpi_sales": { "measure": "UPH", "ref": "UPH Text", "ref_color": "UPH Color" },
-        "kpi_margin": { "measure": "% of Standard", "ref": "Direct Text", "ref_color": "Neutral Color" },
-        "kpi_orders": { "measure": "Idle Share", "ref": "Indirect Text", "ref_color": "Neutral Color" },
-        "kpi_aov": { "measure": "New Hire Share", "ref": "Crew Text", "ref_color": "Neutral Color" },
-        "trend": { "x": "Calendar.Week Start", "y": ["UPH", "Target UPH"], "target": "Target UPH",
-                   "title": { "en": "UPH by week", "ko": "주별 UPH" }, "sub": { "en": "Plan (dashed)", "ko": "계획(점선)" } },
-        "mix": { "x": "Hours.Hour Label", "y": ["Std Gap"], "color": "Perf Bar Color", "type": "columnChart",
-                 "title": { "en": "% of standard by hour", "ko": "시간대별 표준 대비" }, "sub": { "en": "Red = below standard", "ko": "빨강은 표준 미달" } }
+        "title": {
+          "text": {
+            "en": "Team detail",
+            "ko": "팀 상세"
+          }
+        },
+        "back": {
+          "action": "Back",
+          "text": {
+            "en": "← Back",
+            "ko": "← 돌아가기"
+          }
+        },
+        "headline": {
+          "measure": "Headline Team Detail"
+        },
+        "kpi_sales": {
+          "measure": "UPH",
+          "ref": "UPH Text",
+          "ref_color": "UPH Color"
+        },
+        "kpi_margin": {
+          "measure": "% of Standard",
+          "ref": "Direct Text",
+          "ref_color": "Neutral Color"
+        },
+        "kpi_orders": {
+          "measure": "Idle Share",
+          "ref": "Indirect Text",
+          "ref_color": "Neutral Color"
+        },
+        "kpi_aov": {
+          "measure": "New Hire Share",
+          "ref": "Crew Text",
+          "ref_color": "Neutral Color"
+        },
+        "trend": {
+          "x": "Calendar.Week Label",
+          "y": [
+            "UPH",
+            "Target UPH"
+          ],
+          "target": "Target UPH",
+          "title": {
+            "en": "UPH by week",
+            "ko": "주별 UPH"
+          },
+          "sub": {
+            "en": "Plan (dashed)",
+            "ko": "계획(점선)"
+          }
+        },
+        "mix": {
+          "x": "Hours.Hour Label",
+          "y": [
+            "Std Gap"
+          ],
+          "color": "Perf Bar Color",
+          "type": "columnChart",
+          "title": {
+            "en": "% of standard by hour",
+            "ko": "시간대별 표준 대비"
+          },
+          "sub": {
+            "en": "Red = below standard",
+            "ko": "빨강은 표준 미달"
+          }
+        }
       }
     }
   ],

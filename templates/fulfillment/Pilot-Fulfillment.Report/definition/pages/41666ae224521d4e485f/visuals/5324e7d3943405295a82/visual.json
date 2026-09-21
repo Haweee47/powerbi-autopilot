@@ -126,6 +126,19 @@
             "metadata": "Metrics.Outbound Target UPH"
           }
         }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -155,7 +168,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Units per paid hour · plan (dashed)'"
+                  "Value": "'Units per paid hour · plan (dashed) · one point per day'"
                 }
               }
             }

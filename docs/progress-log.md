@@ -585,6 +585,30 @@ Claude Code plugins for Power BI were installed and asked for the same page, on 
 
 ---
 
+## 2026-09-21 · A report should not change with the reader's Desktop language
+
+Example 01 turned up something about this repo, not the toolkit it was comparing: the English fulfillment pilot printed its
+chart axes in Korean ("2026년 7월"), because the machine that opens the file decides how a date axis is written. The retail
+pilots never showed it - they bind a text month column - so it had been sitting in the committed screenshots unnoticed.
+
+- **What was wrong**: five charts bound `Calendar[Date]` or `Calendar[Week Start]` directly. A date axis is formatted in Power
+  BI Desktop's display language, so the same file reads differently for every viewer. Nothing in PBIR pins that: `categoryAxis`
+  has no format string (checked with `formatting describe-object`).
+- **Weekly charts**: the calendar gained `Week Label` (`MM-dd`, digits only) sorted by a `Week Order` key. Ten labels, no
+  scroll, identical in every language.
+- **Daily charts**: the first attempt used the same trick with a `Day Label` column, and it was worse - 62 categories forced a
+  horizontal scrollbar and rotated, clipped labels. `preferredCategoryWidth: 4` and a 7pt font did not remove the scroll
+  (two more builds, two more captures). A categorical axis simply cannot hold 62 slots in a 512px card.
+- **What shipped**: daily charts keep the date axis, which draws continuously and never scrolls, and hide its labels. Sixty
+  labels were never readable anyway; the period is in the page header and the subtitle now says "one point per day".
+- **Checked**: English, Korean and the top-bar layout, all seven pages each. The scatter's per-day detail field also moved to
+  the neutral label, so tooltips stop depending on the reader's language.
+
+The generalisable rule, now in the domain note: **nothing the reader sees may come from their own locale.** Money already
+followed it (measures return pre-formatted text), and dates now do too.
+
+---
+
 ## 다음 계획
 
 | 순서 | 할 일 | 목표 |

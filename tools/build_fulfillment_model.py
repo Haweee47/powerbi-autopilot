@@ -52,11 +52,19 @@ CALC_TABLES = {
     "Calendar": ("ADDCOLUMNS ( CALENDAR ( DATE ( 2026, 1, 1 ), DATE ( 2026, 8, 31 ) ), \"Year\", YEAR ( [Date] ), "
                  "\"Month No\", MONTH ( [Date] ), \"Month\", FORMAT ( [Date], \"MMM\", \"en-US\" ), \"Quarter\", \"Q\" & QUARTER ( [Date] ), "
                  "\"Week Start\", [Date] - WEEKDAY ( [Date], 3 ), \"Weekday No\", WEEKDAY ( [Date], 2 ), "
-                 "\"Weekday\", FORMAT ( [Date], \"ddd\", \"en-US\" ) )",
+                 "\"Weekday\", FORMAT ( [Date], \"ddd\", \"en-US\" ), "
+                 # axis labels a chart can show in any Power BI Desktop language: digits only, sorted by the date behind them
+                 "\"Day Label\", FORMAT ( [Date], \"MM-dd\" ), "
+                 "\"Day Order\", YEAR ( [Date] ) * 10000 + MONTH ( [Date] ) * 100 + DAY ( [Date] ), "
+                 "\"Week Label\", FORMAT ( [Date] - WEEKDAY ( [Date], 3 ), \"MM-dd\" ), "
+                 "\"Week Order\", YEAR ( [Date] - WEEKDAY ( [Date], 3 ) ) * 10000 + MONTH ( [Date] - WEEKDAY ( [Date], 3 ) ) * 100 "
+                 "+ DAY ( [Date] - WEEKDAY ( [Date], 3 ) ) )",
                  [("Date", ["isUnique", "formatString: yyyy-mm-dd", "summarizeBy: none"]), ("Year", ["formatString: 0", "summarizeBy: none"]),
                   ("Month No", ["isHidden", "summarizeBy: none"]), ("Month", ["summarizeBy: none", "sortByColumn: 'Month No'"]),
                   ("Quarter", ["summarizeBy: none"]), ("Week Start", ["formatString: mm-dd", "summarizeBy: none"]),
-                  ("Weekday No", ["isHidden", "summarizeBy: none"]), ("Weekday", ["summarizeBy: none", "sortByColumn: 'Weekday No'"])]),
+                  ("Weekday No", ["isHidden", "summarizeBy: none"]), ("Weekday", ["summarizeBy: none", "sortByColumn: 'Weekday No'"]),
+                  ("Day Label", ["summarizeBy: none", "sortByColumn: 'Day Order'"]), ("Day Order", ["isHidden", "summarizeBy: none"]),
+                  ("Week Label", ["summarizeBy: none", "sortByColumn: 'Week Order'"]), ("Week Order", ["isHidden", "summarizeBy: none"])]),
     "Hours": ("DATATABLE ( \"Hour\", INTEGER, \"Hour Label\", STRING, \"Shift\", STRING, \"Hour Order\", INTEGER, { "
               + ", ".join(f"{{ {h}, \"{h:02d}:00\", \"{'Day' if 8 <= h <= 17 else 'Night'}\", {i} }}"
                           for i, h in enumerate(list(range(8, 18)) + [20, 21, 22, 23, 0, 1, 2, 3, 4, 5], 1)) + " } )",
