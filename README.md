@@ -20,6 +20,25 @@ analysis, where the business impact is. Along the way it holds two bars: **repor
 
 ---
 
+## Why not the official skill?
+
+Microsoft and data-goblin both ship a Claude Code plugin for Power BI. I finished **the same page, on the same model**, with each
+of them, and measured it instead of asserting it ([example 01](examples/01-microsoft-skill/README.md) · [example 02](examples/02-data-goblin/README.md)):
+
+| | Instructions the agent reads | What the agent writes | Result |
+|---|---|---|---|
+| **this repo** | **~1.7k tokens** on invoke | a model map, 5.1 KB | 4 pages, 55 visuals, themed |
+| Microsoft `powerbi-report-cli` | ~89 KB of reference files (~4.4k + 14.7k tokens) | every `visual.json` — 13.7 KB for 8 visuals | 1 page, validator-clean, defects on screen |
+| data-goblin `reports` | five skills, ~32.6k tokens | ~600 bytes of `pbir` commands | 2 of 7 visuals never rendered |
+
+Microsoft's CLI is lookup and validation only, so the agent hand-writes the JSON — their own authoring reference recommends a
+deterministic generator when repetition is the constraint. data-goblin's `pbir` does generate, compactly, but creating a report
+needs a Fabric sign-in and a published model, so there is no local-only way in.
+
+**Both public runs passed their validators and were still wrong on screen.** That is why every page here is opened in Power BI
+Desktop and captured before anything is called finished. The rubric scores in those write-ups come with their bias stated: I wrote
+the rubric.
+
 ## Why I built this
 
 Every hour spent building a dashboard is an hour not spent on the questions behind it: what changed, why, and what to do next.
@@ -126,7 +145,6 @@ The Desktop capture there waits for the one-time sign-in choice, and a live ware
 | Generator | Spec → PBIP. All four pilots and the Korean example pass Microsoft's validator (`powerbi-report-author validate`) with **0 errors · 0 warnings** |
 | Render check | A loop that opens each generated file in Desktop and captures every page. It caught and fixed **25+ issues** that passed the validator but looked wrong on screen |
 | Your own model | The dashboard pilot on a differently shaped English model: `new_report.py` lists every column and measure the pilot needs, inside its DAX too, and writes a model map the agent fills. Numbers checked against the CSVs ([example 05](examples/05-own-model/README.md)) |
-| Compared with the public toolkits | The same page finished three ways on one model: this repo's generator, Microsoft's `powerbi-report-cli` (hand-written `visual.json`, 13.7 KB for 8 visuals) and data-goblin's `pbir` CLI. Instruction cost ~1.7k tokens here against ~4.4k and ~32.6k; both public runs produced validator-clean pages with visible defects ([example 01](examples/01-microsoft-skill/README.md), [example 02](examples/02-data-goblin/README.md)) |
 | Your own data, no model yet | `new_model.py` builds the semantic model from a **CSV folder, an Excel workbook or a database over ODBC**: types from the source, key relationships and a calendar inferred, starter measures written. The same pilot and the same model map then run on all three ([example 07](examples/07-own-data/README.md)) |
 | ODBC source | The same model read through a local ODBC driver: builds and validates unchanged, totals through the driver match. Desktop capture waits for the one-time sign-in choice ([example 06](examples/06-odbc/README.md)) |
 
