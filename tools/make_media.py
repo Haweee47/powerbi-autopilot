@@ -18,7 +18,8 @@ FONTS = Path("C:/Windows/Fonts")
 NAVY, INK, SOFT, ACCENT, WHITE = "#0F1A2A", "#F2F5F9", "#AEB9C7", "#6EA8FE", "#FFFFFF"
 PURPOSES = [("dashboard", "Dashboard"), ("table", "Measure table"), ("matrix", "Matrix check"), ("deepdive", "Deep dive")]
 THEMES = [("navy", "Navy"), ("paper", "Paper"), ("midnight", "Midnight"), ("aurora", "Aurora"),
-          ("coast", "Coast"), ("ledger", "Ledger"), ("contrast", "Contrast")]
+          ("coast", "Coast"), ("ledger", "Ledger"), ("contrast", "Contrast"),
+          ("universal", "Universal"), ("carbon", "Carbon"), ("broadsheet", "Broadsheet")]
 
 
 def font(bold: bool, size: int) -> ImageFont.FreeTypeFont:
@@ -88,16 +89,17 @@ def themes_strip() -> Image.Image | None:
     im = Image.new("RGBA", (W, H), NAVY)
     d = ImageDraw.Draw(im)
     d.text((56, 36), f"Same report, {len(shots)} themes", font=font(True, 40), fill=INK)
-    d.text((56, 90), "One token file: a color palette plus a card shape, schema-valid in Power BI", font=font(False, 22), fill=SOFT)
-    cols, cw, gap = 4, 254, 20
+    d.text((56, 90), "One token file: a color palette, a card shape and a typeface set, schema-valid in Power BI", font=font(False, 22), fill=SOFT)
+    cols, cw, gap = 5, 208, 20
+    rows = -(-len(shots) // cols)
     for i, (label, p) in enumerate(shots):
         row, col = divmod(i, cols)
+        wide = min(cols, len(shots) - row * cols)  # a short last row sits centered under the full ones
         c = card(Image.open(p), cw, 8)
-        offset = (cols - 3) * (cw + gap) // 2 if row else 0  # second row of three sits centered
-        x = 56 - 24 + col * (cw + gap) + offset
-        y = 140 + row * 238
+        x = (W - (wide * cw + (wide - 1) * gap)) // 2 + col * (cw + gap) - 24  # card() pads 24 for the shadow
+        y = 150 + row * ((H - 170) // rows)
         im.alpha_composite(c, (x, y))
-        d.text((x + 24, y + c.height - 6), label, font=font(True, 22), fill=INK)
+        d.text((x + 24, y + c.height - 4), label, font=font(True, 20), fill=INK)
     return im
 
 
@@ -117,7 +119,7 @@ def social_preview() -> Image.Image:
     d.text((64, 56), "powerbi-autopilot", font=font(True, 30), fill=ACCENT)
     d.text((64, 104), "One request →", font=font(True, 56), fill=INK)
     d.text((64, 172), "a finished Power BI report", font=font(True, 56), fill=INK)
-    d.text((64, 256), "AI agent · 4 pilots · 7 themes · checked in Power BI Desktop · open source", font=font(False, 24), fill=SOFT)
+    d.text((64, 256), "AI agent · 4 pilots · 10 themes · checked in Power BI Desktop · open source", font=font(False, 24), fill=SOFT)
     x = 64 - 24
     for pid in ("dashboard", "matrix", "table"):
         p = first_shot(pid)

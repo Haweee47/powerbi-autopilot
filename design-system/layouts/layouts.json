@@ -1,140 +1,917 @@
 {
   "$comment": "페이지 유형별 레이아웃 템플릿 v4 (앱형: 왼쪽 내비 레일 + 오른쪽 본문). 용도 4종(대시보드·지표 테이블·지표 확인·딥다이브)의 페이지를 모두 담는다. 본문은 열(col, 1부터)·폭(span), 레일은 y·h만 적는다. tools/build_layouts.py가 픽셀 좌표와 와이어프레임 SVG를 만든다.",
-  "canvas": { "width": 1280, "height": 720 },
-  "grid": { "left": 216, "margin": 24, "gutter": 16, "columns": 12, "unit": 8 },
-  "rail": { "width": 192, "inner": 16 },
+  "canvas": {
+    "width": 1280,
+    "height": 720
+  },
+  "grid": {
+    "left": 216,
+    "margin": 24,
+    "gutter": 16,
+    "columns": 12,
+    "unit": 8
+  },
+  "rail": {
+    "width": 192,
+    "inner": 16
+  },
   "bands": {
     "$comment": "본문 위쪽 띠. 모든 페이지에서 제목과 결론 문장이 같은 자리에 온다 (principles 9-4).",
-    "title": { "y": 24, "h": 40 },
-    "headline": { "y": 64, "h": 32 },
-    "body": { "y": 112, "bottom": 696 }
+    "title": {
+      "y": 24,
+      "h": 40
+    },
+    "headline": {
+      "y": 64,
+      "h": 32
+    },
+    "body": {
+      "y": 112,
+      "bottom": 696
+    }
   },
   "top": {
     "$comment": "Top-bar frame, built from each rail page. A 48px bar holds the report name and as-of date, page tabs and slicers (dropdowns get a small label). Title and headline sit under it, the headline at its rail height; the first body row starts 8px lower and takes those 8px from the gutter below it, so every row keeps its rail height and charts that fit in the rail still fit.",
     "left": 24,
-    "bar": { "h": 48, "inner": 8 },
-    "brand": { "x": 24, "w": 176 },
-    "nav": { "h": 32 },
-    "slicerWidth": { "slicer_period": 152, "slicer_channel": 136, "default": 104 },
+    "bar": {
+      "h": 48,
+      "inner": 8
+    },
+    "brand": {
+      "x": 24,
+      "w": 176
+    },
+    "nav": {
+      "h": 32
+    },
+    "slicerWidth": {
+      "slicer_period": 152,
+      "slicer_channel": 136,
+      "default": 104
+    },
     "labelWidth": 72,
-    "bands": { "title": { "y": 48, "h": 32 }, "headline": { "y": 80, "h": 32 }, "firstRow": 8 }
+    "bands": {
+      "title": {
+        "y": 48,
+        "h": 32
+      },
+      "headline": {
+        "y": 80,
+        "h": 32
+      },
+      "firstRow": 8
+    }
   },
   "shared": [
-    { "id": "rail", "role": "shape", "zone": "rail", "full": true, "layer": "background", "y": 0, "h": 720, "label": "내비 레일 (바탕)" },
-    { "id": "brand", "role": "textbox", "zone": "rail", "y": 24, "h": 48, "label": "리포트 이름" },
-    { "id": "nav", "role": "pageNavigator", "zone": "rail", "y": 96, "h": 136, "label": "페이지 (세로)" },
-    { "id": "slicer_period", "role": "advancedSlicerVisual", "zone": "rail", "y": 256, "h": 72, "label": "기간" },
-    { "id": "slicer_channel", "role": "advancedSlicerVisual", "zone": "rail", "y": 344, "h": 72, "label": "채널" },
-    { "id": "asof", "role": "textbox", "zone": "rail", "y": 664, "h": 32, "label": "데이터 기준일" }
+    {
+      "id": "rail",
+      "role": "shape",
+      "zone": "rail",
+      "full": true,
+      "layer": "background",
+      "y": 0,
+      "h": 720,
+      "label": "내비 레일 (바탕)"
+    },
+    {
+      "id": "brand",
+      "role": "textbox",
+      "zone": "rail",
+      "y": 24,
+      "h": 48,
+      "label": "리포트 이름"
+    },
+    {
+      "id": "nav",
+      "role": "pageNavigator",
+      "zone": "rail",
+      "y": 96,
+      "h": 136,
+      "label": "페이지 (세로)"
+    },
+    {
+      "id": "slicer_period",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 256,
+      "h": 72,
+      "label": "기간"
+    },
+    {
+      "id": "slicer_channel",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 344,
+      "h": 72,
+      "label": "채널"
+    },
+    {
+      "id": "asof",
+      "role": "textbox",
+      "zone": "rail",
+      "y": 664,
+      "h": 32,
+      "label": "데이터 기준일"
+    }
   ],
   "pages": [
     {
-      "id": "summary", "purpose": "dashboard", "name": "요약", "archetype": "경영 요약", "question": "목표 대비 어디쯤인가",
+      "id": "summary",
+      "purpose": "dashboard",
+      "name": "요약",
+      "archetype": "경영 요약",
+      "question": "목표 대비 어디쯤인가",
       "regions": [
-        { "id": "title", "role": "textbox", "col": 1, "span": 8, "band": "title", "label": "페이지 제목" },
-        { "id": "context", "role": "context", "col": 9, "span": 4, "band": "title", "label": "지금 보는 범위 (측정값)" },
-        { "id": "headline", "role": "headline", "col": 1, "span": 12, "band": "headline", "label": "결론 한 줄 (측정값)" },
-        { "id": "kpi_sales", "role": "cardVisual", "col": 1, "span": 3, "y": 112, "h": 112, "label": "매출" },
-        { "id": "kpi_profit", "role": "cardVisual", "col": 4, "span": 3, "y": 112, "h": 112, "label": "이익" },
-        { "id": "kpi_target", "role": "cardVisual", "col": 7, "span": 3, "y": 112, "h": 112, "label": "목표 달성률" },
-        { "id": "kpi_aov", "role": "cardVisual", "col": 10, "span": 3, "y": 112, "h": 112, "label": "객단가" },
-        { "id": "trend", "role": "lineChart", "col": 1, "span": 6, "y": 240, "h": 208, "label": "월별 매출: 올해·작년·목표" },
-        { "id": "category", "role": "barChart", "col": 7, "span": 6, "y": 240, "h": 208, "label": "카테고리 목표 대비 (발산 막대)" },
-        { "id": "stores", "role": "tableEx", "col": 1, "span": 6, "y": 464, "h": 232, "label": "주의 매장 → 드릴스루" },
-        { "id": "region", "role": "barChart", "col": 7, "span": 6, "y": 464, "h": 232, "label": "권역별 매출 (7개 막대가 스크롤 없이 들어가는 높이)" }
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "kpi_sales",
+          "role": "cardVisual",
+          "col": 1,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "매출"
+        },
+        {
+          "id": "kpi_profit",
+          "role": "cardVisual",
+          "col": 4,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "이익"
+        },
+        {
+          "id": "kpi_target",
+          "role": "cardVisual",
+          "col": 7,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "목표 달성률"
+        },
+        {
+          "id": "kpi_aov",
+          "role": "cardVisual",
+          "col": 10,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "객단가"
+        },
+        {
+          "id": "trend",
+          "role": "lineChart",
+          "col": 1,
+          "span": 6,
+          "y": 240,
+          "h": 208,
+          "label": "월별 매출: 올해·작년·목표"
+        },
+        {
+          "id": "category",
+          "role": "barChart",
+          "col": 7,
+          "span": 6,
+          "y": 240,
+          "h": 208,
+          "label": "카테고리 목표 대비 (발산 막대)"
+        },
+        {
+          "id": "stores",
+          "role": "tableEx",
+          "col": 1,
+          "span": 6,
+          "y": 464,
+          "h": 232,
+          "label": "주의 매장 → 드릴스루"
+        },
+        {
+          "id": "region",
+          "role": "barChart",
+          "col": 7,
+          "span": 6,
+          "y": 464,
+          "h": 232,
+          "label": "권역별 매출 (7개 막대가 스크롤 없이 들어가는 높이)"
+        }
       ]
     },
     {
-      "id": "category", "purpose": "dashboard", "name": "카테고리", "archetype": "분석", "question": "어느 카테고리가 왜 못 맞췄나",
+      "id": "category",
+      "purpose": "dashboard",
+      "name": "카테고리",
+      "archetype": "분석",
+      "question": "어느 카테고리가 왜 못 맞췄나",
       "regions": [
-        { "id": "title", "role": "textbox", "col": 1, "span": 8, "band": "title", "label": "페이지 제목" },
-        { "id": "context", "role": "context", "col": 9, "span": 4, "band": "title", "label": "지금 보는 범위 (측정값)" },
-        { "id": "headline", "role": "headline", "col": 1, "span": 12, "band": "headline", "label": "결론 한 줄 (측정값)" },
-        { "id": "multiples", "role": "lineChart", "col": 1, "span": 12, "y": 112, "h": 248, "label": "카테고리별 월 추이 (작은 여러 차트, 축 공통)" },
-        { "id": "table", "role": "tableEx", "col": 1, "span": 8, "y": 376, "h": 320, "label": "카테고리 표: 올해·작년·전년 대비·목표 달성률" },
-        { "id": "mix", "role": "barChart", "col": 9, "span": 4, "y": 376, "h": 320, "label": "매출 구성비" }
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "multiples",
+          "role": "lineChart",
+          "col": 1,
+          "span": 12,
+          "y": 112,
+          "h": 248,
+          "label": "카테고리별 월 추이 (작은 여러 차트, 축 공통)"
+        },
+        {
+          "id": "table",
+          "role": "tableEx",
+          "col": 1,
+          "span": 8,
+          "y": 376,
+          "h": 320,
+          "label": "카테고리 표: 올해·작년·전년 대비·목표 달성률"
+        },
+        {
+          "id": "mix",
+          "role": "barChart",
+          "col": 9,
+          "span": 4,
+          "y": 376,
+          "h": 320,
+          "label": "매출 구성비"
+        }
       ]
     },
     {
-      "id": "stores", "purpose": "dashboard", "name": "매장", "archetype": "비교", "question": "어느 매장이 뒤처지나",
+      "id": "stores",
+      "purpose": "dashboard",
+      "name": "매장",
+      "archetype": "비교",
+      "question": "어느 매장이 뒤처지나",
       "regions": [
-        { "id": "title", "role": "textbox", "col": 1, "span": 8, "band": "title", "label": "페이지 제목" },
-        { "id": "context", "role": "context", "col": 9, "span": 4, "band": "title", "label": "지금 보는 범위 (측정값)" },
-        { "id": "headline", "role": "headline", "col": 1, "span": 12, "band": "headline", "label": "결론 한 줄 (측정값)" },
-        { "id": "scatter", "role": "scatterChart", "col": 1, "span": 8, "y": 112, "h": 296, "label": "규모 × 성장률 → 드릴스루" },
-        { "id": "watch", "role": "tableEx", "col": 9, "span": 4, "y": 112, "h": 296, "label": "주의 매장" },
-        { "id": "rank", "role": "tableEx", "col": 1, "span": 12, "y": 424, "h": 272, "label": "전체 매장 순위표 → 드릴스루" }
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "scatter",
+          "role": "scatterChart",
+          "col": 1,
+          "span": 8,
+          "y": 112,
+          "h": 296,
+          "label": "규모 × 성장률 → 드릴스루"
+        },
+        {
+          "id": "watch",
+          "role": "tableEx",
+          "col": 9,
+          "span": 4,
+          "y": 112,
+          "h": 296,
+          "label": "주의 매장"
+        },
+        {
+          "id": "rank",
+          "role": "tableEx",
+          "col": 1,
+          "span": 12,
+          "y": 424,
+          "h": 272,
+          "label": "전체 매장 순위표 → 드릴스루"
+        }
       ]
     },
     {
-      "id": "store_detail", "purpose": "dashboard", "name": "매장 상세", "archetype": "상세 (드릴스루 대상, 선택기에서 숨김)", "question": "이 매장에 무슨 일이 있었나",
-      "omit": ["slicer_channel"],
+      "id": "store_detail",
+      "purpose": "dashboard",
+      "name": "매장 상세",
+      "archetype": "상세 (드릴스루 대상, 선택기에서 숨김)",
+      "question": "이 매장에 무슨 일이 있었나",
+      "omit": [
+        "slicer_channel"
+      ],
       "regions": [
-        { "id": "title", "role": "textbox", "col": 1, "span": 8, "band": "title", "label": "페이지 제목" },
-        { "id": "back", "role": "actionButton", "col": 11, "span": 2, "band": "title", "label": "← 뒤로" },
-        { "id": "headline", "role": "headline", "col": 1, "span": 12, "band": "headline", "label": "매장 이름 + 결론 한 줄 (측정값)" },
-        { "id": "kpi_sales", "role": "cardVisual", "col": 1, "span": 3, "y": 112, "h": 112, "label": "매출" },
-        { "id": "kpi_margin", "role": "cardVisual", "col": 4, "span": 3, "y": 112, "h": 112, "label": "이익률" },
-        { "id": "kpi_orders", "role": "cardVisual", "col": 7, "span": 3, "y": 112, "h": 112, "label": "주문" },
-        { "id": "kpi_aov", "role": "cardVisual", "col": 10, "span": 3, "y": 112, "h": 112, "label": "객단가" },
-        { "id": "trend", "role": "lineChart", "col": 1, "span": 6, "y": 240, "h": 456, "label": "매장 월 매출: 올해·작년" },
-        { "id": "mix", "role": "barChart", "col": 7, "span": 6, "y": 240, "h": 456, "label": "카테고리 구성비" }
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "back",
+          "role": "actionButton",
+          "col": 11,
+          "span": 2,
+          "band": "title",
+          "label": "← 뒤로"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "매장 이름 + 결론 한 줄 (측정값)"
+        },
+        {
+          "id": "kpi_sales",
+          "role": "cardVisual",
+          "col": 1,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "매출"
+        },
+        {
+          "id": "kpi_margin",
+          "role": "cardVisual",
+          "col": 4,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "이익률"
+        },
+        {
+          "id": "kpi_orders",
+          "role": "cardVisual",
+          "col": 7,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "주문"
+        },
+        {
+          "id": "kpi_aov",
+          "role": "cardVisual",
+          "col": 10,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "객단가"
+        },
+        {
+          "id": "trend",
+          "role": "lineChart",
+          "col": 1,
+          "span": 6,
+          "y": 240,
+          "h": 456,
+          "label": "매장 월 매출: 올해·작년"
+        },
+        {
+          "id": "mix",
+          "role": "barChart",
+          "col": 7,
+          "span": 6,
+          "y": 240,
+          "h": 456,
+          "label": "카테고리 구성비"
+        }
       ]
     },
     {
-      "id": "table_main", "purpose": "table", "name": "성과표", "archetype": "지표 테이블", "question": "항목마다 지표가 어떻게 다른가",
+      "id": "table_main",
+      "purpose": "table",
+      "name": "성과표",
+      "archetype": "지표 테이블",
+      "question": "항목마다 지표가 어떻게 다른가",
       "regions": [
-        { "id": "title", "role": "textbox", "col": 1, "span": 8, "band": "title", "label": "페이지 제목" },
-        { "id": "context", "role": "context", "col": 9, "span": 4, "band": "title", "label": "지금 보는 범위 (측정값)" },
-        { "id": "headline", "role": "headline", "col": 1, "span": 12, "band": "headline", "label": "결론 한 줄 (측정값)" },
-        { "id": "slicer_a", "role": "dropdownSlicer", "zone": "rail", "y": 432, "h": 64, "label": "추가 필터 (드롭다운)" },
-        { "id": "grid", "role": "tableEx", "col": 1, "span": 12, "y": 112, "h": 584, "label": "행 = 항목, 열 = 측정값 (막대·색 척도·부호 색)" }
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "slicer_a",
+          "role": "dropdownSlicer",
+          "zone": "rail",
+          "y": 432,
+          "h": 64,
+          "label": "추가 필터 (드롭다운)"
+        },
+        {
+          "id": "grid",
+          "role": "tableEx",
+          "col": 1,
+          "span": 12,
+          "y": 112,
+          "h": 584,
+          "label": "행 = 항목, 열 = 측정값 (막대·색 척도·부호 색)"
+        }
       ]
     },
     {
-      "id": "matrix_main", "purpose": "matrix", "name": "행렬", "archetype": "지표 확인", "question": "어느 칸이 튀나",
+      "id": "matrix_main",
+      "purpose": "matrix",
+      "name": "행렬",
+      "archetype": "지표 확인",
+      "question": "어느 칸이 튀나",
       "regions": [
-        { "id": "title", "role": "textbox", "col": 1, "span": 8, "band": "title", "label": "페이지 제목" },
-        { "id": "context", "role": "context", "col": 9, "span": 4, "band": "title", "label": "지금 보는 범위 (측정값)" },
-        { "id": "headline", "role": "headline", "col": 1, "span": 12, "band": "headline", "label": "결론 한 줄 (측정값)" },
-        { "id": "slicer_a", "role": "dropdownSlicer", "zone": "rail", "y": 432, "h": 64, "label": "추가 필터 (드롭다운)" },
-        { "id": "matrix", "role": "pivotTable", "col": 1, "span": 12, "y": 112, "h": 584, "label": "행렬: 계층 행 × 열, 히트맵·막대" }
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "slicer_a",
+          "role": "dropdownSlicer",
+          "zone": "rail",
+          "y": 432,
+          "h": 64,
+          "label": "추가 필터 (드롭다운)"
+        },
+        {
+          "id": "matrix",
+          "role": "pivotTable",
+          "col": 1,
+          "span": 12,
+          "y": 112,
+          "h": 584,
+          "label": "행렬: 계층 행 × 열, 히트맵·막대"
+        }
       ]
     },
     {
-      "id": "deep_tree", "purpose": "deepdive", "name": "요인 분해", "archetype": "딥다이브", "question": "숫자가 어디서 왔나",
+      "id": "deep_tree",
+      "purpose": "deepdive",
+      "name": "요인 분해",
+      "archetype": "딥다이브",
+      "question": "숫자가 어디서 왔나",
       "regions": [
-        { "id": "title", "role": "textbox", "col": 1, "span": 8, "band": "title", "label": "페이지 제목" },
-        { "id": "context", "role": "context", "col": 9, "span": 4, "band": "title", "label": "지금 보는 범위 (측정값)" },
-        { "id": "headline", "role": "headline", "col": 1, "span": 12, "band": "headline", "label": "결론 한 줄 (측정값)" },
-        { "id": "slicer_a", "role": "dropdownSlicer", "zone": "rail", "y": 432, "h": 64, "label": "추가 필터 1" },
-        { "id": "slicer_b", "role": "dropdownSlicer", "zone": "rail", "y": 512, "h": 64, "label": "추가 필터 2" },
-        { "id": "tree", "role": "decompositionTreeVisual", "col": 1, "span": 12, "y": 112, "h": 352, "label": "요인 분해 트리" },
-        { "id": "trend", "role": "lineChart", "col": 1, "span": 6, "y": 480, "h": 216, "label": "월 추이" },
-        { "id": "mix", "role": "barChart", "col": 7, "span": 6, "y": 480, "h": 216, "label": "항목별 증감" }
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "slicer_a",
+          "role": "dropdownSlicer",
+          "zone": "rail",
+          "y": 432,
+          "h": 64,
+          "label": "추가 필터 1"
+        },
+        {
+          "id": "slicer_b",
+          "role": "dropdownSlicer",
+          "zone": "rail",
+          "y": 512,
+          "h": 64,
+          "label": "추가 필터 2"
+        },
+        {
+          "id": "tree",
+          "role": "decompositionTreeVisual",
+          "col": 1,
+          "span": 12,
+          "y": 112,
+          "h": 352,
+          "label": "요인 분해 트리"
+        },
+        {
+          "id": "trend",
+          "role": "lineChart",
+          "col": 1,
+          "span": 6,
+          "y": 480,
+          "h": 216,
+          "label": "월 추이"
+        },
+        {
+          "id": "mix",
+          "role": "barChart",
+          "col": 7,
+          "span": 6,
+          "y": 480,
+          "h": 216,
+          "label": "항목별 증감"
+        }
       ]
     },
     {
-      "id": "deep_scatter", "purpose": "deepdive", "name": "분포", "archetype": "딥다이브", "question": "무엇과 무엇이 같이 움직이나",
+      "id": "deep_scatter",
+      "purpose": "deepdive",
+      "name": "분포",
+      "archetype": "딥다이브",
+      "question": "무엇과 무엇이 같이 움직이나",
       "regions": [
-        { "id": "title", "role": "textbox", "col": 1, "span": 8, "band": "title", "label": "페이지 제목" },
-        { "id": "context", "role": "context", "col": 9, "span": 4, "band": "title", "label": "지금 보는 범위 (측정값)" },
-        { "id": "headline", "role": "headline", "col": 1, "span": 12, "band": "headline", "label": "결론 한 줄 (측정값)" },
-        { "id": "slicer_a", "role": "dropdownSlicer", "zone": "rail", "y": 432, "h": 64, "label": "추가 필터 1" },
-        { "id": "slicer_b", "role": "dropdownSlicer", "zone": "rail", "y": 512, "h": 64, "label": "추가 필터 2" },
-        { "id": "scatter", "role": "scatterChart", "col": 1, "span": 8, "y": 112, "h": 584, "label": "두 지표의 관계 (점 크기 = 규모)" },
-        { "id": "side", "role": "barChart", "col": 9, "span": 4, "y": 112, "h": 584, "label": "그룹별 순위" }
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "slicer_a",
+          "role": "dropdownSlicer",
+          "zone": "rail",
+          "y": 432,
+          "h": 64,
+          "label": "추가 필터 1"
+        },
+        {
+          "id": "slicer_b",
+          "role": "dropdownSlicer",
+          "zone": "rail",
+          "y": 512,
+          "h": 64,
+          "label": "추가 필터 2"
+        },
+        {
+          "id": "scatter",
+          "role": "scatterChart",
+          "col": 1,
+          "span": 8,
+          "y": 112,
+          "h": 584,
+          "label": "두 지표의 관계 (점 크기 = 규모)"
+        },
+        {
+          "id": "side",
+          "role": "barChart",
+          "col": 9,
+          "span": 4,
+          "y": 112,
+          "h": 584,
+          "label": "그룹별 순위"
+        }
       ]
     },
     {
-      "id": "deep_detail", "purpose": "deepdive", "name": "상세 데이터", "archetype": "딥다이브", "question": "원천 행을 직접 보자",
+      "id": "deep_detail",
+      "purpose": "deepdive",
+      "name": "상세 데이터",
+      "archetype": "딥다이브",
+      "question": "원천 행을 직접 보자",
       "regions": [
-        { "id": "title", "role": "textbox", "col": 1, "span": 8, "band": "title", "label": "페이지 제목" },
-        { "id": "context", "role": "context", "col": 9, "span": 4, "band": "title", "label": "지금 보는 범위 (측정값)" },
-        { "id": "headline", "role": "headline", "col": 1, "span": 12, "band": "headline", "label": "결론 한 줄 (측정값)" },
-        { "id": "slicer_a", "role": "dropdownSlicer", "zone": "rail", "y": 432, "h": 64, "label": "추가 필터 1" },
-        { "id": "slicer_b", "role": "dropdownSlicer", "zone": "rail", "y": 512, "h": 64, "label": "추가 필터 2" },
-        { "id": "grid", "role": "tableEx", "col": 1, "span": 12, "y": 112, "h": 584, "label": "원천 행 목록" }
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "slicer_a",
+          "role": "dropdownSlicer",
+          "zone": "rail",
+          "y": 432,
+          "h": 64,
+          "label": "추가 필터 1"
+        },
+        {
+          "id": "slicer_b",
+          "role": "dropdownSlicer",
+          "zone": "rail",
+          "y": 512,
+          "h": 64,
+          "label": "추가 필터 2"
+        },
+        {
+          "id": "grid",
+          "role": "tableEx",
+          "col": 1,
+          "span": 12,
+          "y": 112,
+          "h": 584,
+          "label": "원천 행 목록"
+        }
+      ]
+    },
+    {
+      "id": "hero",
+      "purpose": "exec",
+      "name": "한 장 요약",
+      "archetype": "경영 한 장",
+      "question": "지금 한 가지만 안다면 무엇인가",
+      "regions": [
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "hero_kpi",
+          "role": "cardVisual",
+          "col": 1,
+          "span": 5,
+          "y": 112,
+          "h": 208,
+          "label": "가장 중요한 숫자 (크게)"
+        },
+        {
+          "id": "trend",
+          "role": "lineChart",
+          "col": 6,
+          "span": 7,
+          "y": 112,
+          "h": 208,
+          "label": "그 숫자의 추이"
+        },
+        {
+          "id": "tile_a",
+          "role": "cardVisual",
+          "col": 1,
+          "span": 4,
+          "y": 336,
+          "h": 112,
+          "label": "받치는 숫자 1"
+        },
+        {
+          "id": "tile_b",
+          "role": "cardVisual",
+          "col": 5,
+          "span": 4,
+          "y": 336,
+          "h": 112,
+          "label": "받치는 숫자 2"
+        },
+        {
+          "id": "tile_c",
+          "role": "cardVisual",
+          "col": 9,
+          "span": 4,
+          "y": 336,
+          "h": 112,
+          "label": "받치는 숫자 3"
+        },
+        {
+          "id": "breakdown",
+          "role": "barChart",
+          "col": 1,
+          "span": 5,
+          "y": 464,
+          "h": 232,
+          "label": "어디서 생겼나"
+        },
+        {
+          "id": "watch",
+          "role": "tableEx",
+          "col": 6,
+          "span": 7,
+          "y": 464,
+          "h": 232,
+          "label": "지켜볼 항목"
+        }
+      ]
+    },
+    {
+      "id": "compare",
+      "purpose": "deepdive",
+      "name": "좌우 비교",
+      "archetype": "대조",
+      "question": "둘 중 무엇이 다른가",
+      "regions": [
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "left_kpi",
+          "role": "cardVisual",
+          "col": 1,
+          "span": 6,
+          "y": 112,
+          "h": 112,
+          "label": "왼쪽 대상 요약"
+        },
+        {
+          "id": "right_kpi",
+          "role": "cardVisual",
+          "col": 7,
+          "span": 6,
+          "y": 112,
+          "h": 112,
+          "label": "오른쪽 대상 요약"
+        },
+        {
+          "id": "left_trend",
+          "role": "lineChart",
+          "col": 1,
+          "span": 6,
+          "y": 240,
+          "h": 216,
+          "label": "왼쪽 추이"
+        },
+        {
+          "id": "right_trend",
+          "role": "lineChart",
+          "col": 7,
+          "span": 6,
+          "y": 240,
+          "h": 216,
+          "label": "오른쪽 추이"
+        },
+        {
+          "id": "left_rank",
+          "role": "tableEx",
+          "col": 1,
+          "span": 6,
+          "y": 472,
+          "h": 224,
+          "label": "왼쪽 상위 항목"
+        },
+        {
+          "id": "right_rank",
+          "role": "tableEx",
+          "col": 7,
+          "span": 6,
+          "y": 472,
+          "h": 224,
+          "label": "오른쪽 상위 항목"
+        }
       ]
     }
   ]

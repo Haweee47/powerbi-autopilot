@@ -1,57 +1,57 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/powerbi-desktop-samples/main/Report%20Theme%20JSON%20Schema/reportThemeSchema-2.157.json",
-  "name": "Autopilot Midnight",
+  "name": "Autopilot Broadsheet",
   "dataColors": [
-    "#3987E5",
-    "#6F7B89",
-    "#D95926",
-    "#199E70",
-    "#C98500",
-    "#D55181",
-    "#9085E9",
-    "#E66767"
+    "#1F4E5F",
+    "#9B9081",
+    "#A0632F",
+    "#4A7A52",
+    "#B08B2E",
+    "#8A5B76",
+    "#4B4A7A",
+    "#A03D2F"
   ],
-  "good": "#3987E5",
-  "neutral": "#6F7B89",
-  "bad": "#E66767",
-  "maximum": "#3987E5",
-  "center": "#3A4755",
-  "minimum": "#E66767",
-  "null": "#6F7B89",
-  "foreground": "#EEF2F6",
-  "firstLevelElements": "#EEF2F6",
-  "secondLevelElements": "#B4BEC9",
-  "foregroundNeutralSecondary": "#B4BEC9",
-  "thirdLevelElements": "#223040",
-  "backgroundLight": "#223040",
-  "fourthLevelElements": "#8E99A6",
-  "foregroundNeutralTertiary": "#8E99A6",
-  "background": "#131B25",
-  "secondaryBackground": "#3A4755",
-  "backgroundNeutral": "#3A4755",
-  "tableAccent": "#3A4755",
-  "hyperlink": "#86B6EF",
-  "visitedHyperlink": "#86B6EF",
+  "good": "#1F4E5F",
+  "neutral": "#9B9081",
+  "bad": "#A03D2F",
+  "maximum": "#1F4E5F",
+  "center": "#E7E1D5",
+  "minimum": "#A03D2F",
+  "null": "#9B9081",
+  "foreground": "#1F1B16",
+  "firstLevelElements": "#1F1B16",
+  "secondLevelElements": "#413A31",
+  "foregroundNeutralSecondary": "#413A31",
+  "thirdLevelElements": "#E7E1D5",
+  "backgroundLight": "#E7E1D5",
+  "fourthLevelElements": "#6B6154",
+  "foregroundNeutralTertiary": "#6B6154",
+  "background": "#FFFFFF",
+  "secondaryBackground": "#C8BFAE",
+  "backgroundNeutral": "#C8BFAE",
+  "tableAccent": "#C8BFAE",
+  "hyperlink": "#173C4A",
+  "visitedHyperlink": "#173C4A",
   "textClasses": {
     "callout": {
       "fontSize": 24,
-      "fontFace": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
-      "color": "#EEF2F6"
+      "fontFace": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
+      "color": "#1F1B16"
     },
     "title": {
       "fontSize": 12,
-      "fontFace": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
-      "color": "#EEF2F6"
+      "fontFace": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
+      "color": "#1F1B16"
     },
     "header": {
       "fontSize": 10,
-      "fontFace": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
-      "color": "#EEF2F6"
+      "fontFace": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
+      "color": "#1F1B16"
     },
     "label": {
       "fontSize": 9,
-      "fontFace": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
-      "color": "#EEF2F6"
+      "fontFace": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+      "color": "#1F1B16"
     }
   },
   "visualStyles": {
@@ -62,7 +62,7 @@
             "show": true,
             "color": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "transparency": 0
@@ -73,28 +73,16 @@
             "show": true,
             "color": {
               "solid": {
-                "color": "#223040"
+                "color": "#DCD5C7"
               }
             },
-            "radius": 12,
+            "radius": 2,
             "width": 1
           }
         ],
         "dropShadow": [
           {
-            "show": true,
-            "preset": "Custom",
-            "position": "Outer",
-            "color": {
-              "solid": {
-                "color": "#000000"
-              }
-            },
-            "transparency": 93,
-            "shadowBlur": 16,
-            "shadowDistance": 2,
-            "shadowSpread": 0,
-            "angle": 90
+            "show": false
           }
         ],
         "padding": [
@@ -108,12 +96,12 @@
         "title": [
           {
             "show": true,
-            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
             "fontSize": 12,
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "alignment": "left",
@@ -122,11 +110,11 @@
         ],
         "subTitle": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "fontColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#6B6154"
               }
             },
             "alignment": "left"
@@ -134,11 +122,11 @@
         ],
         "valueAxis": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#6B6154"
               }
             },
             "showAxisTitle": false,
@@ -146,7 +134,7 @@
             "gridlineStyle": "solid",
             "gridlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             },
             "gridlineThickness": 1,
@@ -155,11 +143,11 @@
         ],
         "categoryAxis": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#6B6154"
               }
             },
             "showAxisTitle": false,
@@ -170,11 +158,11 @@
           {
             "show": true,
             "position": "Top",
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
             "showTitle": false
@@ -188,7 +176,7 @@
           {
             "color": {
               "solid": {
-                "color": "#0B1017"
+                "color": "#FBF9F4"
               }
             },
             "transparency": 0
@@ -198,7 +186,7 @@
           {
             "color": {
               "solid": {
-                "color": "#0B1017"
+                "color": "#FBF9F4"
               }
             },
             "transparency": 0
@@ -208,29 +196,29 @@
           {
             "backgroundColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "foregroundColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "titleSize": 12,
             "border": true,
             "borderColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             },
             "checkboxAndApplyColor": {
               "solid": {
-                "color": "#3987E5"
+                "color": "#1F4E5F"
               }
             },
             "inputBoxColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             }
           }
@@ -240,18 +228,18 @@
             "$id": "Applied",
             "backgroundColor": {
               "solid": {
-                "color": "#0B1017"
+                "color": "#FBF9F4"
               }
             },
             "foregroundColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "border": true,
             "borderColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             }
           },
@@ -259,18 +247,18 @@
             "$id": "Available",
             "backgroundColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "foregroundColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "border": true,
             "borderColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             }
           }
@@ -345,7 +333,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#070B11"
+                "color": "#F3EFE6"
               }
             },
             "transparency": 0
@@ -357,7 +345,7 @@
             "show": true,
             "lineColor": {
               "solid": {
-                "color": "#070B11"
+                "color": "#DCD5C7"
               }
             },
             "weight": 1
@@ -370,12 +358,12 @@
         "value": [
           {
             "$id": "default",
-            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
             "fontSize": 24,
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "labelDisplayUnits": 1,
@@ -387,11 +375,11 @@
             "$id": "default",
             "show": true,
             "position": "aboveValue",
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "fontColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#6B6154"
               }
             }
           }
@@ -405,11 +393,11 @@
         "referenceLabelValue": [
           {
             "$id": "default",
-            "valueFontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "valueFontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
             "valueFontSize": 10,
             "valueFontColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             }
           }
@@ -472,16 +460,16 @@
             "seriesPosition": "Right",
             "seriesMatchColor": true,
             "textSize": 9,
-            "seriesFontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif"
+            "seriesFontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif"
           }
         ],
         "valueAxis": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#6B6154"
               }
             },
             "showAxisTitle": false,
@@ -489,7 +477,7 @@
             "gridlineStyle": "solid",
             "gridlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             },
             "gridlineThickness": 1,
@@ -498,11 +486,11 @@
         ],
         "categoryAxis": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#6B6154"
               }
             },
             "showAxisTitle": false,
@@ -514,11 +502,11 @@
           {
             "show": true,
             "position": "Top",
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
             "showTitle": false
@@ -531,11 +519,11 @@
         ],
         "subheader": [
           {
-            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
             "fontSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             }
           }
@@ -546,11 +534,11 @@
       "*": {
         "categoryAxis": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
             "showAxisTitle": false,
@@ -573,10 +561,10 @@
             "fontSize": 9,
             "color": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "labelDisplayUnits": 1
           }
         ],
@@ -596,11 +584,11 @@
       "*": {
         "categoryAxis": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
             "showAxisTitle": false,
@@ -623,10 +611,10 @@
             "fontSize": 9,
             "color": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "labelDisplayUnits": 1
           }
         ],
@@ -646,11 +634,11 @@
       "*": {
         "categoryAxis": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
             "showAxisTitle": false,
@@ -673,10 +661,10 @@
             "fontSize": 9,
             "color": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "labelDisplayUnits": 1
           }
         ],
@@ -689,11 +677,11 @@
           {
             "show": true,
             "position": "Top",
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
             "showTitle": false
@@ -705,11 +693,11 @@
       "*": {
         "categoryAxis": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
             "showAxisTitle": false,
@@ -732,10 +720,10 @@
             "fontSize": 9,
             "color": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "labelDisplayUnits": 1
           }
         ],
@@ -748,11 +736,11 @@
           {
             "show": true,
             "position": "Top",
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
             "showTitle": false
@@ -764,11 +752,11 @@
       "*": {
         "valueAxis": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#6B6154"
               }
             },
             "showAxisTitle": false,
@@ -776,7 +764,7 @@
             "gridlineStyle": "solid",
             "gridlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             },
             "gridlineThickness": 1,
@@ -785,11 +773,11 @@
         ],
         "categoryAxis": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#6B6154"
               }
             },
             "showAxisTitle": false,
@@ -797,7 +785,7 @@
             "gridlineStyle": "solid",
             "gridlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             },
             "gridlineThickness": 1,
@@ -808,11 +796,11 @@
           {
             "show": true,
             "position": "Top",
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             },
             "showTitle": false
@@ -828,14 +816,14 @@
             "gridHorizontal": true,
             "gridHorizontalColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             },
             "gridHorizontalWeight": 1,
             "rowPadding": 8,
             "outlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             },
             "imageHeight": 20,
@@ -844,17 +832,17 @@
         ],
         "columnHeaders": [
           {
-            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
             "fontSize": 9,
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#6B6154"
               }
             },
             "backColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "autoSizeColumnWidth": true,
@@ -864,43 +852,43 @@
         ],
         "values": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 10,
             "fontColorPrimary": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "backColorPrimary": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "fontColorSecondary": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "backColorSecondary": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             }
           }
         ],
         "total": [
           {
-            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
             "fontSize": 10,
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "backColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             }
           }
@@ -915,14 +903,14 @@
             "gridHorizontal": true,
             "gridHorizontalColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             },
             "gridHorizontalWeight": 1,
             "rowPadding": 8,
             "outlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             },
             "imageHeight": 20,
@@ -931,17 +919,17 @@
         ],
         "columnHeaders": [
           {
-            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
             "fontSize": 9,
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#6B6154"
               }
             },
             "backColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "autoSizeColumnWidth": true,
@@ -951,59 +939,59 @@
         ],
         "values": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 10,
             "fontColorPrimary": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "backColorPrimary": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "fontColorSecondary": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "backColorSecondary": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             }
           }
         ],
         "total": [
           {
-            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
             "fontSize": 10,
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "backColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             }
           }
         ],
         "rowHeaders": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             },
             "backColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "stepped": true,
@@ -1011,7 +999,7 @@
             "showExpandCollapseButtons": true,
             "expandCollapseButtonsColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#6B6154"
               }
             }
           }
@@ -1024,12 +1012,12 @@
           {
             "accentColor": {
               "solid": {
-                "color": "#3987E5"
+                "color": "#1F4E5F"
               }
             },
             "connectorDefaultColor": {
               "solid": {
-                "color": "#3A4755"
+                "color": "#C8BFAE"
               }
             },
             "density": "default",
@@ -1040,17 +1028,17 @@
           {
             "positiveBarColor": {
               "solid": {
-                "color": "#3987E5"
+                "color": "#1F4E5F"
               }
             },
             "negativeBarColor": {
               "solid": {
-                "color": "#E66767"
+                "color": "#A03D2F"
               }
             },
             "dataBarBackgroundColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#E7E1D5"
               }
             }
           }
@@ -1093,7 +1081,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#070B11"
+                "color": "#F3EFE6"
               }
             },
             "transparency": 0
@@ -1103,7 +1091,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#111A25"
+                "color": "#EAE4D7"
               }
             },
             "transparency": 0
@@ -1113,7 +1101,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#1B2A3E"
+                "color": "#E0DACB"
               }
             },
             "transparency": 0
@@ -1123,11 +1111,11 @@
           {
             "$id": "default",
             "show": true,
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#AEB9C7"
+                "color": "#413A31"
               }
             },
             "horizontalAlignment": "left",
@@ -1137,16 +1125,16 @@
             "$id": "hover",
             "fontColor": {
               "solid": {
-                "color": "#F2F5F9"
+                "color": "#1F1B16"
               }
             }
           },
           {
             "$id": "selected",
-            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
             "fontColor": {
               "solid": {
-                "color": "#F2F5F9"
+                "color": "#1F1B16"
               }
             }
           }
@@ -1167,7 +1155,7 @@
             "width": 3,
             "color": {
               "solid": {
-                "color": "#6EA8FE"
+                "color": "#1F4E5F"
               }
             },
             "transparency": 0
@@ -1193,7 +1181,7 @@
         "shape": [
           {
             "tileShape": "rectangleRounded",
-            "rectangleRoundedCurve": 6
+            "rectangleRoundedCurve": 2
           }
         ],
         "layout": [
@@ -1217,7 +1205,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#111A25"
+                "color": "#EAE4D7"
               }
             },
             "transparency": 0
@@ -1227,7 +1215,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#111A25"
+                "color": "#EAE4D7"
               }
             },
             "transparency": 0
@@ -1237,7 +1225,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#3277CA"
+                "color": "#1F4E5F"
               }
             },
             "transparency": 0
@@ -1260,11 +1248,11 @@
         "value": [
           {
             "$id": "default",
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#AEB9C7"
+                "color": "#413A31"
               }
             }
           },
@@ -1272,13 +1260,13 @@
             "$id": "hover",
             "fontColor": {
               "solid": {
-                "color": "#F2F5F9"
+                "color": "#1F1B16"
               }
             }
           },
           {
             "$id": "selection:selected",
-            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
             "fontColor": {
               "solid": {
                 "color": "#FFFFFF"
@@ -1303,18 +1291,18 @@
         "shapeCustomRectangle": [
           {
             "tileShape": "rectangleRounded",
-            "rectangleRoundedCurve": 6
+            "rectangleRoundedCurve": 2
           }
         ],
         "title": [
           {
             "show": true,
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#7D8A9B"
+                "color": "#6B6154"
               }
             },
             "alignment": "left"
@@ -1366,12 +1354,12 @@
         "title": [
           {
             "show": true,
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontSize": 9,
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#7D8A9B"
+                "color": "#6B6154"
               }
             },
             "alignment": "left"
@@ -1384,16 +1372,16 @@
         ],
         "items": [
           {
-            "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Corbel, Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "textSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#F2F5F9"
+                "color": "#1F1B16"
               }
             },
             "background": {
               "solid": {
-                "color": "#111A25"
+                "color": "#EAE4D7"
               }
             }
           }
@@ -1438,7 +1426,7 @@
             "$id": "default",
             "fillColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "transparency": 0
@@ -1447,7 +1435,7 @@
             "$id": "hover",
             "fillColor": {
               "solid": {
-                "color": "#1A2430"
+                "color": "#F3EFE6"
               }
             },
             "transparency": 0
@@ -1456,7 +1444,7 @@
             "$id": "selected",
             "fillColor": {
               "solid": {
-                "color": "#1A2430"
+                "color": "#F3EFE6"
               }
             },
             "transparency": 0
@@ -1470,7 +1458,7 @@
             "$id": "default",
             "lineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DCD5C7"
               }
             },
             "weight": 1
@@ -1479,7 +1467,7 @@
             "$id": "hover",
             "lineColor": {
               "solid": {
-                "color": "#3A4755"
+                "color": "#C8BFAE"
               }
             },
             "weight": 1
@@ -1488,7 +1476,7 @@
             "$id": "selected",
             "lineColor": {
               "solid": {
-                "color": "#3A4755"
+                "color": "#C8BFAE"
               }
             },
             "weight": 1
@@ -1500,11 +1488,11 @@
           },
           {
             "$id": "default",
-            "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
+            "fontFamily": "Georgia, Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, serif",
             "fontSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#413A31"
               }
             }
           },
@@ -1512,7 +1500,7 @@
             "$id": "hover",
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             }
           },
@@ -1520,7 +1508,7 @@
             "$id": "selected",
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1F1B16"
               }
             }
           }
@@ -1533,7 +1521,7 @@
         "shape": [
           {
             "tileShape": "rectangleRounded",
-            "rectangleRoundedCurve": 16
+            "rectangleRoundedCurve": 2
           }
         ]
       }

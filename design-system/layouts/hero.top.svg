@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="Segoe UI, Malgun Gothic, sans-serif">
+<rect width="1280" height="720" fill="#F2F4F7"/>
+<rect x="0" y="0" width="1280" height="48" fill="#0F1A2A"/>
+<rect x="24" y="8" width="176" height="40" rx="8" fill="#E4E8ED" stroke="#3A4B63" stroke-width="1"/>
+<text x="34" y="28" font-size="11" font-weight="600" fill="#F2F5F9">리포트 이름</text>
+<rect x="224" y="8" width="712" height="32" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<text x="234" y="28" font-size="11" font-weight="600" fill="#F2F5F9">페이지 (세로)</text>
+<rect x="952" y="8" width="152" height="32" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<text x="962" y="28" font-size="11" font-weight="600" fill="#F2F5F9">기간</text>
+<rect x="1120" y="8" width="136" height="32" rx="8" fill="#23344D" stroke="#3A4B63" stroke-width="1"/>
+<text x="1130" y="28" font-size="11" font-weight="600" fill="#F2F5F9">채널</text>
+<rect x="24" y="48" width="816" height="32" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="68" font-size="11" font-weight="600" fill="#14202B">페이지 제목</text>
+<rect x="856" y="48" width="400" height="32" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="866" y="68" font-size="11" font-weight="600" fill="#14202B">지금 보는 범위 (측정값)</text>
+<rect x="24" y="80" width="1232" height="32" rx="8" fill="#E4E8ED" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="100" font-size="11" font-weight="600" fill="#14202B">결론 한 줄 (측정값)</text>
+<rect x="24" y="120" width="504" height="208" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="140" font-size="13" font-weight="600" fill="#14202B">가장 중요한 숫자 (크게)</text>
+<text x="34" y="158" font-size="11" fill="#4A5563">cardVisual · 24,120 · 504×208</text>
+<rect x="544" y="120" width="712" height="208" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
+<text x="554" y="140" font-size="13" font-weight="600" fill="#14202B">그 숫자의 추이</text>
+<text x="554" y="158" font-size="11" fill="#4A5563">lineChart · 544,120 · 712×208</text>
+<rect x="24" y="336" width="400" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="356" font-size="13" font-weight="600" fill="#14202B">받치는 숫자 1</text>
+<text x="34" y="374" font-size="11" fill="#4A5563">cardVisual · 24,336 · 400×112</text>
+<rect x="440" y="336" width="400" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="450" y="356" font-size="13" font-weight="600" fill="#14202B">받치는 숫자 2</text>
+<text x="450" y="374" font-size="11" fill="#4A5563">cardVisual · 440,336 · 400×112</text>
+<rect x="856" y="336" width="400" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
+<text x="866" y="356" font-size="13" font-weight="600" fill="#14202B">받치는 숫자 3</text>
+<text x="866" y="374" font-size="11" fill="#4A5563">cardVisual · 856,336 · 400×112</text>
+<rect x="24" y="464" width="504" height="232" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="484" font-size="13" font-weight="600" fill="#14202B">어디서 생겼나</text>
+<text x="34" y="502" font-size="11" fill="#4A5563">barChart · 24,464 · 504×232</text>
+<rect x="544" y="464" width="712" height="232" rx="8" fill="#E8EEF6" stroke="#8E99A6" stroke-width="1"/>
+<text x="554" y="484" font-size="13" font-weight="600" fill="#14202B">지켜볼 항목</text>
+<text x="554" y="502" font-size="11" fill="#4A5563">tableEx · 544,464 · 712×232</text>
+<text x="1256" y="714" font-size="11" text-anchor="end" fill="#5A6471">한 장 요약 · 경영 한 장 — 지금 한 가지만 안다면 무엇인가</text>
+</svg>

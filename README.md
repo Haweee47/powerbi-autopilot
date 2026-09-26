@@ -101,11 +101,11 @@ It has its own model and seeded sample data; concepts and formulas are in [desig
 
 Full list and how to choose: [templates/catalog.json](templates/catalog.json)
 
-## Seven themes · languages
+## Ten themes · languages
 
-![Seven themes](docs/share/media/themes.png)
+![Ten themes](docs/share/media/themes.png)
 
-Every theme is a color palette plus a card shape, generated from one token file and checked against Power BI's official theme schema (2.157).
+Every theme is a color palette, a card shape and a typeface set, generated from one token file and checked against Power BI's official theme schema (2.157).
 Pick by where the report will be read:
 
 | Group | Theme | Card shape | Where it fits |
@@ -117,12 +117,19 @@ Pick by where the report will be read:
 | | **Coast** | soft | Calm and fresh; operations, retail and service reviews |
 | Practical | **Ledger** | flat: square corners, hairlines, no shadow | Finance packs, month-end reviews, print |
 | | **Contrast** | flat, darker lines and text | Accessibility, projectors, bright rooms |
+| | **Universal** | soft | Okabe-Ito colors: readable with color-vision deficiency, on projectors and in print |
+| | **Carbon** | flat, dark rail, DIN numerals | Dense operations screens with many series |
+| Showcase | **Broadsheet** | flat, warm paper, serif headings | Board packs and monthly reviews that are read, not watched |
 
 Each series palette passes a color-vision check (adjacent series stay apart for protan, deutan and tritan viewers); the second color is gray on purpose, for last year.
+Text is checked too: every label is measured against the fill behind it and the build fails under WCAG 4.5:1.
+
+**Typefaces** are the third axis, limited to the fonts Power BI itself ships - anything else falls back silently on the reader's machine.
+`segoe` is the neutral default, `din` is Power BI's signage face (numbers read as instruments), `editorial` sets Georgia headings over Corbel. Every set chains the same CJK fallbacks.
 
 **Two layouts:** every pilot page comes with navigation in a left rail (default) or in a bar across the top with a full-width body (`--frame top`).
 
-**Your brand color:** `python tools/brand_theme.py --id acme --accent "#0F62FE" --base navy` makes an eighth preset from one color. Blue, teal and violet brands also color the data; red, orange, yellow and green brands color only the rail and selections, because red already means "below target" ([guide](docs/guide/en.md)).
+**Your brand color:** `python tools/brand_theme.py --id acme --accent "#0F62FE" --base navy` makes an eleventh preset from one color. Blue, teal and violet brands also color the data; red, orange, yellow and green brands color only the rail and selections, because red already means "below target" ([guide](docs/guide/en.md)).
 
 - **Languages**: English by default, Korean built in. UI text, field names, number units (M · K ↔ 만 · 억), takeaway sentences and even data values switch with the language.
   Add another language with one entry in [locales.json](design-system/i18n/locales.json) and one measures file.
@@ -189,7 +196,7 @@ An AI agent (Claude Code) creates and edits the files. I define the problem, set
 ```
 powerbi-autopilot/
 ├── templates/         Four pilots by purpose and a fulfillment-operations pilot (own model), shared measures, glossary, catalog
-├── design-system/     Principles, rubric, research notes, tokens → seven themes (palette × card shape), layout templates, locales, HTML prototypes
+├── design-system/     Principles, rubric, research notes, tokens → ten themes (palette × card shape × typeface), layout templates, locales, HTML prototypes
 ├── tools/             Generator (spec → PBIR), new-report starter, theme/layout builds, share images, token measurement
 ├── examples/          Shared synthetic data (Korean/English), example 03 (Modeling MCP), example 04 (first generator run)
 ├── research/          Public report collection and analysis scripts with results (originals are not redistributed)
@@ -223,7 +230,7 @@ when several people point at the same thing, the design rule changes. [How feedb
 This is a work in progress. I'll keep improving it and logging what I learn.
 
 - [x] Design tokens → themes, layout templates, spec → PBIR generator
-- [x] Four pilots · a fulfillment-operations pilot · seven themes · two layouts · multiple languages
+- [x] Four pilots · a fulfillment-operations pilot · ten themes · two layouts · multiple languages
 - [ ] Sparklines inside tables (SVG measures)
 - [ ] Real-data flow: Presto/Redshift query → model → pilot, including ODBC validation
 - [ ] Same request across three tools (Microsoft's official skill / a community skill / Modeling MCP), compared by tokens and rubric score

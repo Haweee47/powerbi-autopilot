@@ -1,57 +1,57 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/powerbi-desktop-samples/main/Report%20Theme%20JSON%20Schema/reportThemeSchema-2.157.json",
-  "name": "Autopilot Midnight",
+  "name": "Autopilot Universal",
   "dataColors": [
-    "#3987E5",
-    "#6F7B89",
-    "#D95926",
-    "#199E70",
-    "#C98500",
-    "#D55181",
-    "#9085E9",
-    "#E66767"
+    "#0072B2",
+    "#8D99A4",
+    "#D55E00",
+    "#009E73",
+    "#E69F00",
+    "#CC79A7",
+    "#56479E",
+    "#B42F2F"
   ],
-  "good": "#3987E5",
-  "neutral": "#6F7B89",
-  "bad": "#E66767",
-  "maximum": "#3987E5",
-  "center": "#3A4755",
-  "minimum": "#E66767",
-  "null": "#6F7B89",
-  "foreground": "#EEF2F6",
-  "firstLevelElements": "#EEF2F6",
-  "secondLevelElements": "#B4BEC9",
-  "foregroundNeutralSecondary": "#B4BEC9",
-  "thirdLevelElements": "#223040",
-  "backgroundLight": "#223040",
-  "fourthLevelElements": "#8E99A6",
-  "foregroundNeutralTertiary": "#8E99A6",
-  "background": "#131B25",
-  "secondaryBackground": "#3A4755",
-  "backgroundNeutral": "#3A4755",
-  "tableAccent": "#3A4755",
-  "hyperlink": "#86B6EF",
-  "visitedHyperlink": "#86B6EF",
+  "good": "#0072B2",
+  "neutral": "#8D99A4",
+  "bad": "#D55E00",
+  "maximum": "#0072B2",
+  "center": "#DFE3E8",
+  "minimum": "#D55E00",
+  "null": "#8D99A4",
+  "foreground": "#1A1A1A",
+  "firstLevelElements": "#1A1A1A",
+  "secondLevelElements": "#3D3D3D",
+  "foregroundNeutralSecondary": "#3D3D3D",
+  "thirdLevelElements": "#DFE3E8",
+  "backgroundLight": "#DFE3E8",
+  "fourthLevelElements": "#5F6B75",
+  "foregroundNeutralTertiary": "#5F6B75",
+  "background": "#FFFFFF",
+  "secondaryBackground": "#B6BEC7",
+  "backgroundNeutral": "#B6BEC7",
+  "tableAccent": "#B6BEC7",
+  "hyperlink": "#005A8F",
+  "visitedHyperlink": "#005A8F",
   "textClasses": {
     "callout": {
       "fontSize": 24,
       "fontFace": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
-      "color": "#EEF2F6"
+      "color": "#1A1A1A"
     },
     "title": {
       "fontSize": 12,
       "fontFace": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
-      "color": "#EEF2F6"
+      "color": "#1A1A1A"
     },
     "header": {
       "fontSize": 10,
       "fontFace": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
-      "color": "#EEF2F6"
+      "color": "#1A1A1A"
     },
     "label": {
       "fontSize": 9,
       "fontFace": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
-      "color": "#EEF2F6"
+      "color": "#1A1A1A"
     }
   },
   "visualStyles": {
@@ -62,7 +62,7 @@
             "show": true,
             "color": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "transparency": 0
@@ -73,28 +73,16 @@
             "show": true,
             "color": {
               "solid": {
-                "color": "#223040"
+                "color": "#C9CFD6"
               }
             },
-            "radius": 12,
+            "radius": 2,
             "width": 1
           }
         ],
         "dropShadow": [
           {
-            "show": true,
-            "preset": "Custom",
-            "position": "Outer",
-            "color": {
-              "solid": {
-                "color": "#000000"
-              }
-            },
-            "transparency": 93,
-            "shadowBlur": 16,
-            "shadowDistance": 2,
-            "shadowSpread": 0,
-            "angle": 90
+            "show": false
           }
         ],
         "padding": [
@@ -113,7 +101,7 @@
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "alignment": "left",
@@ -126,7 +114,7 @@
             "fontSize": 9,
             "fontColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#5F6B75"
               }
             },
             "alignment": "left"
@@ -138,7 +126,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#5F6B75"
               }
             },
             "showAxisTitle": false,
@@ -146,7 +134,7 @@
             "gridlineStyle": "solid",
             "gridlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             },
             "gridlineThickness": 1,
@@ -159,7 +147,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#5F6B75"
               }
             },
             "showAxisTitle": false,
@@ -174,7 +162,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "showTitle": false
@@ -188,7 +176,7 @@
           {
             "color": {
               "solid": {
-                "color": "#0B1017"
+                "color": "#FFFFFF"
               }
             },
             "transparency": 0
@@ -198,7 +186,7 @@
           {
             "color": {
               "solid": {
-                "color": "#0B1017"
+                "color": "#FFFFFF"
               }
             },
             "transparency": 0
@@ -208,29 +196,29 @@
           {
             "backgroundColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "foregroundColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "titleSize": 12,
             "border": true,
             "borderColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             },
             "checkboxAndApplyColor": {
               "solid": {
-                "color": "#3987E5"
+                "color": "#0072B2"
               }
             },
             "inputBoxColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             }
           }
@@ -240,18 +228,18 @@
             "$id": "Applied",
             "backgroundColor": {
               "solid": {
-                "color": "#0B1017"
+                "color": "#FFFFFF"
               }
             },
             "foregroundColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "border": true,
             "borderColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             }
           },
@@ -259,18 +247,18 @@
             "$id": "Available",
             "backgroundColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "foregroundColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "border": true,
             "borderColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             }
           }
@@ -345,7 +333,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#070B11"
+                "color": "#F4F6F8"
               }
             },
             "transparency": 0
@@ -357,7 +345,7 @@
             "show": true,
             "lineColor": {
               "solid": {
-                "color": "#070B11"
+                "color": "#C9CFD6"
               }
             },
             "weight": 1
@@ -375,7 +363,7 @@
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "labelDisplayUnits": 1,
@@ -391,7 +379,7 @@
             "fontSize": 9,
             "fontColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#5F6B75"
               }
             }
           }
@@ -409,7 +397,7 @@
             "valueFontSize": 10,
             "valueFontColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             }
           }
@@ -481,7 +469,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#5F6B75"
               }
             },
             "showAxisTitle": false,
@@ -489,7 +477,7 @@
             "gridlineStyle": "solid",
             "gridlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             },
             "gridlineThickness": 1,
@@ -502,7 +490,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#5F6B75"
               }
             },
             "showAxisTitle": false,
@@ -518,7 +506,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "showTitle": false
@@ -535,7 +523,7 @@
             "fontSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             }
           }
@@ -550,7 +538,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "showAxisTitle": false,
@@ -573,7 +561,7 @@
             "fontSize": 9,
             "color": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
@@ -600,7 +588,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "showAxisTitle": false,
@@ -623,7 +611,7 @@
             "fontSize": 9,
             "color": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
@@ -650,7 +638,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "showAxisTitle": false,
@@ -673,7 +661,7 @@
             "fontSize": 9,
             "color": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
@@ -693,7 +681,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "showTitle": false
@@ -709,7 +697,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "showAxisTitle": false,
@@ -732,7 +720,7 @@
             "fontSize": 9,
             "color": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "fontFamily": "Segoe UI, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
@@ -752,7 +740,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "showTitle": false
@@ -768,7 +756,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#5F6B75"
               }
             },
             "showAxisTitle": false,
@@ -776,7 +764,7 @@
             "gridlineStyle": "solid",
             "gridlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             },
             "gridlineThickness": 1,
@@ -789,7 +777,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#5F6B75"
               }
             },
             "showAxisTitle": false,
@@ -797,7 +785,7 @@
             "gridlineStyle": "solid",
             "gridlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             },
             "gridlineThickness": 1,
@@ -812,7 +800,7 @@
             "fontSize": 9,
             "labelColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             },
             "showTitle": false
@@ -828,14 +816,14 @@
             "gridHorizontal": true,
             "gridHorizontalColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             },
             "gridHorizontalWeight": 1,
             "rowPadding": 8,
             "outlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             },
             "imageHeight": 20,
@@ -849,12 +837,12 @@
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#5F6B75"
               }
             },
             "backColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "autoSizeColumnWidth": true,
@@ -868,22 +856,22 @@
             "fontSize": 10,
             "fontColorPrimary": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "backColorPrimary": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "fontColorSecondary": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "backColorSecondary": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             }
           }
@@ -895,12 +883,12 @@
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "backColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             }
           }
@@ -915,14 +903,14 @@
             "gridHorizontal": true,
             "gridHorizontalColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             },
             "gridHorizontalWeight": 1,
             "rowPadding": 8,
             "outlineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             },
             "imageHeight": 20,
@@ -936,12 +924,12 @@
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#5F6B75"
               }
             },
             "backColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "autoSizeColumnWidth": true,
@@ -955,22 +943,22 @@
             "fontSize": 10,
             "fontColorPrimary": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "backColorPrimary": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "fontColorSecondary": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "backColorSecondary": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             }
           }
@@ -982,12 +970,12 @@
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "backColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             }
           }
@@ -998,12 +986,12 @@
             "fontSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             },
             "backColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "stepped": true,
@@ -1011,7 +999,7 @@
             "showExpandCollapseButtons": true,
             "expandCollapseButtonsColor": {
               "solid": {
-                "color": "#8E99A6"
+                "color": "#5F6B75"
               }
             }
           }
@@ -1024,12 +1012,12 @@
           {
             "accentColor": {
               "solid": {
-                "color": "#3987E5"
+                "color": "#0072B2"
               }
             },
             "connectorDefaultColor": {
               "solid": {
-                "color": "#3A4755"
+                "color": "#B6BEC7"
               }
             },
             "density": "default",
@@ -1040,17 +1028,17 @@
           {
             "positiveBarColor": {
               "solid": {
-                "color": "#3987E5"
+                "color": "#0072B2"
               }
             },
             "negativeBarColor": {
               "solid": {
-                "color": "#E66767"
+                "color": "#D55E00"
               }
             },
             "dataBarBackgroundColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#DFE3E8"
               }
             }
           }
@@ -1093,7 +1081,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#070B11"
+                "color": "#F4F6F8"
               }
             },
             "transparency": 0
@@ -1103,7 +1091,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#111A25"
+                "color": "#E9EDF1"
               }
             },
             "transparency": 0
@@ -1113,7 +1101,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#1B2A3E"
+                "color": "#DCE6EE"
               }
             },
             "transparency": 0
@@ -1127,7 +1115,7 @@
             "fontSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#AEB9C7"
+                "color": "#3D3D3D"
               }
             },
             "horizontalAlignment": "left",
@@ -1137,7 +1125,7 @@
             "$id": "hover",
             "fontColor": {
               "solid": {
-                "color": "#F2F5F9"
+                "color": "#1A1A1A"
               }
             }
           },
@@ -1146,7 +1134,7 @@
             "fontFamily": "Segoe UI Semibold, Malgun Gothic, Yu Gothic UI, Microsoft YaHei UI, sans-serif",
             "fontColor": {
               "solid": {
-                "color": "#F2F5F9"
+                "color": "#1A1A1A"
               }
             }
           }
@@ -1167,7 +1155,7 @@
             "width": 3,
             "color": {
               "solid": {
-                "color": "#6EA8FE"
+                "color": "#0072B2"
               }
             },
             "transparency": 0
@@ -1193,7 +1181,7 @@
         "shape": [
           {
             "tileShape": "rectangleRounded",
-            "rectangleRoundedCurve": 6
+            "rectangleRoundedCurve": 2
           }
         ],
         "layout": [
@@ -1217,7 +1205,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#111A25"
+                "color": "#E9EDF1"
               }
             },
             "transparency": 0
@@ -1227,7 +1215,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#111A25"
+                "color": "#E9EDF1"
               }
             },
             "transparency": 0
@@ -1237,7 +1225,7 @@
             "show": true,
             "fillColor": {
               "solid": {
-                "color": "#3277CA"
+                "color": "#0072B2"
               }
             },
             "transparency": 0
@@ -1264,7 +1252,7 @@
             "fontSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#AEB9C7"
+                "color": "#3D3D3D"
               }
             }
           },
@@ -1272,7 +1260,7 @@
             "$id": "hover",
             "fontColor": {
               "solid": {
-                "color": "#F2F5F9"
+                "color": "#1A1A1A"
               }
             }
           },
@@ -1303,7 +1291,7 @@
         "shapeCustomRectangle": [
           {
             "tileShape": "rectangleRounded",
-            "rectangleRoundedCurve": 6
+            "rectangleRoundedCurve": 2
           }
         ],
         "title": [
@@ -1314,7 +1302,7 @@
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#7D8A9B"
+                "color": "#5F6B75"
               }
             },
             "alignment": "left"
@@ -1371,7 +1359,7 @@
             "bold": false,
             "fontColor": {
               "solid": {
-                "color": "#7D8A9B"
+                "color": "#5F6B75"
               }
             },
             "alignment": "left"
@@ -1388,12 +1376,12 @@
             "textSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#F2F5F9"
+                "color": "#1A1A1A"
               }
             },
             "background": {
               "solid": {
-                "color": "#111A25"
+                "color": "#E9EDF1"
               }
             }
           }
@@ -1438,7 +1426,7 @@
             "$id": "default",
             "fillColor": {
               "solid": {
-                "color": "#131B25"
+                "color": "#FFFFFF"
               }
             },
             "transparency": 0
@@ -1447,7 +1435,7 @@
             "$id": "hover",
             "fillColor": {
               "solid": {
-                "color": "#1A2430"
+                "color": "#F2F4F6"
               }
             },
             "transparency": 0
@@ -1456,7 +1444,7 @@
             "$id": "selected",
             "fillColor": {
               "solid": {
-                "color": "#1A2430"
+                "color": "#F2F4F6"
               }
             },
             "transparency": 0
@@ -1470,7 +1458,7 @@
             "$id": "default",
             "lineColor": {
               "solid": {
-                "color": "#223040"
+                "color": "#C9CFD6"
               }
             },
             "weight": 1
@@ -1479,7 +1467,7 @@
             "$id": "hover",
             "lineColor": {
               "solid": {
-                "color": "#3A4755"
+                "color": "#B6BEC7"
               }
             },
             "weight": 1
@@ -1488,7 +1476,7 @@
             "$id": "selected",
             "lineColor": {
               "solid": {
-                "color": "#3A4755"
+                "color": "#B6BEC7"
               }
             },
             "weight": 1
@@ -1504,7 +1492,7 @@
             "fontSize": 10,
             "fontColor": {
               "solid": {
-                "color": "#B4BEC9"
+                "color": "#3D3D3D"
               }
             }
           },
@@ -1512,7 +1500,7 @@
             "$id": "hover",
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             }
           },
@@ -1520,7 +1508,7 @@
             "$id": "selected",
             "fontColor": {
               "solid": {
-                "color": "#EEF2F6"
+                "color": "#1A1A1A"
               }
             }
           }
@@ -1533,7 +1521,7 @@
         "shape": [
           {
             "tileShape": "rectangleRounded",
-            "rectangleRoundedCurve": 16
+            "rectangleRoundedCurve": 2
           }
         ]
       }

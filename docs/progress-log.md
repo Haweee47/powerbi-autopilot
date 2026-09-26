@@ -618,3 +618,32 @@ followed it (measures return pre-formatted text), and dates now do too.
 | 3 | ~~명세 → PBIR 생성기~~ | 완료 (공식 검증 통과, 쓰는 양 약 7%) |
 | 3-1 | Desktop 렌더링 확인 | 캡처 → 채점표 → 수정 반복 |
 | 4 | 도구 비교 마무리 (예제 01·02) | 새 세션에서 토큰 측정, 채점표로 디자인 비교 |
+
+## 2026-09-26 · More design concepts: a third axis, three themes, two compositions
+
+The feedback that started this repo was "the default look is not good enough." Seven themes answered it with colour and card
+shape. Reading further - IBM Carbon's data-visualization guidance, Okabe & Ito's colour-universal set, and DMiner (TVCG 2023),
+which mined layout rules from 854 real dashboards - two gaps were obvious: the type was always the same, and every page was
+composed the same way.
+
+- **A typeface axis.** `segoe` (neutral default), `din` (Power BI's signage face - numbers read as instruments) and `editorial`
+  (Georgia headings over Corbel). Hard constraint: only fonts Power BI itself ships. Anything else falls back **silently** on the
+  reader's machine, so a font the author sees is no evidence the reader sees it. Each set chains the same CJK fallbacks, because
+  no Latin face carries Hangul or Kana.
+- **Three themes**, ten in total. `universal` is the Okabe-Ito set, separable under all three kinds of colour-vision deficiency;
+  `carbon` is IBM Carbon's data colours on a near-black rail with DIN numerals, for dense operations screens; `broadsheet` is warm
+  paper, serif headings and one ink colour, for a pack that is read rather than watched. All three captured in Desktop.
+- **Two compositions.** `hero` puts one number large with the trend beside it and three tiles underneath (R15); `compare` mirrors
+  the page down the middle. Geometry is checked, but no pilot uses them yet.
+
+**What the work actually caught.** Building `carbon` produced slicer buttons at **1.11:1** against their own fill - invisible.
+That is not a thing to fix once: theme building now computes WCAG contrast on every text-over-its-own-fill pair and fails the
+build under 4.5:1. It immediately caught two themes that were **already shipped** - `paper` at 4.42:1 and `midnight` at 3.64:1.
+Seven themes had been reviewed by eye and two of them were wrong. All ten pass now.
+
+**A false pass, the third in this repo.** `render_check.ps1` reported `exit=0` having written zero screenshots. Separately, one
+midnight run came up with "circular reference" and every measure blank; diffing its model against the working paper build showed
+only theme colour literals differed, and midnight captured all four pages correctly when run on its own - so the error was the
+previous Desktop instance still holding the same model name, not a defect in the model. Both are now structural: a run that
+produces fewer screenshots than the report has pages **fails**, and the next report waits for the analysis engine to exit before
+it opens. A check that cannot fail is not a check.

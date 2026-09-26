@@ -42,7 +42,7 @@ python tools/quickstart.py --all --lang zh-CN
 | 选项 | 取值 |
 |---|---|
 | `--purpose` | `dashboard`（仪表板）· `table`（指标表）· `matrix`（矩阵）· `deepdive`（深入分析）· `fulfillment`（履约中心运营） |
-| `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
+| `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` · `universal` · `carbon` · `broadsheet` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
 | `--frame` | `rail`（左侧导航栏）· `top`（顶部菜单栏，正文全宽） |
 

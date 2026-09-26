@@ -5,7 +5,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+### Added
+- Three more design concepts, so a report can look like the room it is shown in. `universal` takes the Okabe-Ito set, which
+  stays separable under all three kinds of colour-vision deficiency and survives a projector; `carbon` takes IBM Carbon's data
+  colours on a near-black rail, for dense operations screens; `broadsheet` is warm paper with serif headings and one ink colour,
+  for a pack that is read rather than watched. Ten themes now (`--theme`), all captured in Desktop
+- A typeface axis alongside colour and card shape: `segoe`, `din` (Power BI's signage face - numbers read as instruments) and
+  `editorial` (Georgia headings over Corbel). Only fonts Power BI ships are allowed, because anything else falls back silently
+  on the reader's machine, and every set chains the same CJK fallbacks so Korean and Japanese text stays readable
+- Two page compositions: `hero` puts one number large with the trend beside it and three tiles underneath, for a page that
+  makes a single point; `compare` mirrors the page down the middle for two things held side by side
+
 ### Fixed
+- Slicer buttons could be invisible: `carbon` drew its default chips at 1.11:1 against their own fill. Theme building now
+  computes WCAG contrast on every text-over-its-own-fill pair and fails the build under 4.5:1, which also caught `paper` (4.42:1)
+  and `midnight` (3.64:1) - both were shipped that way. All ten themes pass
+- The capture script reported success having captured nothing. A run that produces fewer screenshots than the report has pages
+  now fails, and the next report waits for the analysis engine to exit before it opens - two reports built from the same pilot
+  share a model name, and opening one on top of the other produced a circular-reference error with every measure blank
 - A report rendered differently depending on the reader's Power BI Desktop language: charts bound to a date column printed
   their axis in that language ("2026년 7월" on an English report). Weekly charts now use a digits-only label column sorted by
   the date behind it, and daily charts keep the date axis with its labels hidden - 60+ labels never fit anyway, and the period

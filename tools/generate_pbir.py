@@ -302,8 +302,9 @@ def read_measure_defs(tmdl_dir: Path) -> dict[str, dict]:
 class Ctx:
     """비주얼을 만들 때 쓰는 공통 재료: 필드 해석, 언어, 용어집, 색·글자 토큰."""
 
-    def __init__(self, resolve: FieldResolver, t: Lang, glossary: dict, tokens: dict, palette: dict, ui: dict):
+    def __init__(self, resolve: FieldResolver, t: Lang, glossary: dict, tokens: dict, palette: dict, ui: dict, theme: dict | None = None):
         self.resolve, self.t, self.glossary, self.tokens, self.c, self.ui = resolve, t, glossary, tokens, palette, ui
+        self.theme = theme or {}
         self.visible_pages = 0
 
     def label(self, ref: str) -> str | None:
@@ -439,7 +440,8 @@ def cell_formats(spec: dict, x: Ctx) -> dict:
 
 
 def build_visual(role: str, spec: dict, x: Ctx, region: dict) -> dict:
-    c, t, pt, f = x.c, x.t, x.tokens["type"]["pt"], x.tokens["font"]
+    c, t, pt = x.c, x.t, x.tokens["type"]["pt"]
+    f = x.tokens.get("typefaces", {}).get(x.theme.get("typeface", ""), x.tokens["font"])  # same set the theme was built with
     on_rail = region.get("zone") == "rail"
     if role == "shape":  # 레일 바탕. 색·테두리는 테마의 shape 서식
         return {"visualType": "shape", "objects": {"shape": [{"properties": {"tileShape": lit("rectangle")}, "selector": {"id": "default"}}]}}
@@ -729,7 +731,7 @@ def main() -> None:
                 resolve.errors.append(f"DAX of '{mname}': column {c} is not in the model (add it to the model map)")
         for ref in sorted(meas - known):
             resolve.errors.append(f"DAX of '{mname}': measure [{ref}] is not in the model (add it to the model map)")
-    x = Ctx(resolve, t, glossary, tokens, palette, ui)
+    x = Ctx(resolve, t, glossary, tokens, palette, ui, tokens["themes"][theme_id])
 
     # 1) 페이지·비주얼을 메모리에서 먼저 만든다 (필드 오류가 있으면 아무것도 쓰지 않는다)
     pages = []

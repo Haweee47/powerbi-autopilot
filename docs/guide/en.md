@@ -42,7 +42,7 @@ python tools/quickstart.py --all --lang ko
 | Option | Values |
 |---|---|
 | `--purpose` | `dashboard` · `table` · `matrix` · `deepdive` · `fulfillment` |
-| `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
+| `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` · `universal` · `carbon` · `broadsheet` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
 | `--frame` | `rail` (navigation on the left) · `top` (a bar across the top, full-width body) |
 

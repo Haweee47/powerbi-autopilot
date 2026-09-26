@@ -164,7 +164,21 @@ function Test-Report($exe, $dir) {
     Save-Page $proc (Join-Path $dest ("{0:D2}-{1}.png" -f ($i + 1), $safe))
     "  captured $(Split-Path $dir -Leaf) / $title"
   }
+  # A run that captures nothing must not pass. Twice before, a report that failed to load was reported as captured;
+  # once more when a load error left no page tabs at all, so the loop above simply had nothing to click.
+  $shot = @(Get-ChildItem $dest -Filter *.png -ErrorAction SilentlyContinue)
+  if ($shot.Count -lt 1 -or ($titles.Count -gt 0 -and $shot.Count -lt $titles.Count)) {
+    "  ! $name captured $($shot.Count) of $($titles.Count) pages - the report did not load, or a dialog covered it"
+    $script:failed += $name
+  }
   Stop-Process -Id $proc.Id -Force
+  # Wait for the analysis engine to let go before the next report opens. Two reports built from the same pilot carry the
+  # same model name, and opening the next one while the previous workspace is still up produced a circular-reference
+  # load error once - the report came up with every measure blank.
+  for ($w = 0; $w -lt 30; $w++) {
+    if (-not (Get-Process PBIDesktop*, msmdsrv -ErrorAction SilentlyContinue)) { break }
+    Start-Sleep -Seconds 1
+  }
   Start-Sleep -Seconds 4
 }
 

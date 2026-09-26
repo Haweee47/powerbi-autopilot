@@ -46,7 +46,8 @@ def build(tok: dict, tid: str) -> dict:
     st = tok["styles"][th.get("style", "soft")]  # card shape: soft · bold · flat
     S = {**tok["space"], "radius": st["radius"]}
     SH = {**tok["shadow"], **{k: st[f"shadow{k.title()}"] for k in ("transparency", "blur", "distance") if f"shadow{k.title()}" in st}}
-    F, FS = tok["font"]["family"], tok["font"]["semibold"]
+    tf = tok.get("typefaces", {}).get(th.get("typeface", ""), tok["font"])  # typeface set: a theme choice, like the card shape
+    F, FS = tf["family"], tf["semibold"]
     ink, ink2, ink3 = solid(c["ink"]), solid(c["ink2"]), solid(c["ink3"])
 
     axis_common = {"fontFamily": F, "fontSize": T["caption"], "labelColor": ink3, "showAxisTitle": False}
@@ -269,6 +270,35 @@ def load_schema(path: str | None) -> dict:
     return json.load(open(p, encoding="utf-8"))
 
 
+# Text sits on a fill, not on the page, so the pair that matters is text-on-its-own-background. The carbon preset passed
+# the schema and the validator with a light button fill under light button text (1.11:1, invisible) - only the Desktop
+# capture showed it. These pairs are now checked on every build.
+CONTRAST_PAIRS = [("railInk2", "segBg", "slicer button, default"), ("railInk", "railHover", "slicer button, hover"),
+                  ("segOnInk", "segOn", "slicer button, selected"), ("railInk", "rail", "rail text"),
+                  ("railInk3", "rail", "rail caption"), ("ink", "surface", "card text"), ("ink3", "surface", "card caption"),
+                  ("ink", "page", "page text")]
+MIN_RATIO = 4.5
+
+
+def _lum(hex_color: str) -> float:
+    v = [int(hex_color[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    v = [(x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4) for x in v]
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]
+
+
+def contrast_problems(tid: str, color: dict) -> list[str]:
+    """WCAG contrast for every text-on-fill pair a theme decides. Below 4.5:1 is a build failure, not a warning."""
+    out = []
+    for ink, bg, where in CONTRAST_PAIRS:
+        if ink not in color or bg not in color:
+            continue
+        hi, lo = sorted((_lum(color[ink]), _lum(color[bg])), reverse=True)
+        ratio = (hi + 0.05) / (lo + 0.05)
+        if ratio < MIN_RATIO:
+            out.append(f"[{tid}] {where}: {color[ink]} on {color[bg]} is {ratio:.2f}:1, below {MIN_RATIO}:1")
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--schema", help="로컬 reportThemeSchema 경로 (없으면 내려받아 캐시)")
@@ -290,6 +320,9 @@ def main() -> None:
         for e in errors[:15]:
             print(f"   - {'/'.join(map(str, e.absolute_path))}: {e.message[:160]}")
         failed += len(errors)
+        for problem in contrast_problems(tid, tok["themes"][tid]["color"]):
+            print("   ! " + problem)
+            failed += 1
     (DS / "tokens.css").write_text(css(tok), encoding="utf-8")
     print("CSS 변수: design-system/tokens.css")
     sys.exit(1 if failed else 0)

@@ -42,7 +42,7 @@ python tools/quickstart.py --all --lang ko
 | 옵션 | 값 |
 |---|---|
 | `--purpose` | `dashboard`(대시보드) · `table`(지표 테이블) · `matrix`(행렬) · `deepdive`(딥다이브) · `fulfillment`(풀필먼트 운영) |
-| `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` |
+| `--theme` | `navy` · `paper` · `midnight` · `aurora` · `coast` · `ledger` · `contrast` · `universal` · `carbon` · `broadsheet` |
 | `--lang` | `en` · `ko` · `ja` · `zh-CN` |
 | `--frame` | `rail`(왼쪽 레일) · `top`(상단 메뉴, 본문 전체 폭) |
 
