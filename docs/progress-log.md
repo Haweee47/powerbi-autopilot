@@ -647,3 +647,52 @@ only theme colour literals differed, and midnight captured all four pages correc
 previous Desktop instance still holding the same model name, not a defect in the model. Both are now structural: a run that
 produces fewer screenshots than the report has pages **fails**, and the next report waits for the analysis engine to exit before
 it opens. A check that cannot fail is not a check.
+
+## 2026-09-26 · The rubric, for the part a machine can settle
+
+This morning's contrast guard caught two themes that were **already shipped**. Seven themes had been reviewed by eye and two
+of them were wrong. That is not an argument about those two themes; it is an argument about eyes. So I went through the
+31-item review rubric and asked which items a script could settle, and moved those off my judgment.
+
+- **`tools/design_check.py`** reads the **spec**, not the generated report - so it costs no tokens and stops before Desktop is
+  opened. Every KPI carries a comparison (A4/H5), every chart has a real title rather than "Sum of X by Y" (D3), a bar declares
+  its order (C3), a page keeps 5-7 visible tabs (G1), and the series a chart actually reaches stay at 3:1 against the card
+  behind them (E3). In CI.
+- The rubric now marks which items a script enforces and which are still read off a capture. A reader can see the split.
+
+**The point is not that it found things in the pilots. It found nothing there**, which is expected - I built the pilots to the
+rubric. Its value is the path this repo actually sells: an agent writes a spec for someone else's model, and until today
+nothing checked that spec against the design rules this repo publishes.
+
+**Three times I nearly shipped a wrong finding, and the discipline that stopped me was the same each time: check what the
+thing actually is before calling it broken.**
+
+- A first pass reported "33 mark/surface pairs under 3:1" across the themes. Those tokens are in-cell data bars and the heat
+  scale - deliberately light tints with the text left on top. The pair that matters there is the text on the fill, and all ten
+  themes pass it. No defect.
+- The check's first run flagged four unsorted bars in the fulfillment pilot. All four sit on ordinal axes (hour of day, arrival
+  band, process sequence), and the model already fixes their order with `sortByColumn`. Value order would have been *wrong*.
+  C3 now reads the model before it complains. A check that cries wolf gets ignored, which is worse than no check.
+- Counting raw visuals made `hero` look like a rubric violation (7 on an executive page, limit 6). The rubric counts *groups*,
+  and a row of KPI cards is one group. Counted properly it is 5. The layout was fine; my counter was wrong.
+
+**One check I wrote could never fail, so I deleted it.** A spec cannot place more visuals than its layout has regions, so
+checking A3 per spec was dead code. A3 belongs to the layout templates, and it moved to `build_layouts.py`, counted by groups.
+I proved each rule fires on a deliberately broken input before believing any of them - the same reason the capture script now
+fails when it captures nothing.
+
+### The last locale leak, settled as far as PBIR allows
+
+The dropdown slicer still shows "All" / "모두" in the reader's own Desktop language. I had this logged as "no property found
+yet", which is a weaker claim than it deserved, so I searched the formatting catalog instead of my memory:
+
+- `powerbi-report-author formatting search slicer "selectAll|select|restate|default|empty|placeholder"` and a full
+  `list-objects` pass over both `slicer` and `advancedSlicerVisual`.
+- What exists: `selection.selectAllCheckboxEnabled` (a *different* string, the "Select all" option, which this repo never turns
+  on) and `header.showRestatement` (the header summary, already moot because the header is hidden). **Nothing exposes the text
+  the closed dropdown prints when no value is selected.** Power BI renders it itself.
+- The obvious workaround - use a button slicer, which prints no such word - does not apply: the eight dropdown regions exist
+  precisely because those fields have too many values to sit as buttons in a 160px rail.
+
+So it is not fixable through PBIR, and the entry changes from "not found yet" to "searched the catalog; the property does not
+exist." That is a smaller claim but a true one, and it stops the next session from looking again.

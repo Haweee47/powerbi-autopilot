@@ -197,7 +197,7 @@ An AI agent (Claude Code) creates and edits the files. I define the problem, set
 powerbi-autopilot/
 ├── templates/         Four pilots by purpose and a fulfillment-operations pilot (own model), shared measures, glossary, catalog
 ├── design-system/     Principles, rubric, research notes, tokens → ten themes (palette × card shape × typeface), layout templates, locales, HTML prototypes
-├── tools/             Generator (spec → PBIR), new-report starter, theme/layout builds, share images, token measurement
+├── tools/             Generator (spec → PBIR), new-report starter, theme/layout builds, design check, share images, token measurement
 ├── examples/          Shared synthetic data (Korean/English), example 03 (Modeling MCP), example 04 (first generator run)
 ├── research/          Public report collection and analysis scripts with results (originals are not redistributed)
 ├── docs/              Setup, progress log, share drafts

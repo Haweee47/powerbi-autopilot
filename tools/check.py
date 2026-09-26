@@ -35,7 +35,7 @@ def run(cmd: list[str]) -> subprocess.CompletedProcess:
 
 def regenerate() -> list[str]:
     problems = []
-    steps = [["tools/build_layouts.py"], ["tools/build_themes.py"]] + [
+    steps = [["tools/build_layouts.py"], ["tools/build_themes.py"], ["tools/design_check.py"]] + [
         ["tools/generate_pbir.py", f"templates/{p}/pilot.spec.json"] for p in PILOTS]
     for step in steps:
         r = run([sys.executable, *step])

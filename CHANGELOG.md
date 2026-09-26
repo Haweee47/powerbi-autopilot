@@ -6,6 +6,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 ## [Unreleased]
 
 ### Added
+- `tools/design_check.py`: the review rubric, for the items a machine can settle. It reads the **spec**, not the generated
+  report, so it costs no tokens and stops before Desktop is opened: every KPI carries a comparison (A4/H5), every chart has a
+  real title instead of "Sum of X by Y" (D3), a bar declares its order unless the model already fixed one (C3), a page keeps
+  5-7 visible tabs (G1), and the series a chart actually uses stay at 3:1 against the card behind them (E3). It runs in CI.
+  The rubric now marks which items are enforced by a script and which are still read off a capture - the honest split
+- The layout build checks rubric A3 (visual groups per page, 9 at most and 6 on an executive page). It counts groups, not
+  visuals: a row of four KPI cards reads as one group, so counting visuals would have failed pages that are fine
 - Three more design concepts, so a report can look like the room it is shown in. `universal` takes the Okabe-Ito set, which
   stays separable under all three kinds of colour-vision deficiency and survives a projector; `carbon` takes IBM Carbon's data
   colours on a near-black rail, for dense operations screens; `broadsheet` is warm paper with serif headings and one ink colour,

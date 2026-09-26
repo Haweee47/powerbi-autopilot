@@ -108,6 +108,11 @@ def to_top(page: dict, res: dict, top: dict) -> dict:
     return {**page, "frame": "top", "regions": regions + labels}
 
 
+# 화면 틀(레일 바탕·제목·이동·버튼·슬라이서)은 "시각 묶음"이 아니다 (채점표 A3의 "도형·텍스트 제외")
+A3_CHROME = {"shape", "textbox", "pageNavigator", "actionButton", "headline", "context",
+             "advancedSlicerVisual", "dropdownSlicer"}
+
+
 def check(page: dict, cv: dict, unit: int, body_y: int) -> list[str]:
     problems, rs = [], page["regions"]
     for r in rs:
@@ -129,6 +134,13 @@ def check(page: dict, cv: dict, unit: int, body_y: int) -> list[str]:
     edges = list(rows.values())
     if len(edges) >= 2 and not all(any(e & f for f in edges if f is not e) for e in edges):
         problems.append("본문 줄 사이에 공유하는 세로 경계선이 없음")
+    # 채점표 A3: 한 화면의 시각 묶음은 7±2 이내, 경영 요약은 4~6. 상한만 본다 - 표 한 장짜리 페이지는 정상이다.
+    # 세는 단위는 비주얼이 아니라 묶음이다. 나란히 놓인 KPI 카드 한 줄은 4개가 아니라 하나로 읽힌다.
+    body = [r for r in fg if r.get("zone") != "rail" and r["role"] not in A3_CHROME]
+    groups = {(r["y"], r["role"]) for r in body}
+    ceiling = 6 if page.get("purpose") == "exec" else 9
+    if len(groups) > ceiling:
+        problems.append(f"시각 묶음이 {len(groups)}개 (채점표 A3: {ceiling}개 이내). 페이지를 나눈다")
     return problems
 
 
