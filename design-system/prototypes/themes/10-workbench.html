@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Workbench — dashboard study</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#9AA0A8}
+.frame{width:1280px;height:720px;margin:0 auto;position:relative;overflow:hidden}
+.page{width:100%;height:100%;overflow:hidden}
+text{font-family:inherit}
+svg .bar{fill:var(--accent)}            /* 시안이 따로 정하지 않으면 강조색 */
+svg .lb,svg .vl,svg .ax{fill:var(--ink2)}
+
+:root{--chrome:#EFF1F4;--sheet:#FFF;--ink:#17263F;--ink2:#67748B;--accent:#0B5FD0;--neg:#D23B2E;--pos:#1C7C54;--rule:#DCE0E7}
+.page{background:var(--chrome);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;
+  display:grid;grid-template-rows:auto auto 1fr}
+.tabs{display:flex;gap:2px;padding:9px 14px 0;border-bottom:1px solid var(--rule)}
+.tab{padding:7px 15px;font-size:12px;color:var(--ink2);border:1px solid transparent;border-bottom:none;border-radius:5px 5px 0 0}
+.tab.on{background:var(--sheet);border-color:var(--rule);color:var(--ink);font-weight:600;margin-bottom:-1px}
+.tools{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--sheet);border-bottom:1px solid var(--rule)}
+.btn{font-size:11.5px;border:1px solid var(--rule);border-radius:5px;padding:4px 11px;color:var(--ink2);background:#fff}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.sp{flex:1}
+.stat{font-size:11.5px;color:var(--ink2)}
+.stat b{color:var(--ink);font-variant-numeric:tabular-nums}
+.main{display:grid;grid-template-columns:1fr 330px;background:var(--sheet);min-height:0}
+.sheetwrap{padding:14px 16px;min-width:0;overflow:hidden}
+.side{border-left:1px solid var(--rule);padding:14px 16px;display:flex;flex-direction:column;gap:15px;min-width:0}
+h3{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink2);margin:0 0 8px;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--ink2);text-align:left;
+  padding:0 8px 7px 0;border-bottom:1px solid var(--rule);font-weight:600}
+td{padding:7px 8px 7px 0;border-bottom:1px solid var(--rule);font-variant-numeric:tabular-nums}
+td.name{font-variant-numeric:normal}
+.num{text-align:right;font-family:'IBM Plex Mono',monospace}
+.neg{color:var(--neg)}.pos{color:var(--pos)}
+.cell{position:relative}
+.cell i{position:absolute;left:0;top:50%;transform:translateY(-50%);height:15px;background:rgba(11,95,208,.14);border-radius:2px}
+.cell span{position:relative;padding-left:5px}
+svg .ln{fill:none;stroke:var(--accent);stroke-width:2}
+svg .pyl{fill:none;stroke:#AFB7C4;stroke-width:1.4}
+svg .ax,svg .lb,svg .vl{fill:var(--ink2)}
+svg .pos{fill:var(--pos)}svg .neg{fill:var(--neg)}svg .vl.neg{fill:var(--neg)}svg .vl.pos{fill:var(--pos)}
+svg .zero{stroke:var(--rule)}
+
+</style></head>
+<body><div class="frame"><div class="page">
+<div class="tabs"><div class="tab on">Summary</div><div class="tab">Categories</div><div class="tab">Stores</div>
+  <div class="tab">Raw data</div></div>
+<div class="tools"><span class="btn pri">2026</span><span class="btn">2025</span><span class="btn">2024</span>
+  <span class="btn">All channels ▾</span><span class="sp"></span>
+  <span class="stat">Sales <b>841.8M</b> · Attainment <b>95.8%</b> · Short <b class="neg">37.2M</b></span></div>
+<div class="main">
+  <div class="sheetwrap"><h3>Category performance against target</h3>
+    <table><thead><tr><th>Category</th><th class="num">Sales</th><th class="num">Target</th>
+      <th class="num">Variance</th><th style="width:34%">Share of sales</th></tr></thead><tbody><tr><td class="name">Food</td><td class="num">266.9M</td><td class="num">252.1M</td><td class="num pos">+14.8M</td><td class="cell"><i style="width:77%"></i><span>31.7%</span></td></tr><tr><td class="name">Fashion</td><td class="num">186.3M</td><td class="num">203.1M</td><td class="num neg">-16.8M</td><td class="cell"><i style="width:54%"></i><span>22.1%</span></td></tr><tr><td class="name">Electronics</td><td class="num">158.1M</td><td class="num">203.0M</td><td class="num neg">-44.9M</td><td class="cell"><i style="width:46%"></i><span>18.8%</span></td></tr><tr><td class="name">Home</td><td class="num">118.7M</td><td class="num">116.4M</td><td class="num pos">+2.3M</td><td class="cell"><i style="width:34%"></i><span>14.1%</span></td></tr><tr><td class="name">Beauty</td><td class="num">111.8M</td><td class="num">104.4M</td><td class="num pos">+7.4M</td><td class="cell"><i style="width:32%"></i><span>13.3%</span></td></tr></tbody></table>
+    <h3 style="margin-top:18px">Stores, weakest first</h3>
+    <table><thead><tr><th>Store</th><th class="num">Sales</th><th class="num">YoY</th>
+      <th style="width:34%">Against the store average</th></tr></thead><tbody><tr><td class="name">Ilsan</td><td class="num">23.5M</td><td class="num neg">-38.6%</td><td class="cell"><i style="width:34%"></i><span>lowest of 12</span></td></tr><tr><td class="name">Jeju</td><td class="num">12.2M</td><td class="num neg">-29.7%</td><td class="cell"><i style="width:18%"></i><span>smallest store</span></td></tr><tr><td class="name">Ulsan</td><td class="num">21.2M</td><td class="num neg">-24.9%</td><td class="cell"><i style="width:31%"></i><span>below average</span></td></tr><tr><td class="name">Gangwon</td><td class="num">13.6M</td><td class="num neg">-11.2%</td><td class="cell"><i style="width:20%"></i><span>below average</span></td></tr><tr><td class="name">Chungcheong</td><td class="num">61.9M</td><td class="num neg">-3.4%</td><td class="cell"><i style="width:89%"></i><span>near average</span></td></tr></tbody></table>
+  </div>
+  <div class="side">
+    <div><h3>Monthly sales</h3><svg viewBox="0 0 300 96" width="100%" height="96"><polyline class="pyl" points="8.0,29.3 48.6,70.5 89.1,44.2 129.7,58.1 170.3,39.1 210.9,47.8 251.4,50.5 292.0,54.1"/><polyline class="ln" points="8.0,15.1 48.6,69.7 89.1,52.2 129.7,60.2 170.3,33.5 210.9,53.1 251.4,49.0 292.0,51.0"/><text class="ax" x="8.0" y="92" font-size="8" text-anchor="middle">Jan</text><text class="ax" x="48.6" y="92" font-size="8" text-anchor="middle">Feb</text><text class="ax" x="89.1" y="92" font-size="8" text-anchor="middle">Mar</text><text class="ax" x="129.7" y="92" font-size="8" text-anchor="middle">Apr</text><text class="ax" x="170.3" y="92" font-size="8" text-anchor="middle">May</text><text class="ax" x="210.9" y="92" font-size="8" text-anchor="middle">Jun</text><text class="ax" x="251.4" y="92" font-size="8" text-anchor="middle">Jul</text><text class="ax" x="292.0" y="92" font-size="8" text-anchor="middle">Aug</text></svg></div>
+    <div><h3>Stores furthest behind</h3><table><tr><td>Ilsan</td><td class="num">23.5M</td><td class="num neg">-38.6%</td></tr><tr><td>Jeju</td><td class="num">12.2M</td><td class="num neg">-29.7%</td></tr><tr><td>Ulsan</td><td class="num">21.2M</td><td class="num neg">-24.9%</td></tr></table></div>
+    <div><h3>Top regions</h3><svg viewBox="0 0 300 92" width="100%" height="92"><text class="lb" x="78" y="15.75" font-size="9" text-anchor="end">Capital Area</text><rect class="bar" x="86" y="5.5" width="161.9" height="13.5"/><text class="vl" x="252.9" y="15.75" font-size="9">345.2M</text><text class="lb" x="78" y="38.25" font-size="9" text-anchor="end">Online</text><rect class="bar" x="86" y="28.0" width="100.7" height="13.5"/><text class="vl" x="191.7" y="38.25" font-size="9">214.8M</text><text class="lb" x="78" y="60.75" font-size="9" text-anchor="end">Yeongnam</text><rect class="bar" x="86" y="50.5" width="62.4" height="13.5"/><text class="vl" x="153.4" y="60.75" font-size="9">133.1M</text><text class="lb" x="78" y="83.25" font-size="9" text-anchor="end">Chungcheong</text><rect class="bar" x="86" y="73.0" width="29.0" height="13.5"/><text class="vl" x="120.0" y="83.25" font-size="9">61.9M</text></svg></div>
+  </div>
+</div></div></div></body></html>

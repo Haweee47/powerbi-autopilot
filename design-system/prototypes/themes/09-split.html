@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Split field — dashboard study</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#9AA0A8}
+.frame{width:1280px;height:720px;margin:0 auto;position:relative;overflow:hidden}
+.page{width:100%;height:100%;overflow:hidden}
+text{font-family:inherit}
+svg .bar{fill:var(--accent)}            /* 시안이 따로 정하지 않으면 강조색 */
+svg .lb,svg .vl,svg .ax{fill:var(--ink2)}
+
+:root{--field:#331A63;--fieldink:#F4EEFF;--fieldink2:#B9A6DC;--bg:#FFF;--ink:#1A1A2E;--ink2:#6B6B80;
+  --accent:#C4336B;--pos:#2F9E6E;--rule:#E8E6EF}
+.page{background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;
+  display:grid;grid-template-columns:430px 1fr}
+.field{background:var(--field);color:var(--fieldink);padding:30px 28px;display:flex;flex-direction:column}
+.field .k{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--fieldink2)}
+.field h1{font-family:'DM Serif Display',serif;font-size:31px;font-weight:400;margin:9px 0 0;line-height:1.14;
+  letter-spacing:-.3px;text-wrap:balance}
+.field p{font-size:13px;line-height:1.55;color:var(--fieldink2);margin:13px 0 0}
+.field p b{color:var(--fieldink)}
+.kpis{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:16px;border-top:1px solid rgba(244,238,255,.17);padding-top:16px}
+.kpis .n{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fieldink2)}
+.kpis .v{font-family:'DM Serif Display',serif;font-size:31px;letter-spacing:-.5px;margin-top:2px}
+.kpis .d{font-size:11px;color:var(--fieldink2)}
+.right{padding:28px 30px;display:grid;grid-template-rows:auto auto 1fr;gap:17px;min-width:0}
+h3{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink2);margin:0 0 8px;font-weight:700}
+.two{display:grid;grid-template-columns:1fr .85fr;gap:24px;min-height:0}
+table{width:100%;border-collapse:collapse;font-size:12px}
+td{padding:6px 0;border-bottom:1px solid var(--rule)}
+.num{text-align:right;font-variant-numeric:tabular-nums}.neg{color:var(--accent)}
+svg .ln{fill:none;stroke:var(--field);stroke-width:2.4}
+svg .pyl{fill:none;stroke:#C3BFD0;stroke-width:1.5}
+svg .ar{fill:rgba(51,26,99,.08)}
+svg .ax,svg .lb,svg .vl{fill:var(--ink2)}
+svg .pos{fill:var(--pos)}svg .neg{fill:var(--accent)}
+svg .vl.neg{fill:var(--accent)}svg .vl.pos{fill:var(--pos)}
+svg .zero{stroke:var(--rule)}svg .bar{fill:var(--field)}
+
+</style></head>
+<body><div class="frame"><div class="page">
+<div class="field">
+  <div class="k">2026 Jan–Aug · all channels</div>
+  <h1>Ahead of last year, behind the plan</h1>
+  <p>Sales of <b>841.8M</b> beat last year by 1.5%, but the plan asked for <b>879.0M</b>.</p>
+  <p>Four categories cleared their target. <b>Electronics missed by 44.9M</b> — larger than the 37.2M gap,
+     so every other category is covering for it.</p>
+  <div class="kpis">
+    <div><div class="n">Sales</div><div class="v">841.8M</div><div class="d">▲ 1.5% YoY</div></div>
+    <div><div class="n">Attainment</div><div class="v">95.8%</div><div class="d">37.2M short</div></div>
+  </div>
+</div>
+<div class="right">
+  <div><h3>Monthly sales against last year</h3><svg viewBox="0 0 790 118" width="100%" height="118"><polyline class="pyl" points="8.0,36.0 118.6,90.2 229.1,55.6 339.7,73.9 450.3,48.8 560.9,60.4 671.4,63.8 782.0,68.6"/><polygon class="ar" points="8.0,100.0 8.0,17.3 118.6,89.1 229.1,66.1 339.7,76.6 450.3,41.5 560.9,67.3 671.4,61.8 782.0,64.5 782.0,100.0"/><polyline class="ln" points="8.0,17.3 118.6,89.1 229.1,66.1 339.7,76.6 450.3,41.5 560.9,67.3 671.4,61.8 782.0,64.5"/><text class="ax" x="8.0" y="114" font-size="9" text-anchor="middle">Jan</text><text class="ax" x="118.6" y="114" font-size="9" text-anchor="middle">Feb</text><text class="ax" x="229.1" y="114" font-size="9" text-anchor="middle">Mar</text><text class="ax" x="339.7" y="114" font-size="9" text-anchor="middle">Apr</text><text class="ax" x="450.3" y="114" font-size="9" text-anchor="middle">May</text><text class="ax" x="560.9" y="114" font-size="9" text-anchor="middle">Jun</text><text class="ax" x="671.4" y="114" font-size="9" text-anchor="middle">Jul</text><text class="ax" x="782.0" y="114" font-size="9" text-anchor="middle">Aug</text></svg></div>
+  <div><h3>Variance to target by category</h3><svg viewBox="0 0 790 104" width="100%" height="104"><text class="lb" x="78" y="15.5" font-size="9.5" text-anchor="end">Food</text><rect class="pos" x="438.0" y="6.4" width="90.6" height="11.2"/><text class="vl pos" x="533.6" y="15.5" font-size="9.5" text-anchor="start">+14.8M</text><text class="lb" x="78" y="35.5" font-size="9.5" text-anchor="end">Beauty</text><rect class="pos" x="438.0" y="26.4" width="45.3" height="11.2"/><text class="vl pos" x="488.3" y="35.5" font-size="9.5" text-anchor="start">+7.4M</text><text class="lb" x="78" y="55.5" font-size="9.5" text-anchor="end">Home</text><rect class="pos" x="438.0" y="46.4" width="14.1" height="11.2"/><text class="vl pos" x="457.1" y="55.5" font-size="9.5" text-anchor="start">+2.3M</text><text class="lb" x="78" y="75.5" font-size="9.5" text-anchor="end">Fashion</text><rect class="neg" x="335.2" y="66.4" width="102.8" height="11.2"/><text class="vl neg" x="330.2" y="75.5" font-size="9.5" text-anchor="end">-16.8M</text><text class="lb" x="78" y="95.5" font-size="9.5" text-anchor="end">Electronics</text><rect class="neg" x="163.2" y="86.4" width="274.8" height="11.2"/><text class="vl neg" x="158.2" y="95.5" font-size="9.5" text-anchor="end">-44.9M</text><line class="zero" x1="438.0" y1="0" x2="438.0" y2="104"/></svg></div>
+  <div class="two">
+    <div><h3>Sales by region</h3><svg viewBox="0 0 430 128" width="100%" height="128"><text class="lb" x="84" y="13.5" font-size="9.5" text-anchor="end">Capital Area</text><rect class="bar" x="92" y="4.6" width="277.2" height="10.8"/><text class="vl" x="374.2" y="13.5" font-size="9.5">345.2M</text><text class="lb" x="84" y="31.5" font-size="9.5" text-anchor="end">Online</text><rect class="bar" x="92" y="22.6" width="172.5" height="10.8"/><text class="vl" x="269.5" y="31.5" font-size="9.5">214.8M</text><text class="lb" x="84" y="49.5" font-size="9.5" text-anchor="end">Yeongnam</text><rect class="bar" x="92" y="40.6" width="106.9" height="10.8"/><text class="vl" x="203.9" y="49.5" font-size="9.5">133.1M</text><text class="lb" x="84" y="67.5" font-size="9.5" text-anchor="end">Chungcheong</text><rect class="bar" x="92" y="58.6" width="49.7" height="10.8"/><text class="vl" x="146.7" y="67.5" font-size="9.5">61.9M</text><text class="lb" x="84" y="85.5" font-size="9.5" text-anchor="end">Honam</text><rect class="bar" x="92" y="76.6" width="49.1" height="10.8"/><text class="vl" x="146.1" y="85.5" font-size="9.5">61.2M</text><text class="lb" x="84" y="103.5" font-size="9.5" text-anchor="end">Gangwon</text><rect class="bar" x="92" y="94.6" width="10.9" height="10.8"/><text class="vl" x="107.9" y="103.5" font-size="9.5">13.6M</text><text class="lb" x="84" y="121.5" font-size="9.5" text-anchor="end">Jeju</text><rect class="bar" x="92" y="112.6" width="9.8" height="10.8"/><text class="vl" x="106.8" y="121.5" font-size="9.5">12.2M</text></svg></div>
+    <div><h3>Stores furthest behind</h3><table><tr><td>Ilsan</td><td class="num">23.5M</td><td class="num neg">-38.6%</td></tr><tr><td>Jeju</td><td class="num">12.2M</td><td class="num neg">-29.7%</td></tr><tr><td>Ulsan</td><td class="num">21.2M</td><td class="num neg">-24.9%</td></tr></table></div>
+  </div>
+</div></div></div></body></html>

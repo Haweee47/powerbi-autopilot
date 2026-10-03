@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>대시보드 구성 시안 10가지</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#15181D;color:#E7EAEF;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:28px 30px 40px}
+h1{font-size:23px;margin:0;letter-spacing:-.3px}
+.sub{color:#8C94A3;font-size:13.5px;margin-top:7px;max-width:84ch;line-height:1.55}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(520px,1fr));gap:24px;margin-top:26px}
+figure{margin:0}
+.shot{width:100%;aspect-ratio:16/9;border-radius:7px;overflow:hidden;background:#000;border:1px solid #2A2F38}
+.shot iframe{width:1280px;height:720px;border:0;transform-origin:0 0;display:block}
+figcaption{margin-top:9px;display:flex;gap:9px;align-items:baseline}
+.n{font-variant-numeric:tabular-nums;color:#636B7A;font-size:12px}
+.t{font-weight:700;font-size:14px}
+.i{color:#8C94A3;font-size:12.5px}
+a{color:#7FB2F0}
+</style></head><body>
+<h1>대시보드 구성 시안 10가지</h1>
+<div class="sub">테마 10종이 전부 "왼쪽 레일 + 흰 카드"라 색만 바뀌고 같은 리포트로 보였다.
+닮아 보이는 원인은 색이 아니라 구성이다. 그래서 배치·타이포·정보 구조가 서로 다른 열 가지를 먼저 그렸다.
+숫자는 모두 예제 03 모델의 실제 값(2026년 1~8월)이라, 달라 보이는 것은 오직 디자인이다.</div>
+<div class="grid">
+<figure><div class="shot"><iframe src="01-bento.html" scrolling="no" loading="lazy"
+        onload="this.style.transform='scale('+(this.parentNode.clientWidth/1280)+')'"></iframe></div>
+      <figcaption><span class="n">01</span><span class="t"><a href="01-bento.html">Bento</a></span>
+      <span class="i">타일 크기로 위계를 만든다. 레일도 카드 테두리도 없다.</span></figcaption></figure>
+<figure><div class="shot"><iframe src="02-terminal.html" scrolling="no" loading="lazy"
+        onload="this.style.transform='scale('+(this.parentNode.clientWidth/1280)+')'"></iframe></div>
+      <figcaption><span class="n">02</span><span class="t"><a href="02-terminal.html">Terminal</a></span>
+      <span class="i">관제 화면. 등폭 숫자, 1px 격자, 카드 없음.</span></figcaption></figure>
+<figure><div class="shot"><iframe src="03-ledger.html" scrolling="no" loading="lazy"
+        onload="this.style.transform='scale('+(this.parentNode.clientWidth/1280)+')'"></iframe></div>
+      <figcaption><span class="n">03</span><span class="t"><a href="03-ledger.html">Ledger</a></span>
+      <span class="i">인쇄물 규칙. 선과 정렬만 쓰고 면을 쓰지 않는다.</span></figcaption></figure>
+<figure><div class="shot"><iframe src="04-masthead.html" scrolling="no" loading="lazy"
+        onload="this.style.transform='scale('+(this.parentNode.clientWidth/1280)+')'"></iframe></div>
+      <figcaption><span class="n">04</span><span class="t"><a href="04-masthead.html">Masthead</a></span>
+      <span class="i">읽는 자료. 제호와 리드 문장이 먼저, 숫자가 뒤를 받친다.</span></figcaption></figure>
+<figure><div class="shot"><iframe src="05-fullbleed.html" scrolling="no" loading="lazy"
+        onload="this.style.transform='scale('+(this.parentNode.clientWidth/1280)+')'"></iframe></div>
+      <figcaption><span class="n">05</span><span class="t"><a href="05-fullbleed.html">Full bleed</a></span>
+      <span class="i">차트가 캔버스를 채우고 숫자는 그 위에 올라탄다.</span></figcaption></figure>
+<figure><div class="shot"><iframe src="06-brief.html" scrolling="no" loading="lazy"
+        onload="this.style.transform='scale('+(this.parentNode.clientWidth/1280)+')'"></iframe></div>
+      <figcaption><span class="n">06</span><span class="t"><a href="06-brief.html">Brief</a></span>
+      <span class="i">왼쪽 글이 결론을 말하고 오른쪽 그림이 근거를 댄다.</span></figcaption></figure>
+<figure><div class="shot"><iframe src="07-control.html" scrolling="no" loading="lazy"
+        onload="this.style.transform='scale('+(this.parentNode.clientWidth/1280)+')'"></iframe></div>
+      <figcaption><span class="n">07</span><span class="t"><a href="07-control.html">Control room</a></span>
+      <span class="i">같은 크기 타일 12개. 읽는 게 아니라 훑는 화면.</span></figcaption></figure>
+<figure><div class="shot"><iframe src="08-poster.html" scrolling="no" loading="lazy"
+        onload="this.style.transform='scale('+(this.parentNode.clientWidth/1280)+')'"></iframe></div>
+      <figcaption><span class="n">08</span><span class="t"><a href="08-poster.html">Poster</a></span>
+      <span class="i">숫자 하나가 화면을 지배하고 나머지는 작게 받친다.</span></figcaption></figure>
+<figure><div class="shot"><iframe src="09-split.html" scrolling="no" loading="lazy"
+        onload="this.style.transform='scale('+(this.parentNode.clientWidth/1280)+')'"></iframe></div>
+      <figcaption><span class="n">09</span><span class="t"><a href="09-split.html">Split field</a></span>
+      <span class="i">색 면과 흰 면을 맞붙인다. 결론은 색 면, 근거는 흰 면.</span></figcaption></figure>
+<figure><div class="shot"><iframe src="10-workbench.html" scrolling="no" loading="lazy"
+        onload="this.style.transform='scale('+(this.parentNode.clientWidth/1280)+')'"></iframe></div>
+      <figcaption><span class="n">10</span><span class="t"><a href="10-workbench.html">Workbench</a></span>
+      <span class="i">도구 화면. 탭과 툴바가 있고 표가 주인공이다.</span></figcaption></figure>
+</div></body></html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Full bleed — dashboard study</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#9AA0A8}
+.frame{width:1280px;height:720px;margin:0 auto;position:relative;overflow:hidden}
+.page{width:100%;height:100%;overflow:hidden}
+text{font-family:inherit}
+svg .bar{fill:var(--accent)}            /* 시안이 따로 정하지 않으면 강조색 */
+svg .lb,svg .vl,svg .ax{fill:var(--ink2)}
+
+:root{--ink:#F2FBF8;--ink2:#9FC4BC;--accent:#FFD166;--neg:#FF8A7A}
+.page{background:linear-gradient(160deg,#05322B 0%,#073F38 55%,#0A5248 100%);color:var(--ink);
+  font-family:Archivo,system-ui,sans-serif;position:relative;overflow:hidden}
+.chartwrap{position:absolute;inset:92px 0 104px 0}
+.chartwrap svg{display:block;width:100%;height:100%}
+svg .ar{fill:rgba(255,209,102,.16)}
+svg .ln{fill:none;stroke:var(--accent);stroke-width:3}
+svg .pyl{fill:none;stroke:rgba(242,251,248,.3);stroke-width:1.6;stroke-dasharray:5 4}
+svg .ax{fill:var(--ink2)}
+.hd{position:absolute;top:26px;left:30px;right:30px;display:flex;justify-content:space-between;align-items:flex-start}
+h1{font-size:27px;font-weight:800;margin:0;letter-spacing:-.6px}
+.lede{font-size:13px;color:var(--ink2);margin-top:5px;max-width:52ch}
+.legend{font-size:11px;color:var(--ink2);text-align:right;line-height:1.7}
+.legend b{color:var(--accent)}
+.chips{position:absolute;left:30px;bottom:26px;display:flex;gap:10px}
+.c{backdrop-filter:blur(8px);background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);
+  border-radius:14px;padding:11px 16px;min-width:116px}
+.c .k{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink2)}
+.c .v{font-size:25px;font-weight:800;letter-spacing:-1px;margin-top:1px}
+.c .d{font-size:11px;color:var(--accent)}
+.c .d.bad{color:var(--neg)}
+.note{position:absolute;right:30px;bottom:34px;font-size:11px;color:var(--ink2);text-align:right;line-height:1.6}
+
+</style></head>
+<body><div class="frame"><div class="page">
+<div class="chartwrap"><svg viewBox="0 0 1280 524" width="100%" height="524"><polyline class="pyl" points="40.0,158.6 211.4,446.0 382.9,262.4 554.3,359.5 725.7,226.5 897.1,287.7 1068.6,306.2 1240.0,331.5"/><polygon class="ar" points="40.0,498.0 40.0,59.2 211.4,440.4 382.9,318.0 554.3,374.1 725.7,187.8 897.1,324.7 1068.6,295.5 1240.0,309.6 1240.0,498.0"/><polyline class="ln" points="40.0,59.2 211.4,440.4 382.9,318.0 554.3,374.1 725.7,187.8 897.1,324.7 1068.6,295.5 1240.0,309.6"/><text class="ax" x="40.0" y="520" font-size="13" text-anchor="middle">Jan</text><text class="ax" x="211.4" y="520" font-size="13" text-anchor="middle">Feb</text><text class="ax" x="382.9" y="520" font-size="13" text-anchor="middle">Mar</text><text class="ax" x="554.3" y="520" font-size="13" text-anchor="middle">Apr</text><text class="ax" x="725.7" y="520" font-size="13" text-anchor="middle">May</text><text class="ax" x="897.1" y="520" font-size="13" text-anchor="middle">Jun</text><text class="ax" x="1068.6" y="520" font-size="13" text-anchor="middle">Jul</text><text class="ax" x="1240.0" y="520" font-size="13" text-anchor="middle">Aug</text></svg></div>
+<div class="hd"><div><h1>Sales performance</h1><div class="lede">Target attainment 95.8%, up 1.5% on last year. Electronics is 44.9M behind and carries the whole gap.</div></div>
+  <div class="legend"><b>— 2026</b><br>— — 2025<br>2026 Jan–Aug · all channels</div></div>
+<div class="chips">
+  <div class="c"><div class="k">Sales</div><div class="v">841.8M</div><div class="d">▲ 1.5%</div></div>
+  <div class="c"><div class="k">Profit</div><div class="v">338.8M</div><div class="d">▲ 3.1%</div></div>
+  <div class="c"><div class="k">Attainment</div><div class="v">95.8%</div><div class="d bad">37.2M short</div></div>
+  <div class="c"><div class="k">Avg order</div><div class="v">127.2K</div><div class="d bad">▼ 5.3%</div></div>
+</div>
+<div class="note">Electronics −44.9M · Fashion −16.8M<br>Food +14.8M · Beauty +7.4M</div></div></div></body></html>

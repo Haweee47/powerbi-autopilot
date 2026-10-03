@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Bento — dashboard study</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#9AA0A8}
+.frame{width:1280px;height:720px;margin:0 auto;position:relative;overflow:hidden}
+.page{width:100%;height:100%;overflow:hidden}
+text{font-family:inherit}
+svg .bar{fill:var(--accent)}            /* 시안이 따로 정하지 않으면 강조색 */
+svg .lb,svg .vl,svg .ax{fill:var(--ink2)}
+
+:root{--bg:#E8EAEF;--tile:#FFF;--ink:#101521;--ink2:#5B6474;--accent:#3B5BDB;--neg:#D6336C;--pos:#2B8A3E;--line:#E2E5EB}
+.page{background:var(--bg);font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);padding:22px 24px;
+  display:grid;grid-template-rows:auto 1fr;gap:16px}
+.top{display:flex;align-items:baseline;justify-content:space-between}
+h1{font-family:Outfit,sans-serif;font-size:25px;font-weight:700;margin:0;letter-spacing:-.4px}
+.lede{font-family:Outfit;font-size:13px;color:var(--ink2);margin-top:3px}
+.chips{display:flex;gap:6px}
+.chip{background:var(--tile);border-radius:999px;padding:5px 13px;font-size:11px;color:var(--ink2)}
+.chip.on{background:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(3,1fr);gap:14px}
+.t{background:var(--tile);border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;min-width:0}
+.t h3{font-size:11px;font-weight:600;color:var(--ink2);margin:0 0 2px;letter-spacing:.3px}
+.big{grid-column:span 2;grid-row:span 2;justify-content:center}
+.big .v{font-family:Outfit;font-size:54px;font-weight:700;letter-spacing:-2px;line-height:1}
+.big .d{font-size:13px;color:var(--pos);margin-top:8px}
+.big svg{margin-top:14px}
+.sm svg{margin-top:auto}
+.wide{grid-column:span 4}
+.half{grid-column:span 3}
+.sm{grid-column:span 2}
+.sm .v{font-family:Outfit;font-size:28px;font-weight:700;letter-spacing:-.8px}
+.sm .d{font-size:11px;color:var(--ink2)}
+.sm .d.bad{color:var(--neg)}
+svg .ln{fill:none;stroke:var(--accent);stroke-width:2.4}
+svg .ln2{fill:none;stroke:var(--accent);stroke-width:2;opacity:.75}
+svg .dot{fill:var(--accent)}
+svg .pyl{fill:none;stroke:#B6BCC8;stroke-width:1.6}
+svg .ar{fill:rgba(59,91,219,.1)}
+svg .ax,svg .lb{fill:var(--ink2)}svg .vl{fill:var(--ink2)}
+svg .pos{fill:var(--accent)}svg .neg{fill:var(--neg)}svg .vl.neg{fill:var(--neg)}svg .vl.pos{fill:var(--accent)}
+svg .zero{stroke:var(--line)}
+
+</style></head>
+<body><div class="frame"><div class="page">
+<div class="top"><div><h1>Sales performance</h1><div class="lede">Target attainment 95.8%, up 1.5% on last year. Electronics is 44.9M behind and carries the whole gap.</div></div>
+  <div class="chips"><span class="chip">2024</span><span class="chip">2025</span><span class="chip on">2026</span>
+  <span class="chip">All channels</span></div></div>
+<div class="grid">
+  <div class="t big"><h3>SALES</h3><div class="v">841.8M</div><div class="d">▲ 1.5% vs last year</div><svg viewBox="0 0 220 56" width="100%" height="56"><polyline class="ln2" points="0.0,4.6 31.4,47.1 62.9,33.4 94.3,39.7 125.7,18.9 157.1,34.2 188.6,30.9 220.0,32.5"/><circle class="dot" cx="220" cy="32.5" r="2.5"/></svg></div>
+  <div class="t wide"><h3>MONTHLY · THIS YEAR, LAST YEAR</h3><svg viewBox="0 0 560 140" width="100%" height="140"><polyline class="pyl" points="8.0,42.7 85.7,109.9 163.4,67.0 241.1,89.7 318.9,58.6 396.6,72.9 474.3,77.2 552.0,83.1"/><polygon class="ar" points="8.0,122.0 8.0,19.5 85.7,108.5 163.4,80.0 241.1,93.1 318.9,49.5 396.6,81.5 474.3,74.7 552.0,78.0 552.0,122.0"/><polyline class="ln" points="8.0,19.5 85.7,108.5 163.4,80.0 241.1,93.1 318.9,49.5 396.6,81.5 474.3,74.7 552.0,78.0"/><text class="ax" x="8.0" y="136" font-size="9" text-anchor="middle">Jan</text><text class="ax" x="85.7" y="136" font-size="9" text-anchor="middle">Feb</text><text class="ax" x="163.4" y="136" font-size="9" text-anchor="middle">Mar</text><text class="ax" x="241.1" y="136" font-size="9" text-anchor="middle">Apr</text><text class="ax" x="318.9" y="136" font-size="9" text-anchor="middle">May</text><text class="ax" x="396.6" y="136" font-size="9" text-anchor="middle">Jun</text><text class="ax" x="474.3" y="136" font-size="9" text-anchor="middle">Jul</text><text class="ax" x="552.0" y="136" font-size="9" text-anchor="middle">Aug</text></svg></div>
+  <div class="t sm"><h3>PROFIT</h3><div class="v">338.8M</div><div class="d">▲ 3.1%</div><svg viewBox="0 0 180 38" width="100%" height="38"><polyline class="ln2" points="0.0,3.0 25.7,30.8 51.4,21.9 77.1,26.0 102.9,12.4 128.6,22.4 154.3,20.2 180.0,21.3"/><circle class="dot" cx="180" cy="21.3" r="2.5"/></svg></div>
+  <div class="t sm"><h3>ATTAINMENT</h3><div class="v">95.8%</div><div class="d bad">37.2M short</div><svg viewBox="0 0 180 38" width="100%" height="38"><polyline class="ln2" points="0.0,5.1 25.7,16.5 51.4,25.9 77.1,19.9 102.9,11.2 128.6,23.3 154.3,16.5 180.0,13.5"/><circle class="dot" cx="180" cy="13.5" r="2.5"/></svg></div>
+  <div class="t half"><h3>VS TARGET BY CATEGORY</h3><svg viewBox="0 0 400 126" width="100%" height="126"><text class="lb" x="65.60000000000001" y="17.7" font-size="10" text-anchor="end">Food</text><rect class="pos" x="236.8" y="7.4" width="34.5" height="13.7"/><text class="vl pos" x="276.3" y="17.7" font-size="10" text-anchor="start">+14.8M</text><text class="lb" x="65.60000000000001" y="42.099999999999994" font-size="10" text-anchor="end">Beauty</text><rect class="pos" x="236.8" y="31.8" width="17.2" height="13.7"/><text class="vl pos" x="259.0" y="42.099999999999994" font-size="10" text-anchor="start">+7.4M</text><text class="lb" x="65.60000000000001" y="66.5" font-size="10" text-anchor="end">Home</text><rect class="pos" x="236.8" y="56.2" width="5.4" height="13.7"/><text class="vl pos" x="247.2" y="66.5" font-size="10" text-anchor="start">+2.3M</text><text class="lb" x="65.60000000000001" y="90.89999999999999" font-size="10" text-anchor="end">Fashion</text><rect class="neg" x="197.6" y="80.6" width="39.2" height="13.7"/><text class="vl neg" x="192.6" y="90.89999999999999" font-size="10" text-anchor="end">-16.8M</text><text class="lb" x="65.60000000000001" y="115.3" font-size="10" text-anchor="end">Electronics</text><rect class="neg" x="132.2" y="105.0" width="104.6" height="13.7"/><text class="vl neg" x="127.2" y="115.3" font-size="10" text-anchor="end">-44.9M</text><line class="zero" x1="236.8" y1="0" x2="236.8" y2="126"/></svg></div>
+  <div class="t half"><h3>BY REGION</h3><svg viewBox="0 0 400 126" width="100%" height="126"><text class="lb" x="71.2" y="13.357142857142858" font-size="10" text-anchor="end">Capital Area</text><rect class="bar" x="79.2" y="4.5" width="259.2" height="10.6"/><text class="vl" x="343.4" y="13.357142857142858" font-size="10">345.2M</text><text class="lb" x="71.2" y="31.071428571428573" font-size="10" text-anchor="end">Online</text><rect class="bar" x="79.2" y="22.3" width="161.3" height="10.6"/><text class="vl" x="245.5" y="31.071428571428573" font-size="10">214.8M</text><text class="lb" x="71.2" y="48.78571428571429" font-size="10" text-anchor="end">Yeongnam</text><rect class="bar" x="79.2" y="40.0" width="100.0" height="10.6"/><text class="vl" x="184.2" y="48.78571428571429" font-size="10">133.1M</text><text class="lb" x="71.2" y="66.5" font-size="10" text-anchor="end">Chungcheong</text><rect class="bar" x="79.2" y="57.7" width="46.5" height="10.6"/><text class="vl" x="130.7" y="66.5" font-size="10">61.9M</text><text class="lb" x="71.2" y="84.21428571428572" font-size="10" text-anchor="end">Honam</text><rect class="bar" x="79.2" y="75.4" width="46.0" height="10.6"/><text class="vl" x="130.2" y="84.21428571428572" font-size="10">61.2M</text><text class="lb" x="71.2" y="101.92857142857144" font-size="10" text-anchor="end">Gangwon</text><rect class="bar" x="79.2" y="93.1" width="10.2" height="10.6"/><text class="vl" x="94.4" y="101.92857142857144" font-size="10">13.6M</text><text class="lb" x="71.2" y="119.64285714285715" font-size="10" text-anchor="end">Jeju</text><rect class="bar" x="79.2" y="110.8" width="9.2" height="10.6"/><text class="vl" x="93.4" y="119.64285714285715" font-size="10">12.2M</text></svg></div>
+</div></div></div></body></html>
