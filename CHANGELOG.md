@@ -5,6 +5,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+### Fixed
+- A model built from your own data now splits a shared text column into its own table and joins every holder to it
+  one-to-many. Before, `tools/new_model.py` only linked tables that already existed as lookups, so a column appearing
+  in two tables stayed duplicated and unrelated - and a slicer on it filtered one of them. On the repo's own
+  outdoor-shop sample, Budget and Products both carry Category with nothing joining them, so attainment by category
+  printed **Camping 27.8% where the truth is 82.7%**. The total was right, which is why it passed the validator and a
+  Desktop capture for weeks. Both states are captured in `examples/07-own-data/screenshots/`
+- The rule is narrow on purpose: a non-date text column in two or more tables, not already covered by a relationship.
+  One wide flat CSV splits nothing, because a single table is not a star schema and inventing lookup tables out of its
+  text columns would add nothing. `--no-dimensions` turns it off
+
 ### Changed
 - Asking before building is now a rule in the `new-report` skill, not a suggestion. A request in plain words
   ("make me a sales dashboard") does not say who reads it, where it is shown or in what language, and those choices

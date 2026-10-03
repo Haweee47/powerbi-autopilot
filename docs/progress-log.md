@@ -748,3 +748,44 @@ the drillthrough instead.
 
 Also corrected the wording in both READMEs: PBIP is the project folder holding the TMDL model and the report, and PBIR
 is the report's own definition inside it. They were being written as if they were two formats to choose between.
+
+## 2026-10-04 · The number that was wrong for weeks and passed every check
+
+A question about the model shape — "shouldn't shared things like date and region be their own tables, joined
+one-to-many?" — turned out to be a bug report.
+
+**Date, yes. Everything else, no.** The hand-built models do this properly: the fulfillment model shares one Calendar
+across four fact tables and Zones across two. But `tools/new_model.py`, the path a new user actually takes, only linked
+tables that already existed as separate lookups. A column appearing in two tables stayed duplicated text in both, with
+nothing joining them.
+
+**What that costs, measured on the repo's own sample data.** In outdoor-shop, Budget and Products both carry Category
+and nothing joins them. So a Category slicer filters sales and leaves the target alone:
+
+| Category | True attainment | What the generated model printed |
+|---|---|---|
+| Camping | 82.7% | **27.8%** |
+| Apparel | 81.8% | **21.9%** |
+| Total | 85.1% | 85.1% |
+
+The total is right. That is why it survived the official validator (0 errors), a Desktop capture, and a published
+example. Only slicing breaks it, and nothing in the pipeline slices.
+
+**It was already known, and papered over.** Example 07's model map carries
+`TREATAS ( VALUES ( Products[Category] ), Budget[Category] )` — a per-measure patch for exactly this, written by hand
+because a human filled that map. A new user's model just comes out wrong.
+
+**The fix is one rule.** A non-date text column that appears in two or more tables and is not already covered by a
+relationship becomes its own table, and every holder joins it. That is precisely the case where cross-filtering breaks.
+A single wide CSV splits nothing — one table is not a star schema, and inventing lookup tables from its text columns
+would add nothing. Where two holders are already related to each other, only the lookup side is joined, so no loop is
+closed.
+
+**Both states are captured.** `examples/07-own-data/screenshots/no-dimension-wrong.png` shows the budget column
+repeating 2,981,000 on every row; `with-dimension-right.png` shows it filtering, with all six values matching a
+calculation done independently in Python from the CSVs.
+
+**One false alarm, logged because it cost an hour.** The first Desktop open of the fixed model timed out at 180 s, and
+I nearly reported the dimension as the cause. Re-run from scratch, it opened and captured on the first try. That is the
+second time this session that a Desktop failure was transient and not in the artifact — the first was the "circular
+reference" on the midnight theme. The lesson both times: a single Desktop failure is not evidence until it reproduces.

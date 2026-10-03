@@ -247,11 +247,77 @@ def metrics_tmdl(ms: list[tuple[str, str, str]]) -> str:
     return "\n".join(lines)
 
 
-def write_model(out: Path, name: str, tables: dict, rels: list, ms: list, params: list[tuple[str, str]], calendar: bool) -> None:
+def shared_dimensions(tables: dict, rels: list) -> tuple[list[tuple[str, list[str], str]], list[tuple[str, str, str]]]:
+    """A text column that appears in two or more tables, with nothing joining them, becomes its own table.
+
+    This is the one inference that changes a number rather than a name. Before it existed, a model built from the
+    outdoor-shop sample had Category in both Products and Budget and no relationship between them, so a Category
+    slicer filtered sales but not the target: Camping attainment printed 27.8% where the truth is 82.7%. The total
+    stayed right, which is why it survived both the validator and a Desktop capture.
+
+    Only shared columns qualify. A column that sits in one table needs no dimension - a single flat file is not a
+    star schema, and inventing lookup tables out of its text columns would add nothing.
+    """
+    covered = {a for _, a, _ in rels} | {b for _, _, b in rels}
+    holders: dict[str, list[str]] = {}
+    for t, info in tables.items():
+        for col, dtype in info["columns"]:
+            if dtype != "string" or f"{q(t)}.{q(col)}" in covered:
+                continue
+            holders.setdefault(col, []).append(t)
+
+    related = {(a.split(".", 1)[0].strip("'"), b.split(".", 1)[0].strip("'")) for _, a, b in rels}
+
+    def joined(x: str, y: str) -> bool:
+        return (x, y) in related or (y, x) in related
+
+    dims, new_rels = [], []
+    for col, ts in sorted(holders.items()):
+        if len(ts) < 2 or col in tables:
+            continue
+        # Keep one holder out of any pair that is already joined: the lookup side carries the filter to the other,
+        # and relating both would close a loop that Power BI has to break by deactivating one of them.
+        keep: list[str] = []
+        for t in ts:
+            if not any(joined(t, k) for k in keep):
+                keep.append(t)
+        if len(keep) < 2:
+            continue
+        dims.append((col, keep, col))
+        for t in keep:
+            new_rels.append((re.sub(r"\W", "", f"{t}_{col}_dim"), f"{q(t)}.{q(col)}", f"{q(col)}.{q(col)}"))
+    return dims, new_rels
+
+
+def dimension_tmdl(col: str, holders: list[str]) -> str:
+    """One column, the distinct values every holder uses. A calculated table, so there is no second source to refresh."""
+    parts = ", ".join(f'SELECTCOLUMNS ( {q(t)}, "{col}", {q(t)}[{col}] )' for t in holders)
+    src = f"DISTINCT ( UNION ( {parts} ) )" if len(holders) > 1 else f"DISTINCT ( {parts} )"
+    return "\n".join([
+        f"/// {col}: shared by {', '.join(holders)}. Split out so one slicer filters all of them.",
+        f"table {q(col)}",
+        "",
+        f"\tcolumn {q(col)}",
+        "\t\tdataType: string",
+        "\t\tisUnique",
+        "\t\tsummarizeBy: none",
+        "\t\tisNameInferred",
+        f"\t\tsourceColumn: [{col}]",
+        "",
+        f"\tpartition {q(col)} = calculated",
+        "\t\tmode: import",
+        f"\t\tsource = {src}",
+        "",
+    ])
+
+
+def write_model(out: Path, name: str, tables: dict, rels: list, ms: list, params: list[tuple[str, str]], calendar: bool,
+                dims: list[tuple[str, list[str], str]] | None = None) -> None:
     (out / "tables").mkdir(parents=True, exist_ok=True)
     for f in (out / "tables").glob("*.tmdl"):
         f.unlink()
-    names = list(tables) + (["Calendar"] if calendar else []) + (["Metrics"] if ms else [])
+    dims = dims or []
+    names = list(tables) + [c for c, _, _ in dims] + (["Calendar"] if calendar else []) + (["Metrics"] if ms else [])
     (out / "database.tmdl").write_text("database\n\tcompatibilityLevel: 1601\n\tcompatibilityMode: powerBI\n", encoding="utf-8")
     (out / "model.tmdl").write_text(
         f"/// {name}: built by tools/new_model.py from the source below. Edit freely - this is a starting point.\n"
@@ -267,6 +333,8 @@ def write_model(out: Path, name: str, tables: dict, rels: list, ms: list, params
         f"relationship {n}\n\tfromColumn: {a}\n\ttoColumn: {b}\n\n" for n, a, b in rels), encoding="utf-8")
     for t, info in tables.items():
         (out / "tables" / f"{t}.tmdl").write_text(table_tmdl(t, info["columns"], info["source"]), encoding="utf-8")
+    for col, holders, _ in dims:
+        (out / "tables" / f"{col}.tmdl").write_text(dimension_tmdl(col, holders), encoding="utf-8")
     if calendar:
         (out / "tables" / "Calendar.tmdl").write_text(calendar_tmdl(), encoding="utf-8")
     if ms:
@@ -288,6 +356,8 @@ def main() -> None:
     ap.add_argument("--server"), ap.add_argument("--database")
     ap.add_argument("--sample", type=int, default=2000, help="rows read to pick column types (default 2000)")
     ap.add_argument("--no-calendar", action="store_true"), ap.add_argument("--no-measures", action="store_true")
+    ap.add_argument("--no-dimensions", action="store_true",
+                    help="do not split shared text columns (Region, Category ...) into their own tables")
     a = ap.parse_args()
     if not (a.csv or a.excel or a.odbc):
         ap.error("give one of --csv, --excel or --odbc")
@@ -329,6 +399,9 @@ def main() -> None:
                                                                   "schema": schema, "item": item})}
 
     rels = relationships(tables)
+    # Shared columns first: a measure counts on the filter reaching every table, so the model shape is decided before it
+    dims, dim_rels = ([], []) if a.no_dimensions else shared_dimensions(tables, rels)
+    rels += dim_rels
     ms = [] if a.no_measures else measures(tables, rels)
     has_date = any(t == "dateTime" for info in tables.values() for _, t in info["columns"])
     calendar = has_date and not a.no_calendar
@@ -337,11 +410,13 @@ def main() -> None:
             first = next((c for c, dtp in info["columns"] if dtp == "dateTime"), None)
             if first:
                 rels.append((re.sub(r"\W", "", f"{t}_Calendar_{first}"), f"{q(t)}.{q(first)}", "Calendar.Date"))
-    write_model(out, a.name, tables, rels, ms, params, calendar)
-    print(f"{out}: {len(tables) + calendar + bool(ms)} tables, {sum(len(i['columns']) for i in tables.values())} columns, "
+    write_model(out, a.name, tables, rels, ms, params, calendar, dims)
+    print(f"{out}: {len(tables) + len(dims) + calendar + bool(ms)} tables, {sum(len(i['columns']) for i in tables.values())} columns, "
           f"{len(rels)} relationships, {len(ms)} measures")
     for t, info in tables.items():
         print(f"  {t}: " + ", ".join(f"{c} ({d})" for c, d in info["columns"][:6]) + (" ..." if len(info["columns"]) > 6 else ""))
+    for col, holders, _ in dims:
+        print(f"  split out {col}: shared by {', '.join(holders)} - one slicer now filters all of them")
     for n, x, y in rels:
         print(f"  relationship {x} -> {y}")
     print("Next: python tools/new_report.py --purpose <dashboard|table|matrix|deepdive|fulfillment> "
