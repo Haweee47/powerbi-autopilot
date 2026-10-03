@@ -21,17 +21,17 @@
 <rect x="648" y="120" width="608" height="112" rx="8" fill="#CFE0F5" stroke="#8E99A6" stroke-width="1"/>
 <text x="658" y="140" font-size="13" font-weight="600" fill="#14202B">오른쪽 대상 요약</text>
 <text x="658" y="158" font-size="11" fill="#4A5563">cardVisual · 648,120 · 608×112</text>
-<rect x="24" y="240" width="608" height="216" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
+<rect x="24" y="240" width="608" height="208" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
 <text x="34" y="260" font-size="13" font-weight="600" fill="#14202B">왼쪽 추이</text>
-<text x="34" y="278" font-size="11" fill="#4A5563">lineChart · 24,240 · 608×216</text>
-<rect x="648" y="240" width="608" height="216" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="278" font-size="11" fill="#4A5563">lineChart · 24,240 · 608×208</text>
+<rect x="648" y="240" width="608" height="208" rx="8" fill="#DCE8F8" stroke="#8E99A6" stroke-width="1"/>
 <text x="658" y="260" font-size="13" font-weight="600" fill="#14202B">오른쪽 추이</text>
-<text x="658" y="278" font-size="11" fill="#4A5563">lineChart · 648,240 · 608×216</text>
-<rect x="24" y="472" width="608" height="224" rx="8" fill="#E8EEF6" stroke="#8E99A6" stroke-width="1"/>
-<text x="34" y="492" font-size="13" font-weight="600" fill="#14202B">왼쪽 상위 항목</text>
-<text x="34" y="510" font-size="11" fill="#4A5563">tableEx · 24,472 · 608×224</text>
-<rect x="648" y="472" width="608" height="224" rx="8" fill="#E8EEF6" stroke="#8E99A6" stroke-width="1"/>
-<text x="658" y="492" font-size="13" font-weight="600" fill="#14202B">오른쪽 상위 항목</text>
-<text x="658" y="510" font-size="11" fill="#4A5563">tableEx · 648,472 · 608×224</text>
+<text x="658" y="278" font-size="11" fill="#4A5563">lineChart · 648,240 · 608×208</text>
+<rect x="24" y="464" width="608" height="232" rx="8" fill="#E8EEF6" stroke="#8E99A6" stroke-width="1"/>
+<text x="34" y="484" font-size="13" font-weight="600" fill="#14202B">왼쪽 상위 항목</text>
+<text x="34" y="502" font-size="11" fill="#4A5563">tableEx · 24,464 · 608×232</text>
+<rect x="648" y="464" width="608" height="232" rx="8" fill="#E8EEF6" stroke="#8E99A6" stroke-width="1"/>
+<text x="658" y="484" font-size="13" font-weight="600" fill="#14202B">오른쪽 상위 항목</text>
+<text x="658" y="502" font-size="11" fill="#4A5563">tableEx · 648,464 · 608×232</text>
 <text x="1256" y="714" font-size="11" text-anchor="end" fill="#5A6471">좌우 비교 · 대조 — 둘 중 무엇이 다른가</text>
 </svg>

@@ -6,6 +6,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 ## [Unreleased]
 
 ### Added
+- `design_check.py` now checks that a table showing "only the top N" can actually show N rows. The number that fits is
+  computed from the region height, and the constants come from two measured captures (232px fits 3 rows, 296px fits 5),
+  not from a guess. A short list with a scrollbar hides the very row it was trimmed to show
+- The `hero` and `compare` layouts are documented with Desktop captures in `design-system/layouts/README.md`. Both were
+  defined but had never been generated or opened, so nothing proved they worked
+
+### Fixed
+- `compare` put its tables in a 224px row, where even a three-row list scrolled. The trend above gives up 8px and the
+  tables now match `summary` and `hero` at 232px, with the 16px row gaps unchanged. The validator reported 0 errors on the
+  broken version - only the capture showed it
+
+### Added (earlier)
 - `tools/design_check.py`: the review rubric, for the items a machine can settle. It reads the **spec**, not the generated
   report, so it costs no tokens and stops before Desktop is opened: every KPI carries a comparison (A4/H5), every chart has a
   real title instead of "Sum of X by Y" (D3), a bar declares its order unless the model already fixed one (C3), a page keeps

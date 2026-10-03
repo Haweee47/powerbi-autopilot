@@ -1755,11 +1755,11 @@
      "col": 1,
      "span": 6,
      "y": 240,
-     "h": 216,
+     "h": 208,
      "label": "왼쪽 추이",
      "x": 216,
      "width": 512,
-     "height": 216
+     "height": 208
     },
     {
      "id": "right_trend",
@@ -1767,35 +1767,35 @@
      "col": 7,
      "span": 6,
      "y": 240,
-     "h": 216,
+     "h": 208,
      "label": "오른쪽 추이",
      "x": 744,
      "width": 512,
-     "height": 216
+     "height": 208
     },
     {
      "id": "left_rank",
      "role": "tableEx",
      "col": 1,
      "span": 6,
-     "y": 472,
-     "h": 224,
+     "y": 464,
+     "h": 232,
      "label": "왼쪽 상위 항목",
      "x": 216,
      "width": 512,
-     "height": 224
+     "height": 232
     },
     {
      "id": "right_rank",
      "role": "tableEx",
      "col": 7,
      "span": 6,
-     "y": 472,
-     "h": 224,
+     "y": 464,
+     "h": 232,
      "label": "오른쪽 상위 항목",
      "x": 744,
      "width": 512,
-     "height": 224
+     "height": 232
     }
    ]
   }
@@ -3526,11 +3526,11 @@
       "col": 1,
       "span": 6,
       "y": 240,
-      "h": 216,
+      "h": 208,
       "label": "왼쪽 추이",
       "x": 216,
       "width": 512,
-      "height": 216
+      "height": 208
      },
      {
       "id": "right_trend",
@@ -3538,35 +3538,35 @@
       "col": 7,
       "span": 6,
       "y": 240,
-      "h": 216,
+      "h": 208,
       "label": "오른쪽 추이",
       "x": 744,
       "width": 512,
-      "height": 216
+      "height": 208
      },
      {
       "id": "left_rank",
       "role": "tableEx",
       "col": 1,
       "span": 6,
-      "y": 472,
-      "h": 224,
+      "y": 464,
+      "h": 232,
       "label": "왼쪽 상위 항목",
       "x": 216,
       "width": 512,
-      "height": 224
+      "height": 232
      },
      {
       "id": "right_rank",
       "role": "tableEx",
       "col": 7,
       "span": 6,
-      "y": 472,
-      "h": 224,
+      "y": 464,
+      "h": 232,
       "label": "오른쪽 상위 항목",
       "x": 744,
       "width": 512,
-      "height": 224
+      "height": 232
      }
     ]
    }
@@ -5343,11 +5343,11 @@
       "col": 1,
       "span": 6,
       "y": 240,
-      "h": 216,
+      "h": 208,
       "label": "왼쪽 추이",
       "x": 24,
       "width": 608,
-      "height": 216
+      "height": 208
      },
      {
       "id": "right_trend",
@@ -5355,35 +5355,35 @@
       "col": 7,
       "span": 6,
       "y": 240,
-      "h": 216,
+      "h": 208,
       "label": "오른쪽 추이",
       "x": 648,
       "width": 608,
-      "height": 216
+      "height": 208
      },
      {
       "id": "left_rank",
       "role": "tableEx",
       "col": 1,
       "span": 6,
-      "y": 472,
-      "h": 224,
+      "y": 464,
+      "h": 232,
       "label": "왼쪽 상위 항목",
       "x": 24,
       "width": 608,
-      "height": 224
+      "height": 232
      },
      {
       "id": "right_rank",
       "role": "tableEx",
       "col": 7,
       "span": 6,
-      "y": 472,
-      "h": 224,
+      "y": 464,
+      "h": 232,
       "label": "오른쪽 상위 항목",
       "x": 648,
       "width": 608,
-      "height": 224
+      "height": 232
      }
     ],
     "frame": "top"

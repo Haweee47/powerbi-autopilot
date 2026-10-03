@@ -24,6 +24,9 @@ DS = ROOT / "design-system"
 CHROME = {"shape", "textbox", "pageNavigator", "actionButton", "headline", "context",
           "advancedSlicerVisual", "dropdownSlicer"}
 CHARTS = {"lineChart", "barChart", "columnChart", "scatterChart"}
+# 표가 스크롤되지 않고 보여 주는 행 수. 두 번 잰 값에서 뽑았다: 232px에서 3행, 296px에서 5행
+# (2026-10-03 compare 캡처 · 매장 페이지 커밋 캡처) → 행 32px, 제목·부제목·머리글 136px.
+ROW_H, TABLE_CHROME = 32, 136
 BARS = {"barChart", "columnChart"}
 TABLES = {"tableEx", "pivotTable"}
 
@@ -105,6 +108,15 @@ def check_spec(spec: dict, layouts: dict, tokens: dict, theme_id: str | None,
             # 단, 모델이 그 열의 순서를 이미 정했으면(sortByColumn) 그대로 두는 것이 맞다
             if role in BARS and not vs.get("sort") and str(vs.get("x", "")) not in ordered:
                 out.append(f"C3 {where}/{rid}: 막대에 sort가 없다 (값 순서가 아니라 이름 순으로 나온다)")
+
+            # 표에 "N개만 보여 달라"고 적었으면 N개가 실제로 보여야 한다. 안 들어가면 스크롤바가 생기고,
+            # 짧은 목록에 스크롤바가 붙으면 1위가 가려진다. 이 저장소에서 두 번(2026-09-17, 10-03) 겪은 결함이다.
+            top = vs.get("top")
+            if role in TABLES and top and vs.get("title") and vs.get("sub"):
+                fits = (reg["height"] - TABLE_CHROME) // ROW_H
+                if top > fits:
+                    out.append(f"B1 {where}/{rid}: {top}행을 보여 달라고 했지만 {reg['height']}px 영역에는 "
+                               f"{fits}행만 들어간다 (스크롤바가 생긴다). top을 {fits} 이하로 두거나 영역을 키운다")
 
             # E3(마크): 계열이 늘어나면 팔레트 뒤쪽 색까지 쓴다. 카드 바탕과 3:1 미만이면 막대가 잘 안 보인다
             ys = vs.get("y")

@@ -696,3 +696,30 @@ yet", which is a weaker claim than it deserved, so I searched the formatting cat
 
 So it is not fixable through PBIR, and the entry changes from "not found yet" to "searched the catalog; the property does not
 exist." That is a smaller claim but a true one, and it stops the next session from looking again.
+
+## 2026-10-03 · The two layouts nobody had ever opened
+
+`hero` and `compare` shipped on 2026-09-26 with their geometry checked and nothing else. No pilot used them, no spec
+referenced them, and - the part that matters - **they had never been generated, never opened, never captured.** A layout
+whose coordinates add up is not a layout that works. So I built a throwaway spec that uses both, on the base model, with the
+same measures as the dashboard pilot, so any difference in the capture comes from the layout rather than the data.
+
+- **`hero` was fine.** Big number, trend beside it, three tiles, breakdown and list - all in place, numbers matching the
+  pilot (sales 841.8M, attainment 95.8%).
+- **`compare` was not.** Its tables sat in a 224px row, and even a three-row list came up with a scrollbar - which hides the
+  row the list was trimmed to show. The official validator reported **0 errors** on that version. Only the capture showed it.
+  The trend above gives up 8px, the tables move to 232px (the height `summary` and `hero` already use), and the 16px row gaps
+  are unchanged.
+
+**The generalisable part.** Nothing warned that a spec was asking for more rows than its region could show. That defect has
+now cost this repo twice (2026-09-17, today), so it became a rule rather than another fix: `design_check.py` computes how
+many rows fit from the region height and stops before generation when `top` exceeds it. The two constants - 32px a row,
+136px for title, subtitle and header - are **derived from two measured captures** (232px showed 3 rows, 296px showed 5),
+not guessed; they reproduce both cases exactly and explain why 224px failed at three. The five pilots pass with no false
+positives.
+
+**Two detours worth recording.** The first capture came back with every number blank, and the capture script correctly
+failed rather than reporting success - the data folder was still the placeholder `C:\path\to\...`, which is the same wall a
+first-time user hits, fixed by `--local-data`. And the first run of the new rule needed the fix to be *proved*: the right
+table lost its scrollbar after the change, the left one kept it because the spec asked for five rows in a three-row space -
+which is precisely what the new check now says out loud.
