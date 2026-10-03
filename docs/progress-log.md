@@ -723,3 +723,28 @@ failed rather than reporting success - the data folder was still the placeholder
 first-time user hits, fixed by `--local-data`. And the first run of the new rule needed the fix to be *proved*: the right
 table lost its scrollbar after the change, the left one kept it because the spec asked for five rows in a three-row space -
 which is precisely what the new check now says out loud.
+
+## 2026-10-04 · Choosing before building
+
+Someone who types "make me a sales dashboard" has not told the agent who reads it, where it will be shown, or in what
+language. Until today the `new-report` skill asked those questions, but as a step among others - and it was describing
+seven themes when the repo ships ten. Two changes, both about the moment before anything is generated.
+
+**Asking is now a rule.** Not "ask, then build" buried in step 1, but a step 0 that says why: changing the theme after
+the fact means regenerating and re-capturing every page, so the one click up front is the cheap end of the trade. The
+skill now names its exceptions - the request already said, or the user asked the agent to choose, in which case every
+default has to be stated back so one can be corrected.
+
+**Options now show what they are.** Every entry in `templates/catalog.json` carries a preview: an ASCII wireframe for
+the purposes and page layouts, and the rail/page/accent colours, card shape and typeface for the themes. Before, picking
+between `navy` and `coast` meant building one to see. The previews are **generated from the real layout coordinates and
+the real tokens** by `tools/build_catalog_previews.py`, which is in CI, so a layout change cannot leave a preview telling
+a story the report no longer matches.
+
+One thing I nearly shipped wrong: the first version printed "29 visuals" for the dashboard pilot, counting entries in
+the spec. The screen shows 55, because the generator adds the rail, navigation and slicers to every page. A number that
+is right about the file and wrong about the screen is worse than no number, so the preview now counts pages and names
+the drillthrough instead.
+
+Also corrected the wording in both READMEs: PBIP is the project folder holding the TMDL model and the report, and PBIR
+is the report's own definition inside it. They were being written as if they were two formats to choose between.

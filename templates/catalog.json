@@ -24,7 +24,8 @@
         "tableEx"
       ],
       "pilot": "dashboard/pilot.spec.json",
-      "screenshots": "dashboard/screenshots"
+      "screenshots": "dashboard/screenshots",
+      "preview": "+----+---------------------------------------+\n|::: |  KPI   |  KPI   |  KPI   |  KPI   |   |\n|::: |       line       |       bars       | |\n|::: |      table       |       bars       | |\n+----+---------------------------------------+\n3 pages (+1 drillthrough), first page: summary"
     },
     {
       "id": "table",
@@ -44,7 +45,8 @@
         "tableEx (bar · heat · sign)"
       ],
       "pilot": "table/pilot.spec.json",
-      "screenshots": "table/screenshots"
+      "screenshots": "table/screenshots",
+      "preview": "+----+---------------------------------------+\n|::: |                table                 ||\n+----+---------------------------------------+\n2 pages, first page: table_main"
     },
     {
       "id": "matrix",
@@ -64,7 +66,8 @@
         "pivotTable (heat · bar · sign, expanded)"
       ],
       "pilot": "matrix/pilot.spec.json",
-      "screenshots": "matrix/screenshots"
+      "screenshots": "matrix/screenshots",
+      "preview": "+----+---------------------------------------+\n|::: |                matrix                ||\n+----+---------------------------------------+\n2 pages, first page: matrix_main"
     },
     {
       "id": "deepdive",
@@ -88,7 +91,8 @@
         "slicer (dropdown)"
       ],
       "pilot": "deepdive/pilot.spec.json",
-      "screenshots": "deepdive/screenshots"
+      "screenshots": "deepdive/screenshots",
+      "preview": "+----+---------------------------------------+\n|::: |                 tree                 ||\n|::: |       line       |       bars       | |\n+----+---------------------------------------+\n3 pages, first page: deep_tree"
     },
     {
       "id": "fulfillment",
@@ -117,7 +121,8 @@
         "slicer (dropdown)"
       ],
       "pilot": "fulfillment/pilot.spec.json",
-      "screenshots": "fulfillment/screenshots"
+      "screenshots": "fulfillment/screenshots",
+      "preview": "+----+---------------------------------------+\n|::: |  KPI   |  KPI   |  KPI   |  KPI   |   |\n|::: |       line       |       bars       | |\n|::: |      table       |       bars       | |\n+----+---------------------------------------+\n6 pages (+1 drillthrough), first page: summary"
     }
   ],
   "themes": [
@@ -131,7 +136,8 @@
       "when": {
         "en": "Dark navy rail, white cards. Board decks and presentations",
         "ko": "어두운 네이비 레일 + 흰 카드. 경영진 보고·발표"
-      }
+      },
+      "preview": "rail #0F1A2A   page #F2F4F7   accent #2A78D6\ncards  soft: 12px corners, hairline, faint shadow\ntype   Segoe\nfits   Dark navy rail, white cards. Board decks and presentations"
     },
     {
       "id": "paper",
@@ -143,7 +149,8 @@
       "when": {
         "en": "White rail, hairlines. Light, document-like; prints and PDFs well",
         "ko": "흰 레일 + 옅은 선. 문서처럼 가볍고 인쇄·PDF에 무난"
-      }
+      },
+      "preview": "rail #FFFFFF   page #F7F8FA   accent #2A78D6\ncards  soft: 12px corners, hairline, faint shadow\ntype   Segoe\nfits   White rail, hairlines. Light, document-like; prints and PDFs well"
     },
     {
       "id": "midnight",
@@ -155,7 +162,8 @@
       "when": {
         "en": "Full dark. Wall screens, dim rooms, long monitoring",
         "ko": "전체 다크. 관제 화면·장시간 모니터링"
-      }
+      },
+      "preview": "rail #070B11   page #0B1017   accent #3987E5\ncards  soft: 12px corners, hairline, faint shadow\ntype   Segoe\nfits   Full dark. Wall screens, dim rooms, long monitoring"
     },
     {
       "id": "aurora",
@@ -167,7 +175,8 @@
       "when": {
         "en": "Deep violet rail, rounder borderless cards. Launches, showcase pages, first impressions",
         "ko": "짙은 보라 레일 + 테두리 없는 둥근 카드. 발표·쇼케이스, 첫인상이 중요할 때"
-      }
+      },
+      "preview": "rail #1C1733   page #F4F3FA   accent #6D5BD0\ncards  bold: 16px corners, no border, deeper shadow\ntype   Segoe\nfits   Deep violet rail, rounder borderless cards. Launches, showcase pages, first impressions"
     },
     {
       "id": "coast",
@@ -179,7 +188,8 @@
       "when": {
         "en": "Deep teal rail, white cards. Calm and fresh; operations, retail and service reviews",
         "ko": "짙은 청록 레일 + 흰 카드. 차분하고 산뜻함, 운영·매장·서비스 리뷰"
-      }
+      },
+      "preview": "rail #0B3336   page #F2F6F6   accent #008C9E\ncards  soft: 12px corners, hairline, faint shadow\ntype   Segoe\nfits   Deep teal rail, white cards. Calm and fresh; operations, retail and service reviews"
     },
     {
       "id": "ledger",
@@ -191,7 +201,8 @@
       "when": {
         "en": "White page, square corners, hairlines, no shadows. Finance packs, month-end reviews, print",
         "ko": "흰 바탕 + 각진 모서리 + 가는 선, 그림자 없음. 재무 보고·월말 리뷰·인쇄"
-      }
+      },
+      "preview": "rail #F7F8FA   page #FFFFFF   accent #2A5DA8\ncards  flat: square corners, hairlines, no shadow\ntype   Segoe\nfits   White page, square corners, hairlines, no shadows. Finance packs, month-end reviews, print"
     },
     {
       "id": "contrast",
@@ -203,7 +214,8 @@
       "when": {
         "en": "Black rail, darker lines and text, colorblind-safe series. Accessibility, projectors, bright rooms",
         "ko": "검은 레일 + 진한 선·글자, 색각 이상 안전 색. 접근성·프로젝터·밝은 회의실"
-      }
+      },
+      "preview": "rail #0A0A0A   page #F3F4F6   accent #0B5CD5\ncards  flat: square corners, hairlines, no shadow\ntype   Segoe\nfits   Black rail, darker lines and text, colorblind-safe series. Accessibility, projectors, bright rooms"
     },
     {
       "id": "universal",
@@ -216,7 +228,8 @@
       "when": {
         "en": "Okabe-Ito colours, built to stay readable with colour-vision deficiency, on projectors and in print",
         "ko": "색각 이상·프로젝터·인쇄에서도 구분되는 Okabe-Ito 색. 접근성이 필요한 자리"
-      }
+      },
+      "preview": "rail #F4F6F8   page #FFFFFF   accent #0072B2\ncards  flat: square corners, hairlines, no shadow\ntype   Segoe\nfits   Okabe-Ito colours, built to stay readable with colour-vision deficiency, on projectors and in print"
     },
     {
       "id": "carbon",
@@ -229,7 +242,8 @@
       "when": {
         "en": "IBM Carbon data colours, dark rail, DIN numerals. Dense operations screens with many series",
         "ko": "IBM Carbon 계열 색 + 어두운 레일 + DIN 숫자. 계열이 많은 운영 화면"
-      }
+      },
+      "preview": "rail #161616   page #F4F4F4   accent #0F62FE\ncards  flat: square corners, hairlines, no shadow\ntype   DIN\nfits   IBM Carbon data colours, dark rail, DIN numerals. Dense operations screens with many series"
     },
     {
       "id": "broadsheet",
@@ -242,7 +256,8 @@
       "when": {
         "en": "Warm paper, serif headings, one ink colour. Board packs and monthly reviews that are read, not watched",
         "ko": "따뜻한 종이 + 세리프 제목 + 잉크 한 색. 읽는 자료(이사회·월간 리뷰)"
-      }
+      },
+      "preview": "rail #F3EFE6   page #FBF9F4   accent #1F4E5F\ncards  flat: square corners, hairlines, no shadow\ntype   Editorial\nfits   Warm paper, serif headings, one ink colour. Board packs and monthly reviews that are read, not watched"
     }
   ],
   "frames": [
@@ -255,7 +270,8 @@
       "when": {
         "en": "Navigation and filters in a dark rail on the left. App-like; the default",
         "ko": "왼쪽 레일에 페이지·필터. 앱 같은 기본 배치"
-      }
+      },
+      "preview": "+----+---------------------------------------+\n|::: |  KPI   |  KPI   |  KPI   |  KPI   |   |\n|::: |       line       |       bars       | |\n|::: |      table       |       bars       | |\n+----+---------------------------------------+\nleft rail 192px · body 1040px"
     },
     {
       "id": "top",
@@ -266,7 +282,8 @@
       "when": {
         "en": "Page tabs and filters in a bar across the top; the body gets the full width. Wide tables, wall screens",
         "ko": "위쪽 막대에 페이지 탭·필터, 본문은 전체 폭. 넓은 표·관제 화면"
-      }
+      },
+      "preview": "+--------------------------------------------+\n|   KPI   |   KPI   |   KPI   |   KPI   |    |\n|         line        |         bars        ||\n|        table        |         bars        ||\n+--------------------------------------------+\ntop bar 48px · body full width 1088px"
     }
   ],
   "languages": "design-system/i18n/locales.json",

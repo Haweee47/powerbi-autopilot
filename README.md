@@ -46,6 +46,10 @@ Most of that hour isn't analysis. It goes to layout, formatting, fixing visuals 
 Cutting that time comes first. The analysis is where an analyst creates business impact, so that's where the time should go.
 
 At my previous job I designed and rolled out a workflow for my team: convert existing Power BI reports to PBIP (a text-based format), have an LLM read them, and generate new reports from templates.
+
+> **PBIP and PBIR.** A PBIP project is one folder holding two things: the semantic model as TMDL, and the report.
+> The report's own definition is **PBIR** — one JSON file per page and per visual, with a public schema, which is
+> what makes an agent able to write it. They are not alternatives; PBIR sits inside PBIP.
 It worked. But two things kept it from being practical day to day:
 
 1. **It burned too many tokens.** Teaching it a few reference reports meant reading hundreds of thousands of tokens every time.
@@ -197,7 +201,7 @@ An AI agent (Claude Code) creates and edits the files. I define the problem, set
 powerbi-autopilot/
 ├── templates/         Four pilots by purpose and a fulfillment-operations pilot (own model), shared measures, glossary, catalog
 ├── design-system/     Principles, rubric, research notes, tokens → ten themes (palette × card shape × typeface), layout templates, locales, HTML prototypes
-├── tools/             Generator (spec → PBIR), new-report starter, theme/layout builds, design check, share images, token measurement
+├── tools/             Generator (spec → PBIP report definition), new-report starter, theme/layout builds, design check, share images, token measurement
 ├── examples/          Shared synthetic data (Korean/English), example 03 (Modeling MCP), example 04 (first generator run)
 ├── research/          Public report collection and analysis scripts with results (originals are not redistributed)
 ├── docs/              Setup, progress log, share drafts
@@ -229,7 +233,7 @@ when several people point at the same thing, the design rule changes. [How feedb
 
 This is a work in progress. I'll keep improving it and logging what I learn.
 
-- [x] Design tokens → themes, layout templates, spec → PBIR generator
+- [x] Design tokens → themes, layout templates, spec → report generator
 - [x] Four pilots · a fulfillment-operations pilot · ten themes · two layouts · multiple languages
 - [ ] Sparklines inside tables (SVG measures)
 - [ ] Real-data flow: Presto/Redshift query → model → pilot, including ODBC validation

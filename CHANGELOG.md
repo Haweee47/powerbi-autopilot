@@ -5,6 +5,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+### Changed
+- Asking before building is now a rule in the `new-report` skill, not a suggestion. A request in plain words
+  ("make me a sales dashboard") does not say who reads it, where it is shown or in what language, and those choices
+  change the output more than anything the agent would infer. The skill asks purpose, theme, language and page layout
+  in one go, in that order, and only skips a question the request already answered
+- Every option in `templates/catalog.json` now carries a **preview**: an ASCII wireframe for purposes and layouts, the
+  palette, card shape and typeface for themes. Picking a theme no longer means building one to find out what it looks
+  like. `tools/build_catalog_previews.py` generates them from the real layout coordinates and tokens, so a layout change
+  cannot leave a preview lying; CI regenerates and fails on a mismatch
+- The README explains PBIP and PBIR as what they are - the project folder and the report definition inside it, not two
+  formats to choose between
+
 ### Added
 - `design_check.py` now checks that a table showing "only the top N" can actually show N rows. The number that fits is
   computed from the region height, and the constants come from two measured captures (232px fits 3 rows, 296px fits 5),

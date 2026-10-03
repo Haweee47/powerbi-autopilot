@@ -1,6 +1,6 @@
 ---
 name: new-report
-description: Start a new Power BI report in this repo from a pre-built pilot. Asks the purpose (dashboard, measure table, metric-check matrix, deep dive), the design theme (seven presets: navy, paper, midnight, aurora, coast, ledger, contrast) and the language (English by default), copies the matching pilot spec, remaps only the missing fields, then generates and validates the PBIP. Use whenever the user asks for a new report, dashboard or table.
+description: Start a new Power BI report in this repo from a pre-built pilot. Always asks first — purpose (dashboard, measure table, metric-check matrix, deep dive, fulfillment ops), design theme (ten presets), language and page layout — showing a wireframe and palette for each choice, then copies the matching pilot spec, remaps only the missing fields, generates and validates the PBIP. Use whenever the user asks for a new report, dashboard or table, however casually they phrase it.
 ---
 
 # New report from a pilot
@@ -8,21 +8,40 @@ description: Start a new Power BI report in this repo from a pre-built pilot. As
 The point is token economy: a finished pilot already encodes layout, theme, formatting and page flow.
 You only choose it and change what differs. Never rebuild a report from scratch when a pilot fits.
 
-## 1. Ask once (single AskUserQuestion call, up to four questions)
+## 0. Ask before you build — this is not optional
 
-Read `templates/catalog.json` for the option texts (use the user's language; English if unknown).
+**A request in plain words is not a complete brief.** "매출 대시보드 만들어줘" or "make me a sales report" says
+nothing about who reads it, where it is shown, or in what language. Those choices change the output more than
+anything you would infer, and they cost the user one click each.
 
-| Question | Options (label → description) |
-|---|---|
-| Purpose | Dashboard · Measure table · Metric check (matrix) · Deep dive · Fulfillment ops — use `purposes[].when`. Five options: offer the recommended one and the three closest. Warehouse, logistics or fulfillment-center requests → Fulfillment ops (its own model and data) |
-| Theme | Seven presets in three groups (`themes[].group`: classic · showcase · practical). A question takes at most 4 options: offer the recommended theme first and the three closest by `themes[].when`, and name the rest in the question text so the user can type one under Other |
-| Language | English (default) · 한국어 · 日本語 · 简体中文 — from `design-system/i18n/locales.json` |
-| Layout | Left rail (default) · Top bar — `frames[].when`. Suggest the top bar for wide tables and wall screens |
+So: **do not run any generator until the user has chosen.** No "I'll start with navy and we can change it later" —
+changing it later means regenerating and re-capturing everything. Ask once, build once.
 
-If the user names a brand color, make a preset first: `python tools/brand_theme.py --id <id> --accent "#RRGGBB" --base <closest preset>`,
-then `python tools/build_themes.py`, and use that id as the theme.
+The only exceptions: the request already names the option (then don't ask that one), or the user explicitly says
+to pick for them (then state every default you chose in your reply, so they can correct one).
 
-If the request already answers a question, don't ask it. Put the recommended option first.
+## 1. Ask once — a single AskUserQuestion call, up to four questions
+
+Read `templates/catalog.json`. Every option there carries a **`preview`** — a wireframe for purposes and layouts,
+the palette and card shape for themes. Put it in the option's `preview` field so the user sees what they are
+choosing. Use `name[lang]` for the label and `when[lang]` for the description, in the user's language.
+
+Ask in this order; it is the order of how much each one changes the result:
+
+| # | Question | Options |
+|---|---|---|
+| 1 | **Purpose** | 5 in `purposes`. A question holds 4, so offer the best fit first plus the three closest, and name the fifth in the question text. Warehouse, logistics or fulfillment-centre requests → `fulfillment` (it brings its own model and sample data) |
+| 2 | **Theme** | 10 in `themes`, grouped `classic` · `showcase` · `practical`. Offer the recommended one first and the three closest by `when`; list the rest in the question text so the user can type one under Other |
+| 3 | **Language** | `languages` in the catalog — English (default), 한국어, 日本語, 简体中文 |
+| 4 | **Page layout** | 2 in `frames`: left rail (default) or top bar. Suggest the top bar for wide tables and wall screens |
+
+Judge the recommendation from the request before you ask, and put it first. A board deck leans `navy` or
+`broadsheet`; a wall screen leans `midnight` or `carbon`; print and month-end lean `ledger`; accessibility,
+projectors and colour-vision deficiency lean `universal` or `contrast`.
+
+**A brand colour.** If the user names one, build the preset before asking the theme question, then offer it as the
+first option: `python tools/brand_theme.py --id <id> --accent "#RRGGBB" --base <closest preset>` then
+`python tools/build_themes.py`.
 
 ## 2. Copy the pilot (zero reading)
 
@@ -44,6 +63,9 @@ empty values plus `_hints` with the reference definition, the English name, wher
 - **A second report on the same model:** add `--reuse-map <the filled model-map.json>`. Known values are prefilled and hints are
   written only for what's still empty (example 05: the other three pilots needed 5, 1 and 8 new values). Read only those.
 
+**No model yet?** A folder of CSVs, a workbook or a database comes first: `python tools/new_model.py --csv <folder>`
+(also `--excel`, `--odbc`). It prints every relationship and dimension it inferred. Then come back with `--model`.
+
 ## 3. Edit only the new spec
 
 - Replace each field the tool listed as missing with the closest field from the model summary.
@@ -57,15 +79,20 @@ empty values plus `_hints` with the reference definition, the English name, wher
 ## 4. Build and check
 
 ```bash
+python tools/design_check.py examples/<Name>/report.spec.json
 python tools/generate_pbir.py examples/<Name>/report.spec.json
 powerbi-report-author validate examples/<Name>/<Name>.Report
 ```
 
-The generator stops before writing anything if a field doesn't exist. Fix the spec, rerun.
+`design_check.py` applies the rubric items a script can settle (a KPI without a comparison, a chart with no title, a
+bar with no order, a table asked to show more rows than fit) and stops before anything is generated.
+The generator then stops before writing if a field doesn't exist. Fix the spec, rerun.
+
 If Power BI Desktop is available, capture every page before calling it done:
 `powershell -ExecutionPolicy Bypass -File tools\render_check.ps1 -Dir examples\<Name>` opens it in the Store Desktop, refreshes and saves each page to `out/render/`.
-Build with `--local-data` when the report uses the bundled sample model, or Desktop finds no data. Validation passing does not mean the screen is right.
+Build with `--local-data` when the report uses the bundled sample model, or Desktop finds no data. **Validation passing does not mean the screen is right** — this repo has had reports that validated with 0 errors and rendered blank.
 
 ## 5. Report back
 
-Say which pilot, theme and language you used, what you changed in the spec, the validator result, and whether you looked at the rendered pages.
+Say which pilot, theme, language and layout you used, what you changed in the spec, the validator result, and whether
+you looked at the rendered pages. If you chose any option instead of asking, say which and why, so it can be corrected.

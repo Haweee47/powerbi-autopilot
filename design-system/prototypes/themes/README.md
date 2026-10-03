@@ -80,7 +80,7 @@ python design-system/prototypes/themes/build.py   # → 01-*.html … 15-*.html,
 
 | 확인한 것 | 결과 |
 |---|---|
-| PBIR이 커스텀 개체를 담을 수 있나 | **된다.** `report.json`의 `publicCustomVisuals` 배열에 개체 이름을 적고, 비주얼의 `visualType`을 그 이름으로 둔다 ([스키마](https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json)) |
+| PBIP 프로젝트의 리포트 정의(PBIR)가 커스텀 개체를 담을 수 있나 | **된다.** `report.json`의 `publicCustomVisuals` 배열에 개체 이름을 적고, 비주얼의 `visualType`을 그 이름으로 둔다 ([스키마](https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json)) |
 | 개체 파일을 저장소에 넣어야 하나 | **아니다.** AppSource·조직 개체는 Desktop이 열 때 자동으로 불러온다. 프로젝트 폴더에 들어가는 건 사설(pbiviz) 개체뿐이다 ([문서](https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-report)) |
 | 공식 검증을 통과하나 | **경고가 난다.** `PBIR_VISUAL_TYPE_UNKNOWN`. 이 저장소 CI는 "오류 0 · 경고 0"이 기준이라, 쓰려면 아는 개체 이름을 예외로 등록해야 한다 |
 | 개체의 정확한 이름 | **아직 모른다.** Desktop에 한 번 설치해 `report.json`에 적히는 이름을 읽어야 확정된다. 추측해서 넣으면 안 열린다 |
