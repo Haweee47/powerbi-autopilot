@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Radar profile — dashboard study</title>
+<link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#9AA0A8}
+.frame{width:1280px;height:720px;margin:0 auto;position:relative;overflow:hidden}
+.page{width:100%;height:100%;overflow:hidden}
+text{font-family:inherit}
+svg .bar{fill:var(--accent)}            /* 시안이 따로 정하지 않으면 강조색 */
+svg .lb,svg .vl,svg .ax{fill:var(--ink2)}
+
+:root{--bg:#131019;--panel:#1C1824;--ink:#EFEAF5;--ink2:#9289A3;--rule:#2B2534;--s1:#F2B134;--s2:#51CDA0;--s3:#E26D7E}
+.page{background:var(--bg);color:var(--ink);font-family:Chivo,system-ui,sans-serif;padding:22px 26px;
+  display:grid;grid-template-rows:auto 1fr;gap:14px}
+h1{font-size:23px;font-weight:800;margin:0;letter-spacing:-.4px}
+.lede{font-size:13px;color:var(--ink2);margin-top:4px;max-width:92ch}
+.lede b{color:var(--ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;min-height:0}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:14px 18px;min-width:0;
+  display:flex;flex-direction:column}
+h3{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink2);margin:0 0 4px;font-weight:600}
+.keys{display:flex;gap:16px;margin-top:2px;justify-content:center}
+.key{display:flex;align-items:center;gap:7px;font-size:12px}
+.sw{width:11px;height:11px;border-radius:3px}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mini .c{background:rgba(255,255,255,.035);border-radius:8px;padding:8px 6px 2px;text-align:center}
+.mini .n{font-size:11px;color:var(--ink2);margin-bottom:1px}
+.note{font-size:12px;color:var(--ink2);line-height:1.55;margin-top:12px}
+.note b{color:var(--ink)}
+code{font-family:ui-monospace,monospace;font-size:11px;background:rgba(255,255,255,.07);padding:1px 5px;border-radius:3px}
+svg .ring{fill:none;stroke:var(--rule);stroke-width:1}
+svg .spoke{stroke:var(--rule);stroke-width:1}
+svg .lb{fill:var(--ink2)}
+svg .s1{fill:rgba(242,177,52,.20);stroke:var(--s1);stroke-width:2}
+svg .s2{fill:rgba(81,205,160,.18);stroke:var(--s2);stroke-width:2}
+svg .s3{fill:rgba(226,109,126,.18);stroke:var(--s3);stroke-width:2}
+
+</style></head>
+<body><div class="frame"><div class="page">
+<div><h1>Three stores, six axes</h1>
+  <div class="lede">Every axis is scaled 0–100 across all 20 stores, so the shape shows the store's character
+   rather than its size. <b>Online Store tops sales, orders and age but sits lowest on average order</b>; Jamsil is its mirror image.</div></div>
+<div class="two">
+  <div class="panel"><h3>Overlaid profiles</h3><svg viewBox="0 0 470 400" width="100%" height="400"><polygon class="ring" points="235.0,165.0 268.8,184.5 268.8,223.5 235.0,243.0 201.2,223.5 201.2,184.5"/><polygon class="ring" points="235.0,126.0 302.5,165.0 302.5,243.0 235.0,282.0 167.5,243.0 167.5,165.0"/><polygon class="ring" points="235.0,87.0 336.3,145.5 336.3,262.5 235.0,321.0 133.7,262.5 133.7,145.5"/><polygon class="ring" points="235.0,48.0 370.1,126.0 370.1,282.0 235.0,360.0 99.9,282.0 99.9,126.0"/><line class="spoke" x1="235.0" y1="204.0" x2="235.0" y2="48.0"/><text class="lb" x="235.0" y="31.5" font-size="9.5" text-anchor="middle">Sales</text><line class="spoke" x1="235.0" y1="204.0" x2="370.1" y2="126.0"/><text class="lb" x="387.4" y="119.5" font-size="9.5" text-anchor="start">Margin %</text><line class="spoke" x1="235.0" y1="204.0" x2="370.1" y2="282.0"/><text class="lb" x="387.4" y="295.5" font-size="9.5" text-anchor="start">YoY %</text><line class="spoke" x1="235.0" y1="204.0" x2="235.0" y2="360.0"/><text class="lb" x="235.0" y="383.5" font-size="9.5" text-anchor="middle">Orders</text><line class="spoke" x1="235.0" y1="204.0" x2="99.9" y2="282.0"/><text class="lb" x="82.6" y="295.5" font-size="9.5" text-anchor="end">Avg order</text><line class="spoke" x1="235.0" y1="204.0" x2="99.9" y2="126.0"/><text class="lb" x="82.6" y="119.5" font-size="9.5" text-anchor="end">Store age</text><polygon class="s1" points="235.0,48.0 301.2,165.8 313.4,249.2 235.0,360.0 186.4,232.1 99.9,126.0"/><polygon class="s2" points="235.0,57.4 335.0,146.3 348.5,269.5 235.0,327.2 147.2,254.7 185.0,175.1"/><polygon class="s3" points="235.0,129.1 349.8,137.7 305.3,244.6 235.0,258.6 122.9,268.7 129.6,143.2"/></svg><div class="keys"><div class="key"><span class="sw" style="background:var(--s1)"></span>Online Store</div><div class="key"><span class="sw" style="background:var(--s2)"></span>Mobile App</div><div class="key"><span class="sw" style="background:var(--s3)"></span>Jamsil</div></div></div>
+  <div class="panel"><h3>One store at a time</h3>
+    <div class="mini"><div class="c"><div class="n">Online Store</div><svg viewBox="0 0 165 165" width="100%" height="165"><polygon class="ring" points="82.5,72.4 94.7,79.4 94.7,93.6 82.5,100.6 70.3,93.6 70.3,79.4"/><polygon class="ring" points="82.5,58.2 107.0,72.4 107.0,100.6 82.5,114.8 58.0,100.6 58.0,72.4"/><polygon class="ring" points="82.5,44.1 119.2,65.3 119.2,107.7 82.5,128.9 45.8,107.7 45.8,65.3"/><polygon class="ring" points="82.5,30.0 131.4,58.2 131.4,114.7 82.5,143.0 33.6,114.8 33.6,58.2"/><line class="spoke" x1="82.5" y1="86.5" x2="82.5" y2="30.0"/><line class="spoke" x1="82.5" y1="86.5" x2="131.4" y2="58.2"/><line class="spoke" x1="82.5" y1="86.5" x2="131.4" y2="114.7"/><line class="spoke" x1="82.5" y1="86.5" x2="82.5" y2="143.0"/><line class="spoke" x1="82.5" y1="86.5" x2="33.6" y2="114.8"/><line class="spoke" x1="82.5" y1="86.5" x2="33.6" y2="58.2"/><polygon class="s1" points="82.5,30.0 106.5,72.7 110.9,102.9 82.5,143.0 64.9,96.7 33.6,58.2"/></svg></div><div class="c"><div class="n">Mobile App</div><svg viewBox="0 0 165 165" width="100%" height="165"><polygon class="ring" points="82.5,72.4 94.7,79.4 94.7,93.6 82.5,100.6 70.3,93.6 70.3,79.4"/><polygon class="ring" points="82.5,58.2 107.0,72.4 107.0,100.6 82.5,114.8 58.0,100.6 58.0,72.4"/><polygon class="ring" points="82.5,44.1 119.2,65.3 119.2,107.7 82.5,128.9 45.8,107.7 45.8,65.3"/><polygon class="ring" points="82.5,30.0 131.4,58.2 131.4,114.7 82.5,143.0 33.6,114.8 33.6,58.2"/><line class="spoke" x1="82.5" y1="86.5" x2="82.5" y2="30.0"/><line class="spoke" x1="82.5" y1="86.5" x2="131.4" y2="58.2"/><line class="spoke" x1="82.5" y1="86.5" x2="131.4" y2="114.7"/><line class="spoke" x1="82.5" y1="86.5" x2="82.5" y2="143.0"/><line class="spoke" x1="82.5" y1="86.5" x2="33.6" y2="114.8"/><line class="spoke" x1="82.5" y1="86.5" x2="33.6" y2="58.2"/><polygon class="s2" points="82.5,33.4 118.7,65.6 123.6,110.2 82.5,131.1 50.7,104.9 64.4,76.0"/></svg></div><div class="c"><div class="n">Jamsil</div><svg viewBox="0 0 165 165" width="100%" height="165"><polygon class="ring" points="82.5,72.4 94.7,79.4 94.7,93.6 82.5,100.6 70.3,93.6 70.3,79.4"/><polygon class="ring" points="82.5,58.2 107.0,72.4 107.0,100.6 82.5,114.8 58.0,100.6 58.0,72.4"/><polygon class="ring" points="82.5,44.1 119.2,65.3 119.2,107.7 82.5,128.9 45.8,107.7 45.8,65.3"/><polygon class="ring" points="82.5,30.0 131.4,58.2 131.4,114.7 82.5,143.0 33.6,114.8 33.6,58.2"/><line class="spoke" x1="82.5" y1="86.5" x2="82.5" y2="30.0"/><line class="spoke" x1="82.5" y1="86.5" x2="131.4" y2="58.2"/><line class="spoke" x1="82.5" y1="86.5" x2="131.4" y2="114.7"/><line class="spoke" x1="82.5" y1="86.5" x2="82.5" y2="143.0"/><line class="spoke" x1="82.5" y1="86.5" x2="33.6" y2="114.8"/><line class="spoke" x1="82.5" y1="86.5" x2="33.6" y2="58.2"/><polygon class="s3" points="82.5,59.4 124.1,62.5 107.9,101.2 82.5,106.3 41.9,109.9 44.3,64.5"/></svg></div></div>
+    <div class="note">Three overlapping shapes is already the limit of what reads.
+      Past three, small multiples beat one chart.</div>
+    <div class="note"><b>Power BI ships no radar visual.</b> This shape needs a visual from AppSource.
+      The report names it in <code>publicCustomVisuals</code> and Desktop loads it when the file opens.</div></div>
+</div></div></div></body></html>

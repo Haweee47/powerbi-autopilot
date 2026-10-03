@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Bridge — dashboard study</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#9AA0A8}
+.frame{width:1280px;height:720px;margin:0 auto;position:relative;overflow:hidden}
+.page{width:100%;height:100%;overflow:hidden}
+text{font-family:inherit}
+svg .bar{fill:var(--accent)}            /* 시안이 따로 정하지 않으면 강조색 */
+svg .lb,svg .vl,svg .ax{fill:var(--ink2)}
+
+:root{--bg:#FFFFFF;--ink:#111827;--ink2:#6B7280;--rule:#E5E7EB;--pos:#0F766E;--neg:#BE123C;--tot:#334155}
+.page{background:var(--bg);color:var(--ink);font-family:Manrope,system-ui,sans-serif;padding:26px 30px;
+  display:grid;grid-template-rows:auto 1fr auto;gap:14px}
+h1{font-size:25px;font-weight:800;margin:0;letter-spacing:-.6px}
+.lede{font-size:13.5px;color:var(--ink2);margin-top:5px;max-width:92ch}
+.lede b{color:var(--ink)}
+.chart{display:flex;flex-direction:column;justify-content:center;min-height:0}
+.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;border-top:1px solid var(--rule);padding-top:13px}
+.c .n{font-size:11px;color:var(--ink2);letter-spacing:.4px}
+.c .v{font-size:22px;font-weight:800;letter-spacing:-.6px;margin-top:2px}
+.c .v.up{color:var(--pos)}
+.c .v.dn{color:var(--neg)}
+.c .d{font-size:11px;color:var(--ink2);margin-top:1px;min-height:14px}
+svg .pos{fill:var(--pos)}
+svg .neg{fill:var(--neg)}
+svg .tot{fill:var(--tot)}
+svg .lb{fill:var(--ink2)}
+svg .vl{fill:var(--ink)}
+
+</style></head>
+<body><div class="frame"><div class="page">
+<div><h1>From 829.5M to 841.8M</h1>
+  <div class="lede">The year grew 12.4M. <b>Food added 24.8M and Beauty 13.3M</b>, while Electronics gave back 25.2M —
+   which is why the total barely moved.</div></div>
+<div class="chart"><svg viewBox="0 0 1180 336" width="100%" height="336"><rect class="tot" x="37.9" y="122.5" width="106.4" height="181.5"/><text class="lb" x="91.1" y="322.0" font-size="9.5" text-anchor="middle">2025</text><text class="vl" x="91.1" y="116.5" font-size="9.5" text-anchor="middle">829.5</text><rect class="neg" x="204.2" y="122.5" width="106.4" height="107.2"/><text class="lb" x="257.4" y="322.0" font-size="9.5" text-anchor="middle">Electronics</text><text class="vl" x="257.4" y="116.5" font-size="9.5" text-anchor="middle">-25.2</text><rect class="neg" x="370.5" y="229.6" width="106.4" height="23.4"/><text class="lb" x="423.7" y="322.0" font-size="9.5" text-anchor="middle">Fashion</text><text class="vl" x="423.7" y="223.6" font-size="9.5" text-anchor="middle">-5.5</text><rect class="pos" x="536.8" y="147.6" width="106.4" height="105.5"/><text class="lb" x="590.0" y="322.0" font-size="9.5" text-anchor="middle">Food</text><text class="vl" x="590.0" y="141.6" font-size="9.5" text-anchor="middle">+24.8</text><rect class="pos" x="703.1" y="126.3" width="106.4" height="21.3"/><text class="lb" x="756.3" y="322.0" font-size="9.5" text-anchor="middle">Home</text><text class="vl" x="756.3" y="120.3" font-size="9.5" text-anchor="middle">+5.0</text><rect class="pos" x="869.4" y="69.7" width="106.4" height="56.6"/><text class="lb" x="922.6" y="322.0" font-size="9.5" text-anchor="middle">Beauty</text><text class="vl" x="922.6" y="63.7" font-size="9.5" text-anchor="middle">+13.3</text><rect class="tot" x="1035.6" y="69.7" width="106.4" height="234.3"/><text class="lb" x="1088.9" y="322.0" font-size="9.5" text-anchor="middle">2026</text><text class="vl" x="1088.9" y="63.7" font-size="9.5" text-anchor="middle">841.9</text></svg></div>
+<div class="strip"><div class="c"><div class="n">Electronics</div><div class="v dn">-25.2M</div><div class="d">largest loss</div></div><div class="c"><div class="n">Fashion</div><div class="v dn">-5.5M</div><div class="d"></div></div><div class="c"><div class="n">Food</div><div class="v up">+24.8M</div><div class="d">largest gain</div></div><div class="c"><div class="n">Home</div><div class="v up">+5.0M</div><div class="d"></div></div><div class="c"><div class="n">Beauty</div><div class="v up">+13.3M</div><div class="d"></div></div></div></div></div></body></html>

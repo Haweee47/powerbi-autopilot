@@ -666,6 +666,425 @@ svg .zero{stroke:var(--rule)}
          ST=store_rows(), REG=hbars(300, 92, REGIONS[:4], fs=9, lw=86)))
 
 
+# ── 분석용 그리기 조각 ────────────────────────────────────────────────────────────────────────────
+import json as _json
+
+AN = _json.loads((OUT / "_analysis.json").read_text(encoding="utf-8"))
+AN2 = _json.loads((OUT / "_analysis2.json").read_text(encoding="utf-8"))
+
+
+def mix(c1, c2, t):
+    """두 색 사이를 t(0~1)로 섞는다. 히트맵 칸 색은 값에서 바로 계산한다."""
+    a = [int(c1[i:i + 2], 16) for i in (1, 3, 5)]
+    b = [int(c2[i:i + 2], 16) for i in (1, 3, 5)]
+    return "#%02X%02X%02X" % tuple(round(x + (y - x) * t) for x, y in zip(a, b))
+
+
+def corr_grid(w, cell, names, M, lo, mid, hi, fs=9.5):
+    """상관 행렬. 위쪽 삼각만 칠한다 — 아래쪽은 같은 값이라 잉크를 두 번 쓰는 셈이다."""
+    lw = max(len(n) for n in names) * fs * 0.58 + 10
+    out = []
+    for i, rn in enumerate(names):
+        y = 18 + i * cell
+        out.append('<text class="lb" x="%.1f" y="%.1f" font-size="%s" text-anchor="end">%s</text>'
+                   % (lw - 7, y + cell / 2 + 3.5, fs, rn))
+        for j in range(len(names)):
+            if j < i:
+                continue
+            x = lw + j * cell
+            v = M[i][j]
+            col = "#DCE3EA" if i == j else (mix(mid, hi, v) if v >= 0 else mix(mid, lo, -v))
+            ink = "#FFFFFF" if (i != j and abs(v) > .55) else "#263043"
+            out.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s" rx="2"/>'
+                       % (x + 1, y + 1, cell - 2, cell - 2, col))
+            if i != j:
+                lab = ("%+.2f" % v).replace("+0.", ".").replace("-0.", "-.")
+                out.append('<text x="%.1f" y="%.1f" font-size="%s" text-anchor="middle" fill="%s">%s</text>'
+                           % (x + cell / 2, y + cell / 2 + 3.5, fs - .5, ink, lab))
+    for j, cn in enumerate(names):
+        short = cn.replace(" %", "").replace("Avg order", "AOV").replace("Store age", "Age")
+        out.append('<text class="lb" x="%.1f" y="12" font-size="%s" text-anchor="middle">%s</text>'
+                   % (lw + j * cell + cell / 2, fs - .5, short))
+    h = 18 + len(names) * cell + 4
+    return '<svg viewBox="0 0 %d %d" width="100%%" height="%d">%s</svg>' % (w, h, h, "".join(out))
+
+
+def heat_grid(w, cell, rows, cols, data, lo, mid, hi, base=100.0, fs=9.5):
+    """행 × 열 히트맵. 기준값(달성률 100%)을 가운데 두고 양쪽으로 색이 갈린다."""
+    lw = max(len(r) for r in rows) * fs * 0.58 + 10
+    span = max(abs(v - base) for r in rows for v in data[r] if v is not None) or 1
+    out = []
+    for j, c in enumerate(cols):
+        out.append('<text class="lb" x="%.1f" y="12" font-size="%s" text-anchor="middle">%s</text>'
+                   % (lw + j * cell + cell / 2, fs - .5, c))
+    for i, r in enumerate(rows):
+        y = 18 + i * cell
+        out.append('<text class="lb" x="%.1f" y="%.1f" font-size="%s" text-anchor="end">%s</text>'
+                   % (lw - 7, y + cell / 2 + 3.5, fs, r))
+        for j, v in enumerate(data[r]):
+            if v is None:
+                continue
+            x = lw + j * cell
+            t = min(abs(v - base) / span, 1)
+            col = mix(mid, hi, t) if v >= base else mix(mid, lo, t)
+            ink = "#FFFFFF" if t > .55 else "#263043"
+            out.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s" rx="2"/>'
+                       % (x + 1, y + 1, cell - 2, cell - 2, col))
+            out.append('<text x="%.1f" y="%.1f" font-size="%s" text-anchor="middle" fill="%s">%d</text>'
+                       % (x + cell / 2, y + cell / 2 + 3.5, fs - .5, ink, round(v)))
+    h = 18 + len(rows) * cell + 4
+    return '<svg viewBox="0 0 %d %d" width="100%%" height="%d">%s</svg>' % (w, h, h, "".join(out))
+
+
+def scatter_xy(w, h, pts, xlab, ylab, fs=9):
+    """점 하나가 매장 하나. 추세선은 최소제곱으로 긋는다."""
+    xs = [p[0] for p in pts]
+    ys = [p[1] for p in pts]
+    x0, x1 = min(xs) * .95, max(xs) * 1.05
+    y0, y1 = min(ys) * .95, max(ys) * 1.05
+    l, b, t, r = 46, 26, 8, 12
+    px = lambda v: l + (v - x0) / (x1 - x0) * (w - l - r)
+    py = lambda v: t + (y1 - v) / (y1 - y0) * (h - t - b)
+    n = len(pts)
+    mx = sum(xs) / n
+    my = sum(ys) / n
+    den = sum((x - mx) ** 2 for x in xs) or 1
+    slope = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / den
+    out = ['<line class="ax2" x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>' % (l, h - b, w - r, h - b),
+           '<line class="ax2" x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>' % (l, t, l, h - b),
+           '<line class="trend" x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>'
+           % (px(x0), py(my + slope * (x0 - mx)), px(x1), py(my + slope * (x1 - mx)))]
+    for x, y in pts:
+        out.append('<circle class="pt" cx="%.1f" cy="%.1f" r="3.6"/>' % (px(x), py(y)))
+    out.append('<text class="lb" x="%.1f" y="%.1f" font-size="%s" text-anchor="middle">%s</text>'
+               % ((l + w - r) / 2, h - 5, fs, xlab))
+    cy = (t + h - b) / 2
+    out.append('<text class="lb" x="11" y="%.1f" font-size="%s" text-anchor="middle" '
+               'transform="rotate(-90 11 %.1f)">%s</text>' % (cy, fs, cy, ylab))
+    return '<svg viewBox="0 0 %d %d" width="100%%" height="%d">%s</svg>' % (w, h, h, "".join(out))
+
+
+def boxplot(w, h, st, fs=9.5):
+    """상자 수염 + 점 흩뿌리기. 평균 하나로는 안 보이는 쏠림을 보여 준다."""
+    hi = st["max"] * 1.06
+    l, r = 36, 150
+    px = lambda v: l + v / hi * (w - l - r)
+    cy = h * .42
+    bh = h * .30
+    out = ['<line class="whisk" x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>' % (px(st["min"]), cy, px(st["max"]), cy),
+           '<rect class="box" x="%.1f" y="%.1f" width="%.1f" height="%.1f" rx="2"/>'
+           % (px(st["q1"]), cy - bh / 2, px(st["q3"]) - px(st["q1"]), bh),
+           '<line class="med" x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>'
+           % (px(st["med"]), cy - bh / 2, px(st["med"]), cy + bh / 2)]
+    for i, v in enumerate(st["all"]):
+        out.append('<circle class="jit" cx="%.1f" cy="%.1f" r="2.6"/>' % (px(v), cy + bh * .82 + (i % 5) * 4.6))
+    for nm, v in st["out"]:
+        out.append('<circle class="outl" cx="%.1f" cy="%.1f" r="4.2"/>' % (px(v), cy))
+        out.append('<text class="lb" x="%.1f" y="%.1f" font-size="%s">%s %.1fM</text>'
+                   % (px(v) + 8, cy + 3.5, fs, nm, v))
+    for k, lab in (("min", "min"), ("q1", "Q1"), ("med", "median"), ("q3", "Q3")):
+        out.append('<text class="lb" x="%.1f" y="%.1f" font-size="%s" text-anchor="middle">%s %.1fM</text>'
+                   % (px(st[k]), cy - bh / 2 - 8, fs - 1, lab, st[k]))
+    return '<svg viewBox="0 0 %d %d" width="100%%" height="%d">%s</svg>' % (w, h, h, "".join(out))
+
+
+def radar_svg(w, h, dims, series, fs=9.5, rings=4, cls_offset=0):
+    """레이더. Power BI 기본에는 없어서 AppSource 커스텀 개체가 필요한 모양이다."""
+    import math
+    cx, cy = w / 2, h / 2 + 4
+    rad = min(w, h) / 2 - (44 if fs > 8 else 26)
+    n = len(dims)
+    ang = lambda i: -math.pi / 2 + i * 2 * math.pi / n
+    out = []
+    for k in range(1, rings + 1):
+        pts = " ".join("%.1f,%.1f" % (cx + rad * k / rings * math.cos(ang(i)),
+                                      cy + rad * k / rings * math.sin(ang(i))) for i in range(n))
+        out.append('<polygon class="ring" points="%s"/>' % pts)
+    for i in range(n):
+        out.append('<line class="spoke" x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>'
+                   % (cx, cy, cx + rad * math.cos(ang(i)), cy + rad * math.sin(ang(i))))
+        if fs > 8:
+            lx = cx + (rad + 20) * math.cos(ang(i))
+            ly = cy + (rad + 20) * math.sin(ang(i))
+            anchor = "middle" if abs(math.cos(ang(i))) < .3 else ("start" if math.cos(ang(i)) > 0 else "end")
+            out.append('<text class="lb" x="%.1f" y="%.1f" font-size="%s" text-anchor="%s">%s</text>'
+                       % (lx, ly + 3.5, fs, anchor, dims[i]))
+    for s_i, s in enumerate(series):
+        pts = " ".join("%.1f,%.1f" % (cx + rad * (v / 100) * math.cos(ang(i)),
+                                      cy + rad * (v / 100) * math.sin(ang(i))) for i, v in enumerate(s["v"]))
+        out.append('<polygon class="s%d" points="%s"/>' % (s_i + 1 + cls_offset, pts))
+    return '<svg viewBox="0 0 %d %d" width="100%%" height="%d">%s</svg>' % (w, h, h, "".join(out))
+
+
+def waterfall(w, h, items, start, fs=9.5):
+    """작년에서 올해로 가는 다리. 어느 칸이 전체를 끌어내렸는지가 길이로 보인다."""
+    run = start
+    pts = []
+    for _, v in items:
+        pts.append((run, run + v))
+        run += v
+    end = run
+    lo = min([start, end] + [min(a, b) for a, b in pts]) * .985
+    hi = max([start, end] + [max(a, b) for a, b in pts]) * 1.015
+    b, t = 32, 16
+    n = len(items) + 2
+    bw = (w - 16) / n
+    py = lambda v: t + (hi - v) / (hi - lo) * (h - t - b)
+    out = []
+
+    def bar(i, y0, y1, cls, label, cap):
+        x = 8 + i * bw
+        top = min(py(y0), py(y1))
+        out.append('<rect class="%s" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>'
+                   % (cls, x + bw * .18, top, bw * .64, max(abs(py(y0) - py(y1)), 2)))
+        out.append('<text class="lb" x="%.1f" y="%.1f" font-size="%s" text-anchor="middle">%s</text>'
+                   % (x + bw / 2, h - 14, fs, label))
+        out.append('<text class="vl" x="%.1f" y="%.1f" font-size="%s" text-anchor="middle">%s</text>'
+                   % (x + bw / 2, top - 6, fs, cap))
+
+    bar(0, lo, start, "tot", "2025", "%.1f" % start)
+    for i, ((nm, v), (y0, y1)) in enumerate(zip(items, pts), start=1):
+        bar(i, y0, y1, "pos" if v >= 0 else "neg", nm, "%+.1f" % v)
+    bar(n - 1, lo, end, "tot", "2026", "%.1f" % end)
+    return '<svg viewBox="0 0 %d %d" width="100%%" height="%d">%s</svg>' % (w, h, h, "".join(out))
+
+
+# ── 11 상관: 무엇과 무엇이 같이 움직이는가 ---------------------------------------------------------
+design(11, "correlation", "Correlation", "매장 20개의 지표 7개가 서로 어떻게 움직이는지 한 판에 본다.",
+       '<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">',
+       """
+:root{--bg:#F3F6F9;--sheet:#FFF;--ink:#16202E;--ink2:#5E6B7E;--rule:#DFE4EB;--accent:#1F6FEB;--neg:#C2410C;--pos:#0E7490}
+.page{background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;padding:22px 26px;
+  display:grid;grid-template-rows:auto 1fr;gap:14px}
+h1{font-size:22px;margin:0;letter-spacing:-.3px}
+.lede{font-size:13px;color:var(--ink2);margin-top:4px;max-width:96ch}
+.lede b{color:var(--ink)}
+.cols{display:grid;grid-template-columns:1.12fr .88fr;gap:18px;min-height:0}
+.panel{background:var(--sheet);border:1px solid var(--rule);border-radius:7px;padding:14px 16px;min-width:0;
+  display:flex;flex-direction:column}
+h3{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink2);margin:0 0 9px;font-weight:700}
+.note{font-size:11.5px;color:var(--ink2);line-height:1.55;margin-top:10px}
+.note b{color:var(--ink)}
+.findings{display:flex;flex-direction:column;gap:7px;margin-top:auto}
+.f{display:flex;gap:11px;align-items:baseline;border-top:1px solid var(--rule);padding-top:7px}
+.f .r{font-family:'IBM Plex Mono';font-size:16px;font-weight:600;min-width:56px}
+.f .r.hi{color:var(--pos)}
+.f .r.lo{color:var(--ink2)}
+.f .t{font-size:12px;line-height:1.42}
+svg .lb{fill:var(--ink2)}
+svg .ax2{stroke:var(--rule);stroke-width:1}
+svg .trend{stroke:var(--accent);stroke-width:1.6;stroke-dasharray:4 3}
+svg .pt{fill:var(--accent);fill-opacity:.6}
+""",
+       T("""
+<div><h1>What moves with what</h1>
+  <div class="lede">Seven measures across the 20 stores. <b>Margin and average order move together (r = +0.84)</b>,
+   while sales, profit and orders are three readings of the same thing (r &ge; 0.97) and say nothing new.</div></div>
+<div class="cols">
+  <div class="panel"><h3>Pearson r · upper triangle only</h3>{{CORR}}
+    <div class="note">The lower triangle repeats the upper one, so it is left unpainted, and a diagonal
+      of 1.00 is not a finding either. Both are ink spent on nothing.</div></div>
+  <div class="panel"><h3>Margin % against average order · one dot per store</h3>{{SC}}
+    <div class="findings">
+      <div class="f"><span class="r hi">+0.84</span><span class="t"><b>Margin ~ average order.</b>
+        Stores selling bigger baskets keep more of each sale.</span></div>
+      <div class="f"><span class="r hi">+0.56</span><span class="t"><b>Growth ~ average order.</b>
+        The same stores are the ones growing.</span></div>
+      <div class="f"><span class="r lo">−0.21</span><span class="t"><b>Growth ~ store age.</b>
+        Older stores grow slightly slower, but weakly.</span></div>
+      <div class="f"><span class="r lo">+1.00</span><span class="t"><b>Sales ~ profit.</b>
+        Mechanical, not a finding — profit is a fixed share of sales in this model.</span></div>
+    </div></div>
+</div>""",
+         CORR=corr_grid(600, 44, AN["vars"], AN["m"], "#C2410C", "#EEF2F7", "#0E7490"),
+         SC=scatter_xy(440, 300, [(r["aov"] / 1000, r["margin"]) for r in AN["rows"]],
+                       "Average order (K)", "Margin %")))
+
+# ── 12 히트맵: 어디가 언제 무너졌나 ----------------------------------------------------------------
+design(12, "heatmap", "Heat grid", "카테고리 × 월 달성률. 한 칸이 한 달의 한 카테고리다.",
+       '<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">',
+       """
+:root{--bg:#0E1420;--panel:#151D2C;--ink:#E8EDF5;--ink2:#8595AD;--rule:#222C3E;--hot:#14B8A6;--cold:#F43F5E}
+.page{background:var(--bg);color:var(--ink);font-family:'Public Sans',system-ui,sans-serif;padding:22px 26px;
+  display:grid;grid-template-rows:auto auto 1fr;gap:14px}
+h1{font-family:'Space Grotesk';font-size:23px;margin:0;letter-spacing:-.3px}
+.lede{font-size:13px;color:var(--ink2);margin-top:4px;max-width:94ch}
+.lede b{color:var(--ink)}
+.legend{display:flex;align-items:center;gap:9px;font-size:11px;color:var(--ink2)}
+.ramp{height:9px;width:190px;border-radius:9px;background:linear-gradient(90deg,var(--cold),#EEF2F7,var(--hot))}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:15px 18px;min-width:0;
+  display:flex;flex-direction:column}
+.two{display:grid;grid-template-columns:1.5fr .5fr;gap:16px;min-height:0}
+h3{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink2);margin:0 0 10px;font-weight:600}
+.rows{display:flex;flex-direction:column;gap:6px}
+.r{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:6px}
+.r .n{font-size:12px}
+.r .v{font-family:'Space Grotesk';font-size:15px;font-weight:700}
+.r .v.bad{color:var(--cold)}
+.r .v.good{color:var(--hot)}
+.foot{font-size:11.5px;color:var(--ink2);line-height:1.55;margin-top:auto;padding-top:10px}
+.foot b{color:var(--ink)}
+svg .lb{fill:var(--ink2)}
+""",
+       T("""
+<div><h1>Attainment, month by month</h1>
+  <div class="lede">Each cell is one category in one month against that month's target.
+   <b>Electronics missed in six of eight months</b>; Food and Home cleared six each.</div></div>
+<div class="legend"><span>Behind</span><div class="ramp"></div><span>Ahead</span>
+  <span style="margin-left:auto">100 = exactly on plan</span></div>
+<div class="two">
+  <div class="panel"><h3>Attainment % · category × month</h3>{{HEAT}}
+    <div class="foot">February, March and June are the months where more categories missed than cleared.
+      <b>Electronics never recovered after February.</b></div></div>
+  <div class="panel"><h3>Months on target</h3><div class="rows">
+      <div class="r"><span class="n">Food</span><span class="v good">6 / 8</span></div>
+      <div class="r"><span class="n">Home</span><span class="v good">6 / 8</span></div>
+      <div class="r"><span class="n">Beauty</span><span class="v good">5 / 8</span></div>
+      <div class="r"><span class="n">Fashion</span><span class="v bad">2 / 8</span></div>
+      <div class="r"><span class="n">Electronics</span><span class="v bad">2 / 8</span></div>
+    </div>
+    <div class="foot">Counting months rather than totals separates a category that is
+      <b>steadily behind</b> from one that had a single bad month.</div></div>
+</div>""", HEAT=heat_grid(690, 62, list(AN2["heat"]), AN2["months"], AN2["heat"], "#F43F5E", "#EEF2F7", "#14B8A6")))
+
+# ── 13 분포: 평균이 숨기는 것 ----------------------------------------------------------------------
+design(13, "spread", "Spread", "평균 대신 분포를 본다. 상자 수염과 이상치.",
+       '<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">',
+       """
+:root{--bg:#FDFCFA;--sheet:#FFF;--ink:#1D1B18;--ink2:#6B675F;--rule:#E5E1D9;--accent:#3F6C51;--warn:#B45309}
+.page{background:var(--bg);color:var(--ink);font-family:'Source Sans 3',system-ui,sans-serif;padding:26px 30px;
+  display:grid;grid-template-rows:auto auto 1fr;gap:15px}
+h1{font-family:'Source Serif 4',serif;font-size:26px;margin:0;font-weight:600;letter-spacing:-.3px}
+.lede{font-size:13.5px;color:var(--ink2);margin-top:5px;max-width:92ch}
+.lede b{color:var(--ink)}
+.panel{background:var(--sheet);border:1px solid var(--rule);border-radius:5px;padding:16px 18px;min-width:0}
+h3{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--ink2);margin:0 0 12px;font-weight:600}
+.two{display:grid;grid-template-columns:1fr .8fr;gap:18px;min-height:0}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.s .k{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink2)}
+.s .v{font-family:'Source Serif 4',serif;font-size:25px;font-weight:600}
+.s .d{font-size:11px;color:var(--ink2)}
+.callout{border-left:3px solid var(--warn);padding:9px 0 9px 13px;margin-top:14px;font-size:12.5px;line-height:1.55}
+.callout b{color:var(--warn)}
+.callout.calm{border-color:var(--accent)}
+.callout.calm b{color:var(--accent)}
+svg .box{fill:rgba(63,108,81,.15);stroke:var(--accent);stroke-width:1.4}
+svg .med{stroke:var(--accent);stroke-width:2.4}
+svg .whisk{stroke:var(--ink2);stroke-width:1.2}
+svg .jit{fill:var(--accent);fill-opacity:.38}
+svg .outl{fill:var(--warn)}
+svg .lb{fill:var(--ink2)}
+""",
+       T("""
+<div><h1>The average store does not exist</h1>
+  <div class="lede">Twenty stores, 2026 sales. The mean is 42.1M, but
+   <b>half the estate sits between 26.7M and 46.6M</b>, and two online channels sit far outside it.</div></div>
+<div class="panel"><h3>Sales per store · box with every store as a dot</h3>{{BOX}}</div>
+<div class="two">
+  <div class="panel"><h3>Where the middle is</h3>
+    <div class="stats">
+      <div class="s"><div class="k">Median</div><div class="v">36.9M</div><div class="d">half above, half below</div></div>
+      <div class="s"><div class="k">Mean</div><div class="v">42.1M</div><div class="d">pulled up by two outliers</div></div>
+      <div class="s"><div class="k">Interquartile range</div><div class="v">19.9M</div><div class="d">26.7M to 46.6M</div></div>
+      <div class="s"><div class="k">Range</div><div class="v">98.4M</div><div class="d">12.2M to 110.6M</div></div>
+    </div>
+    <div class="callout"><b>Mean minus median is 5.2M.</b> Reporting the mean alone describes a store
+      that exists nowhere in the estate.</div></div>
+  <div class="panel"><h3>Outside 1.5 × IQR</h3>
+    <div class="callout calm" style="margin-top:0"><b>Online Store 110.6M</b> and <b>Mobile App 104.2M</b>
+      are not shops. They are channels sharing the store table, and they distort every
+      per-store average that includes them.</div>
+    <div class="callout">Decide once whether channels belong in the store list. Every ranking,
+      average and target split downstream depends on that answer.</div></div>
+</div>""", BOX=boxplot(1120, 148, AN2["box"])))
+
+# ── 14 레이더: 매장 성격 비교 ----------------------------------------------------------------------
+design(14, "radar", "Radar profile", "매장 셋의 성격을 여섯 축으로 겹쳐 본다. 커스텀 개체가 필요한 모양.",
+       '<link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;800&display=swap" rel="stylesheet">',
+       """
+:root{--bg:#131019;--panel:#1C1824;--ink:#EFEAF5;--ink2:#9289A3;--rule:#2B2534;--s1:#F2B134;--s2:#51CDA0;--s3:#E26D7E}
+.page{background:var(--bg);color:var(--ink);font-family:Chivo,system-ui,sans-serif;padding:22px 26px;
+  display:grid;grid-template-rows:auto 1fr;gap:14px}
+h1{font-size:23px;font-weight:800;margin:0;letter-spacing:-.4px}
+.lede{font-size:13px;color:var(--ink2);margin-top:4px;max-width:92ch}
+.lede b{color:var(--ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;min-height:0}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:14px 18px;min-width:0;
+  display:flex;flex-direction:column}
+h3{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink2);margin:0 0 4px;font-weight:600}
+.keys{display:flex;gap:16px;margin-top:2px;justify-content:center}
+.key{display:flex;align-items:center;gap:7px;font-size:12px}
+.sw{width:11px;height:11px;border-radius:3px}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mini .c{background:rgba(255,255,255,.035);border-radius:8px;padding:8px 6px 2px;text-align:center}
+.mini .n{font-size:11px;color:var(--ink2);margin-bottom:1px}
+.note{font-size:12px;color:var(--ink2);line-height:1.55;margin-top:12px}
+.note b{color:var(--ink)}
+code{font-family:ui-monospace,monospace;font-size:11px;background:rgba(255,255,255,.07);padding:1px 5px;border-radius:3px}
+svg .ring{fill:none;stroke:var(--rule);stroke-width:1}
+svg .spoke{stroke:var(--rule);stroke-width:1}
+svg .lb{fill:var(--ink2)}
+svg .s1{fill:rgba(242,177,52,.20);stroke:var(--s1);stroke-width:2}
+svg .s2{fill:rgba(81,205,160,.18);stroke:var(--s2);stroke-width:2}
+svg .s3{fill:rgba(226,109,126,.18);stroke:var(--s3);stroke-width:2}
+""",
+       T("""
+<div><h1>Three stores, six axes</h1>
+  <div class="lede">Every axis is scaled 0–100 across all 20 stores, so the shape shows the store's character
+   rather than its size. <b>Online Store tops sales, orders and age but sits lowest on average order</b>; Jamsil is its mirror image.</div></div>
+<div class="two">
+  <div class="panel"><h3>Overlaid profiles</h3>{{RADAR}}<div class="keys">{{KEYS}}</div></div>
+  <div class="panel"><h3>One store at a time</h3>
+    <div class="mini">{{MINIS}}</div>
+    <div class="note">Three overlapping shapes is already the limit of what reads.
+      Past three, small multiples beat one chart.</div>
+    <div class="note"><b>Power BI ships no radar visual.</b> This shape needs a visual from AppSource.
+      The report names it in <code>publicCustomVisuals</code> and Desktop loads it when the file opens.</div></div>
+</div>""",
+         RADAR=radar_svg(470, 400, AN2["radar"]["dims"], AN2["radar"]["series"]),
+         KEYS="".join('<div class="key"><span class="sw" style="background:var(--s%d)"></span>%s</div>'
+                      % (i + 1, s["name"]) for i, s in enumerate(AN2["radar"]["series"])),
+         MINIS="".join('<div class="c"><div class="n">%s</div>%s</div>'
+                       % (s["name"], radar_svg(165, 165, AN2["radar"]["dims"], [s], fs=7, cls_offset=i))
+                       for i, s in enumerate(AN2["radar"]["series"]))))
+
+# ── 15 폭포: 작년에서 올해까지 ----------------------------------------------------------------------
+design(15, "bridge", "Bridge", "작년 합계에서 올해 합계로 가는 다리. 어느 칸이 끌어내렸나.",
+       '<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">',
+       """
+:root{--bg:#FFFFFF;--ink:#111827;--ink2:#6B7280;--rule:#E5E7EB;--pos:#0F766E;--neg:#BE123C;--tot:#334155}
+.page{background:var(--bg);color:var(--ink);font-family:Manrope,system-ui,sans-serif;padding:26px 30px;
+  display:grid;grid-template-rows:auto 1fr auto;gap:14px}
+h1{font-size:25px;font-weight:800;margin:0;letter-spacing:-.6px}
+.lede{font-size:13.5px;color:var(--ink2);margin-top:5px;max-width:92ch}
+.lede b{color:var(--ink)}
+.chart{display:flex;flex-direction:column;justify-content:center;min-height:0}
+.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;border-top:1px solid var(--rule);padding-top:13px}
+.c .n{font-size:11px;color:var(--ink2);letter-spacing:.4px}
+.c .v{font-size:22px;font-weight:800;letter-spacing:-.6px;margin-top:2px}
+.c .v.up{color:var(--pos)}
+.c .v.dn{color:var(--neg)}
+.c .d{font-size:11px;color:var(--ink2);margin-top:1px;min-height:14px}
+svg .pos{fill:var(--pos)}
+svg .neg{fill:var(--neg)}
+svg .tot{fill:var(--tot)}
+svg .lb{fill:var(--ink2)}
+svg .vl{fill:var(--ink)}
+""",
+       T("""
+<div><h1>From 829.5M to 841.8M</h1>
+  <div class="lede">The year grew 12.4M. <b>Food added 24.8M and Beauty 13.3M</b>, while Electronics gave back 25.2M —
+   which is why the total barely moved.</div></div>
+<div class="chart">{{WF}}</div>
+<div class="strip">{{CARDS}}</div>""",
+         WF=waterfall(1180, 336, AN2["wf"], 829.5),
+         CARDS="".join('<div class="c"><div class="n">%s</div><div class="v %s">%+.1fM</div><div class="d">%s</div></div>'
+                       % (n, "up" if v >= 0 else "dn", v,
+                          "largest gain" if v == max(x for _, x in AN2["wf"])
+                          else ("largest loss" if v == min(x for _, x in AN2["wf"]) else ""))
+                       for n, v in AN2["wf"])))
+
+
 # ── 파일로 쓰기 ──────────────────────────────────────────────────────────────────────────────────
 PAGE = """<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
