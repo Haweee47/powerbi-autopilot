@@ -8,7 +8,7 @@
     "매장.권역": "Stores.Region",
     "매장.매장명": "Stores.Store",
     "매장.채널": "Stores.Channel",
-    "카테고리.카테고리": "Products.Category",
+    "카테고리.카테고리": "Category.Category",
     "판매.주문일자": "Orders.Order Date"
   },
   "measures": {
@@ -33,7 +33,7 @@
       "format": "+#,0;-#,0;0"
     },
     "목표매출": {
-      "expr": "VAR lastDay = CALCULATE ( MAX ( Orders[Order Date] ), REMOVEFILTERS () ) RETURN IF ( ISFILTERED ( Products[Product] ) || ISFILTERED ( Products[Subcategory] ) || ISCROSSFILTERED ( Stores ), BLANK (), CALCULATE ( [Total Amount], TREATAS ( VALUES ( Products[Category] ), Budget[Category] ), KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
+      "expr": "VAR lastDay = CALCULATE ( MAX ( Orders[Order Date] ), REMOVEFILTERS () ) RETURN IF ( ISFILTERED ( Products[Product] ) || ISFILTERED ( Products[Subcategory] ) || ISCROSSFILTERED ( Stores ), BLANK (), CALCULATE ( [Total Amount], KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )",
       "format": "#,0"
     },
     "이익": {

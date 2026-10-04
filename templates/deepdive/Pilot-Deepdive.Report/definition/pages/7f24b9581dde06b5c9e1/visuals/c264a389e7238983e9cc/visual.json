@@ -1,0 +1,111 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "c264a389e7238983e9cc",
+  "position": {
+    "x": 832,
+    "y": 384,
+    "z": 11000,
+    "height": 312,
+    "width": 424,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "카테고리"
+                    }
+                  },
+                  "Property": "카테고리"
+                }
+              },
+              "queryRef": "카테고리.카테고리",
+              "nativeQueryRef": "카테고리",
+              "displayName": "Category",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "매출 구성비"
+                }
+              },
+              "queryRef": "측정값.매출 구성비",
+              "nativeQueryRef": "매출 구성비",
+              "displayName": "Mix"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "측정값"
+                  }
+                },
+                "Property": "매출 구성비"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Share of sales'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'A small category can still move the total'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

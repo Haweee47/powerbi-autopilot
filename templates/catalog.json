@@ -67,7 +67,7 @@
       ],
       "pilot": "matrix/pilot.spec.json",
       "screenshots": "matrix/screenshots",
-      "preview": "+----+---------------------------------------+\n|::: |                matrix                ||\n+----+---------------------------------------+\n2 pages, first page: matrix_main"
+      "preview": "+----+---------------------------------------+\n|::: |                matrix                ||\n+----+---------------------------------------+\n3 pages, first page: matrix_main"
     },
     {
       "id": "deepdive",
@@ -92,7 +92,7 @@
       ],
       "pilot": "deepdive/pilot.spec.json",
       "screenshots": "deepdive/screenshots",
-      "preview": "+----+---------------------------------------+\n|::: |                 tree                 ||\n|::: |       line       |       bars       | |\n+----+---------------------------------------+\n3 pages, first page: deep_tree"
+      "preview": "+----+---------------------------------------+\n|::: |                 tree                 ||\n|::: |       line       |       bars       | |\n+----+---------------------------------------+\n4 pages, first page: deep_tree"
     },
     {
       "id": "fulfillment",

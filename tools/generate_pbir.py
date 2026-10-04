@@ -43,6 +43,11 @@ S_VISUAL = f"{SCHEMA}/item/report/definition/visualContainer/2.9.0/schema.json"
 S_PAGE = f"{SCHEMA}/item/report/definition/page/2.1.0/schema.json"
 S_PAGES = f"{SCHEMA}/item/report/definition/pagesMetadata/1.0.0/schema.json"
 S_VERSION = f"{SCHEMA}/item/report/definition/versionMetadata/1.0.0/schema.json"
+# AppSource 커스텀 개체. 개체 파일은 저장소에 넣지 않는다 - Desktop 이 열 때 받아 온다.
+# 이름은 각 개체의 공개 pbiviz.json 에 적힌 guid 이고, 기억이 아니라 거기서 가져온다.
+# 쓰면 공식 검증이 PBIR_VISUAL_TYPE_UNKNOWN 경고를 낸다 (오류 아님).
+CUSTOM_VISUALS = {"radarChart": "RadarChart1446119667547"}
+
 S_REPORT = f"{SCHEMA}/item/report/definition/report/3.3.0/schema.json"
 S_PBIR = f"{SCHEMA}/item/report/definitionProperties/2.0.0/schema.json"
 S_PBISM = f"{SCHEMA}/item/semanticModel/definitionProperties/1.0.0/schema.json"
@@ -431,6 +436,19 @@ def cell_formats(spec: dict, x: Ctx) -> dict:
                     "max": {"color": {"Literal": {"Value": f"'{c['heatMax']}'"}}},
                     "nullColoringStrategy": {"strategy": {"Literal": {"Value": "'asZero'"}}}}}}}}}}},
                 "selector": {**EACH_POINT, "metadata": q}})
+        elif kind == "diverge":
+            # 기준값을 가운데 두고 양쪽으로 갈리는 색 (달성률 100%, 전년 대비 0%).
+            # linearGradient2 와 달리 가운데 지점의 값을 함께 준다. 형식은 공개 리포트에서 확인할 수 없어
+            # (수집본에 사례가 없다) Desktop 캡처로 확인했다.
+            mid = spec.get("divergeAt", {}).get(fld, 1)
+            objs.setdefault("values", []).append({"properties": {"backColor": {"solid": {"color": {"expr": {"FillRule": {
+                "Input": expr, "FillRule": {"linearGradient3": {
+                    "min": {"color": {"Literal": {"Value": f"'{c['neg']}'"}}},
+                    "mid": {"color": {"Literal": {"Value": f"'{c['surface']}'"}}},
+                    "max": {"color": {"Literal": {"Value": f"'{c['pos']}'"}}},
+                    "midValue": {"Literal": {"Value": f"{mid}D"}},
+                    "nullColoringStrategy": {"strategy": {"Literal": {"Value": "'asZero'"}}}}}}}}}}},
+                "selector": {**EACH_POINT, "metadata": q}})
         elif kind == "sign":
             objs.setdefault("values", []).append({"properties": {"fontColor": x.mcolor(sign_measure(fld))},
                                                   "selector": {**EACH_POINT, "metadata": q}})
@@ -569,6 +587,29 @@ def build_visual(role: str, spec: dict, x: Ctx, region: dict) -> dict:
         if objs:
             v["objects"] = objs
         return v
+    if role in CUSTOM_VISUALS:
+        q = {"queryState": {"Category": {"projections": [x.proj(spec["x"], active=True)]},
+                            "Y": {"projections": [x.proj(m) for m in spec["y"]]}}}
+        return {"visualType": CUSTOM_VISUALS[role], "query": q}
+    if role == "waterfallChart":
+        # 작년에서 올해로 가는 다리. 합계 막대는 Power BI 가 스스로 붙이므로 명세는 변화량만 준다.
+        # 색은 테마가 아니라 여기서 지정한다: 테마의 sentimentColors 는 KPI 비주얼과 이름이 겹친다.
+        q = {"queryState": {"Category": {"projections": [x.proj(spec["x"], active=True)]},
+                            "Y": {"projections": [x.proj(spec["y"])]}}}
+        if spec.get("sort"):
+            q["sortDefinition"] = sort_def(x.resolve, spec["y"], spec["sort"])
+        objs = {"sentimentColors": [{"properties": {"increaseFill": color(c["pos"]),
+                                                    "decreaseFill": color(c["neg"]),
+                                                    "totalFill": color(c["context"])}}],
+                # 범례를 끈다. Power BI 가 "증가·감소·합계"를 읽는 사람의 Desktop 언어로 찍어서,
+                # 영어 리포트에 한국어 범례가 떴다. 뜻은 부제목이 말한다 (로케일 안전 규칙)
+                "legend": [{"properties": {"show": lit(False)}}],
+                # 합계 막대도 끈다. 그 막대의 이름("합계")을 바꾸는 속성이 없어서 읽는 사람의 Desktop 언어로
+                # 찍힌다. 순변화는 결론 문장이 이미 말하므로 잃는 정보가 없다 (valueAxis.totalsEnabled)
+                "valueAxis": [{"properties": {"totalsEnabled": lit(False)}}]}
+        if spec.get("max"):  # 그 밖은 "기타" 한 칸으로 묶는다
+            objs["breakdown"] = [{"properties": {"maxBreakdowns": lit_int(spec["max"])}}]
+        return {"visualType": role, "query": q, "objects": objs}
     if role == "scatterChart":
         qs = {"Category": {"projections": [x.proj(spec["point"], active=True)]},
               "X": {"projections": [x.proj(spec["x"])]}, "Y": {"projections": [x.proj(spec["y"])]}}
@@ -584,7 +625,9 @@ def build_visual(role: str, spec: dict, x: Ctx, region: dict) -> dict:
             v["objects"] = objs
         return v
     if role == "tableEx":
-        q = {"queryState": {"Values": {"projections": [x.proj(col) for col in spec["columns"]]}}}
+        # labels: 열 머리글을 바꾼다. 없으면 용어집 이름, 그것도 없으면 측정값 이름이 그대로 보인다
+        lab = spec.get("labels") or {}
+        q = {"queryState": {"Values": {"projections": [x.proj(col, lab.get(col)) for col in spec["columns"]]}}}
         if spec.get("sort"):
             q["sortDefinition"] = sort_def(x.resolve, spec["sort"][0], spec["sort"][1])
         v, objs = {"visualType": "tableEx", "query": q}, cell_formats(spec, x)
@@ -830,8 +873,11 @@ def main() -> None:
     write_json(res_dir / theme_file, theme_obj)
     D = rep / "definition"
     write_json(D / "version.json", {"$schema": S_VERSION, "version": "2.0.0"})
+    used_custom = sorted({v["visualType"] for _, _, _, vs in pages for v in vs.values()
+                          if v.get("visualType") in set(CUSTOM_VISUALS.values())})
     write_json(D / "report.json", {
         "$schema": S_REPORT,
+        **({"publicCustomVisuals": used_custom} if used_custom else {}),
         # reportVersionAtImport는 필수 (CLI 검증). 이 생성기가 쓰는 스키마 버전과 맞춘다
         "themeCollection": {"customTheme": {"name": theme_file, "type": "RegisteredResources",
                                             "reportVersionAtImport": {"visual": "2.9.0", "report": "3.3.0", "page": "2.1.0"}}},

@@ -7,46 +7,208 @@
   "measureTable": "측정값",
   "theme": "navy",
   "glossary": "../_shared/glossary.json",
-  "include": ["../_shared/measures.common.json", "../_shared/measures.{lang}.json"],
+  "include": [
+    "../_shared/measures.common.json",
+    "../_shared/measures.{lang}.json"
+  ],
   "measures": {
     "Headline Heatmap": {
       "en": "VAR t = FILTER ( VALUES ( '날짜'[월] ), NOT ISBLANK ( [매출] ) ) VAR hi = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, t, [매출], ASC ) RETURN \"Peak month: \" & CONCATENATEX ( hi, '날짜'[월], \", \" ) & \" \" & FORMAT ( MAXX ( hi, [매출] ) / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  Low month: \" & CONCATENATEX ( lo, '날짜'[월], \", \" ) & \" \" & FORMAT ( MINX ( lo, [매출] ) / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \"  ·  darker cell = higher sales\"",
       "ko": "VAR t = FILTER ( VALUES ( '날짜'[월] ), NOT ISBLANK ( [매출] ) ) VAR hi = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, t, [매출], ASC ) RETURN \"가장 높은 달 \" & CONCATENATEX ( hi, '날짜'[월], \", \" ) & \" \" & FORMAT ( MAXX ( hi, [매출] ) / [Unit Scale], \"#,0\" ) & [Unit Suffix] & \"  ·  가장 낮은 달 \" & CONCATENATEX ( lo, '날짜'[월], \", \" ) & \" \" & FORMAT ( MINX ( lo, [매출] ) / [Unit Scale], \"#,0\" ) & [Unit Suffix] & \"  ·  진한 칸일수록 매출이 크다\""
+    },
+    "Headline Heat": {
+      "expr": "VAR _cells = FILTER ( CROSSJOIN ( VALUES ( '카테고리'[카테고리] ), VALUES ( '날짜'[월] ) ), NOT ISBLANK ( [목표 달성률] ) ) VAR _miss = COUNTROWS ( FILTER ( _cells, [목표 달성률] < 1 ) ) VAR _n = COUNTROWS ( _cells ) VAR _by = ADDCOLUMNS ( VALUES ( '카테고리'[카테고리] ), \"M\", COUNTROWS ( FILTER ( VALUES ( '날짜'[월] ), NOT ISBLANK ( [목표 달성률] ) && [목표 달성률] < 1 ) ) ) VAR _worst = MAXX ( _by, [M] ) VAR _top = FILTER ( _by, [M] = _worst ) RETURN FORMAT ( _miss, \"#,0\" ) & \" of \" & FORMAT ( _n, \"#,0\" ) & \" cells missed target\" & \" · most often: \" & CONCATENATEX ( _top, '카테고리'[카테고리], \", \" ) & \" (\" & FORMAT ( _worst, \"#,0\" ) & \" months each)\""
     }
   },
   "shared": {
-    "brand": { "text": { "en": "Sales Report", "ko": "판매 리포트" }, "sub": { "en": "Metric check · sample data", "ko": "지표 확인 · 가상 데이터" } },
-    "asof": { "text": { "en": "Data as of 2026-08-31", "ko": "데이터 기준일 2026.08.31" } },
-    "slicer_period": { "field": "날짜.연도", "default": 2026, "single": true, "title": { "en": "Period", "ko": "기간" } },
-    "slicer_channel": { "field": "매장.채널" },
-    "context": { "measure": "Context Label" }
+    "brand": {
+      "text": {
+        "en": "Sales Report",
+        "ko": "판매 리포트"
+      },
+      "sub": {
+        "en": "Metric check · sample data",
+        "ko": "지표 확인 · 가상 데이터"
+      }
+    },
+    "asof": {
+      "text": {
+        "en": "Data as of 2026-08-31",
+        "ko": "데이터 기준일 2026.08.31"
+      }
+    },
+    "slicer_period": {
+      "field": "날짜.연도",
+      "default": 2026,
+      "single": true,
+      "title": {
+        "en": "Period",
+        "ko": "기간"
+      }
+    },
+    "slicer_channel": {
+      "field": "매장.채널"
+    },
+    "context": {
+      "measure": "Context Label"
+    }
   },
   "pages": [
     {
       "layout": "matrix_main",
       "id": "heatmap",
-      "name": { "en": "Monthly heatmap", "ko": "월별 히트맵" },
+      "name": {
+        "en": "Monthly heatmap",
+        "ko": "월별 히트맵"
+      },
       "visuals": {
-        "title": { "text": { "en": "Monthly heatmap", "ko": "월별 히트맵" } },
-        "headline": { "measure": "Headline Heatmap" },
-        "slicer_a": { "field": "매장.권역" },
-        "matrix": { "rows": ["카테고리.카테고리", "제품.하위카테고리"], "columns": ["날짜.월"], "values": ["Sales Disp"], "format": { "Sales Disp": "heat" }, "expand": true,
-                    "title": { "en": "Category · subcategory × month", "ko": "카테고리 · 하위카테고리 × 월 매출" },
-                    "sub": { "en": "Sales · darker = higher · use +/− on row headers to expand or collapse", "ko": "만 원 · 진할수록 크다 · 행 머리글의 +/−로 펼치고 접기" } }
+        "title": {
+          "text": {
+            "en": "Monthly heatmap",
+            "ko": "월별 히트맵"
+          }
+        },
+        "headline": {
+          "measure": "Headline Heatmap"
+        },
+        "slicer_a": {
+          "field": "매장.권역"
+        },
+        "matrix": {
+          "rows": [
+            "카테고리.카테고리",
+            "제품.하위카테고리"
+          ],
+          "columns": [
+            "날짜.월"
+          ],
+          "values": [
+            "Sales Disp"
+          ],
+          "format": {
+            "Sales Disp": "heat"
+          },
+          "expand": true,
+          "title": {
+            "en": "Category · subcategory × month",
+            "ko": "카테고리 · 하위카테고리 × 월 매출"
+          },
+          "sub": {
+            "en": "Sales · darker = higher · use +/− on row headers to expand or collapse",
+            "ko": "만 원 · 진할수록 크다 · 행 머리글의 +/−로 펼치고 접기"
+          }
+        }
       }
     },
     {
       "layout": "matrix_main",
       "id": "scorecard",
-      "name": { "en": "Region · store scorecard", "ko": "권역·매장 성적표" },
+      "name": {
+        "en": "Region · store scorecard",
+        "ko": "권역·매장 성적표"
+      },
       "visuals": {
-        "title": { "text": { "en": "Region · store scorecard", "ko": "권역 · 매장 성적표" } },
-        "headline": { "measure": "Headline Stores" },
-        "slicer_a": { "field": "카테고리.카테고리" },
-        "matrix": { "rows": ["매장.권역", "매장.매장명"], "values": ["Sales Disp", "Sales Trend", "Sales PY Disp", "전년 대비 증감률", "이익률", "AOV Disp", "매출 구성비"],
-                    "format": { "Sales Disp": "bar", "전년 대비 증감률": "sign", "이익률": "heat" }, "expand": true,
-                    "title": { "en": "Region > store", "ko": "권역 > 매장" },
-                    "sub": { "en": "Bar = sales · darker cell = higher margin · red = down vs last year", "ko": "막대 = 매출 크기 · 진한 칸 = 이익률이 높음 · 빨간 글자 = 전년보다 줄어듦" } }
+        "title": {
+          "text": {
+            "en": "Region · store scorecard",
+            "ko": "권역 · 매장 성적표"
+          }
+        },
+        "headline": {
+          "measure": "Headline Stores"
+        },
+        "slicer_a": {
+          "field": "카테고리.카테고리"
+        },
+        "matrix": {
+          "rows": [
+            "매장.권역",
+            "매장.매장명"
+          ],
+          "values": [
+            "Sales Disp",
+            "Sales Trend",
+            "Sales PY Disp",
+            "전년 대비 증감률",
+            "이익률",
+            "AOV Disp",
+            "매출 구성비"
+          ],
+          "format": {
+            "Sales Disp": "bar",
+            "전년 대비 증감률": "sign",
+            "이익률": "heat"
+          },
+          "expand": true,
+          "title": {
+            "en": "Region > store",
+            "ko": "권역 > 매장"
+          },
+          "sub": {
+            "en": "Bar = sales · darker cell = higher margin · red = down vs last year",
+            "ko": "막대 = 매출 크기 · 진한 칸 = 이익률이 높음 · 빨간 글자 = 전년보다 줄어듦"
+          }
+        }
+      }
+    },
+    {
+      "layout": "heatgrid",
+      "name": {
+        "en": "Attainment grid",
+        "ko": "달성률 격자"
+      },
+      "visuals": {
+        "title": {
+          "text": {
+            "en": "Attainment, month by month",
+            "ko": "월별 달성률"
+          }
+        },
+        "headline": {
+          "measure": "Headline Heat"
+        },
+        "heat": {
+          "rows": [
+            "카테고리.카테고리"
+          ],
+          "columns": [
+            "날짜.월"
+          ],
+          "values": [
+            "목표 달성률"
+          ],
+          "format": {
+            "목표 달성률": "diverge"
+          },
+          "divergeAt": {
+            "목표 달성률": 1
+          },
+          "columnTotals": false,
+          "title": {
+            "en": "Attainment % · category × month",
+            "ko": "달성률 · 카테고리 × 월"
+          },
+          "sub": {
+            "en": "One cell is one category in one month · red below plan, blue above, pale at 100%",
+            "ko": "한 칸이 한 달의 한 카테고리 · 빨강은 목표 미달, 파랑은 초과, 100%는 옅은 색"
+          }
+        },
+        "worst": {
+          "x": "카테고리.카테고리",
+          "y": [
+            "Target Gap Disp"
+          ],
+          "sort": "asc",
+          "color": "Target Gap Bar Color",
+          "title": {
+            "en": "Gap to target",
+            "ko": "목표 대비 차이"
+          },
+          "sub": {
+            "en": "The grid shows when a category missed · this shows how much it cost over the year",
+            "ko": "격자가 언제인지를, 이 막대가 한 해 동안 얼마였는지를 말한다"
+          }
+        }
       }
     }
   ]

@@ -298,6 +298,11 @@ table 측정값
 		formatStringDefinition = [Unit Format Signed]
 
 	/// 리포트 표시용 (명세에서 생성)
+	measure 'YoY Gap Disp' = DIVIDE ( [전년 대비 증감], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format Signed]
+
+	/// 리포트 표시용 (명세에서 생성)
 	measure 'Profit Disp' = DIVIDE ( [이익], [Unit Scale] )
 		displayFolder: 9. 리포트 표시용
 		formatStringDefinition = [Unit Format]

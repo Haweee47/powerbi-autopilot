@@ -298,6 +298,11 @@ table 측정값
 		formatStringDefinition = [Unit Format Signed]
 
 	/// 리포트 표시용 (명세에서 생성)
+	measure 'YoY Gap Disp' = DIVIDE ( [전년 대비 증감], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format Signed]
+
+	/// 리포트 표시용 (명세에서 생성)
 	measure 'Profit Disp' = DIVIDE ( [이익], [Unit Scale] )
 		displayFolder: 9. 리포트 표시용
 		formatStringDefinition = [Unit Format]
@@ -364,6 +369,14 @@ table 측정값
 
 	/// 리포트 표시용 (명세에서 생성)
 	measure 'Headline Detail' = FORMAT ( [주문건수], "#,0" ) & " orders  ·  Sales " & FORMAT ( [매출] / [Unit Scale], "#,0.0" ) & [Unit Suffix] & "  ·  click a header to sort, right-click a row to copy"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Bridge' = VAR _t = ADDCOLUMNS ( VALUES ( '카테고리'[카테고리] ), "D", [전년 대비 증감] ) VAR _up = TOPN ( 1, _t, [D], DESC ) VAR _dn = TOPN ( 1, _t, [D], ASC ) VAR _g = [전년 대비 증감] RETURN "Year on year " & FORMAT ( _g / [Unit Scale], "▲#,0.0;▼#,0.0;0" ) & [Unit Suffix] & " · most added: " & CONCATENATEX ( _up, '카테고리'[카테고리] ) & " " & FORMAT ( MAXX ( _up, [D] ) / [Unit Scale], "▲#,0.0;▼#,0.0;0" ) & [Unit Suffix] & " · most lost: " & CONCATENATEX ( _dn, '카테고리'[카테고리] ) & " " & FORMAT ( MINX ( _dn, [D] ) / [Unit Scale], "▲#,0.0;▼#,0.0;0" ) & [Unit Suffix]
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure '전년 대비 증감률 Sign Color' = IF ( [전년 대비 증감률] < 0, "#C0392B", "#101828" )
 		displayFolder: 9. 리포트 표시용
 
 	column _

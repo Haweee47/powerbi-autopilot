@@ -5,6 +5,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+### Added
+- Two analytical pages, ported from the HTML studies to Power BI on built-in visuals: a **bridge** (waterfall) that
+  decomposes last year into this year one category at a time, and an **attainment grid** - a category x month matrix
+  where colour diverges from 100% so a miss reads as red and a beat as blue
+- `waterfallChart` is now a visual the generator can place, and cell formatting takes `diverge`, a three-stop colour
+  scale around a baseline you name (`divergeAt`). No public report in the collected corpus uses `linearGradient3`, so
+  the shape was proved by building it and looking at the capture
+- Tables take `labels` to rename a column header, instead of printing the measure's own name
+
+### Fixed
+- The target measure in example 07 no longer needs its `TREATAS` workaround. With a real Category table joining Budget
+  and Products, the measure is plain again, and attainment is checked per category against the source files rather than
+  only in total
+- Two more locale leaks, both in the waterfall: Power BI printed its legend ("increase / decrease / total") and its
+  total bar label in the reader's Desktop language. The legend is off - the subtitle says what the colours mean - and
+  the total bar is off too, because nothing renames it and the headline sentence already states the net change
+
 ### Fixed
 - A model built from your own data now splits a shared text column into its own table and joins every holder to it
   one-to-many. Before, `tools/new_model.py` only linked tables that already existed as lookups, so a column appearing

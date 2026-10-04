@@ -41,6 +41,40 @@ Desktop capture of the Excel-built model against values computed from the source
 | AOV | 185.4 | 185 |
 | Furthest behind | Camping ▼27.0K | Camping, 27.0K below budget |
 
+## The target measure no longer needs a workaround
+
+The map used to carry `TREATAS ( VALUES ( Products[Category] ), Budget[Category] )` inside the target measure. It was
+there because nothing joined Budget to Products: Category sat as duplicated text in both tables, so a category filter
+reached sales and left the target alone. The workaround bridged the two by hand, one measure at a time — which worked
+here only because a person filled this map. A new user's model just printed the wrong number.
+
+`new_model.py` now splits a shared column into its own table and joins both holders to it, so the map binds the axis to
+`Category.Category` and the measure is plain again:
+
+```
+VAR lastDay = CALCULATE ( MAX ( Orders[Order Date] ), REMOVEFILTERS () )
+RETURN IF ( ISFILTERED ( Products[Product] ) || ISFILTERED ( Products[Subcategory] ) || ISCROSSFILTERED ( Stores ),
+  BLANK (),
+  CALCULATE ( [Total Amount], KEEPFILTERS ( Calendar[Date] <= lastDay ) ) )
+```
+
+The two guards that remain are still doing work: the target stops at the last order date, so eight months of sales are
+never compared with twelve months of budget; and it goes blank below category grain, because the budget does not exist
+per product or per store, and a blank beats a wrong comparison.
+
+Checked against the source files, per category rather than only in total:
+
+| Category | Sales | Budget | Attainment | Report |
+|---|---|---|---|---|
+| Camping | 202,669 | 229,700 | 88.2% | 88.2% |
+| Footwear | 148,261 | 130,500 | 113.6% | 113.6% |
+| Apparel | 140,886 | 161,900 | 87.0% | 87.0% |
+| Accessories | 93,981 | 98,400 | 95.5% | 95.5% |
+| Climbing | 48,507 | 43,300 | 112.0% | 112.0% |
+| **Total** | 634,304 | 663,800 | 95.6% | 95.6% |
+
+![Attainment per category, filtering correctly](screenshots/categories-attainment.png)
+
 ## What went wrong, and what it taught
 
 - **The ODBC path first typed every date as text.** Reading sample values and guessing from their shape fails as soon as

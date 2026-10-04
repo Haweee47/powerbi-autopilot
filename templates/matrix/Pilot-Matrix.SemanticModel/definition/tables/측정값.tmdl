@@ -298,6 +298,11 @@ table 측정값
 		formatStringDefinition = [Unit Format Signed]
 
 	/// 리포트 표시용 (명세에서 생성)
+	measure 'YoY Gap Disp' = DIVIDE ( [전년 대비 증감], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format Signed]
+
+	/// 리포트 표시용 (명세에서 생성)
 	measure 'Profit Disp' = DIVIDE ( [이익], [Unit Scale] )
 		displayFolder: 9. 리포트 표시용
 		formatStringDefinition = [Unit Format]
@@ -356,6 +361,10 @@ table 측정값
 
 	/// 리포트 표시용 (명세에서 생성)
 	measure 'Headline Heatmap' = VAR t = FILTER ( VALUES ( '날짜'[월] ), NOT ISBLANK ( [매출] ) ) VAR hi = TOPN ( 1, t, [매출], DESC ) VAR lo = TOPN ( 1, t, [매출], ASC ) RETURN "Peak month: " & CONCATENATEX ( hi, '날짜'[월], ", " ) & " " & FORMAT ( MAXX ( hi, [매출] ) / [Unit Scale], "#,0.0" ) & [Unit Suffix] & "  ·  Low month: " & CONCATENATEX ( lo, '날짜'[월], ", " ) & " " & FORMAT ( MINX ( lo, [매출] ) / [Unit Scale], "#,0.0" ) & [Unit Suffix] & "  ·  darker cell = higher sales"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Heat' = VAR _cells = FILTER ( CROSSJOIN ( VALUES ( '카테고리'[카테고리] ), VALUES ( '날짜'[월] ) ), NOT ISBLANK ( [목표 달성률] ) ) VAR _miss = COUNTROWS ( FILTER ( _cells, [목표 달성률] < 1 ) ) VAR _n = COUNTROWS ( _cells ) VAR _by = ADDCOLUMNS ( VALUES ( '카테고리'[카테고리] ), "M", COUNTROWS ( FILTER ( VALUES ( '날짜'[월] ), NOT ISBLANK ( [목표 달성률] ) && [목표 달성률] < 1 ) ) ) VAR _worst = MAXX ( _by, [M] ) VAR _top = FILTER ( _by, [M] = _worst ) RETURN FORMAT ( _miss, "#,0" ) & " of " & FORMAT ( _n, "#,0" ) & " cells missed target" & " · most often: " & CONCATENATEX ( _top, '카테고리'[카테고리], ", " ) & " (" & FORMAT ( _worst, "#,0" ) & " months each)"
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)

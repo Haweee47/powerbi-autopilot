@@ -1798,6 +1798,317 @@
      "height": 232
     }
    ]
+  },
+  {
+   "id": "bridge",
+   "purpose": "deepdive",
+   "name": "다리",
+   "archetype": "폭포",
+   "question": "작년에서 올해까지 무엇이 바꿨나",
+   "regions": [
+    {
+     "id": "rail",
+     "role": "shape",
+     "zone": "rail",
+     "layer": "background",
+     "y": 0,
+     "h": 720,
+     "label": "내비 레일 (바탕)",
+     "x": 0,
+     "width": 192,
+     "height": 720
+    },
+    {
+     "id": "brand",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 24,
+     "h": 48,
+     "label": "리포트 이름",
+     "x": 16,
+     "width": 160,
+     "height": 48
+    },
+    {
+     "id": "nav",
+     "role": "pageNavigator",
+     "zone": "rail",
+     "y": 96,
+     "h": 136,
+     "label": "페이지 (세로)",
+     "x": 16,
+     "width": 160,
+     "height": 136
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 256,
+     "h": 72,
+     "label": "기간",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "slicer_channel",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 344,
+     "h": 72,
+     "label": "채널",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 664,
+     "h": 32,
+     "label": "데이터 기준일",
+     "x": 16,
+     "width": 160,
+     "height": 32
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 8,
+     "label": "페이지 제목",
+     "x": 216,
+     "y": 24,
+     "width": 688,
+     "height": 40
+    },
+    {
+     "id": "context",
+     "role": "context",
+     "col": 9,
+     "span": 4,
+     "label": "지금 보는 범위 (측정값)",
+     "x": 920,
+     "y": 24,
+     "width": 336,
+     "height": 40
+    },
+    {
+     "id": "headline",
+     "role": "headline",
+     "col": 1,
+     "span": 12,
+     "label": "결론 한 줄 (측정값)",
+     "x": 216,
+     "y": 64,
+     "width": 1040,
+     "height": 32
+    },
+    {
+     "id": "slicer_a",
+     "role": "dropdownSlicer",
+     "zone": "rail",
+     "y": 432,
+     "h": 64,
+     "label": "추가 필터 1",
+     "x": 16,
+     "width": 160,
+     "height": 64
+    },
+    {
+     "id": "slicer_b",
+     "role": "dropdownSlicer",
+     "zone": "rail",
+     "y": 512,
+     "h": 64,
+     "label": "추가 필터 2",
+     "x": 16,
+     "width": 160,
+     "height": 64
+    },
+    {
+     "id": "waterfall",
+     "role": "waterfallChart",
+     "col": 1,
+     "span": 12,
+     "y": 112,
+     "h": 256,
+     "label": "작년 → 올해 분해",
+     "x": 216,
+     "width": 1040,
+     "height": 256
+    },
+    {
+     "id": "movers",
+     "role": "tableEx",
+     "col": 1,
+     "span": 7,
+     "y": 384,
+     "h": 312,
+     "label": "가장 크게 움직인 칸",
+     "x": 216,
+     "width": 600,
+     "height": 312
+    },
+    {
+     "id": "share",
+     "role": "barChart",
+     "col": 8,
+     "span": 5,
+     "y": 384,
+     "h": 312,
+     "label": "구성비",
+     "x": 832,
+     "width": 424,
+     "height": 312
+    }
+   ]
+  },
+  {
+   "id": "heatgrid",
+   "purpose": "matrix",
+   "name": "달성률 격자",
+   "archetype": "히트맵",
+   "question": "어느 칸이 언제 목표를 놓쳤나",
+   "regions": [
+    {
+     "id": "rail",
+     "role": "shape",
+     "zone": "rail",
+     "layer": "background",
+     "y": 0,
+     "h": 720,
+     "label": "내비 레일 (바탕)",
+     "x": 0,
+     "width": 192,
+     "height": 720
+    },
+    {
+     "id": "brand",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 24,
+     "h": 48,
+     "label": "리포트 이름",
+     "x": 16,
+     "width": 160,
+     "height": 48
+    },
+    {
+     "id": "nav",
+     "role": "pageNavigator",
+     "zone": "rail",
+     "y": 96,
+     "h": 136,
+     "label": "페이지 (세로)",
+     "x": 16,
+     "width": 160,
+     "height": 136
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 256,
+     "h": 72,
+     "label": "기간",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "slicer_channel",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 344,
+     "h": 72,
+     "label": "채널",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 664,
+     "h": 32,
+     "label": "데이터 기준일",
+     "x": 16,
+     "width": 160,
+     "height": 32
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 8,
+     "label": "페이지 제목",
+     "x": 216,
+     "y": 24,
+     "width": 688,
+     "height": 40
+    },
+    {
+     "id": "context",
+     "role": "context",
+     "col": 9,
+     "span": 4,
+     "label": "지금 보는 범위 (측정값)",
+     "x": 920,
+     "y": 24,
+     "width": 336,
+     "height": 40
+    },
+    {
+     "id": "headline",
+     "role": "headline",
+     "col": 1,
+     "span": 12,
+     "label": "결론 한 줄 (측정값)",
+     "x": 216,
+     "y": 64,
+     "width": 1040,
+     "height": 32
+    },
+    {
+     "id": "slicer_a",
+     "role": "dropdownSlicer",
+     "zone": "rail",
+     "y": 432,
+     "h": 64,
+     "label": "추가 필터 (드롭다운)",
+     "x": 16,
+     "width": 160,
+     "height": 64
+    },
+    {
+     "id": "heat",
+     "role": "pivotTable",
+     "col": 1,
+     "span": 12,
+     "y": 112,
+     "h": 344,
+     "label": "카테고리 × 월 달성률",
+     "x": 216,
+     "width": 1040,
+     "height": 344
+    },
+    {
+     "id": "worst",
+     "role": "barChart",
+     "col": 1,
+     "span": 12,
+     "y": 472,
+     "h": 224,
+     "label": "가장 많이 모자란 칸",
+     "x": 216,
+     "width": 1040,
+     "height": 224
+    }
+   ]
   }
  ],
  "frames": {
@@ -3567,6 +3878,317 @@
       "x": 744,
       "width": 512,
       "height": 232
+     }
+    ]
+   },
+   {
+    "id": "bridge",
+    "purpose": "deepdive",
+    "name": "다리",
+    "archetype": "폭포",
+    "question": "작년에서 올해까지 무엇이 바꿨나",
+    "regions": [
+     {
+      "id": "rail",
+      "role": "shape",
+      "zone": "rail",
+      "layer": "background",
+      "y": 0,
+      "h": 720,
+      "label": "내비 레일 (바탕)",
+      "x": 0,
+      "width": 192,
+      "height": 720
+     },
+     {
+      "id": "brand",
+      "role": "textbox",
+      "zone": "rail",
+      "y": 24,
+      "h": 48,
+      "label": "리포트 이름",
+      "x": 16,
+      "width": 160,
+      "height": 48
+     },
+     {
+      "id": "nav",
+      "role": "pageNavigator",
+      "zone": "rail",
+      "y": 96,
+      "h": 136,
+      "label": "페이지 (세로)",
+      "x": 16,
+      "width": 160,
+      "height": 136
+     },
+     {
+      "id": "slicer_period",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 256,
+      "h": 72,
+      "label": "기간",
+      "x": 16,
+      "width": 160,
+      "height": 72
+     },
+     {
+      "id": "slicer_channel",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 344,
+      "h": 72,
+      "label": "채널",
+      "x": 16,
+      "width": 160,
+      "height": 72
+     },
+     {
+      "id": "asof",
+      "role": "textbox",
+      "zone": "rail",
+      "y": 664,
+      "h": 32,
+      "label": "데이터 기준일",
+      "x": 16,
+      "width": 160,
+      "height": 32
+     },
+     {
+      "id": "title",
+      "role": "textbox",
+      "col": 1,
+      "span": 8,
+      "label": "페이지 제목",
+      "x": 216,
+      "y": 24,
+      "width": 688,
+      "height": 40
+     },
+     {
+      "id": "context",
+      "role": "context",
+      "col": 9,
+      "span": 4,
+      "label": "지금 보는 범위 (측정값)",
+      "x": 920,
+      "y": 24,
+      "width": 336,
+      "height": 40
+     },
+     {
+      "id": "headline",
+      "role": "headline",
+      "col": 1,
+      "span": 12,
+      "label": "결론 한 줄 (측정값)",
+      "x": 216,
+      "y": 64,
+      "width": 1040,
+      "height": 32
+     },
+     {
+      "id": "slicer_a",
+      "role": "dropdownSlicer",
+      "zone": "rail",
+      "y": 432,
+      "h": 64,
+      "label": "추가 필터 1",
+      "x": 16,
+      "width": 160,
+      "height": 64
+     },
+     {
+      "id": "slicer_b",
+      "role": "dropdownSlicer",
+      "zone": "rail",
+      "y": 512,
+      "h": 64,
+      "label": "추가 필터 2",
+      "x": 16,
+      "width": 160,
+      "height": 64
+     },
+     {
+      "id": "waterfall",
+      "role": "waterfallChart",
+      "col": 1,
+      "span": 12,
+      "y": 112,
+      "h": 256,
+      "label": "작년 → 올해 분해",
+      "x": 216,
+      "width": 1040,
+      "height": 256
+     },
+     {
+      "id": "movers",
+      "role": "tableEx",
+      "col": 1,
+      "span": 7,
+      "y": 384,
+      "h": 312,
+      "label": "가장 크게 움직인 칸",
+      "x": 216,
+      "width": 600,
+      "height": 312
+     },
+     {
+      "id": "share",
+      "role": "barChart",
+      "col": 8,
+      "span": 5,
+      "y": 384,
+      "h": 312,
+      "label": "구성비",
+      "x": 832,
+      "width": 424,
+      "height": 312
+     }
+    ]
+   },
+   {
+    "id": "heatgrid",
+    "purpose": "matrix",
+    "name": "달성률 격자",
+    "archetype": "히트맵",
+    "question": "어느 칸이 언제 목표를 놓쳤나",
+    "regions": [
+     {
+      "id": "rail",
+      "role": "shape",
+      "zone": "rail",
+      "layer": "background",
+      "y": 0,
+      "h": 720,
+      "label": "내비 레일 (바탕)",
+      "x": 0,
+      "width": 192,
+      "height": 720
+     },
+     {
+      "id": "brand",
+      "role": "textbox",
+      "zone": "rail",
+      "y": 24,
+      "h": 48,
+      "label": "리포트 이름",
+      "x": 16,
+      "width": 160,
+      "height": 48
+     },
+     {
+      "id": "nav",
+      "role": "pageNavigator",
+      "zone": "rail",
+      "y": 96,
+      "h": 136,
+      "label": "페이지 (세로)",
+      "x": 16,
+      "width": 160,
+      "height": 136
+     },
+     {
+      "id": "slicer_period",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 256,
+      "h": 72,
+      "label": "기간",
+      "x": 16,
+      "width": 160,
+      "height": 72
+     },
+     {
+      "id": "slicer_channel",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 344,
+      "h": 72,
+      "label": "채널",
+      "x": 16,
+      "width": 160,
+      "height": 72
+     },
+     {
+      "id": "asof",
+      "role": "textbox",
+      "zone": "rail",
+      "y": 664,
+      "h": 32,
+      "label": "데이터 기준일",
+      "x": 16,
+      "width": 160,
+      "height": 32
+     },
+     {
+      "id": "title",
+      "role": "textbox",
+      "col": 1,
+      "span": 8,
+      "label": "페이지 제목",
+      "x": 216,
+      "y": 24,
+      "width": 688,
+      "height": 40
+     },
+     {
+      "id": "context",
+      "role": "context",
+      "col": 9,
+      "span": 4,
+      "label": "지금 보는 범위 (측정값)",
+      "x": 920,
+      "y": 24,
+      "width": 336,
+      "height": 40
+     },
+     {
+      "id": "headline",
+      "role": "headline",
+      "col": 1,
+      "span": 12,
+      "label": "결론 한 줄 (측정값)",
+      "x": 216,
+      "y": 64,
+      "width": 1040,
+      "height": 32
+     },
+     {
+      "id": "slicer_a",
+      "role": "dropdownSlicer",
+      "zone": "rail",
+      "y": 432,
+      "h": 64,
+      "label": "추가 필터 (드롭다운)",
+      "x": 16,
+      "width": 160,
+      "height": 64
+     },
+     {
+      "id": "heat",
+      "role": "pivotTable",
+      "col": 1,
+      "span": 12,
+      "y": 112,
+      "h": 344,
+      "label": "카테고리 × 월 달성률",
+      "x": 216,
+      "width": 1040,
+      "height": 344
+     },
+     {
+      "id": "worst",
+      "role": "barChart",
+      "col": 1,
+      "span": 12,
+      "y": 472,
+      "h": 224,
+      "label": "가장 많이 모자란 칸",
+      "x": 216,
+      "width": 1040,
+      "height": 224
      }
     ]
    }
@@ -5384,6 +6006,346 @@
       "x": 648,
       "width": 608,
       "height": 232
+     }
+    ],
+    "frame": "top"
+   },
+   {
+    "id": "bridge",
+    "purpose": "deepdive",
+    "name": "다리",
+    "archetype": "폭포",
+    "question": "작년에서 올해까지 무엇이 바꿨나",
+    "regions": [
+     {
+      "id": "rail",
+      "role": "shape",
+      "zone": "rail",
+      "layer": "background",
+      "y": 0,
+      "h": 720,
+      "label": "내비 레일 (바탕)",
+      "x": 0,
+      "width": 1280,
+      "height": 48,
+      "bar": true
+     },
+     {
+      "id": "brand",
+      "role": "textbox",
+      "zone": "rail",
+      "y": 8,
+      "h": 48,
+      "label": "리포트 이름",
+      "x": 24,
+      "width": 176,
+      "height": 40,
+      "bar": true
+     },
+     {
+      "id": "nav",
+      "role": "pageNavigator",
+      "zone": "rail",
+      "y": 8,
+      "h": 136,
+      "label": "페이지 (세로)",
+      "x": 224,
+      "width": 328,
+      "height": 32,
+      "bar": true
+     },
+     {
+      "id": "slicer_period",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 8,
+      "h": 72,
+      "label": "기간",
+      "x": 568,
+      "width": 152,
+      "height": 32,
+      "bar": true
+     },
+     {
+      "id": "slicer_channel",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 8,
+      "h": 72,
+      "label": "채널",
+      "x": 736,
+      "width": 136,
+      "height": 32,
+      "bar": true
+     },
+     {
+      "id": "title",
+      "role": "textbox",
+      "col": 1,
+      "span": 8,
+      "label": "페이지 제목",
+      "x": 24,
+      "y": 48,
+      "width": 816,
+      "height": 32
+     },
+     {
+      "id": "context",
+      "role": "context",
+      "col": 9,
+      "span": 4,
+      "label": "지금 보는 범위 (측정값)",
+      "x": 856,
+      "y": 48,
+      "width": 400,
+      "height": 32
+     },
+     {
+      "id": "headline",
+      "role": "headline",
+      "col": 1,
+      "span": 12,
+      "label": "결론 한 줄 (측정값)",
+      "x": 24,
+      "y": 80,
+      "width": 1232,
+      "height": 32
+     },
+     {
+      "id": "slicer_a",
+      "role": "dropdownSlicer",
+      "zone": "rail",
+      "y": 0,
+      "h": 64,
+      "label": "추가 필터 1",
+      "x": 960,
+      "width": 104,
+      "height": 48,
+      "bar": true
+     },
+     {
+      "id": "slicer_b",
+      "role": "dropdownSlicer",
+      "zone": "rail",
+      "y": 0,
+      "h": 64,
+      "label": "추가 필터 2",
+      "x": 1152,
+      "width": 104,
+      "height": 48,
+      "bar": true
+     },
+     {
+      "id": "waterfall",
+      "role": "waterfallChart",
+      "col": 1,
+      "span": 12,
+      "y": 120,
+      "h": 256,
+      "label": "작년 → 올해 분해",
+      "x": 24,
+      "width": 1232,
+      "height": 256
+     },
+     {
+      "id": "movers",
+      "role": "tableEx",
+      "col": 1,
+      "span": 7,
+      "y": 384,
+      "h": 312,
+      "label": "가장 크게 움직인 칸",
+      "x": 24,
+      "width": 712,
+      "height": 312
+     },
+     {
+      "id": "share",
+      "role": "barChart",
+      "col": 8,
+      "span": 5,
+      "y": 384,
+      "h": 312,
+      "label": "구성비",
+      "x": 752,
+      "width": 504,
+      "height": 312
+     },
+     {
+      "id": "slicer_b_label",
+      "role": "textbox",
+      "zone": "rail",
+      "bar": true,
+      "labelFor": "slicer_b",
+      "label": "slicer name",
+      "x": 1080,
+      "y": 8,
+      "width": 64,
+      "height": 24
+     },
+     {
+      "id": "slicer_a_label",
+      "role": "textbox",
+      "zone": "rail",
+      "bar": true,
+      "labelFor": "slicer_a",
+      "label": "slicer name",
+      "x": 888,
+      "y": 8,
+      "width": 64,
+      "height": 24
+     }
+    ],
+    "frame": "top"
+   },
+   {
+    "id": "heatgrid",
+    "purpose": "matrix",
+    "name": "달성률 격자",
+    "archetype": "히트맵",
+    "question": "어느 칸이 언제 목표를 놓쳤나",
+    "regions": [
+     {
+      "id": "rail",
+      "role": "shape",
+      "zone": "rail",
+      "layer": "background",
+      "y": 0,
+      "h": 720,
+      "label": "내비 레일 (바탕)",
+      "x": 0,
+      "width": 1280,
+      "height": 48,
+      "bar": true
+     },
+     {
+      "id": "brand",
+      "role": "textbox",
+      "zone": "rail",
+      "y": 8,
+      "h": 48,
+      "label": "리포트 이름",
+      "x": 24,
+      "width": 176,
+      "height": 40,
+      "bar": true
+     },
+     {
+      "id": "nav",
+      "role": "pageNavigator",
+      "zone": "rail",
+      "y": 8,
+      "h": 136,
+      "label": "페이지 (세로)",
+      "x": 224,
+      "width": 520,
+      "height": 32,
+      "bar": true
+     },
+     {
+      "id": "slicer_period",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 8,
+      "h": 72,
+      "label": "기간",
+      "x": 760,
+      "width": 152,
+      "height": 32,
+      "bar": true
+     },
+     {
+      "id": "slicer_channel",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 8,
+      "h": 72,
+      "label": "채널",
+      "x": 928,
+      "width": 136,
+      "height": 32,
+      "bar": true
+     },
+     {
+      "id": "title",
+      "role": "textbox",
+      "col": 1,
+      "span": 8,
+      "label": "페이지 제목",
+      "x": 24,
+      "y": 48,
+      "width": 816,
+      "height": 32
+     },
+     {
+      "id": "context",
+      "role": "context",
+      "col": 9,
+      "span": 4,
+      "label": "지금 보는 범위 (측정값)",
+      "x": 856,
+      "y": 48,
+      "width": 400,
+      "height": 32
+     },
+     {
+      "id": "headline",
+      "role": "headline",
+      "col": 1,
+      "span": 12,
+      "label": "결론 한 줄 (측정값)",
+      "x": 24,
+      "y": 80,
+      "width": 1232,
+      "height": 32
+     },
+     {
+      "id": "slicer_a",
+      "role": "dropdownSlicer",
+      "zone": "rail",
+      "y": 0,
+      "h": 64,
+      "label": "추가 필터 (드롭다운)",
+      "x": 1152,
+      "width": 104,
+      "height": 48,
+      "bar": true
+     },
+     {
+      "id": "heat",
+      "role": "pivotTable",
+      "col": 1,
+      "span": 12,
+      "y": 120,
+      "h": 344,
+      "label": "카테고리 × 월 달성률",
+      "x": 24,
+      "width": 1232,
+      "height": 344
+     },
+     {
+      "id": "worst",
+      "role": "barChart",
+      "col": 1,
+      "span": 12,
+      "y": 472,
+      "h": 224,
+      "label": "가장 많이 모자란 칸",
+      "x": 24,
+      "width": 1232,
+      "height": 224
+     },
+     {
+      "id": "slicer_a_label",
+      "role": "textbox",
+      "zone": "rail",
+      "bar": true,
+      "labelFor": "slicer_a",
+      "label": "slicer name",
+      "x": 1080,
+      "y": 8,
+      "width": 64,
+      "height": 24
      }
     ],
     "frame": "top"
