@@ -820,3 +820,33 @@ the report's accent colour, with no visual file in the repo and nothing installe
 The cost is one validator warning, `PBIR_VISUAL_TYPE_UNKNOWN`. `check.py` now exempts it for names the generator
 registers and for nothing else, so the 0-warning gate still means something. One limit stays untested and is written as
 such: an organisation that blocks AppSource visuals will not open the file, and this machine cannot tell me that.
+
+## 2026-10-04 · v0.5.0
+
+[v0.5.0](https://github.com/Haweee47/powerbi-autopilot/releases/tag/v0.5.0). The release has one story running through
+it: ten themes turned out to be **one layout wearing ten palettes**. Lining them up side by side, they read as the same
+report, because only colour, corner radius and typeface ever changed underneath a fixed 192px rail and a grid of white
+cards.
+
+Fixing that produced fifteen HTML studies composed differently rather than coloured differently, two of which are now
+real Power BI pages. And on the way through that work, a number that had been wrong for weeks turned up.
+
+**What this release is worth, in one line each.** Fifteen studies · two analytical pages on built-in visuals · AppSource
+custom visuals working with no visual file in the repo · ten themes across three axes · asking before building, with
+every option showing what it is · and three checks that can now fail where they previously could not.
+
+**The number.** A model built from your own data left a shared column duplicated in two tables with nothing joining
+them, so a category slicer filtered sales and left the target alone: Camping printed 27.8% against a true 82.7%. The
+total was right. That is the whole reason it survived the official validator, a Desktop capture, and a published example
+— nothing in the pipeline slices, and only slicing exposes it.
+
+**What this session cost, and what that says.** Across the design and port work, the captures caught **nine defects at
+zero validator errors**: two Korean strings on an English report, two subtitles describing a chart the page no longer
+drew, four tables and a matrix clipped by a row that did not fit, and a DAX bug where `BLANK < 1` is true, so months
+with no data counted as missed. Two of the nine I introduced myself while fixing the others. The ratio is the argument:
+a validator that reports 0 errors is measuring something real, but it is not measuring whether the report is right.
+
+**Two things recorded as untested rather than quietly omitted**: the dropdown slicer still prints "All" in the reader's
+language (the formatting catalog was searched in full; no property exposes it), and an organisation that blocks
+AppSource visuals will not open a report that uses one, which this machine cannot verify. A repo that argues "passing
+is not finishing" cannot hide its own unfinished edges.
