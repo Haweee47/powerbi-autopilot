@@ -5,96 +5,69 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
-### Added
-- AppSource custom visuals work from a generated report, proved end to end. The visual file never enters the repo:
-  `report.json` names it under `publicCustomVisuals`, the visual carries that name as its `visualType`, and Power BI
-  Desktop fetches it from AppSource when the file opens - it even picked up the theme's accent colour. The name is not
-  guessed: Microsoft publishes these visuals, so the `guid` comes from the visual's own `pbiviz.json` and its data roles
-  from its `capabilities.json` (radar: `RadarChart1446119667547`, `Category` + `Y`)
-- `tools/check.py` exempts the validator's `PBIR_VISUAL_TYPE_UNKNOWN` warning **only** for names the generator
-  registers in `CUSTOM_VISUALS`. Every other warning still fails the build, and the registry lives in one place
+## [0.5.0] - 2026-10-04
+
+Ten themes turned out to be one layout wearing ten palettes. Fixing that led to fifteen design studies, two of them
+now real Power BI pages - and, on the way, to a number that had been wrong for weeks while passing every check.
 
 ### Added
-- Two analytical pages, ported from the HTML studies to Power BI on built-in visuals: a **bridge** (waterfall) that
-  decomposes last year into this year one category at a time, and an **attainment grid** - a category x month matrix
-  where colour diverges from 100% so a miss reads as red and a beat as blue
-- `waterfallChart` is now a visual the generator can place, and cell formatting takes `diverge`, a three-stop colour
-  scale around a baseline you name (`divergeAt`). No public report in the collected corpus uses `linearGradient3`, so
-  the shape was proved by building it and looking at the capture
-- Tables take `labels` to rename a column header, instead of printing the measure's own name
-
-### Fixed
-- The target measure in example 07 no longer needs its `TREATAS` workaround. With a real Category table joining Budget
-  and Products, the measure is plain again, and attainment is checked per category against the source files rather than
-  only in total
-- Two more locale leaks, both in the waterfall: Power BI printed its legend ("increase / decrease / total") and its
-  total bar label in the reader's Desktop language. The legend is off - the subtitle says what the colours mean - and
-  the total bar is off too, because nothing renames it and the headline sentence already states the net change
-
-### Fixed
-- A model built from your own data now splits a shared text column into its own table and joins every holder to it
-  one-to-many. Before, `tools/new_model.py` only linked tables that already existed as lookups, so a column appearing
-  in two tables stayed duplicated and unrelated - and a slicer on it filtered one of them. On the repo's own
-  outdoor-shop sample, Budget and Products both carry Category with nothing joining them, so attainment by category
-  printed **Camping 27.8% where the truth is 82.7%**. The total was right, which is why it passed the validator and a
-  Desktop capture for weeks. Both states are captured in `examples/07-own-data/screenshots/`
-- The rule is narrow on purpose: a non-date text column in two or more tables, not already covered by a relationship.
-  One wide flat CSV splits nothing, because a single table is not a star schema and inventing lookup tables out of its
-  text columns would add nothing. `--no-dimensions` turns it off
+- **Fifteen dashboard studies in HTML** (`design-system/prototypes/themes/`), composed differently rather than coloured
+  differently: bento tiles, a monospace terminal, a ruled ledger, a newspaper masthead, a full-bleed chart, a written
+  brief, a monitor wall, a one-number poster, a split colour field, a tool-like workbench — and five analytical ones:
+  a correlation matrix, an attainment heat grid, a distribution with outliers, radar profiles and a waterfall bridge.
+  Every figure is computed from the example model, so the only thing that differs between them is design. All fixed at
+  1280×720, the Power BI page size, so nothing here is a look that cannot survive the move
+- **Two of those studies as real pages**, on built-in visuals: a **bridge** that decomposes last year into this year one
+  category at a time, and an **attainment grid** — category × month, coloured so a miss reads red and a beat blue.
+  `waterfallChart` is now placeable, and cell formatting takes `diverge`, a three-stop scale around a baseline named
+  with `divergeAt`. No report in the collected public corpus uses `linearGradient3`, so the shape was settled by
+  building it and looking at the capture
+- **AppSource custom visuals work from a generated report**, proved end to end. The visual file never enters the repo:
+  `report.json` names it under `publicCustomVisuals`, the visual carries that name as its `visualType`, and Desktop
+  fetches it from AppSource on open — themed to the report's accent colour. The name is not guessed; Microsoft
+  publishes these visuals, so it comes from the visual's own `pbiviz.json` and its roles from `capabilities.json`
+- **Three more themes and a typeface axis.** `universal` (Okabe-Ito, separable under all three kinds of colour-vision
+  deficiency), `carbon` (IBM Carbon on a near-black rail, for dense operations screens), `broadsheet` (warm paper, serif
+  headings, one ink colour). Ten themes now, each also choosing `segoe`, `din` or `editorial` — restricted to fonts
+  Power BI ships, because anything else falls back silently on the reader's machine
+- **Two page compositions**, `hero` and `compare`, documented with Desktop captures
+- **`tools/design_check.py`**: the review rubric, for the items a script can settle. It reads the spec, not the generated
+  report, so it costs no tokens and stops before Desktop opens — a KPI without a comparison, a chart with no title, a bar
+  with no order, a page over seven tabs, series colours under 3:1, a table asked to show more rows than fit. In CI
+- Tables take `labels` to rename a column header instead of printing the measure's own name
 
 ### Changed
-- Asking before building is now a rule in the `new-report` skill, not a suggestion. A request in plain words
-  ("make me a sales dashboard") does not say who reads it, where it is shown or in what language, and those choices
-  change the output more than anything the agent would infer. The skill asks purpose, theme, language and page layout
-  in one go, in that order, and only skips a question the request already answered
-- Every option in `templates/catalog.json` now carries a **preview**: an ASCII wireframe for purposes and layouts, the
-  palette, card shape and typeface for themes. Picking a theme no longer means building one to find out what it looks
-  like. `tools/build_catalog_previews.py` generates them from the real layout coordinates and tokens, so a layout change
-  cannot leave a preview lying; CI regenerates and fails on a mismatch
-- The README explains PBIP and PBIR as what they are - the project folder and the report definition inside it, not two
-  formats to choose between
-
-### Added
-- `design_check.py` now checks that a table showing "only the top N" can actually show N rows. The number that fits is
-  computed from the region height, and the constants come from two measured captures (232px fits 3 rows, 296px fits 5),
-  not from a guess. A short list with a scrollbar hides the very row it was trimmed to show
-- The `hero` and `compare` layouts are documented with Desktop captures in `design-system/layouts/README.md`. Both were
-  defined but had never been generated or opened, so nothing proved they worked
+- **Asking before building is a rule now**, not a step. "Make me a sales dashboard" says nothing about who reads it,
+  where it is shown or in what language, and those choices change the output more than anything the agent would infer.
+  The `new-report` skill asks purpose, theme, language and layout in one go, ordered by how much each changes the result
+- **Every option carries a preview**: an ASCII wireframe for purposes and layouts, the palette, card shape and typeface
+  for themes. Choosing a theme no longer means building one to find out. Generated from the real layout coordinates and
+  tokens by `tools/build_catalog_previews.py`, in CI, so a preview cannot drift from what it describes
+- The README says what PBIP and PBIR are — the project folder and the report definition inside it, not two formats to
+  choose between
+- The rubric marks which items a script enforces and which are still read off a capture
 
 ### Fixed
-- `compare` put its tables in a 224px row, where even a three-row list scrolled. The trend above gives up 8px and the
-  tables now match `summary` and `hero` at 232px, with the 16px row gaps unchanged. The validator reported 0 errors on the
-  broken version - only the capture showed it
+- **A model built from your own data now splits a shared column into its own table** and joins every holder one-to-many.
+  Before, a column in two tables stayed duplicated and unrelated, so a slicer on it filtered one side. On this repo's own
+  sample, attainment by category printed **Camping 27.8% where the truth is 82.7%** — the total was right, which is why
+  it passed the validator, a Desktop capture and a published example. Both states are captured in
+  `examples/07-own-data/screenshots/`. `--no-dimensions` turns it off
+- Example 07's target measure drops its `TREATAS` workaround, which existed only because of that missing join
+- **Slicer buttons could be invisible**: `carbon` drew its chips at 1.11:1 against their own fill. Theme building now
+  computes WCAG contrast on every text-over-its-own-fill pair and fails under 4.5:1 — which also caught `paper` (4.42:1)
+  and `midnight` (3.64:1), both already shipped
+- **The capture script reported success having captured nothing.** A run producing fewer screenshots than the report has
+  pages now fails, and the next report waits for the analysis engine to exit first
+- `compare` put its tables in a 224px row where even a three-row list scrolled; `design_check` now computes how many rows
+  fit from the region height, using constants measured from captures rather than guessed
+- Four locale leaks: a date axis printed in the reader's Desktop language, the waterfall's legend and its total bar
+  label. Each is now either bound to a digits-only column or turned off, since nothing renames them
 
-### Added (earlier)
-- `tools/design_check.py`: the review rubric, for the items a machine can settle. It reads the **spec**, not the generated
-  report, so it costs no tokens and stops before Desktop is opened: every KPI carries a comparison (A4/H5), every chart has a
-  real title instead of "Sum of X by Y" (D3), a bar declares its order unless the model already fixed one (C3), a page keeps
-  5-7 visible tabs (G1), and the series a chart actually uses stay at 3:1 against the card behind them (E3). It runs in CI.
-  The rubric now marks which items are enforced by a script and which are still read off a capture - the honest split
-- The layout build checks rubric A3 (visual groups per page, 9 at most and 6 on an executive page). It counts groups, not
-  visuals: a row of four KPI cards reads as one group, so counting visuals would have failed pages that are fine
-- Three more design concepts, so a report can look like the room it is shown in. `universal` takes the Okabe-Ito set, which
-  stays separable under all three kinds of colour-vision deficiency and survives a projector; `carbon` takes IBM Carbon's data
-  colours on a near-black rail, for dense operations screens; `broadsheet` is warm paper with serif headings and one ink colour,
-  for a pack that is read rather than watched. Ten themes now (`--theme`), all captured in Desktop
-- A typeface axis alongside colour and card shape: `segoe`, `din` (Power BI's signage face - numbers read as instruments) and
-  `editorial` (Georgia headings over Corbel). Only fonts Power BI ships are allowed, because anything else falls back silently
-  on the reader's machine, and every set chains the same CJK fallbacks so Korean and Japanese text stays readable
-- Two page compositions: `hero` puts one number large with the trend beside it and three tiles underneath, for a page that
-  makes a single point; `compare` mirrors the page down the middle for two things held side by side
-
-### Fixed
-- Slicer buttons could be invisible: `carbon` drew its default chips at 1.11:1 against their own fill. Theme building now
-  computes WCAG contrast on every text-over-its-own-fill pair and fails the build under 4.5:1, which also caught `paper` (4.42:1)
-  and `midnight` (3.64:1) - both were shipped that way. All ten themes pass
-- The capture script reported success having captured nothing. A run that produces fewer screenshots than the report has pages
-  now fails, and the next report waits for the analysis engine to exit before it opens - two reports built from the same pilot
-  share a model name, and opening one on top of the other produced a circular-reference error with every measure blank
-- A report rendered differently depending on the reader's Power BI Desktop language: charts bound to a date column printed
-  their axis in that language ("2026년 7월" on an English report). Weekly charts now use a digits-only label column sorted by
-  the date behind it, and daily charts keep the date axis with its labels hidden - 60+ labels never fit anyway, and the period
-  is already in the page header. Checked in Desktop in both languages
+### Known limits
+- A dropdown slicer still prints "All" in the reader's language. The formatting catalog was searched in full; no property
+  exposes that text
+- An organisation that blocks AppSource visuals will not open a report that uses one. Untested here
 
 ## [0.4.0] - 2026-09-21
 

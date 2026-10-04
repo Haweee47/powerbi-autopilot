@@ -235,6 +235,10 @@ This is a work in progress. I'll keep improving it and logging what I learn.
 
 - [x] Design tokens → themes, layout templates, spec → report generator
 - [x] Four pilots · a fulfillment-operations pilot · ten themes · two layouts · multiple languages
+- [x] Fifteen dashboard studies in HTML, composed differently rather than coloured differently
+- [x] Analytical pages in Power BI: a waterfall bridge and a diverging attainment grid
+- [x] AppSource custom visuals from a generated report, with no visual file in the repo
+- [x] A model built from your own data splits shared columns into their own tables (a wrong number, now right)
 - [ ] Sparklines inside tables (SVG measures)
 - [ ] Real-data flow: Presto/Redshift query → model → pilot, including ODBC validation
 - [ ] Same request across three tools (Microsoft's official skill / a community skill / Modeling MCP), compared by tokens and rubric score
