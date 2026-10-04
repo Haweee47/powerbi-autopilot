@@ -789,3 +789,34 @@ calculation done independently in Python from the CSVs.
 I nearly reported the dimension as the cause. Re-run from scratch, it opened and captured on the first try. That is the
 second time this session that a Desktop failure was transient and not in the artifact — the first was the "circular
 reference" on the midnight theme. The lesson both times: a single Desktop failure is not evidence until it reproduces.
+
+## 2026-10-04 · Three things finished, and a capability that did not need asking
+
+**The target measure stopped needing a workaround.** Example 07 carried
+`TREATAS ( VALUES ( Products[Category] ), Budget[Category] )` because nothing joined Budget to Products. With a real
+Category table the measure is plain again, and attainment is now checked **per category** against the source files
+rather than only in total - all five categories and the total match. Two guards stay and still earn their place: the
+target stops at the last order date, and it goes blank below category grain, because the budget does not exist per
+product and a blank beats a wrong comparison.
+
+**Two of the HTML studies are real pages now**, on built-in visuals: a waterfall bridge from last year to this one, and
+a category x month attainment grid coloured so a miss reads red and a beat blue. Both needed new generator capability -
+`waterfallChart`, and a `diverge` cell format built on `linearGradient3`. **No report in the collected public corpus
+uses that gradient**, so there was nothing to copy; the shape was settled by building it and looking at the capture.
+
+**Nine defects the captures caught, all at 0 validator errors.** A Korean legend and a Korean total label on an English
+waterfall. Two subtitles describing a chart the page no longer drew - one of them written by me after I removed the very
+bar it described. Three tables and a matrix clipped by a row that did not fit, including one I caused by shrinking the
+matrix to make room for a table that turned out to repeat what the bar chart beside it already said. And a DAX bug:
+`BLANK < 1` is true in DAX, so months with no data counted as missed and one category's six months printed as ten -
+while the total in the same sentence was right, which is exactly why it was easy to miss.
+
+**Custom visuals: the question answered itself.** The plan was to ask for one AppSource visual to be installed so the
+name could be read out of `report.json`. That was unnecessary. Microsoft publishes these visuals, so the name is in the
+visual's own `pbiviz.json` (`RadarChart1446119667547`) and its data roles in `capabilities.json` (`Category` + `Y`).
+A report naming it in `publicCustomVisuals` opened in Desktop and **drew the radar**, fetched from AppSource, themed to
+the report's accent colour, with no visual file in the repo and nothing installed by hand.
+
+The cost is one validator warning, `PBIR_VISUAL_TYPE_UNKNOWN`. `check.py` now exempts it for names the generator
+registers and for nothing else, so the 0-warning gate still means something. One limit stays untested and is written as
+such: an organisation that blocks AppSource visuals will not open the file, and this machine cannot tell me that.

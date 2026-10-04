@@ -70,13 +70,24 @@ def model_smoke() -> list[str]:
     return problems
 
 
+from generate_pbir import CUSTOM_VISUALS  # 등록부는 생성기 한 곳에만 둔다
+
+
 def validate(validator: str, report: Path) -> tuple[int | str, int | str]:
     r = run([validator, "validate", str(report)])
     for line in reversed(r.stdout.splitlines()):
         if line.startswith("{"):
             try:
                 data = json.loads(line)["data"]
-                return data["errorCount"], data["warningCount"]
+                warn = data["warningCount"]
+                # AppSource 커스텀 개체는 검증기가 모르는 이름이라 경고를 낸다. 개체 파일이 저장소에
+                # 없는 것은 정상이고(Desktop 이 열 때 받아 온다), 이름은 그 개체의 공개 pbiviz.json 에서
+                # 가져온다. 생성기가 등록한 이름에 대한 경고만 빼고, 나머지 경고는 그대로 실패로 둔다.
+                known = set(CUSTOM_VISUALS.values())
+                for item in (data.get("diagnostics", {}).get("PBIR_VISUAL_TYPE_UNKNOWN", {}).get("items") or []):
+                    if any(f'"{n}"' in item.get("message", "") for n in known):
+                        warn -= 1
+                return data["errorCount"], warn
             except (ValueError, KeyError):
                 break
     return "?", "?"

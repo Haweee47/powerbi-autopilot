@@ -6,6 +6,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 ## [Unreleased]
 
 ### Added
+- AppSource custom visuals work from a generated report, proved end to end. The visual file never enters the repo:
+  `report.json` names it under `publicCustomVisuals`, the visual carries that name as its `visualType`, and Power BI
+  Desktop fetches it from AppSource when the file opens - it even picked up the theme's accent colour. The name is not
+  guessed: Microsoft publishes these visuals, so the `guid` comes from the visual's own `pbiviz.json` and its data roles
+  from its `capabilities.json` (radar: `RadarChart1446119667547`, `Category` + `Y`)
+- `tools/check.py` exempts the validator's `PBIR_VISUAL_TYPE_UNKNOWN` warning **only** for names the generator
+  registers in `CUSTOM_VISUALS`. Every other warning still fails the build, and the registry lives in one place
+
+### Added
 - Two analytical pages, ported from the HTML studies to Power BI on built-in visuals: a **bridge** (waterfall) that
   decomposes last year into this year one category at a time, and an **attainment grid** - a category x month matrix
   where colour diverges from 100% so a miss reads as red and a beat as blue

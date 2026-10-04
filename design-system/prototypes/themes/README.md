@@ -83,10 +83,15 @@ python design-system/prototypes/themes/build.py   # → 01-*.html … 15-*.html,
 | PBIP 프로젝트의 리포트 정의(PBIR)가 커스텀 개체를 담을 수 있나 | **된다.** `report.json`의 `publicCustomVisuals` 배열에 개체 이름을 적고, 비주얼의 `visualType`을 그 이름으로 둔다 ([스키마](https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json)) |
 | 개체 파일을 저장소에 넣어야 하나 | **아니다.** AppSource·조직 개체는 Desktop이 열 때 자동으로 불러온다. 프로젝트 폴더에 들어가는 건 사설(pbiviz) 개체뿐이다 ([문서](https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-report)) |
 | 공식 검증을 통과하나 | **경고가 난다.** `PBIR_VISUAL_TYPE_UNKNOWN`. 이 저장소 CI는 "오류 0 · 경고 0"이 기준이라, 쓰려면 아는 개체 이름을 예외로 등록해야 한다 |
-| 개체의 정확한 이름 | **아직 모른다.** Desktop에 한 번 설치해 `report.json`에 적히는 이름을 읽어야 확정된다. 추측해서 넣으면 안 열린다 |
+| 개체의 정확한 이름 | **확인했다.** Microsoft가 개체를 오픈소스로 공개하므로 그 저장소의 `pbiviz.json`에서 `guid`를 읽으면 된다. 레이더는 `RadarChart1446119667547`, 데이터 역할은 `capabilities.json`의 `Category` + `Y`. 설치도 추측도 필요 없다 |
+| Desktop이 실제로 받아 와 그리나 | **그린다.** 저장소에 개체 파일을 넣지 않고 `report.json`에 이름만 등록한 리포트를 열었더니, Desktop이 AppSource에서 받아 와 그렸다. 테마 강조색까지 따라왔다 |
 
-그래서 현재 계획은 **내장 개체로 갈 수 있는 데까지 먼저 가는 것**이다(11·12·15는 내장으로 가능).
-13·14는 개체 이름을 확인한 뒤에 넣는다.
+![AppSource 레이더가 그려진 화면](screenshots/appsource-radar-proof.png)
+
+**그래서 쓸 수 있다.** 다만 검증 경고는 남으므로, `tools/check.py`가 **생성기에 등록된 이름의 경고만** 빼고
+나머지 경고는 그대로 실패로 둔다. 등록부는 `tools/generate_pbir.py`의 `CUSTOM_VISUALS` 한 곳에만 있다.
+
+남은 제약은 환경이다. 조직 정책이 AppSource 개체를 막으면 열리지 않고, 그건 이 PC에서는 확인할 수 없다.
 
 
 ## 캔버스는 1280×720으로 맞췄다
