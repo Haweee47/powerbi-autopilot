@@ -1,0 +1,151 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "e10b79dd4d050f5116be",
+  "position": {
+    "x": 832,
+    "y": 112,
+    "z": 8000,
+    "height": 584,
+    "width": 424,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "지표축"
+                    }
+                  },
+                  "Property": "지표"
+                }
+              },
+              "queryRef": "지표축.지표",
+              "nativeQueryRef": "지표",
+              "displayName": "Axis"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "축 값 1위"
+                }
+              },
+              "queryRef": "측정값.축 값 1위",
+              "nativeQueryRef": "축 값 1위",
+              "displayName": "1st"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "축 값 2위"
+                }
+              },
+              "queryRef": "측정값.축 값 2위",
+              "nativeQueryRef": "축 값 2위",
+              "displayName": "2nd"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "축 값 3위"
+                }
+              },
+              "queryRef": "측정값.축 값 3위",
+              "nativeQueryRef": "축 값 3위",
+              "displayName": "3rd"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "지표축"
+                  }
+                },
+                "Property": "지표"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'The same numbers, read exactly'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'A radar is quick to compare and hard to read precisely · this is the other half'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

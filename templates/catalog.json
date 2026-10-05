@@ -92,7 +92,7 @@
       ],
       "pilot": "deepdive/pilot.spec.json",
       "screenshots": "deepdive/screenshots",
-      "preview": "+----+---------------------------------------+\n|::: |                 tree                 ||\n|::: |       line       |       bars       | |\n+----+---------------------------------------+\n4 pages, first page: deep_tree"
+      "preview": "+----+---------------------------------------+\n|::: |                 tree                 ||\n|::: |       line       |       bars       | |\n+----+---------------------------------------+\n5 pages, first page: deep_tree"
     },
     {
       "id": "fulfillment",

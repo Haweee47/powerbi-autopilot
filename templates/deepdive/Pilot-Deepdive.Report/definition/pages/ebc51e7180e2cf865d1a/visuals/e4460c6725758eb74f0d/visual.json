@@ -1,0 +1,123 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "e4460c6725758eb74f0d",
+  "position": {
+    "x": 216,
+    "y": 112,
+    "z": 7000,
+    "height": 584,
+    "width": 600,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "RadarChart1446119667547",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "지표축"
+                    }
+                  },
+                  "Property": "지표"
+                }
+              },
+              "queryRef": "지표축.지표",
+              "nativeQueryRef": "지표",
+              "displayName": "Axis",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "축 값 1위"
+                }
+              },
+              "queryRef": "측정값.축 값 1위",
+              "nativeQueryRef": "축 값 1위",
+              "displayName": "1st by sales"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "축 값 2위"
+                }
+              },
+              "queryRef": "측정값.축 값 2위",
+              "nativeQueryRef": "축 값 2위",
+              "displayName": "2nd"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "측정값"
+                    }
+                  },
+                  "Property": "축 값 3위"
+                }
+              },
+              "queryRef": "측정값.축 값 3위",
+              "nativeQueryRef": "축 값 3위",
+              "displayName": "3rd"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Six axes, scaled across every store'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Shape is character, not size · one polygon per store, biggest seller first'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

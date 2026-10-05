@@ -376,6 +376,64 @@ table 측정값
 		isNameInferred
 		sourceColumn: [_]
 
+	/// 레이더 축의 원래 값. 축마다 단위가 달라서(원·%·건·년) 그대로는 겹칠 수 없다.
+	measure '축 원값' = ```
+			SWITCH (
+			    SELECTEDVALUE ( '지표축'[축 ID] ),
+			    "SALES", [매출],
+			    "MARGIN", [이익률],
+			    "GROWTH", [전년 대비 증감률],
+			    "ORDERS", [주문건수],
+			    "AOV", [객단가],
+			    "AGE", DIVIDE ( [기준일] - MAX ( '매장'[개점일] ), 365.25 )
+			)
+			```
+		isHidden
+		formatString: #,0.00
+
+	/// 매장 20곳 가운데 최소~최대를 0~100으로 편 값. 매장 하나를 문맥에 받아야 뜻이 생기므로,
+	/// 쓰는 쪽은 '축 값 N위'처럼 매장을 정해 부른다. 이 측정값만 단독으로 쓰면 전체 합계가 들어와
+	/// 100을 넘는다 (첫 캡처에서 843이 찍혔다).
+	measure '축 값' = ```
+			VAR _axis = SELECTEDVALUE ( '지표축'[축 ID] )
+			VAR _raw = [축 원값]
+			VAR _vals =
+			    ADDCOLUMNS (
+			        CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ),
+			        "@v", CALCULATE ( [축 원값] )
+			    )
+			VAR _lo = MINX ( _vals, [@v] )
+			VAR _hi = MAXX ( _vals, [@v] )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _axis ) && NOT ISBLANK ( _raw ) && _hi > _lo,
+			        DIVIDE ( _raw - _lo, _hi - _lo ) * 100
+			    )
+			```
+		formatString: #,0
+
+	/// 이 개체는 계열이 측정값 하나당 하나다. 그래서 매장을 겹쳐 보려면 매장마다 측정값이 하나씩
+	/// 있어야 한다. 이름을 박아 두면 다른 모델에서 깨지므로 매출 순위로 고른다.
+	measure '축 값 1위' = ```
+			VAR _s = TOPN ( 1, CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ), [매출], DESC )
+			RETURN CALCULATE ( [축 값], REMOVEFILTERS ( '매장' ), '매장'[매장명] IN _s )
+			```
+		formatString: #,0
+
+	measure '축 값 2위' = ```
+			VAR _t = CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) )
+			VAR _s = EXCEPT ( TOPN ( 2, _t, [매출], DESC ), TOPN ( 1, _t, [매출], DESC ) )
+			RETURN CALCULATE ( [축 값], REMOVEFILTERS ( '매장' ), '매장'[매장명] IN _s )
+			```
+		formatString: #,0
+
+	measure '축 값 3위' = ```
+			VAR _t = CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) )
+			VAR _s = EXCEPT ( TOPN ( 3, _t, [매출], DESC ), TOPN ( 2, _t, [매출], DESC ) )
+			RETURN CALCULATE ( [축 값], REMOVEFILTERS ( '매장' ), '매장'[매장명] IN _s )
+			```
+		formatString: #,0
+
 	partition 측정값 = calculated
 		mode: import
 		source = ROW ( "_", BLANK () )

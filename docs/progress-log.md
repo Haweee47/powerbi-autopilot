@@ -850,3 +850,38 @@ a validator that reports 0 errors is measuring something real, but it is not mea
 language (the formatting catalog was searched in full; no property exposes it), and an organisation that blocks
 AppSource visuals will not open a report that uses one, which this machine cannot verify. A repo that argues "passing
 is not finishing" cannot hide its own unfinished edges.
+
+## 2026-10-05 · The radar found a published number that was backwards
+
+Porting study 14 to Power BI was meant to be the easy one: the custom-visual mechanism was already proved, the name was
+already known. It took five captures, and the last of them found something worth more than the page.
+
+**The page works.** Three stores over six axes, each scaled 0-100 across all twenty, so the shape is the store's
+character rather than its size. All eighteen values match a calculation done independently from the CSVs. It is the
+first page built on an AppSource custom visual through the generator rather than by hand-patching.
+
+**Four defects on the way, each caught by a capture.** The first draft printed 843 on a 0-100 axis, because this visual
+takes one series per measure and I had assumed a store would arrive in filter context — reading the visual's contract
+is not the same as checking how my own data flows through it. `publicCustomVisuals` was never written at all, because
+the registration looked for `visualType` outside the `{"visual": {…}}` wrapper; the earlier proof had been hand-patched,
+which hid the bug until the generator ran the path itself. The radar then came up **completely empty**, and a DAX query
+found the chain blank at its first measure: the `SWITCH` compared the axis *name*, which the English build translates,
+so no branch ever matched. That is the rule this repo wrote down on 2026-09-18 after the fulfillment pilot broke the
+same way, and I broke it again.
+
+**Then the part that mattered.** The radar's numbers disagreed with the HTML study they were ported from. Checking the
+report against the source files showed the report was right and **the study was wrong** — it had read a cost column as
+profit (margin 59% where the model says 41%) and compared eight months of this year against twelve of last. Both of
+those feed the correlation study, so the finding published in the repo was **reversed**:
+
+> ~~Margin and average order move together, r = +0.84 — stores selling bigger baskets keep more of each sale.~~
+> **Margin falls as the average order rises, r = −0.84 — the bigger the basket, the thinner the margin on it.**
+
+Nothing inside the HTML studies could have caught this. It surfaced only because the same numbers were produced a
+second way, through a different pipeline, and the two disagreed. The derived values now come from `analyse.py`, which
+reads the source CSVs with the report's own definitions, and the study and the page agree exactly. The retraction is
+written into the study's README, because a correction that hides itself teaches nothing.
+
+**One more, logged because it is a trap worth naming.** A walrus assignment inside a comprehension — `{t for … if (t
+:= …) in known}` — rebinds `t` in the *enclosing* scope, and `t` was the translation helper. Every pilot failed to
+generate, 110 builds, with an error thrown after the files were already written.

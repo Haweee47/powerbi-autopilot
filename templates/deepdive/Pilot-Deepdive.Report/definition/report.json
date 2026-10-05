@@ -1,5 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "publicCustomVisuals": [
+    "RadarChart1446119667547"
+  ],
   "themeCollection": {
     "customTheme": {
       "name": "autopilot-navy-93585b8c.json",

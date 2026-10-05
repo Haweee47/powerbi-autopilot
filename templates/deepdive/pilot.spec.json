@@ -26,6 +26,9 @@
     },
     "Headline Bridge": {
       "expr": "VAR _t = ADDCOLUMNS ( VALUES ( '카테고리'[카테고리] ), \"D\", [전년 대비 증감] ) VAR _up = TOPN ( 1, _t, [D], DESC ) VAR _dn = TOPN ( 1, _t, [D], ASC ) VAR _g = [전년 대비 증감] RETURN \"Year on year \" & FORMAT ( _g / [Unit Scale], \"▲#,0.0;▼#,0.0;0\" ) & [Unit Suffix] & \" · most added: \" & CONCATENATEX ( _up, '카테고리'[카테고리] ) & \" \" & FORMAT ( MAXX ( _up, [D] ) / [Unit Scale], \"▲#,0.0;▼#,0.0;0\" ) & [Unit Suffix] & \" · most lost: \" & CONCATENATEX ( _dn, '카테고리'[카테고리] ) & \" \" & FORMAT ( MINX ( _dn, [D] ) / [Unit Scale], \"▲#,0.0;▼#,0.0;0\" ) & [Unit Suffix]"
+    },
+    "Headline Profile": {
+      "expr": "VAR _t = CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ) VAR _1 = CONCATENATEX ( TOPN ( 1, _t, [매출], DESC ), '매장'[매장명] ) VAR _2 = CONCATENATEX ( EXCEPT ( TOPN ( 2, _t, [매출], DESC ), TOPN ( 1, _t, [매출], DESC ) ), '매장'[매장명] ) VAR _3 = CONCATENATEX ( EXCEPT ( TOPN ( 3, _t, [매출], DESC ), TOPN ( 2, _t, [매출], DESC ) ), '매장'[매장명] ) RETURN \"Top three stores by sales: \" & _1 & \", \" & _2 & \", \" & _3 & \" · every axis scaled 0-100 across all \" & FORMAT ( COUNTROWS ( _t ), \"#,0\" ) & \" stores\""
     }
   },
   "shared": {
@@ -301,6 +304,89 @@
           "sub": {
             "en": "A small category can still move the total",
             "ko": "작은 카테고리도 합계를 움직인다"
+          }
+        }
+      }
+    },
+    {
+      "layout": "profile",
+      "name": {
+        "en": "Profile",
+        "ko": "성격 비교"
+      },
+      "visuals": {
+        "title": {
+          "text": {
+            "en": "What kind of store is it",
+            "ko": "어떤 성격의 매장인가"
+          }
+        },
+        "headline": {
+          "measure": "Headline Profile"
+        },
+        "radar": {
+          "x": "지표축.지표",
+          "y": [
+            "축 값 1위",
+            "축 값 2위",
+            "축 값 3위"
+          ],
+          "title": {
+            "en": "Six axes, scaled across every store",
+            "ko": "여섯 축, 전 매장 기준으로 환산"
+          },
+          "sub": {
+            "en": "Shape is character, not size · one polygon per store, biggest seller first",
+            "ko": "크기가 아니라 성격을 본다 · 매장 하나가 도형 하나, 매출 큰 순"
+          },
+          "labels": {
+            "축 값 1위": {
+              "en": "1st by sales",
+              "ko": "매출 1위"
+            },
+            "축 값 2위": {
+              "en": "2nd",
+              "ko": "2위"
+            },
+            "축 값 3위": {
+              "en": "3rd",
+              "ko": "3위"
+            }
+          }
+        },
+        "axes": {
+          "columns": [
+            "지표축.지표",
+            "축 값 1위",
+            "축 값 2위",
+            "축 값 3위"
+          ],
+          "sort": [
+            "지표축.지표",
+            "asc"
+          ],
+          "totals": false,
+          "labels": {
+            "축 값 1위": {
+              "en": "1st",
+              "ko": "1위"
+            },
+            "축 값 2위": {
+              "en": "2nd",
+              "ko": "2위"
+            },
+            "축 값 3위": {
+              "en": "3rd",
+              "ko": "3위"
+            }
+          },
+          "title": {
+            "en": "The same numbers, read exactly",
+            "ko": "같은 값을 숫자로"
+          },
+          "sub": {
+            "en": "A radar is quick to compare and hard to read precisely · this is the other half",
+            "ko": "레이더는 빨리 견주기 좋고 정확히 읽기는 어렵다 · 이 표가 나머지 절반이다"
           }
         }
       }

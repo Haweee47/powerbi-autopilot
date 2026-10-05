@@ -878,7 +878,7 @@ svg .pt{fill:var(--accent);fill-opacity:.6}
 """,
        T("""
 <div><h1>What moves with what</h1>
-  <div class="lede">Seven measures across the 20 stores. <b>Margin and average order move together (r = +0.84)</b>,
+  <div class="lede">Seven measures across the 20 stores. <b>Margin falls as the average order rises (r = &minus;0.84)</b>,
    while sales, profit and orders are three readings of the same thing (r &ge; 0.97) and say nothing new.</div></div>
 <div class="cols">
   <div class="panel"><h3>Pearson r · upper triangle only</h3>{{CORR}}
@@ -886,12 +886,12 @@ svg .pt{fill:var(--accent);fill-opacity:.6}
       of 1.00 is not a finding either. Both are ink spent on nothing.</div></div>
   <div class="panel"><h3>Margin % against average order · one dot per store</h3>{{SC}}
     <div class="findings">
-      <div class="f"><span class="r hi">+0.84</span><span class="t"><b>Margin ~ average order.</b>
-        Stores selling bigger baskets keep more of each sale.</span></div>
-      <div class="f"><span class="r hi">+0.56</span><span class="t"><b>Growth ~ average order.</b>
-        The same stores are the ones growing.</span></div>
-      <div class="f"><span class="r lo">−0.21</span><span class="t"><b>Growth ~ store age.</b>
-        Older stores grow slightly slower, but weakly.</span></div>
+      <div class="f"><span class="r hi">−0.84</span><span class="t"><b>Margin ~ average order.</b>
+        The bigger the basket, the thinner the margin on it.</span></div>
+      <div class="f"><span class="r hi">+0.49</span><span class="t"><b>Growth ~ sales.</b>
+        The larger stores are also the ones still growing.</span></div>
+      <div class="f"><span class="r lo">+0.48</span><span class="t"><b>Growth ~ average order.</b>
+        Present but weak — basket size explains little of the growth.</span></div>
       <div class="f"><span class="r lo">+1.00</span><span class="t"><b>Sales ~ profit.</b>
         Mechanical, not a finding — profit is a fixed share of sales in this model.</span></div>
     </div></div>

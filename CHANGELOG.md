@@ -5,6 +5,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+### Added
+- A **radar profile** page: three stores laid over six axes, each scaled 0-100 across all twenty so the shape shows
+  character rather than size. It is the first page built on an AppSource custom visual through the generator, and the
+  table beside it carries the same numbers, because a radar compares quickly and reads imprecisely
+
+### Fixed
+- **A published finding was backwards.** The correlation study reported margin and average order moving together at
+  **+0.84**; the truth is **−0.84** — the bigger the basket, the thinner the margin on it. The study had read a
+  cost column as profit (margin 59% where the model says 41%) and compared eight months of this year against twelve of
+  last. Both are now computed from the source files with the report's own definitions by
+  `design-system/prototypes/themes/analyse.py`, and the study's numbers match the Power BI page exactly. The retraction
+  is written into the study's README rather than quietly corrected
+- The radar came up empty because its `SWITCH` compared the axis **name**, which the English build translates. It now
+  compares an untranslated key column — the rule this repo recorded on 2026-09-18 and I broke again
+- `publicCustomVisuals` was never written: the registration read `visualType` outside the `{"visual": {…}}` wrapper.
+  The earlier proof had been hand-patched, which hid it until the generator ran the path itself
+- A walrus assignment inside a comprehension rebound `t`, the translation helper, in the enclosing scope and broke
+  generation for every pilot
+
 ## [0.5.0] - 2026-10-04
 
 Ten themes turned out to be one layout wearing ten palettes. Fixing that led to fifteen design studies, two of them

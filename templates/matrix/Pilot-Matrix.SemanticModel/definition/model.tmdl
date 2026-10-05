@@ -19,6 +19,7 @@ ref table 목표
 ref table 날짜
 ref table 측정값
 ref table 카테고리
+ref table 지표축
 
 ref cultureInfo ko-KR
 

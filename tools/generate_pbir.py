@@ -588,8 +588,10 @@ def build_visual(role: str, spec: dict, x: Ctx, region: dict) -> dict:
             v["objects"] = objs
         return v
     if role in CUSTOM_VISUALS:
+        # labels: 범례에 측정값 이름이 그대로 떠서 영어 리포트에 한국어가 보였다
+        lab = spec.get("labels") or {}
         q = {"queryState": {"Category": {"projections": [x.proj(spec["x"], active=True)]},
-                            "Y": {"projections": [x.proj(m) for m in spec["y"]]}}}
+                            "Y": {"projections": [x.proj(m, lab.get(m)) for m in spec["y"]]}}}
         return {"visualType": CUSTOM_VISUALS[role], "query": q}
     if role == "waterfallChart":
         # 작년에서 올해로 가는 다리. 합계 막대는 Power BI 가 스스로 붙이므로 명세는 변화량만 준다.
@@ -873,8 +875,12 @@ def main() -> None:
     write_json(res_dir / theme_file, theme_obj)
     D = rep / "definition"
     write_json(D / "version.json", {"$schema": S_VERSION, "version": "2.0.0"})
-    used_custom = sorted({v["visualType"] for _, _, _, vs in pages for v in vs.values()
-                          if v.get("visualType") in set(CUSTOM_VISUALS.values())})
+    # visual.json 은 {"visual": {...}} 로 감싸져 있다. 감싼 바깥에서 찾으면 아무것도 안 걸린다
+    known = set(CUSTOM_VISUALS.values())
+    # 컴프리헨션 안의 왈러스(:=)는 바깥 범위에 바인딩된다. 여기서 t 를 쓰면 번역 함수 t 를 덮어써서
+    # 생성이 끝난 뒤 통째로 터졌다. 평범한 루프로 둔다.
+    used_custom = sorted({vt for _, _, _, vs in pages for v in vs.values()
+                          for vt in [(v.get("visual") or {}).get("visualType")] if vt in known})
     write_json(D / "report.json", {
         "$schema": S_REPORT,
         **({"publicCustomVisuals": used_custom} if used_custom else {}),
