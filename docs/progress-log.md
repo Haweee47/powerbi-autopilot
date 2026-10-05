@@ -925,3 +925,39 @@ the scrolling one.
 
 Turning the warning off would have been faster and would have left the rule wrong, still blind to the case it was
 written for. A check that cries wolf gets ignored — but the fix for that is to find out why it cried, not to muzzle it.
+
+## 2026-10-05 · The matrix that would not draw, and the shape I took instead
+
+Study 11 was the correlation matrix: six metrics against themselves, each cell a Pearson r over the 20 stores. Power BI
+has no correlation visual, so the plan was a matrix whose rows come from one disconnected axis table and whose columns
+come from a second copy of it, with `SWITCH` resolving each axis to a measure and a diverging format colouring the cell.
+
+**The DAX was right, and I could prove it.** Through XMLA: 30 rows, symmetric, `Margin ~ Avg order = -0.90` unfiltered;
+with 2026 selected, `-0.8414` against Python's `-0.84`, and `Growth ~ Avg order = +0.4785` against `+0.48`. Asked in the
+shape a matrix actually sends - `ROLLUPADDISSUBTOTAL` - it still returned the right numbers in 48 ms.
+
+**Desktop's matrix visual errored anyway.** "An error occurred while retrieving data for this visual", on a page whose
+headline card, built on the same measure, printed a correct sentence. I ruled out, in order: the DAX, whether the model
+had data at all, the conditional format (stripped it - error unchanged), and the query shape. What is left is that
+Power BI will not cross two *fully* disconnected tables as a matrix's rows and columns.
+
+**I had written the stopping rule before I needed it**: if one more attempt did not separate the causes, drop the matrix
+rather than keep digging, because another shape carries the same analysis and no single visual is worth that budget.
+I followed it.
+
+**The shape that worked.** A `지표쌍` table derives the 15 pairs from the single axis table - `CROSSJOIN` filtered to
+`A order < B order`, so adding a metric still means editing one list, and the metric names still live in exactly one
+place. The page lists one pair per row, strongest `|r|` first, the figure on a diverging scale. One disconnected table
+instead of two, and Desktop draws it. The captured page agrees with `analyse.py` to the digit: `Sales ~ Orders +0.99`,
+`Margin ~ Avg order -0.84`, `Sales ~ Growth +0.49`, `Growth ~ Avg order +0.48`.
+
+**What I gave up, written down rather than glossed over.** A matrix shows the obvious pairs as a visible cluster -
+sales, profit and orders measuring the same thing three times sit together and you see it without reading. In a table
+you learn it by reading the top three rows. That is a real loss and the study README says so.
+
+**A failure that was mine, not the tool's.** The first capture came back with every page blank and a "pending changes"
+bar. I had generated without `--local-data`, so the model still pointed at the placeholder path the repo commits for
+privacy. Twenty minutes to find, and the lesson is small but specific: when a capture is empty, check the data path
+before suspecting the report.
+
+All five analytical studies are real pages now.
