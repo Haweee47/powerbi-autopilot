@@ -5,45 +5,53 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
-### Added
-- A **spread** page, built on built-in visuals rather than a box-plot custom visual: median, mean, interquartile range
-  and the count outside 1.5 x IQR as cards, every store as one bar largest-first, and the three largest named. Bars at
-  or above the median take the accent, which splits the distribution the way a median line would - except the split is
-  a measure, so it stays correct when the reader filters. A fixed reference line could not: `y1AxisReferenceLine` takes
-  a number, not a measure, and a median baked in at generation time is wrong the moment anyone picks a region
-- Distribution measures in the base model (median, mean, quartiles, interquartile range, mean-minus-median, and the
-  count beyond 1.5 x IQR), each computed over all stores so a bar click does not move the baseline
+## [0.6.0] - 2026-10-05
 
-### Fixed
-- **The row-fitting check was wrong and said so about a page that was fine.** It ignored the total row, so it had
-  learned "224px cannot hold three rows" from a case that was really three rows plus a total. It counts the total now,
-  and the constants come from a measured capture (34px a row, 120px of title, subtitle and header) rather than two
-  points - they satisfy all four observations, including the one that scrolled. Silencing the false positive would
-  have left the rule wrong and kept missing the real case
-- A share column on the spread page read 40.4% where the truth is 13.1%. `매출 구성비` is denominated with
-  `ALLSELECTED`, which is right everywhere else but wrong under this table's `top: 3` filter - the denominator shrank to
-  the three rows shown. The measure is fine; the place it was put was not. The column is gone rather than explained
-- Twenty store names on the distribution chart printed at an angle, against the rubric's own H7. The chart is about the
-  shape, and the table beneath names the largest, so the axis labels are hidden
+Four of the five analytical studies are real Power BI pages now. Building them found a number this repo had already
+published, and it was backwards.
+
+### Retracted
+- **The correlation finding was reversed.** The study reported margin and average order moving together at **+0.84**;
+  the truth is **−0.84** — the bigger the basket, the thinner the margin on it. The derived data had read a cost column
+  as profit (margin 59% where the model says 41%) and compared eight months of this year against twelve of last, which
+  is the very rule the repo documents. Nothing inside the HTML studies could have caught it. It surfaced only because
+  the same numbers were produced a second time, through Power BI, and the two disagreed. Derived values now come from
+  `analyse.py`, which reads the source CSVs with the report's own definitions; study and page agree exactly
 
 ### Added
-- A **radar profile** page: three stores laid over six axes, each scaled 0-100 across all twenty so the shape shows
-  character rather than size. It is the first page built on an AppSource custom visual through the generator, and the
-  table beside it carries the same numbers, because a radar compares quickly and reads imprecisely
+- **Four analytical pages**, each on a different footing. A **bridge** (waterfall) from last year to this one; an
+  **attainment grid**, category × month, coloured so a miss reads red and a beat blue; a **radar profile**, three stores
+  over six axes scaled 0–100; and a **spread** page — median, mean, interquartile range and the outlier count, every
+  store as one bar, those at or above the median in the accent
+- `waterfallChart` as a placeable visual, and a `diverge` cell format built on `linearGradient3`. No report in the
+  collected public corpus uses that gradient, so the shape was settled by building it and looking at the capture
+- **AppSource custom visuals work from a generated report.** The visual file never enters the repo: `report.json` names
+  it, Desktop fetches it on open, themed to the report's accent. The name comes from the visual's own published
+  `pbiviz.json`, not from guesswork. `check.py` exempts the resulting validator warning for registered names only
+- Distribution measures in the base model, and a disconnected axis table so a radar can hold six measures on one scale
+- Tables take `labels`, so a column header reads "Change" instead of a measure's own name
 
 ### Fixed
-- **A published finding was backwards.** The correlation study reported margin and average order moving together at
-  **+0.84**; the truth is **−0.84** — the bigger the basket, the thinner the margin on it. The study had read a
-  cost column as profit (margin 59% where the model says 41%) and compared eight months of this year against twelve of
-  last. Both are now computed from the source files with the report's own definitions by
-  `design-system/prototypes/themes/analyse.py`, and the study's numbers match the Power BI page exactly. The retraction
-  is written into the study's README rather than quietly corrected
-- The radar came up empty because its `SWITCH` compared the axis **name**, which the English build translates. It now
-  compares an untranslated key column — the rule this repo recorded on 2026-09-18 and I broke again
-- `publicCustomVisuals` was never written: the registration read `visualType` outside the `{"visual": {…}}` wrapper.
-  The earlier proof had been hand-patched, which hid it until the generator ran the path itself
-- A walrus assignment inside a comprehension rebound `t`, the translation helper, in the enclosing scope and broke
-  generation for every pilot
+- Example 07's target measure drops its `TREATAS` workaround, which existed only because nothing joined Budget to
+  Products. Attainment is now checked **per category** against the source files rather than only in total
+- **The row-fitting check was wrong about a page that was fine.** It ignored the total row, so it had learned "224px
+  cannot hold three rows" from a case that was really three rows plus a total. It counts the total now, and its
+  constants are measured from a capture rather than solved from two points
+- A share column read 40.4% where the truth is 13.1%: `ALLSELECTED` is right everywhere else but wrong under a `top: 3`
+  filter, where the denominator shrank to the rows on screen. Its three values summed to 100%, which made it look more
+  right. Removed rather than explained
+- Four more locale leaks — a waterfall legend and total label, a radar legend, a table header — plus a radar that came
+  up **empty** because its `SWITCH` compared an axis name the English build translates. It compares an untranslated key
+  now, which is the rule this repo wrote on 2026-09-18 and I broke again
+- Twenty store names printed at an angle, against the repo's own rubric item H7
+- A walrus assignment inside a comprehension rebound the translation helper in the enclosing scope and broke generation
+  for every pilot
+
+### Known limits
+- A dropdown slicer still prints "All" in the reader's language; the formatting catalog has no property for it
+- A box plot still needs a third-party visual whose identity cannot be verified from a published source, so the
+  distribution page is built from built-in visuals instead
+- An organisation that blocks AppSource visuals will not open a report that uses one. Untested here
 
 ## [0.5.0] - 2026-10-04
 

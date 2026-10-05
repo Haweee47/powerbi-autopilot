@@ -236,7 +236,8 @@ This is a work in progress. I'll keep improving it and logging what I learn.
 - [x] Design tokens → themes, layout templates, spec → report generator
 - [x] Four pilots · a fulfillment-operations pilot · ten themes · two layouts · multiple languages
 - [x] Fifteen dashboard studies in HTML, composed differently rather than coloured differently
-- [x] Analytical pages in Power BI: a waterfall bridge and a diverging attainment grid
+- [x] Analytical pages in Power BI: a waterfall bridge, a diverging attainment grid, a radar profile and a
+      distribution — four of the five analytical studies, one of them on an AppSource custom visual
 - [x] AppSource custom visuals from a generated report, with no visual file in the repo
 - [x] A model built from your own data splits shared columns into their own tables (a wrong number, now right)
 - [ ] Sparklines inside tables (SVG measures)
