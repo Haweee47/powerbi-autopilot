@@ -40,6 +40,26 @@
       "format": "#,0.0",
       "formatExpr": "[Unit Format]"
     },
+    "Median Disp": {
+      "expr": "DIVIDE ( [매장 매출 중앙값], [Unit Scale] )",
+      "format": "#,0.0",
+      "formatExpr": "[Unit Format]"
+    },
+    "Mean Disp": {
+      "expr": "DIVIDE ( [매장 매출 평균], [Unit Scale] )",
+      "format": "#,0.0",
+      "formatExpr": "[Unit Format]"
+    },
+    "IQR Disp": {
+      "expr": "DIVIDE ( [사분위 범위], [Unit Scale] )",
+      "format": "#,0.0",
+      "formatExpr": "[Unit Format]"
+    },
+    "Skew Disp": {
+      "expr": "DIVIDE ( [평균 중앙값 차이], [Unit Scale] )",
+      "format": "#,0.0",
+      "formatExpr": "[Unit Format]"
+    },
     "Profit Big": {
       "expr": "DIVIDE ( [이익], [Unit Scale] )",
       "format": "#,0.0",
@@ -61,6 +81,18 @@
     "Margin YoY Text": "VAR d = [Margin YoY pp] RETURN IF ( NOT ISBLANK ( d ), \"YoY \" & FORMAT ( d * 100, \"▲0.0;▼0.0;0.0\" ) & \"pp\" )",
     "Orders YoY Text": "VAR r = [Orders YoY %] RETURN IF ( NOT ISBLANK ( r ), \"YoY \" & FORMAT ( r, \"▲0.0%;▼0.0%;0.0%\" ) )",
     "Context Label": "VAR y = SELECTEDVALUE ( '날짜'[연도] ) VAR last = CALCULATE ( MAX ( '판매'[주문일자] ) ) VAR ch = IF ( ISFILTERED ( '매장'[채널] ), CONCATENATEX ( VALUES ( '매장'[채널] ), '매장'[채널], \" + \" ), \"All channels\" ) RETURN IF ( ISBLANK ( y ), \"All years\", y & \"  ·  Jan–\" & FORMAT ( last, \"MMM\", \"en-US\" ) ) & \"  ·  \" & ch",
-    "Headline Stores": "VAR t = FILTER ( VALUES ( '매장'[매장명] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) RETURN \"Stores down YoY: \" & COUNTROWS ( FILTER ( t, [전년 대비 증감률] < 0 ) ) & \" of \" & COUNTROWS ( t ) & \"  ·  Largest drop: \" & CONCATENATEX ( lo, '매장'[매장명], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )"
+    "Headline Stores": "VAR t = FILTER ( VALUES ( '매장'[매장명] ), NOT ISBLANK ( [전년 대비 증감률] ) ) VAR lo = TOPN ( 1, t, [전년 대비 증감률], ASC ) RETURN \"Stores down YoY: \" & COUNTROWS ( FILTER ( t, [전년 대비 증감률] < 0 ) ) & \" of \" & COUNTROWS ( t ) & \"  ·  Largest drop: \" & CONCATENATEX ( lo, '매장'[매장명], \", \" ) & \" \" & FORMAT ( MINX ( lo, [전년 대비 증감률] ), \"▲0.0%;▼0.0%\" )",
+    "Skew Text": {
+      "expr": "VAR d = [평균 중앙값 차이] RETURN FORMAT ( ABS ( d ) / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & IF ( d >= 0, \" above the median\", \" below the median\" )"
+    },
+    "Below Mean Text": {
+      "expr": "VAR d = [평균 중앙값 차이] RETURN FORMAT ( ABS ( d ) / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & IF ( d >= 0, \" above the median\", \" below the median\" )"
+    },
+    "IQR Bounds Text": {
+      "expr": "\"Q1 \" & FORMAT ( [매장 매출 1사분위] / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \" to Q3 \" & FORMAT ( [매장 매출 3사분위] / [Unit Scale], \"#,0.0\" ) & [Unit Suffix]"
+    },
+    "Store Count Text": {
+      "expr": "\"of \" & FORMAT ( COUNTROWS ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ) ), \"#,0\" ) & \" stores\""
+    }
   }
 }

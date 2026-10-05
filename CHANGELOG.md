@@ -6,6 +6,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 ## [Unreleased]
 
 ### Added
+- A **spread** page, built on built-in visuals rather than a box-plot custom visual: median, mean, interquartile range
+  and the count outside 1.5 x IQR as cards, every store as one bar largest-first, and the three largest named. Bars at
+  or above the median take the accent, which splits the distribution the way a median line would - except the split is
+  a measure, so it stays correct when the reader filters. A fixed reference line could not: `y1AxisReferenceLine` takes
+  a number, not a measure, and a median baked in at generation time is wrong the moment anyone picks a region
+- Distribution measures in the base model (median, mean, quartiles, interquartile range, mean-minus-median, and the
+  count beyond 1.5 x IQR), each computed over all stores so a bar click does not move the baseline
+
+### Fixed
+- **The row-fitting check was wrong and said so about a page that was fine.** It ignored the total row, so it had
+  learned "224px cannot hold three rows" from a case that was really three rows plus a total. It counts the total now,
+  and the constants come from a measured capture (34px a row, 120px of title, subtitle and header) rather than two
+  points - they satisfy all four observations, including the one that scrolled. Silencing the false positive would
+  have left the rule wrong and kept missing the real case
+- A share column on the spread page read 40.4% where the truth is 13.1%. `매출 구성비` is denominated with
+  `ALLSELECTED`, which is right everywhere else but wrong under this table's `top: 3` filter - the denominator shrank to
+  the three rows shown. The measure is fine; the place it was put was not. The column is gone rather than explained
+- Twenty store names on the distribution chart printed at an angle, against the rubric's own H7. The chart is about the
+  shape, and the table beneath names the largest, so the axis labels are hidden
+
+### Added
 - A **radar profile** page: three stores laid over six axes, each scaled 0-100 across all twenty so the shape shows
   character rather than size. It is the first page built on an AppSource custom visual through the generator, and the
   table beside it carries the same numbers, because a radar compares quickly and reads imprecisely

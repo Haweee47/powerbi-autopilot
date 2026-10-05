@@ -24,9 +24,11 @@ DS = ROOT / "design-system"
 CHROME = {"shape", "textbox", "pageNavigator", "actionButton", "headline", "context",
           "advancedSlicerVisual", "dropdownSlicer"}
 CHARTS = {"lineChart", "barChart", "columnChart", "scatterChart"}
-# 표가 스크롤되지 않고 보여 주는 행 수. 두 번 잰 값에서 뽑았다: 232px에서 3행, 296px에서 5행
-# (2026-10-03 compare 캡처 · 매장 페이지 커밋 캡처) → 행 32px, 제목·부제목·머리글 136px.
-ROW_H, TABLE_CHROME = 32, 136
+# 표가 스크롤되지 않고 보여 주는 행 수. 캡처에서 실측했다 — 행 간격 34px, 제목·부제목·머리글 120px.
+# 처음에는 관측 두 건으로 32/136 을 썼다가 spread 페이지를 거짓으로 잡았다. **합계 줄을 안 센 것**이
+# 원인이었다: compare 가 224px 에서 스크롤된 건 3행이 아니라 3행 + 합계 = 4행이었기 때문이다.
+# 지금 상수는 네 관측을 모두 만족한다 (224/4행 스크롤 · 232/3행 들어감 · 296/5행 들어감 · 224/3행 들어감).
+ROW_H, TABLE_CHROME = 34, 120
 BARS = {"barChart", "columnChart"}
 TABLES = {"tableEx", "pivotTable"}
 
@@ -113,10 +115,13 @@ def check_spec(spec: dict, layouts: dict, tokens: dict, theme_id: str | None,
             # 짧은 목록에 스크롤바가 붙으면 1위가 가려진다. 이 저장소에서 두 번(2026-09-17, 10-03) 겪은 결함이다.
             top = vs.get("top")
             if role in TABLES and top and vs.get("title") and vs.get("sub"):
+                need = int(top) + (0 if vs.get("totals") is False else 1)   # 합계 줄도 한 줄을 먹는다
                 fits = (reg["height"] - TABLE_CHROME) // ROW_H
-                if top > fits:
-                    out.append(f"B1 {where}/{rid}: {top}행을 보여 달라고 했지만 {reg['height']}px 영역에는 "
-                               f"{fits}행만 들어간다 (스크롤바가 생긴다). top을 {fits} 이하로 두거나 영역을 키운다")
+                if need > fits:
+                    extra = "" if vs.get("totals") is False else " (합계 줄 포함)"
+                    out.append(f"B1 {where}/{rid}: {need}행{extra}이 필요한데 {reg['height']}px 영역에는 "
+                               f"{fits}행만 들어간다 (스크롤바가 생긴다). "
+                               f"top을 줄이거나 \"totals\": false 를 두거나 영역을 키운다")
 
             # E3(마크): 계열이 늘어나면 팔레트 뒤쪽 색까지 쓴다. 카드 바탕과 3:1 미만이면 막대가 잘 안 보인다
             ys = vs.get("y")

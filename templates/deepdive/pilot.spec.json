@@ -29,6 +29,9 @@
     },
     "Headline Profile": {
       "expr": "VAR _t = CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ) VAR _1 = CONCATENATEX ( TOPN ( 1, _t, [매출], DESC ), '매장'[매장명] ) VAR _2 = CONCATENATEX ( EXCEPT ( TOPN ( 2, _t, [매출], DESC ), TOPN ( 1, _t, [매출], DESC ) ), '매장'[매장명] ) VAR _3 = CONCATENATEX ( EXCEPT ( TOPN ( 3, _t, [매출], DESC ), TOPN ( 2, _t, [매출], DESC ) ), '매장'[매장명] ) RETURN \"Top three stores by sales: \" & _1 & \", \" & _2 & \", \" & _3 & \" · every axis scaled 0-100 across all \" & FORMAT ( COUNTROWS ( _t ), \"#,0\" ) & \" stores\""
+    },
+    "Headline Spread": {
+      "expr": "VAR _n = COUNTROWS ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ) ) VAR _skew = [평균 중앙값 차이] VAR _o = [이상치 매장 수] RETURN \"Mean \" & FORMAT ( [매장 매출 평균] / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \" sits \" & FORMAT ( _skew / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \" above the median across \" & FORMAT ( _n, \"#,0\" ) & \" stores\" & IF ( _o > 0, \" · \" & FORMAT ( _o, \"#,0\" ) & \" sit outside 1.5 × IQR\", \"\" )"
     }
   },
   "shared": {
@@ -387,6 +390,99 @@
           "sub": {
             "en": "A radar is quick to compare and hard to read precisely · this is the other half",
             "ko": "레이더는 빨리 견주기 좋고 정확히 읽기는 어렵다 · 이 표가 나머지 절반이다"
+          }
+        }
+      }
+    },
+    {
+      "layout": "spread",
+      "name": {
+        "en": "Spread",
+        "ko": "분포"
+      },
+      "visuals": {
+        "title": {
+          "text": {
+            "en": "The average store does not exist",
+            "ko": "평균인 매장은 없다"
+          }
+        },
+        "headline": {
+          "measure": "Headline Spread"
+        },
+        "kpi_median": {
+          "measure": "Median Disp",
+          "label": {
+            "en": "Median store",
+            "ko": "중앙값"
+          },
+          "ref": "Store Count Text"
+        },
+        "kpi_mean": {
+          "measure": "Mean Disp",
+          "label": {
+            "en": "Mean store",
+            "ko": "평균"
+          },
+          "ref": "Skew Text"
+        },
+        "kpi_iqr": {
+          "measure": "IQR Disp",
+          "label": {
+            "en": "Middle half spans",
+            "ko": "가운데 절반의 폭"
+          },
+          "ref": "IQR Bounds Text"
+        },
+        "kpi_outliers": {
+          "measure": "이상치 매장 수",
+          "label": {
+            "en": "Outside 1.5 × IQR",
+            "ko": "이상치 매장"
+          },
+          "ref": "Store Count Text"
+        },
+        "dist": {
+          "x": "매장.매장명",
+          "y": [
+            "Sales Disp"
+          ],
+          "sort": "desc",
+          "color": "Spread Bar Color",
+          "type": "columnChart",
+          "title": {
+            "en": "Every store, largest first",
+            "ko": "전 매장, 큰 순"
+          },
+          "sub": {
+            "en": "One bar per store · coloured at or above the median · the table below names the largest",
+            "ko": "막대 하나가 매장 하나 · 진한 쪽이 중앙값 이상 · 가장 큰 곳은 아래 표가 이름으로 말한다"
+          },
+          "xLabels": false
+        },
+        "tails": {
+          "columns": [
+            "매장.매장명",
+            "매장.채널",
+            "Sales Disp",
+            "이익률"
+          ],
+          "sort": [
+            "Sales Disp",
+            "desc"
+          ],
+          "top": 3,
+          "totals": false,
+          "format": {
+            "Sales Disp": "bar"
+          },
+          "title": {
+            "en": "The three largest",
+            "ko": "가장 큰 셋"
+          },
+          "sub": {
+            "en": "Two of these are channels, not shops · they pull every per-store average up",
+            "ko": "이 중 둘은 매장이 아니라 채널이다 · 매장 평균을 전부 끌어올린다"
           }
         }
       }

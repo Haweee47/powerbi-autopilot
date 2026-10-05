@@ -1115,6 +1115,93 @@
           "label": "같은 값을 숫자로"
         }
       ]
+    },
+    {
+      "id": "spread",
+      "purpose": "deepdive",
+      "name": "분포",
+      "archetype": "분포",
+      "question": "평균이 숨기는 것은 무엇인가",
+      "regions": [
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "kpi_median",
+          "role": "cardVisual",
+          "col": 1,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "중앙값"
+        },
+        {
+          "id": "kpi_mean",
+          "role": "cardVisual",
+          "col": 4,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "평균"
+        },
+        {
+          "id": "kpi_iqr",
+          "role": "cardVisual",
+          "col": 7,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "사분위 범위"
+        },
+        {
+          "id": "kpi_outliers",
+          "role": "cardVisual",
+          "col": 10,
+          "span": 3,
+          "y": 112,
+          "h": 112,
+          "label": "이상치 수"
+        },
+        {
+          "id": "dist",
+          "role": "columnChart",
+          "col": 1,
+          "span": 12,
+          "y": 240,
+          "h": 216,
+          "label": "매장별 매출, 큰 순"
+        },
+        {
+          "id": "tails",
+          "role": "tableEx",
+          "col": 1,
+          "span": 12,
+          "y": 472,
+          "h": 224,
+          "label": "양 끝"
+        }
+      ]
     }
   ]
 }

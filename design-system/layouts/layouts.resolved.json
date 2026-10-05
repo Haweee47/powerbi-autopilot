@@ -2264,6 +2264,187 @@
      "height": 584
     }
    ]
+  },
+  {
+   "id": "spread",
+   "purpose": "deepdive",
+   "name": "분포",
+   "archetype": "분포",
+   "question": "평균이 숨기는 것은 무엇인가",
+   "regions": [
+    {
+     "id": "rail",
+     "role": "shape",
+     "zone": "rail",
+     "layer": "background",
+     "y": 0,
+     "h": 720,
+     "label": "내비 레일 (바탕)",
+     "x": 0,
+     "width": 192,
+     "height": 720
+    },
+    {
+     "id": "brand",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 24,
+     "h": 48,
+     "label": "리포트 이름",
+     "x": 16,
+     "width": 160,
+     "height": 48
+    },
+    {
+     "id": "nav",
+     "role": "pageNavigator",
+     "zone": "rail",
+     "y": 96,
+     "h": 136,
+     "label": "페이지 (세로)",
+     "x": 16,
+     "width": 160,
+     "height": 136
+    },
+    {
+     "id": "slicer_period",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 256,
+     "h": 72,
+     "label": "기간",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "slicer_channel",
+     "role": "advancedSlicerVisual",
+     "zone": "rail",
+     "y": 344,
+     "h": 72,
+     "label": "채널",
+     "x": 16,
+     "width": 160,
+     "height": 72
+    },
+    {
+     "id": "asof",
+     "role": "textbox",
+     "zone": "rail",
+     "y": 664,
+     "h": 32,
+     "label": "데이터 기준일",
+     "x": 16,
+     "width": 160,
+     "height": 32
+    },
+    {
+     "id": "title",
+     "role": "textbox",
+     "col": 1,
+     "span": 8,
+     "label": "페이지 제목",
+     "x": 216,
+     "y": 24,
+     "width": 688,
+     "height": 40
+    },
+    {
+     "id": "context",
+     "role": "context",
+     "col": 9,
+     "span": 4,
+     "label": "지금 보는 범위 (측정값)",
+     "x": 920,
+     "y": 24,
+     "width": 336,
+     "height": 40
+    },
+    {
+     "id": "headline",
+     "role": "headline",
+     "col": 1,
+     "span": 12,
+     "label": "결론 한 줄 (측정값)",
+     "x": 216,
+     "y": 64,
+     "width": 1040,
+     "height": 32
+    },
+    {
+     "id": "kpi_median",
+     "role": "cardVisual",
+     "col": 1,
+     "span": 3,
+     "y": 112,
+     "h": 112,
+     "label": "중앙값",
+     "x": 216,
+     "width": 248,
+     "height": 112
+    },
+    {
+     "id": "kpi_mean",
+     "role": "cardVisual",
+     "col": 4,
+     "span": 3,
+     "y": 112,
+     "h": 112,
+     "label": "평균",
+     "x": 480,
+     "width": 248,
+     "height": 112
+    },
+    {
+     "id": "kpi_iqr",
+     "role": "cardVisual",
+     "col": 7,
+     "span": 3,
+     "y": 112,
+     "h": 112,
+     "label": "사분위 범위",
+     "x": 744,
+     "width": 248,
+     "height": 112
+    },
+    {
+     "id": "kpi_outliers",
+     "role": "cardVisual",
+     "col": 10,
+     "span": 3,
+     "y": 112,
+     "h": 112,
+     "label": "이상치 수",
+     "x": 1008,
+     "width": 248,
+     "height": 112
+    },
+    {
+     "id": "dist",
+     "role": "columnChart",
+     "col": 1,
+     "span": 12,
+     "y": 240,
+     "h": 216,
+     "label": "매장별 매출, 큰 순",
+     "x": 216,
+     "width": 1040,
+     "height": 216
+    },
+    {
+     "id": "tails",
+     "role": "tableEx",
+     "col": 1,
+     "span": 12,
+     "y": 472,
+     "h": 224,
+     "label": "양 끝",
+     "x": 216,
+     "width": 1040,
+     "height": 224
+    }
+   ]
   }
  ],
  "frames": {
@@ -4499,6 +4680,187 @@
       "x": 832,
       "width": 424,
       "height": 584
+     }
+    ]
+   },
+   {
+    "id": "spread",
+    "purpose": "deepdive",
+    "name": "분포",
+    "archetype": "분포",
+    "question": "평균이 숨기는 것은 무엇인가",
+    "regions": [
+     {
+      "id": "rail",
+      "role": "shape",
+      "zone": "rail",
+      "layer": "background",
+      "y": 0,
+      "h": 720,
+      "label": "내비 레일 (바탕)",
+      "x": 0,
+      "width": 192,
+      "height": 720
+     },
+     {
+      "id": "brand",
+      "role": "textbox",
+      "zone": "rail",
+      "y": 24,
+      "h": 48,
+      "label": "리포트 이름",
+      "x": 16,
+      "width": 160,
+      "height": 48
+     },
+     {
+      "id": "nav",
+      "role": "pageNavigator",
+      "zone": "rail",
+      "y": 96,
+      "h": 136,
+      "label": "페이지 (세로)",
+      "x": 16,
+      "width": 160,
+      "height": 136
+     },
+     {
+      "id": "slicer_period",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 256,
+      "h": 72,
+      "label": "기간",
+      "x": 16,
+      "width": 160,
+      "height": 72
+     },
+     {
+      "id": "slicer_channel",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 344,
+      "h": 72,
+      "label": "채널",
+      "x": 16,
+      "width": 160,
+      "height": 72
+     },
+     {
+      "id": "asof",
+      "role": "textbox",
+      "zone": "rail",
+      "y": 664,
+      "h": 32,
+      "label": "데이터 기준일",
+      "x": 16,
+      "width": 160,
+      "height": 32
+     },
+     {
+      "id": "title",
+      "role": "textbox",
+      "col": 1,
+      "span": 8,
+      "label": "페이지 제목",
+      "x": 216,
+      "y": 24,
+      "width": 688,
+      "height": 40
+     },
+     {
+      "id": "context",
+      "role": "context",
+      "col": 9,
+      "span": 4,
+      "label": "지금 보는 범위 (측정값)",
+      "x": 920,
+      "y": 24,
+      "width": 336,
+      "height": 40
+     },
+     {
+      "id": "headline",
+      "role": "headline",
+      "col": 1,
+      "span": 12,
+      "label": "결론 한 줄 (측정값)",
+      "x": 216,
+      "y": 64,
+      "width": 1040,
+      "height": 32
+     },
+     {
+      "id": "kpi_median",
+      "role": "cardVisual",
+      "col": 1,
+      "span": 3,
+      "y": 112,
+      "h": 112,
+      "label": "중앙값",
+      "x": 216,
+      "width": 248,
+      "height": 112
+     },
+     {
+      "id": "kpi_mean",
+      "role": "cardVisual",
+      "col": 4,
+      "span": 3,
+      "y": 112,
+      "h": 112,
+      "label": "평균",
+      "x": 480,
+      "width": 248,
+      "height": 112
+     },
+     {
+      "id": "kpi_iqr",
+      "role": "cardVisual",
+      "col": 7,
+      "span": 3,
+      "y": 112,
+      "h": 112,
+      "label": "사분위 범위",
+      "x": 744,
+      "width": 248,
+      "height": 112
+     },
+     {
+      "id": "kpi_outliers",
+      "role": "cardVisual",
+      "col": 10,
+      "span": 3,
+      "y": 112,
+      "h": 112,
+      "label": "이상치 수",
+      "x": 1008,
+      "width": 248,
+      "height": 112
+     },
+     {
+      "id": "dist",
+      "role": "columnChart",
+      "col": 1,
+      "span": 12,
+      "y": 240,
+      "h": 216,
+      "label": "매장별 매출, 큰 순",
+      "x": 216,
+      "width": 1040,
+      "height": 216
+     },
+     {
+      "id": "tails",
+      "role": "tableEx",
+      "col": 1,
+      "span": 12,
+      "y": 472,
+      "h": 224,
+      "label": "양 끝",
+      "x": 216,
+      "width": 1040,
+      "height": 224
      }
     ]
    }
@@ -6832,6 +7194,182 @@
       "y": 8,
       "width": 64,
       "height": 24
+     }
+    ],
+    "frame": "top"
+   },
+   {
+    "id": "spread",
+    "purpose": "deepdive",
+    "name": "분포",
+    "archetype": "분포",
+    "question": "평균이 숨기는 것은 무엇인가",
+    "regions": [
+     {
+      "id": "rail",
+      "role": "shape",
+      "zone": "rail",
+      "layer": "background",
+      "y": 0,
+      "h": 720,
+      "label": "내비 레일 (바탕)",
+      "x": 0,
+      "width": 1280,
+      "height": 48,
+      "bar": true
+     },
+     {
+      "id": "brand",
+      "role": "textbox",
+      "zone": "rail",
+      "y": 8,
+      "h": 48,
+      "label": "리포트 이름",
+      "x": 24,
+      "width": 176,
+      "height": 40,
+      "bar": true
+     },
+     {
+      "id": "nav",
+      "role": "pageNavigator",
+      "zone": "rail",
+      "y": 8,
+      "h": 136,
+      "label": "페이지 (세로)",
+      "x": 224,
+      "width": 712,
+      "height": 32,
+      "bar": true
+     },
+     {
+      "id": "slicer_period",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 8,
+      "h": 72,
+      "label": "기간",
+      "x": 952,
+      "width": 152,
+      "height": 32,
+      "bar": true
+     },
+     {
+      "id": "slicer_channel",
+      "role": "advancedSlicerVisual",
+      "zone": "rail",
+      "y": 8,
+      "h": 72,
+      "label": "채널",
+      "x": 1120,
+      "width": 136,
+      "height": 32,
+      "bar": true
+     },
+     {
+      "id": "title",
+      "role": "textbox",
+      "col": 1,
+      "span": 8,
+      "label": "페이지 제목",
+      "x": 24,
+      "y": 48,
+      "width": 816,
+      "height": 32
+     },
+     {
+      "id": "context",
+      "role": "context",
+      "col": 9,
+      "span": 4,
+      "label": "지금 보는 범위 (측정값)",
+      "x": 856,
+      "y": 48,
+      "width": 400,
+      "height": 32
+     },
+     {
+      "id": "headline",
+      "role": "headline",
+      "col": 1,
+      "span": 12,
+      "label": "결론 한 줄 (측정값)",
+      "x": 24,
+      "y": 80,
+      "width": 1232,
+      "height": 32
+     },
+     {
+      "id": "kpi_median",
+      "role": "cardVisual",
+      "col": 1,
+      "span": 3,
+      "y": 120,
+      "h": 112,
+      "label": "중앙값",
+      "x": 24,
+      "width": 296,
+      "height": 112
+     },
+     {
+      "id": "kpi_mean",
+      "role": "cardVisual",
+      "col": 4,
+      "span": 3,
+      "y": 120,
+      "h": 112,
+      "label": "평균",
+      "x": 336,
+      "width": 296,
+      "height": 112
+     },
+     {
+      "id": "kpi_iqr",
+      "role": "cardVisual",
+      "col": 7,
+      "span": 3,
+      "y": 120,
+      "h": 112,
+      "label": "사분위 범위",
+      "x": 648,
+      "width": 296,
+      "height": 112
+     },
+     {
+      "id": "kpi_outliers",
+      "role": "cardVisual",
+      "col": 10,
+      "span": 3,
+      "y": 120,
+      "h": 112,
+      "label": "이상치 수",
+      "x": 960,
+      "width": 296,
+      "height": 112
+     },
+     {
+      "id": "dist",
+      "role": "columnChart",
+      "col": 1,
+      "span": 12,
+      "y": 240,
+      "h": 216,
+      "label": "매장별 매출, 큰 순",
+      "x": 24,
+      "width": 1232,
+      "height": 216
+     },
+     {
+      "id": "tails",
+      "role": "tableEx",
+      "col": 1,
+      "span": 12,
+      "y": 472,
+      "h": 224,
+      "label": "양 끝",
+      "x": 24,
+      "width": 1232,
+      "height": 224
      }
     ],
     "frame": "top"

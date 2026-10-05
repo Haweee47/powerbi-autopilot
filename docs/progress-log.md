@@ -885,3 +885,43 @@ written into the study's README, because a correction that hides itself teaches 
 **One more, logged because it is a trap worth naming.** A walrus assignment inside a comprehension — `{t for … if (t
 := …) in known}` — rebinds `t` in the *enclosing* scope, and `t` was the translation helper. Every pilot failed to
 generate, 110 builds, with an error thrown after the files were already written.
+
+## 2026-10-05 · Distribution without a box plot
+
+Study 13 was the one that needed a visual Power BI does not ship. The honest options were to use an AppSource box-plot
+visual or to find built-in visuals that carry the same point. I chose built-in, because this repo's promise is that
+`quickstart.cmd` opens a working report on a double-click, and every external dependency weakens that. The radar was
+worth its dependency - it proved custom visuals work end to end. A distribution is not.
+
+**What replaced the box.** Median, mean, interquartile range and the count beyond 1.5 x IQR as four cards; every store
+as one bar, largest first; bars at or above the median in the accent, the rest grey. That last choice does the work a
+median line would do, and it survives filtering, which a line would not: `y1AxisReferenceLine` takes a fixed number,
+not a measure, so a median baked in at generation time is wrong the moment a reader picks a region. The colour is a
+measure, so it is always right.
+
+**Two defects, both about context rather than correctness.** The share column printed 40.4% for a store that is 13.1%
+of sales, because `매출 구성비` denominates with `ALLSELECTED` and this table carries a `top: 3` filter - the
+denominator shrank to the three rows on screen. The measure is correct everywhere else; the place it was put was not.
+Its three values even summed to 100%, which made it look more right, not less. I removed the column rather than
+explaining it. And twenty store names printed at an angle, against rubric item H7, which this repo wrote itself.
+
+**The design check paid for itself.** It refused the page before anything was generated: a table asked to show five
+rows in a region that holds three. Written last week from two measured captures, catching a real case this week.
+
+That is three of the five analytical studies now real pages, each on a different footing: a waterfall and a diverging
+heat grid on built-in visuals, a radar on an AppSource visual, and a distribution deliberately built without one.
+
+**The design check earned and spent its credibility in the same hour.** It raised two findings on the spread page. One
+was right and made the page better: four KPI cards with no comparison. I nearly waved it off — median and mean have no
+prior year to compare against — before noticing the page's own point *is* a comparison, between the mean and the
+median, and between the quartile bounds. Those are on the cards now.
+
+The other was a false positive, and worth more than the first. It claimed a 224px region could not hold three rows,
+while the capture plainly showed three rows and no scrollbar. The rule had been derived from two observations last
+week, one of which was `compare` scrolling at 224px — but that table was showing three rows **plus a total**, four in
+all. I generalised from four rows to three and wrote the wrong constant. It counts the total row now, and the constants
+come from measuring a capture rather than solving two equations; they satisfy all four observations I have, including
+the scrolling one.
+
+Turning the warning off would have been faster and would have left the rule wrong, still blind to the case it was
+written for. A check that cries wolf gets ignored — but the fix for that is to find out why it cried, not to muzzle it.

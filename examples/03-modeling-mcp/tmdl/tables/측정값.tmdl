@@ -267,6 +267,38 @@ table 측정값
 			```
 		formatString: #,0
 
+	/// 매장 분포. 평균 하나로는 보이지 않는 쏠림을 말하려고 둔다 — 이 데이터에서는 평균이 중앙값보다
+	/// 5.2백만 높고, 그 차이를 만드는 두 곳은 매장이 아니라 온라인 채널이다.
+	/// 모두 '매장' 필터를 걷어 내고 전 매장을 대상으로 계산한다 (막대 하나를 눌러도 기준선은 그대로).
+	measure '매장 매출 중앙값' = MEDIANX ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ), [매출] )
+		isHidden
+
+	measure '매장 매출 평균' = AVERAGEX ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ), [매출] )
+		isHidden
+
+	measure '매장 매출 1사분위' = PERCENTILEX.INC ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ), [매출], 0.25 )
+		isHidden
+
+	measure '매장 매출 3사분위' = PERCENTILEX.INC ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ), [매출], 0.75 )
+		isHidden
+
+	/// 평균 − 중앙값. 0에서 멀수록 분포가 한쪽으로 끌려 있다는 뜻이고, 그때 평균은 아무도 아닌 값이다.
+	measure '평균 중앙값 차이' = [매장 매출 평균] - [매장 매출 중앙값]
+		isHidden
+
+	measure '사분위 범위' = [매장 매출 3사분위] - [매장 매출 1사분위]
+		isHidden
+
+	/// 상자 수염의 수염 끝(1.5 × IQR) 밖에 있는 매장 수. Power BI 에 상자 그림이 없어서 숫자로 말한다.
+	measure '이상치 매장 수' = ```
+			VAR _t = CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) )
+			VAR _q1 = [매장 매출 1사분위]
+			VAR _q3 = [매장 매출 3사분위]
+			VAR _f = ( _q3 - _q1 ) * 1.5
+			RETURN COUNTROWS ( FILTER ( _t, [매출] < _q1 - _f || [매출] > _q3 + _f ) )
+			```
+		formatString: #,0
+
 	partition 측정값 = calculated
 		mode: import
 		source = ROW ( "_", BLANK () )

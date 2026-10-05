@@ -262,6 +262,10 @@ table 측정값
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
+	measure 'Spread Bar Color' = IF ( [매출] >= [매장 매출 중앙값], "#2A78D6", "#848E9B" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
 	measure 'Unit Scale' = VAR t = ABS ( CALCULATE ( [매출], ALLSELECTED () ) ) RETURN SWITCH ( TRUE (), t >= 1E9, 1E9, t >= 1E6, 1E6, t >= 1E4, 1E3, 1 )
 		displayFolder: 9. 리포트 표시용
 
@@ -313,6 +317,26 @@ table 측정값
 		formatStringDefinition = [Unit Format]
 
 	/// 리포트 표시용 (명세에서 생성)
+	measure 'Median Disp' = DIVIDE ( [매장 매출 중앙값], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Mean Disp' = DIVIDE ( [매장 매출 평균], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'IQR Disp' = DIVIDE ( [사분위 범위], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Skew Disp' = DIVIDE ( [평균 중앙값 차이], [Unit Scale] )
+		displayFolder: 9. 리포트 표시용
+		formatStringDefinition = [Unit Format]
+
+	/// 리포트 표시용 (명세에서 생성)
 	measure 'Profit Big' = DIVIDE ( [이익], [Unit Scale] )
 		displayFolder: 9. 리포트 표시용
 		formatStringDefinition = [Unit Format]
@@ -360,6 +384,22 @@ table 측정값
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
+	measure 'Skew Text' = VAR d = [평균 중앙값 차이] RETURN FORMAT ( ABS ( d ) / [Unit Scale], "#,0.0" ) & [Unit Suffix] & IF ( d >= 0, " above the median", " below the median" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Below Mean Text' = VAR d = [평균 중앙값 차이] RETURN FORMAT ( ABS ( d ) / [Unit Scale], "#,0.0" ) & [Unit Suffix] & IF ( d >= 0, " above the median", " below the median" )
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'IQR Bounds Text' = "Q1 " & FORMAT ( [매장 매출 1사분위] / [Unit Scale], "#,0.0" ) & [Unit Suffix] & " to Q3 " & FORMAT ( [매장 매출 3사분위] / [Unit Scale], "#,0.0" ) & [Unit Suffix]
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Store Count Text' = "of " & FORMAT ( COUNTROWS ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ) ), "#,0" ) & " stores"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
 	measure 'Headline Tree' = VAR t = VALUES ( '매장'[권역] ) VAR hi = TOPN ( 1, t, [매출], DESC ) RETURN "Sales " & FORMAT ( [매출] / [Unit Scale], "#,0.0" ) & [Unit Suffix] & "  ·  Top region: " & CONCATENATEX ( hi, '매장'[권역], ", " ) & " " & FORMAT ( DIVIDE ( MAXX ( hi, [매출] ), [매출] ), "0%" ) & "  ·  click + next to a bar to drill one level"
 		displayFolder: 9. 리포트 표시용
 
@@ -377,6 +417,10 @@ table 측정값
 
 	/// 리포트 표시용 (명세에서 생성)
 	measure 'Headline Profile' = VAR _t = CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ) VAR _1 = CONCATENATEX ( TOPN ( 1, _t, [매출], DESC ), '매장'[매장명] ) VAR _2 = CONCATENATEX ( EXCEPT ( TOPN ( 2, _t, [매출], DESC ), TOPN ( 1, _t, [매출], DESC ) ), '매장'[매장명] ) VAR _3 = CONCATENATEX ( EXCEPT ( TOPN ( 3, _t, [매출], DESC ), TOPN ( 2, _t, [매출], DESC ) ), '매장'[매장명] ) RETURN "Top three stores by sales: " & _1 & ", " & _2 & ", " & _3 & " · every axis scaled 0-100 across all " & FORMAT ( COUNTROWS ( _t ), "#,0" ) & " stores"
+		displayFolder: 9. 리포트 표시용
+
+	/// 리포트 표시용 (명세에서 생성)
+	measure 'Headline Spread' = VAR _n = COUNTROWS ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ) ) VAR _skew = [평균 중앙값 차이] VAR _o = [이상치 매장 수] RETURN "Mean " & FORMAT ( [매장 매출 평균] / [Unit Scale], "#,0.0" ) & [Unit Suffix] & " sits " & FORMAT ( _skew / [Unit Scale], "#,0.0" ) & [Unit Suffix] & " above the median across " & FORMAT ( _n, "#,0" ) & " stores" & IF ( _o > 0, " · " & FORMAT ( _o, "#,0" ) & " sit outside 1.5 × IQR", "" )
 		displayFolder: 9. 리포트 표시용
 
 	/// 리포트 표시용 (명세에서 생성)
@@ -443,6 +487,38 @@ table 측정값
 			VAR _t = CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) )
 			VAR _s = EXCEPT ( TOPN ( 3, _t, [매출], DESC ), TOPN ( 2, _t, [매출], DESC ) )
 			RETURN CALCULATE ( [축 값], REMOVEFILTERS ( '매장' ), '매장'[매장명] IN _s )
+			```
+		formatString: #,0
+
+	/// 매장 분포. 평균 하나로는 보이지 않는 쏠림을 말하려고 둔다 — 이 데이터에서는 평균이 중앙값보다
+	/// 5.2백만 높고, 그 차이를 만드는 두 곳은 매장이 아니라 온라인 채널이다.
+	/// 모두 '매장' 필터를 걷어 내고 전 매장을 대상으로 계산한다 (막대 하나를 눌러도 기준선은 그대로).
+	measure '매장 매출 중앙값' = MEDIANX ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ), [매출] )
+		isHidden
+
+	measure '매장 매출 평균' = AVERAGEX ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ), [매출] )
+		isHidden
+
+	measure '매장 매출 1사분위' = PERCENTILEX.INC ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ), [매출], 0.25 )
+		isHidden
+
+	measure '매장 매출 3사분위' = PERCENTILEX.INC ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ), [매출], 0.75 )
+		isHidden
+
+	/// 평균 − 중앙값. 0에서 멀수록 분포가 한쪽으로 끌려 있다는 뜻이고, 그때 평균은 아무도 아닌 값이다.
+	measure '평균 중앙값 차이' = [매장 매출 평균] - [매장 매출 중앙값]
+		isHidden
+
+	measure '사분위 범위' = [매장 매출 3사분위] - [매장 매출 1사분위]
+		isHidden
+
+	/// 상자 수염의 수염 끝(1.5 × IQR) 밖에 있는 매장 수. Power BI 에 상자 그림이 없어서 숫자로 말한다.
+	measure '이상치 매장 수' = ```
+			VAR _t = CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) )
+			VAR _q1 = [매장 매출 1사분위]
+			VAR _q3 = [매장 매출 3사분위]
+			VAR _f = ( _q3 - _q1 ) * 1.5
+			RETURN COUNTROWS ( FILTER ( _t, [매출] < _q1 - _f || [매출] > _q3 + _f ) )
 			```
 		formatString: #,0
 
