@@ -1202,6 +1202,82 @@
           "label": "양 끝"
         }
       ]
+    },
+    {
+      "id": "corr",
+      "purpose": "deepdive",
+      "name": "상관",
+      "archetype": "상관 쌍 표",
+      "question": "무엇과 무엇이 같이 움직이나",
+      "regions": [
+        {
+          "id": "title",
+          "role": "textbox",
+          "col": 1,
+          "span": 8,
+          "band": "title",
+          "label": "페이지 제목"
+        },
+        {
+          "id": "context",
+          "role": "context",
+          "col": 9,
+          "span": 4,
+          "band": "title",
+          "label": "지금 보는 범위 (측정값)"
+        },
+        {
+          "id": "headline",
+          "role": "headline",
+          "col": 1,
+          "span": 12,
+          "band": "headline",
+          "label": "결론 한 줄 (측정값)"
+        },
+        {
+          "id": "slicer_a",
+          "role": "dropdownSlicer",
+          "zone": "rail",
+          "y": 432,
+          "h": 64,
+          "label": "추가 필터 1"
+        },
+        {
+          "id": "slicer_b",
+          "role": "dropdownSlicer",
+          "zone": "rail",
+          "y": 512,
+          "h": 64,
+          "label": "추가 필터 2"
+        },
+        {
+          "id": "table",
+          "role": "tableEx",
+          "col": 1,
+          "span": 7,
+          "y": 112,
+          "h": 584,
+          "label": "지표 쌍별 상관"
+        },
+        {
+          "id": "pairs",
+          "role": "barChart",
+          "col": 8,
+          "span": 5,
+          "y": 112,
+          "h": 296,
+          "label": "가장 센 쌍"
+        },
+        {
+          "id": "scatter",
+          "role": "scatterChart",
+          "col": 8,
+          "span": 5,
+          "y": 424,
+          "h": 272,
+          "label": "한 쌍을 점으로"
+        }
+      ]
     }
   ]
 }

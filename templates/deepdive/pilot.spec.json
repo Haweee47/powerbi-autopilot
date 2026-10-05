@@ -32,6 +32,9 @@
     },
     "Headline Spread": {
       "expr": "VAR _n = COUNTROWS ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ) ) VAR _skew = [평균 중앙값 차이] VAR _o = [이상치 매장 수] RETURN \"Mean \" & FORMAT ( [매장 매출 평균] / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \" sits \" & FORMAT ( _skew / [Unit Scale], \"#,0.0\" ) & [Unit Suffix] & \" above the median across \" & FORMAT ( _n, \"#,0\" ) & \" stores\" & IF ( _o > 0, \" · \" & FORMAT ( _o, \"#,0\" ) & \" sit outside 1.5 × IQR\", \"\" )"
+    },
+    "Headline Corr": {
+      "expr": "VAR _t = FILTER ( VALUES ( '지표쌍'[쌍] ), NOT ISBLANK ( [쌍 상관] ) ) VAR _top = TOPN ( 1, _t, [쌍 상관 세기], DESC ) VAR _r = MAXX ( _top, [쌍 상관] ) VAR _n = COUNTROWS ( CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) ) ) RETURN \"Strongest pair: \" & CONCATENATEX ( _top, '지표쌍'[쌍], \"; \" ) & \" at r = \" & FORMAT ( _r, \"+0.00;-0.00\" ) & \"  ·  \" & FORMAT ( COUNTROWS ( _t ), \"#,0\" ) & \" pairs over \" & FORMAT ( _n, \"#,0\" ) & \" stores\""
     }
   },
   "shared": {
@@ -483,6 +486,95 @@
           "sub": {
             "en": "Two of these are channels, not shops · they pull every per-store average up",
             "ko": "이 중 둘은 매장이 아니라 채널이다 · 매장 평균을 전부 끌어올린다"
+          }
+        }
+      }
+    },
+    {
+      "layout": "corr",
+      "name": {
+        "en": "Correlation",
+        "ko": "상관"
+      },
+      "visuals": {
+        "title": {
+          "text": {
+            "en": "What moves with what",
+            "ko": "무엇과 무엇이 같이 움직이나"
+          }
+        },
+        "headline": {
+          "measure": "Headline Corr"
+        },
+        "pairs": {
+          "x": "매장.매장명",
+          "y": [
+            "Sales Disp"
+          ],
+          "sort": "desc",
+          "color": "Spread Bar Color",
+          "title": {
+            "en": "Sales per store, the grain behind every r",
+            "ko": "매장별 매출 — 모든 r 이 서 있는 단위"
+          },
+          "sub": {
+            "en": "A correlation over 20 points is suggestive, not conclusive",
+            "ko": "점 20개의 상관은 시사점이지 결론이 아니다"
+          }
+        },
+        "scatter": {
+          "point": "매장.매장명",
+          "x": "AOV Disp",
+          "y": "이익률",
+          "color": "YoY Bar Color",
+          "title": {
+            "en": "Margin against average order",
+            "ko": "마진율 대 객단가"
+          },
+          "sub": {
+            "en": "The strongest pair, drawn · red = down on last year",
+            "ko": "가장 센 쌍을 점으로 · 빨강은 전년보다 감소"
+          }
+        },
+        "table": {
+          "columns": [
+            "지표쌍.쌍",
+            "쌍 상관",
+            "쌍 상관 세기"
+          ],
+          "labels": {
+            "지표쌍.쌍": {
+              "en": "Pair",
+              "ko": "쌍"
+            },
+            "쌍 상관": {
+              "en": "r",
+              "ko": "r"
+            },
+            "쌍 상관 세기": {
+              "en": "Strength |r|",
+              "ko": "세기 |r|"
+            }
+          },
+          "format": {
+            "쌍 상관": "diverge"
+          },
+          "divergeAt": {
+            "쌍 상관": 0
+          },
+          "sort": [
+            "쌍 상관 세기",
+            "desc"
+          ],
+          "top": 13,
+          "totals": false,
+          "title": {
+            "en": "Pearson r, strongest first",
+            "ko": "피어슨 r · 센 쌍부터"
+          },
+          "sub": {
+            "en": "One row is one pair of metrics over the stores · blue moves together, red moves apart · 13 of 15 pairs fit",
+            "ko": "한 줄이 지표 한 쌍 · 파랑은 같이, 빨강은 반대로 · 15쌍 중 13쌍이 들어간다"
           }
         }
       }

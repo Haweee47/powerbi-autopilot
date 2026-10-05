@@ -5,6 +5,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · versions: [S
 
 ## [Unreleased]
 
+### Added
+- The fifth analytical study, **correlation**, is a Power BI page — as a **pair table**, not the matrix the study drew.
+  Pearson r for each of the 15 metric pairs over the stores, strongest |r| first, the figure coloured on a diverging
+  scale. A new `지표쌍` table derives the pairs from the single axis table, so adding a metric still means editing one
+  list. All five analytical studies are now real pages
+
+### Changed
+- **The correlation matrix was abandoned on purpose.** The DAX was right — XMLA returned a symmetric 30-row result
+  matching the Python figures to four decimals, in 48 ms, including in the rollup shape a matrix sends — but Desktop's
+  matrix visual errored while a card using the same measure drew fine. DAX, data loading, the conditional format and
+  the query shape were each ruled out; what remains is that two fully disconnected tables cannot be a matrix's rows and
+  columns. The pair table carries the same analysis across one disconnected table, and the study README records what the
+  matrix shape did better (the obvious pairs clustered visibly) and what it cost
+
 ## [0.6.0] - 2026-10-05
 
 Four of the five analytical studies are real Power BI pages now. Building them found a number this repo had already

@@ -1,0 +1,40 @@
+/// 지표 쌍. '지표축'에서 자동으로 만든다 — 축을 늘리면 쌍도 따라 는다.
+/// 행렬 대신 이 표를 쓰는 이유: 연결 없는 테이블 둘을 행과 열로 놓은 행렬을 Desktop이 그리지 못했다.
+/// 쌍을 행으로 펼치면 |r| 순으로 정렬할 수 있어 "가장 센 쌍"을 찾는 일이 오히려 쉬워진다.
+table 지표쌍
+
+	column 'A ID'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [A ID]
+
+	column 'B ID'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [B ID]
+
+	column 쌍
+		dataType: string
+		isUnique
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [쌍]
+
+	partition 지표쌍 = calculated
+		mode: import
+		source =
+				VAR _a =
+				    SELECTCOLUMNS ( '지표축', "A ID", '지표축'[축 ID], "A", '지표축'[지표], "Ao", '지표축'[축 순서] )
+				VAR _b =
+				    SELECTCOLUMNS ( '지표축', "B ID", '지표축'[축 ID], "B", '지표축'[지표], "Bo", '지표축'[축 순서] )
+				RETURN
+				    SELECTCOLUMNS (
+				        FILTER ( CROSSJOIN ( _a, _b ), [Ao] < [Bo] ),
+				        "A ID", [A ID],
+				        "B ID", [B ID],
+				        "쌍", [A] & "  ~  " & [B]
+				    )

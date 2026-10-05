@@ -299,6 +299,39 @@ table 측정값
 			```
 		formatString: #,0
 
+	/// 쌍 하나의 피어슨 r. 매장 20곳을 단위로 두 지표가 같이 움직이는 정도를 잰다.
+	/// 단위가 서로 달라도(원·%·건·년) 되는 이유는 r 이 각자의 표준편차로 나누기 때문이다.
+	///
+	/// SWITCH 는 [축 원값]에 한 번만 두고, 여기서는 '지표축'을 필터해 그 값을 두 번 꺼내 쓴다.
+	/// 지표 목록이 한 곳에만 있으므로 축을 늘릴 때 고칠 자리도 한 곳이다.
+	measure '쌍 상관' = ```
+			VAR _a = SELECTEDVALUE ( '지표쌍'[A ID] )
+			VAR _b = SELECTEDVALUE ( '지표쌍'[B ID] )
+			VAR _t = CALCULATETABLE ( VALUES ( '매장'[매장명] ), REMOVEFILTERS ( '매장' ) )
+			VAR _d =
+			    ADDCOLUMNS (
+			        _t,
+			        "@x", CALCULATE ( [축 원값], REMOVEFILTERS ( '지표축' ), '지표축'[축 ID] = _a ),
+			        "@y", CALCULATE ( [축 원값], REMOVEFILTERS ( '지표축' ), '지표축'[축 ID] = _b )
+			    )
+			VAR _n = COUNTROWS ( _d )
+			VAR _mx = AVERAGEX ( _d, [@x] )
+			VAR _my = AVERAGEX ( _d, [@y] )
+			VAR _sx = SQRT ( SUMX ( _d, ( [@x] - _mx ) ^ 2 ) )
+			VAR _sy = SQRT ( SUMX ( _d, ( [@y] - _my ) ^ 2 ) )
+			VAR _cov = SUMX ( _d, ( [@x] - _mx ) * ( [@y] - _my ) )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _a ) && NOT ISBLANK ( _b ) && _n > 2 && _sx > 0 && _sy > 0,
+			        DIVIDE ( _cov, _sx * _sy )
+			    )
+			```
+		formatString: +0.00;-0.00;0.00
+
+	/// 정렬용. 표를 |r| 큰 순으로 세울 때 쓴다 — 부호보다 세기가 먼저 궁금하기 때문이다.
+	measure '쌍 상관 세기' = ABS ( [쌍 상관] )
+		formatString: 0.00
+
 	partition 측정값 = calculated
 		mode: import
 		source = ROW ( "_", BLANK () )
